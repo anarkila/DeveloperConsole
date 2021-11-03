@@ -11,7 +11,7 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png)
 
 ## Getting Started
-1. Import the DeveloperConsole package into your project (or clone the DeveloperConsole repository into your Assets folder)
+1. Import the DeveloperConsole package into your project
 2. Drag & drop DeveloperConsole prefab into your scene (root hierarchy)
 3. Add [[ConsoleCommand]](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/ConsoleCommand.cs) attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
@@ -35,7 +35,7 @@ public class ExampleScript : MonoBehaviour {
 
 ## Features
 
-- Call static/instance methods and Unity Coroutines (both public and private)
+- Call static, instance methods and Unity Coroutines (both public and private)
 - Single parameter support with following types:
     - int, float, string, string[], bool, double, byte, char, Vector2, Vector3, Vector4, Quaternion
 - Support for both Unity backends: Mono and IL2CPP
@@ -62,10 +62,10 @@ Developer Console comes with few commands by default. If you wish to modify or d
 * ``console.reset`` - Reset Developer Console window to default size and position. (Large GUI style only)
 * ``scene.loadbyindex (int)`` - Load new scene asynchronously by scene build index
 * ``scene.loadbyname (string)`` - Load new scene asynchronously by string
-* ``debug.print.renderinfo`` - Print important rendering information: highest draw and batches count, highest triangle/vertices count. This command only works in Editor!
+* ``debug.print.renderinfo`` - Print important rendering information: highest draw and batches count, highest triangle/vertices count. This command only works in Editor.
 
 ## Logging
-``Console.Log()`` to output directly to Developer Console window.
+``Console.Log()`` or ``ConsoleAPI.Log()``to output directly into Developer Console window.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` will also output to Developer Console.
 
