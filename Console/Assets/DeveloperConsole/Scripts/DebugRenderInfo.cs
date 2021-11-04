@@ -18,7 +18,11 @@ namespace DeveloperConsole {
         private int HighestVerticesCount = 0;
         private int HighestBatchesCount = 0;
 
-        private void Start() {
+        //private int lowestFPS = 10000;
+        private int highestFPS = 0;
+        private float avgFPS = 0f;
+
+        private void Awake() {
             var settings = ConsoleManager.GetSettings();
 
             if (settings.collectRenderInfoEditor) {
@@ -31,20 +35,30 @@ namespace DeveloperConsole {
 
         private void Update() {
 
-            var thisFrameDrawCallCount = UnityStats.drawCalls;
-            var thisFrameBatchesCount = UnityStats.batches;
+            var deltaTime = Time.deltaTime;
 
-            var thisFrameTrianglesCount = UnityStats.triangles;
-            var thisFrameVerticesCount = UnityStats.vertices;
+            // calculate low and high FPS
+            var fps = 1.0 / deltaTime;
+            //if (fps < lowestFPS) lowestFPS = (int)fps;
+            if (fps > highestFPS) highestFPS = (int)fps;
+            
+            // calculate average FPS
+            avgFPS += ((deltaTime / Time.timeScale) - avgFPS) * 0.03f;
 
-            if (HighestDrawCallsCount < thisFrameDrawCallCount) HighestDrawCallsCount = thisFrameDrawCallCount;
-            if (HighestBatchesCount < thisFrameBatchesCount)  HighestBatchesCount = thisFrameBatchesCount;
+            if (HighestDrawCallsCount < UnityStats.drawCalls) HighestDrawCallsCount = UnityStats.drawCalls;
+            if (HighestBatchesCount < UnityStats.batches) HighestBatchesCount = UnityStats.batches;
 
-            if (HighestTrianglessCount < thisFrameTrianglesCount)  HighestTrianglessCount = thisFrameTrianglesCount;
-            if (HighestVerticesCount < thisFrameVerticesCount) HighestVerticesCount = thisFrameVerticesCount;
+            if (HighestTrianglessCount < UnityStats.triangles) HighestTrianglessCount = UnityStats.triangles;
+            if (HighestVerticesCount < UnityStats.vertices) HighestVerticesCount = UnityStats.vertices;
         }
 
         private void PrintRenderInfo() {
+            // this might always show really low fps as this checked right after scene load.
+            //Debug.Log("Low FPS: " + lowestFPS);      
+
+            Debug.Log("Avg FPS: " + (int)(1F / avgFPS));
+            Debug.Log("High FPS: " + highestFPS);
+
             Debug.Log("Highest batches count: " + HighestBatchesCount);
             Debug.Log("Highest draw call count: " + HighestDrawCallsCount);
 
