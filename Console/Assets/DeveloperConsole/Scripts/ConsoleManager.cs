@@ -147,6 +147,8 @@ namespace DeveloperConsole {
         /// Print message to Developer Console
         /// </summary>
         public static void PrintLog(string text, Action<string> subscribers) {
+            if (!Application.isPlaying) return;
+
             if (!IsUnityThread(Thread.CurrentThread)) return;
 
             if (!consoleInitialized) {
