@@ -1,15 +1,15 @@
 ﻿#if UNITY_EDITOR
 
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace DeveloperConsole {
 
     /// <summary>
     /// This script collects rendering information in Unity Editor
-    /// if collectRenderInfoEditor setting is true
-    /// To print rendering information to console 
-    /// call command: debug.print.renderinfo
+    /// if collectRenderInfoEditor setting is set to true.
+    /// To print rendering information to console
+    /// call 'debug.renderinfo'
     /// </summary>
     public class DebugRenderInfo : MonoBehaviour {
 
@@ -22,7 +22,7 @@ namespace DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
 
             if (settings.collectRenderInfoEditor) {
-                ConsoleAPI.RegisterCommand(this, "PrintRenderInfo", "debug.print.renderinfo");
+                ConsoleAPI.RegisterCommand(this, "PrintRenderInfo", "debug.renderinfo");
             }
             else {
                 this.enabled = false;
