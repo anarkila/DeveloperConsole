@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Linq;
 using System;
 
 namespace DeveloperConsole {
@@ -21,7 +21,6 @@ namespace DeveloperConsole {
             if (text.StartsWith(ConsoleConstants.SPACE) || text.StartsWith(ConsoleConstants.T)) {
                 return text.Remove(0, 1);
             }
-
             return text;
         }
 
@@ -71,9 +70,6 @@ namespace DeveloperConsole {
             return isInside;
         }
 
-        /// <summary>
-        /// Show/hdie cursor
-        /// </summary>
         public static void ShowCursor(bool show) {
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
