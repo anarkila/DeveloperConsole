@@ -8,6 +8,7 @@ namespace DeveloperConsole {
 
     public static class CommandDatabase {
 
+        private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
         private static List<string> commandStringsWithDefaultValues = new List<string>();
@@ -91,7 +92,8 @@ namespace DeveloperConsole {
         /// <summary>
         /// Register new Console command
         /// </summary>
-        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", bool isHiddenCommand = false) {
+        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", 
+            bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
             if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
 
             if (defaultValue == null) defaultValue = "";
@@ -119,12 +121,18 @@ namespace DeveloperConsole {
             }
 
             var data = new ConsoleCommandData();
-            data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand);
+            data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
             consoleCommands.Add(data);
             if (isStatic) staticCommands.Add(data);
 
-            UpdateLists();
-            ConsoleEvents.ConsoleRefresh();
+            if (ConsoleManager.IsConsoleInitialized()) {
+                UpdateLists();
+                ConsoleEvents.ConsoleRefresh();
+            }
+            else {
+                // new command registered before console was itialized
+                consoleCommandsRegisteredBeforeInit.Add(data);
+            }
         }
 
 
@@ -200,10 +208,11 @@ namespace DeveloperConsole {
             return executedCommands.Distinct().ToList();
         }
 
-        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool staticOnly = false) {
+        public static void ClearLists() {
             consoleCommands.Clear();
+        }
 
-
+        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool staticOnly = false) {
             IEnumerable<MethodInfo> methods = null;
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
@@ -245,6 +254,7 @@ namespace DeveloperConsole {
                 var commandName = attribute.GetCommandName();
                 var defaultValue = attribute.GetValue();
                 var hiddenCommand = attribute.IsHiddenCommand();
+                var hiddenMinimalGUI = attribute.IsHiddenMinimalGUI();
 
                 var className = method.DeclaringType;
                 var methodName = method.ToString();
@@ -265,7 +275,7 @@ namespace DeveloperConsole {
                 ParameterInfo[] parameters = method.GetParameters();
 
                 // if method doesn't take parameter and it was given some default value, don't show it.
-                if (parameters.Length == 0 && !string.IsNullOrWhiteSpace(defaultValue)) {
+                if (parameters.Length == 0 && !string.IsNullOrWhiteSpace(defaultValue) || defaultValue == null) {
                     defaultValue = "";
                 }
 
@@ -308,10 +318,10 @@ namespace DeveloperConsole {
                     var staticParameter = method.GetParameters();
                     var data = new ConsoleCommandData();
                     if (staticParameter.Length == 0) {
-                        data.SetValues(null, methodName, commandName, defaultValue, null, true, method, false, hiddenCommand);
+                        data.SetValues(null, methodName, commandName, defaultValue, null, true, method, false, hiddenCommand, hiddenMinimalGUI);
                     }
                     else {
-                        data.SetValues(null, methodName, commandName, defaultValue, staticParameter[0].ParameterType, true, method, false, hiddenCommand);
+                        data.SetValues(null, methodName, commandName, defaultValue, staticParameter[0].ParameterType, true, method, false, hiddenCommand, hiddenMinimalGUI);
                     }
                     //consoleCommands.Add(data);
                     staticCommands.Add(data);
@@ -320,17 +330,17 @@ namespace DeveloperConsole {
 
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
 
-                newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, className.ToString());
+                newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
                 commandList.Add(newData);
             }
-
             staticCommandsCached = true;
-            consoleCommands.AddRange(staticCommands);
 
             return commandList;
         }
 
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
+            consoleCommands.AddRange(staticCommands);
+
             GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
             // loop through all gameobjects in scene and try to find MonoBehaviour
@@ -355,22 +365,33 @@ namespace DeveloperConsole {
                     }
                 }
             }
+
+            if (consoleCommandsRegisteredBeforeInit.Count != 0) {
+                consoleCommands.AddRange(consoleCommandsRegisteredBeforeInit);
+                consoleCommandsRegisteredBeforeInit.Clear();
+            }
+
             UpdateLists();
         }
 
         public static void UpdateLists() {
+
             consoleCommandStrings.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
                 consoleCommandStrings.Add(consoleCommands[i].commandName);
             }
-            consoleCommandStrings = consoleCommandStrings.Distinct().ToList();                              // Delete duplicates
+            consoleCommandStrings = consoleCommandStrings.Distinct().ToList(); // Delete duplicates
+
 
 
             // create consoleCommandStringsWithSuggestions list
+            var style = ConsoleManager.GetGUIStyle();
             commandStringsWithDefaultValues.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
+
                 if (consoleCommands[i].hiddenCommand) continue;
+                if (consoleCommands[i].hiddenCommandMinimalGUI && style == ConsoleGUIStyle.Minimal) continue;
 
                 // Ensure first character in a string is space
                 var defaultValue = consoleCommands[i].defaultValue;
@@ -381,7 +402,7 @@ namespace DeveloperConsole {
                 }
                 commandStringsWithDefaultValues.Add(consoleCommands[i].commandName + defaultValue);
             }
-            commandStringsWithDefaultValues = commandStringsWithDefaultValues.Distinct().ToList();          // Delete duplicates
+            commandStringsWithDefaultValues = commandStringsWithDefaultValues.Distinct().ToList(); // Delete duplicates
         }
     }
 }

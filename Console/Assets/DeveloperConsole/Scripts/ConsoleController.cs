@@ -3,7 +3,7 @@
 namespace DeveloperConsole {
 
     /// <summary>
-    /// This class handles enabling/disabling Developer Console Gameobjects
+    /// This class handles enabling/disabling Developer Console
     /// </summary>
     public class ConsoleController : MonoBehaviour {
 

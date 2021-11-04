@@ -121,8 +121,9 @@ namespace DeveloperConsole {
         }
 
 
-        // If you have static MonoBehaviour methods, make sure to handle all errors (GameObject not existing for example)
-        // DeveloperConsole does not handle it for you.
+        // If you have static MonoBehaviour methods,
+        // make sure to handle errors (GameObject not existing for example)
+        // or use ConsoleAPI.RemoveCommand().. when you no longer need the command.
         //[ConsoleCommand("test.method.static")]
         //private static void TestStatic() {
         //    Debug.Log("Called command 'test.method' successfully from Console!");

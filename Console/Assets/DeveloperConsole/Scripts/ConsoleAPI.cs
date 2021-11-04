@@ -22,8 +22,9 @@ public static class ConsoleAPI {
     /// <param name="script">Reference to Monobehaviour</param>
     /// <param name="methodName">method name as string</param>
     /// <param name="commandName">command name as string</param>
-    public static void RegisterCommand(MonoBehaviour script, string methodName, string commandName, string defaultValue = "", bool isHiddenCommand = false) {
-        CommandDatabase.RegisterCommand(script, methodName, commandName, defaultValue, isHiddenCommand);
+    public static void RegisterCommand(MonoBehaviour script, string methodName, string commandName, string defaultValue = "", 
+        bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
+        CommandDatabase.RegisterCommand(script, methodName, commandName, defaultValue, isHiddenCommand, hiddenCommandMinimalGUI);
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ namespace DeveloperConsole {
         /// <summary>
         /// Print all available console commands
         /// </summary>
-        [ConsoleCommand("help")]
+        [ConsoleCommand("help", hiddenCommandMinimalGUI:true)] // hide 'help' command when console GUI style is Minimal
         private static void Help() {
             CommandDatabase.PrintAllCommands();
         }
@@ -47,7 +47,7 @@ namespace DeveloperConsole {
         /// <summary>
         /// Resets Console window size and position
         /// </summary>
-        [ConsoleCommand("reset")]
+        [ConsoleCommand("reset", hiddenCommandMinimalGUI: true)]
         private static void ResetDeveloperConsole() {
             ConsoleEvents.ResetConsole();
         }

@@ -197,6 +197,13 @@ namespace DeveloperConsole {
 
         private static void GUIStyleChanged(ConsoleGUIStyle style) {
             settings.InterfaceStyle = style;
+
+            if (consoleInitialized) {
+                CommandDatabase.UpdateLists();
+                ConsoleEvents.ConsoleRefresh();
+            }
+
+          
         }
 
         private static void SetPredictions(bool show) {
@@ -263,6 +270,7 @@ namespace DeveloperConsole {
                 return;
             }
 
+            CommandDatabase.ClearLists();
 #if UNITY_WEBGL
             commands = GetConsoleCommandAttributes(registerStaticOnly);
 #else    
@@ -294,10 +302,6 @@ namespace DeveloperConsole {
             }
 #endif
             if (settings.printConsoleDebugInfo) {
-
-                if (Time.realtimeSinceStartup >= 30) {
-                    Debug.Log("-----Scene changed -----");
-                }
 
                 Debug.Log("Console Initialized.");
 #if UNITY_WEBGL
