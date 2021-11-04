@@ -6,7 +6,7 @@ using TMPro;
 
 namespace DeveloperConsole {
 
-    public class ConsoleInputField : MonoBehaviour {
+    public class ConsoleInputfield : MonoBehaviour {
 
         private List<string> allConsoleCommandsWithSuggestions = new List<string>();
         private WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.050f);
@@ -63,6 +63,7 @@ namespace DeveloperConsole {
         private void OnDisable() {
             ClearInputField();
             ResetParameters();
+            ClearSuggestion();
             previousCommandIndex = 0;
             allowEnterClick = true;
         }
@@ -146,7 +147,7 @@ namespace DeveloperConsole {
         }
 
         /// <summary>
-        /// Try to find closest suggestion/prediction from current inputfield text
+        /// Try to find predictions from current inputfield text
         /// </summary>
         private void FindClosestsPredictions(string text) {
             if (inputField == null || !allowHintChecking || !ConsoleManager.ShowConsolePredictions()) return;
