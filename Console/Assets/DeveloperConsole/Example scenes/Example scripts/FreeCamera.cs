@@ -16,13 +16,13 @@ namespace DeveloperConsole {
         private float yaw;
 
         private void Awake() {
-            ConsoleAPI.RegisterConsoleStateChangeEvent += ConsoleEvent;    // Register console state change event
             CursorState(false);
+            ConsoleAPI.RegisterConsoleStateChangeEvent += ConsoleEvent;    // Register console state change event
         }
 
-        private void OnDestroy() {                              // UnRegister console state change event
-            ConsoleAPI.RegisterConsoleStateChangeEvent -= ConsoleEvent;    // Be sure to unregister from event either on OnDestroy() or OnDisable() 
-        }                                                       // Otherwise you may get error                    
+        private void OnDestroy() {                                          // UnRegister console state change event
+            ConsoleAPI.RegisterConsoleStateChangeEvent -= ConsoleEvent;     // Be sure to unregister from events either on OnDestroy() or OnDisable() 
+        }                   
 
         /// <summary>
         /// Get callback from Developer Console when 
@@ -31,7 +31,6 @@ namespace DeveloperConsole {
         /// </summary>
         private void ConsoleEvent(bool consoleIsEnabled) {
             this.enabled = !consoleIsEnabled;
-
             if (this.enabled) {
                 CursorState(false);
             }
@@ -60,14 +59,9 @@ namespace DeveloperConsole {
             transform.position += transform.forward * forward + transform.right * right + Vector3.up * up;
         }
 
-        private static void CursorState(bool show) {
+        private void CursorState(bool show) {
             Cursor.visible = show;
-            if (show) {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 }
