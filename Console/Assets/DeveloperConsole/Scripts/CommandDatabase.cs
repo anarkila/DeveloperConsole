@@ -122,10 +122,10 @@ namespace DeveloperConsole {
 
             var data = new ConsoleCommandData();
             data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
-            consoleCommands.Add(data);
             if (isStatic) staticCommands.Add(data);
 
             if (ConsoleManager.IsConsoleInitialized()) {
+                consoleCommands.Add(data);
                 UpdateLists();
                 ConsoleEvents.ConsoleRefresh();
             }
@@ -375,7 +375,6 @@ namespace DeveloperConsole {
         }
 
         public static void UpdateLists() {
-
             consoleCommandStrings.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;

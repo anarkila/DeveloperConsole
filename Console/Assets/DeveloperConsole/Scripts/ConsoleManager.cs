@@ -255,6 +255,8 @@ namespace DeveloperConsole {
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
             // TODO: additive scenes? This could get slow..
 
+            CommandDatabase.ClearLists();
+
             if (initDone) ++sceneChangeCount; // don't raise counter on start
 
             if (sceneChangeCount != 0 && settings.clearMessagesOnSceneChange) {
@@ -272,7 +274,6 @@ namespace DeveloperConsole {
                 return;
             }
 
-            CommandDatabase.ClearLists();
 #if UNITY_WEBGL
             commands = GetConsoleCommandAttributes(registerStaticOnly);
 #else    
