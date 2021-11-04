@@ -75,7 +75,6 @@ namespace DeveloperConsole {
                 }
             }
 
-            // I would preferably use switch case here
             if (unityTypes == typeof(UnityEngine.Vector2)) {
                 return new Vector2(floats[0], floats[1]);
             }
@@ -121,23 +120,8 @@ namespace DeveloperConsole {
             }
         }
 
-        /// <summary>
-        /// try to parse string to valid boolean value
-        /// if value cannot be parsed into boolean --> returns null.
-        /// values '1' and 'yes' are accepted as true
-        /// values '0' and 'no' are accepted as false
-        /// </summary>
         private static object ParseBoolean(string input) {
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
-
-            for (int i = 0; i < ConsoleConstants.SupportedTrueBooleans.Length; i++) {
-                if (input == ConsoleConstants.SupportedTrueBooleans[i]) return true;
-            }
-
-            for (int i = 0; i < ConsoleConstants.SupportedFalseBooleans.Length; i++) {
-                if (input == ConsoleConstants.SupportedFalseBooleans[i]) return false;
-            }
-
             bool value;
             if (bool.TryParse(input, out value)) {
                 return value;
@@ -146,7 +130,6 @@ namespace DeveloperConsole {
                 return null;
             }
         }
-
 
         private static object ParseStringArray(string input) {
             string[] words = input.Split(ConsoleConstants.SEPARATORS);

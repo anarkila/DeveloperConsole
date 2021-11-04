@@ -3,7 +3,7 @@ using System;
 
 public static class ConsoleConstants {
 
-    // Constant strings, don't modify.
+    // Constant strings, do not modify.
     public const string WARNING = "<color=Yellow>Developer Console Warning: </color>";
     public const string DATETIMEFORMAT = "HH:mm:ss";
     public const string IENUMERATOR = "IEnumerator";
@@ -16,21 +16,12 @@ public static class ConsoleConstants {
     public const string T = "\t";
     public const string F = "f";
   
-
     // Array of all allowed array separators
     public static char[] SEPARATORS = { ',', '.', ':', ';' };
 
-    // Array of supported true boolean values
-    public static String[] SupportedTrueBooleans = {
-            "1"
-    };
-
-    // Array of supported false boolean values
-    public static String[] SupportedFalseBooleans = {
-            "0"
-    };
-
     // Array of all supported parameter types
+    // If you want to add types to this list,
+    // you need to modify ParameterParser.ParseBuiltInTypes() function.
     public static Type[] SupportedTypes = {
             typeof(int),     typeof(byte),
             typeof(float),   typeof(decimal),
@@ -42,6 +33,8 @@ public static class ConsoleConstants {
     };
 
     // Array of supported Unity types
+    // If you want to add types to this list,
+    // you need to modify ParameterParser.ParseUnityTypes() function.
     public static Type[] UnityTypes = {
             typeof(Vector2), typeof(Vector3),
             typeof(Vector4), typeof(Quaternion)

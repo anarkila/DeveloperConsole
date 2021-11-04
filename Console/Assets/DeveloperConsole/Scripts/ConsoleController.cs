@@ -36,7 +36,6 @@ namespace DeveloperConsole {
                 return;
             }
 #endif
-
             minimalConsole.SetActive(false);
             largeConsole.SetActive(false);
             ConsoleEvents.RegisterConsoleStateChangeEvent += SetDeveloperConsoleState;

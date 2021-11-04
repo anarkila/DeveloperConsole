@@ -30,8 +30,8 @@ namespace DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.decimal' successfully with value: {0} from Console!", de));
         }
 
-        [ConsoleCommand("test.bool", "true")]            // Accepted boolean values from console: true, false, True, False, 1 and 0
-        private void TestBool(bool b) {                  // if you wish to change or add more then edit ConsoleConstants.cs
+        [ConsoleCommand("test.bool", "true")]            // Accepted boolean values: true, false, True, False, TRUE, FALSE
+        private void TestBool(bool b) {
             Debug.Log(string.Format("Called command 'test.bool' successfully with value: {0} from Developer Console!", b));
         }
 
