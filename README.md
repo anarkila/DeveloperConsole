@@ -52,7 +52,7 @@ public class ExampleScript : MonoBehaviour {
     - Print Play button click to playable Scene time
 
 ## Default Commands
-Developer Console comes with few commands by default. If you wish to modify or delete them, simply modify [DefaultCommands.cs.](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/DefaultCommands.cs)
+Developer Console comes with few commands by default. If you wish to modify or delete them, modify [DefaultCommands.cs.](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/DefaultCommands.cs)
 
 * ``help`` - Print list of available commands
 * ``quit`` - Quit the application
@@ -62,7 +62,9 @@ Developer Console comes with few commands by default. If you wish to modify or d
 * ``console.reset`` - Reset Developer Console window to default size and position. (Large GUI style only)
 * ``scene.loadbyindex (int)`` - Load new scene asynchronously by scene build index
 * ``scene.loadbyname (string)`` - Load new scene asynchronously by string
-* ``debug.print.renderinfo`` - Print important rendering information: highest draw and batches count, highest triangle/vertices count. This command only works in Editor.
+
+Editor Only:
+* ``debug.renderinfo`` - Print important rendering information: highest draw and batches count, highest triangle/vertices count. This command only works in Editor.
 
 ## Logging
 ``Console.Log()`` or ``ConsoleAPI.Log()``to output directly into Developer Console window.
