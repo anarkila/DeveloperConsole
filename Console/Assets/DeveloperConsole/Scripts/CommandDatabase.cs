@@ -316,20 +316,15 @@ namespace DeveloperConsole {
 
                 if (method.IsStatic) {
                     var staticParameter = method.GetParameters();
+                    Type param = staticParameter.Length == 0 ? null : staticParameter[0].ParameterType;
+
                     var data = new ConsoleCommandData();
-                    if (staticParameter.Length == 0) {
-                        data.SetValues(null, methodName, commandName, defaultValue, null, true, method, false, hiddenCommand, hiddenMinimalGUI);
-                    }
-                    else {
-                        data.SetValues(null, methodName, commandName, defaultValue, staticParameter[0].ParameterType, true, method, false, hiddenCommand, hiddenMinimalGUI);
-                    }
-                    //consoleCommands.Add(data);
+                    data.SetValues(null, methodName, commandName, defaultValue, param, true, method, false, hiddenCommand, hiddenMinimalGUI);
                     staticCommands.Add(data);
                     continue;
                 }
 
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
-
                 newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
                 commandList.Add(newData);
             }
