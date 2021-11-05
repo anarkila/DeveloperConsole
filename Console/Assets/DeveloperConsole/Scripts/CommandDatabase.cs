@@ -94,22 +94,23 @@ namespace DeveloperConsole {
         /// </summary>
         public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", 
             bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
+
+            if (script == null) {
+#if UNITY_EDITOR
+                Debug.Log("MonoBehaviour reference is null! If you are registering non-Monobehaviour commands, Use [ConsoleCommand()] attribute instead.");
+#endif
+                return;
+            }
+
             if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
 
             if (defaultValue == null) defaultValue = "";
 
             MethodInfo methodInfo = null;
             methodInfo = script.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-
-            if (methodInfo == null) {
-                return;
-            }
+            if (methodInfo == null) return;
 
             bool isStatic = methodInfo.IsStatic;
-
-            if (!isStatic && script == null) {
-                return;
-            }
 
             bool isCoroutine = false;
             isCoroutine = methodInfo.ToString().Contains(ConsoleConstants.IENUMERATOR);
@@ -151,7 +152,6 @@ namespace DeveloperConsole {
 
             for (int i = 0; i < toBeRemoved.Count; i++) {
                 consoleCommands.Remove(toBeRemoved[i]);
-
                 if (toBeRemoved[i].isStaticMethod) {
                     staticCommands.Remove(toBeRemoved[i]);
                 }
