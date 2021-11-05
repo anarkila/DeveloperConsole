@@ -1,27 +1,34 @@
 ﻿using UnityEngine;
-using System.Linq;
 using System;
 
 namespace DeveloperConsole {
 
     class ConsoleUtils {
 
-        public static string DeleteWhiteSpacesFromString(string text) {
-            return text.ToCharArray()
-             .Where(c => !Char.IsWhiteSpace(c))
-             .Select(c => c.ToString())
-             .Aggregate((a, b) => a + b);
-        }
+        public static string DeleteWhiteSpacesFromString(string input) {
+            int j = 0, inputlen = input.Length;
+            char[] newarr = new char[inputlen];
 
-        public static string DeleteCharF(string text) {
-            return text.Replace(ConsoleConstants.F, ConsoleConstants.EMPTY);
-        }
+            for (int i = 0; i < inputlen; ++i) {
+                char tmp = input[i];
 
-        public static string DeleteWhiteSpace(string text) {
-            if (text.StartsWith(ConsoleConstants.SPACE) || text.StartsWith(ConsoleConstants.T)) {
-                return text.Remove(0, 1);
+                if (!char.IsWhiteSpace(tmp)) {
+                    newarr[j] = tmp;
+                    ++j;
+                }
             }
-            return text;
+            return new String(newarr, 0, j);
+        }
+
+        public static string DeleteCharF(string input) {
+            return input.Replace(ConsoleConstants.F, ConsoleConstants.EMPTY);
+        }
+
+        public static string DeleteWhiteSpace(string input) {
+            if (input.StartsWith(ConsoleConstants.SPACE) || input.StartsWith(ConsoleConstants.T)) {
+                return input.Remove(0, 1);
+            }
+            return input;
         }
 
         public static int CalcLevenshteinDistance(string a, string b) {
