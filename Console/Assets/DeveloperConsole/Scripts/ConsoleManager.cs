@@ -304,7 +304,7 @@ namespace DeveloperConsole {
                 staticOnly = "(static commands only) ";
             }
 #endif
-            if (settings.printConsoleDebugInfo) {
+            if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
 
                 Debug.Log("Console Initialized.");
 #if UNITY_WEBGL
