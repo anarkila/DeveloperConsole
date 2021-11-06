@@ -64,7 +64,7 @@ Developer Console comes with few commands by default. If you wish to modify or d
 * ``scene.loadbyname (string)`` - Load new scene asynchronously by string
 
 Editor Only:
-* ``debug.renderinfo`` - Print rendering information: highest draw call, batches, triangle and vertices count.
+* ``debug.renderinfo`` - Print rendering information: High/Avg FPS, highest draw call, batches, triangle and vertices count.
 
 ## Logging
 ``Console.Log()`` or ``ConsoleAPI.Log()``to output directly into Developer Console window.
