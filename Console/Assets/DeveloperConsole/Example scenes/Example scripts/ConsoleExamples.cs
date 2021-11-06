@@ -10,7 +10,7 @@ namespace DeveloperConsole {
             Debug.Log("Called command 'test.method' successfully without parameters from Console!");
         }
 
-        [ConsoleCommand("test.int", "3")]
+        [ConsoleCommand("test.int")]
         private void TestInt(int i) {
             Debug.Log(string.Format("Called command 'test.int' successfully with value: {0} from Console!", i));
         }
@@ -30,7 +30,7 @@ namespace DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.decimal' successfully with value: {0} from Console!", de));
         }
 
-        [ConsoleCommand("test.bool", "true")]            // Accepted boolean values: true, false, True, False, TRUE, FALSE
+        [ConsoleCommand("test.bool", "true")]           // Accepted boolean values: true, false, True, False, TRUE, FALSE
         private void TestBool(bool b) {
             Debug.Log(string.Format("Called command 'test.bool' successfully with value: {0} from Developer Console!", b));
         }
@@ -40,7 +40,7 @@ namespace DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
         }
 
-        [ConsoleCommand("test.array", "hello, world")] // Allowed array separators: comma, dot, colon and semicolon
+        [ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon
         private void StringArray(string[] stringArray) {
             for (int i = 0; i < stringArray.Length; i++) {
                 Debug.Log(string.Format("Array index {0} with value: {1}", i, stringArray[i]));
@@ -52,22 +52,22 @@ namespace DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.char' successfully with value: {0} from Developer Console!", c));
         }
 
-        [ConsoleCommand("test.vector2")]
+        [ConsoleCommand("test.vector2", "1.0, 2.0")]
         private void TestVector2(Vector2 v) {
             Debug.Log(string.Format("Called command 'test.vector2' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.vector3")]
+        [ConsoleCommand("test.vector3", "1.0, 2.0, 3.0")]
         private void TestVector3(Vector3 v) {
             Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.vector4")]
+        [ConsoleCommand("test.vector4", "1.0, 2.0, 3.0, 4.0")]
         private void TestVector4(Vector3 v) {
             Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.quaternion")]
+        [ConsoleCommand("test.quaternion", "1.0, 2.0, 3.0, 4.0")]
         private void TestQuaternion(Quaternion q) {
             Debug.Log(string.Format("Called command 'test.quaternion' successfully with value: {0} from Developer Console!", q));
         }
@@ -123,22 +123,23 @@ namespace DeveloperConsole {
 
         // If you have static MonoBehaviour methods,
         // make sure to handle errors (GameObject not existing for example)
-        // or use ConsoleAPI.RemoveCommand().. when you no longer need the command.
+        // or use Console.RemoveCommand().. when you no longer need the command.
         //[ConsoleCommand("test.method.static")]
         //private static void TestStatic() {
         //    Debug.Log("Called command 'test.method' successfully from Console!");
         //}
 
-        // With all overloads
-        // Default value (string), info (string), editorOnlyCommand (bool) and hiddenCommand (bool)
-        [ConsoleCommand("test.hidden", null, null, true, true)]   
+        // This command won't show up in predictions because it's set as hidden,
+        // but it's still callable.
+        [ConsoleCommand("test.hidden", null, null, false, true, true)]
         private void HiddenCommand() {
             Debug.Log("Called hidden command 'hidden.command' successfully from Console!");
         }
 
 
-        // Registering commands with ConsoleAPI.cs example.
-        // this can be useful if you Instantiate objects runtime with MonoBehaviour script
+        // Registering commands with Console.cs example.
+        // this is fastests way to register MonoBehaviour commands.
+        // this can be also useful if you Instantiate objects runtime with MonoBehaviour script
         // as [ConsoleCommands] by default are only registered when scene is loaded,
         // so any [ConsoleCommands] added later will not be added.
         private void Start() {
