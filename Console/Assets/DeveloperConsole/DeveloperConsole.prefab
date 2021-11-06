@@ -1437,6 +1437,7 @@ MonoBehaviour:
     showInputPredictions: 1
     allowConsoleResize: 1
     showCursorOnEnable: 1
+    hideCursorOnDisable: 1
     scrollToBottomOnEnable: 1
     clearMessagesOnSceneChange: 1
     printMessageTimestamps: 1

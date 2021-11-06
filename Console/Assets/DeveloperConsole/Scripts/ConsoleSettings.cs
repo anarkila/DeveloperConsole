@@ -42,6 +42,9 @@ namespace DeveloperConsole {
         [Tooltip("Show Cursor when Console is opened")]
         public bool showCursorOnEnable = true;
 
+        [Tooltip("Hide Cursor when Console is closed")]
+        public bool hideCursorOnDisable = true;
+
         [Tooltip("Whether to move scroll bar to bottom when console opens")]
         public bool scrollToBottomOnEnable = true;
 

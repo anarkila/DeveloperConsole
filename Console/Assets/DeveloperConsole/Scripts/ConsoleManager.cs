@@ -215,8 +215,15 @@ namespace DeveloperConsole {
         private static void ConsoleState(bool enabled) {
             consoleIsOpen = enabled;
 
-            if (consoleIsOpen && settings.showCursorOnEnable) {
-                ConsoleUtils.ShowCursor(true);
+            if (consoleIsOpen) {
+                if (settings.showCursorOnEnable) {
+                    ConsoleUtils.ShowCursor(true);
+                }
+            }
+            else {
+                if (settings.hideCursorOnDisable) {
+                    ConsoleUtils.ShowCursor(false);
+                }
             }
         }
 
