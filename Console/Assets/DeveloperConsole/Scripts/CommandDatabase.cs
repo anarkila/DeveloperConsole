@@ -364,34 +364,53 @@ namespace DeveloperConsole {
             return commandList;
         }
 
+
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
 
-            GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+            // Find all different script names
+            var scriptnames = new List<string>();
+            for (int i = 0; i < commands.Count; i++) {
+                if (!scriptnames.Contains(commands[i].scriptNameString)) {
+                    scriptnames.Add(commands[i].scriptNameString);
+                }
+            }
 
-            // loop through all gameobjects in scene and try to find MonoBehaviour
-            // scripts with [ConsoleCommand] attribute, if found, add new console command
-            // This way we can get Monobehaviour class instances
-            // Note. This can be slow for big scenes!
-            if (commands.Count != 0) {
-                for (int i = 0; i < allGameObjects.Length; i++) {
-                    if (allGameObjects[i] == null) continue;
 
-                    for (int j = 0; j < commands.Count; j++) {
+            // Loop through all different script names
+            // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
+            // loop though those scripts and all commands to find MonoBehaviour references.
+            // these loops look scary but this reasonable fast.
+            for (int i = 0; i < scriptnames.Count; i++) {
 
-                        if (commands[j].isStaticMethod) continue;
+                Type type = Type.GetType(scriptnames[i]);
+                MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
 
-                        var script = allGameObjects[i].GetComponent(commands[j].scriptNameString) as MonoBehaviour;
+                for (int j = 0; j < objects.Length; j++) {
 
-                        // script.gameObject.scene.name != null check is for prefabs
-                        if (script != null && script.gameObject.scene.name != null) {
+                    string scriptName = objects[j].GetType().ToString();
+                    MonoBehaviour monoScript = objects[j];
+
+                    for (int k = 0; k < commands.Count; k++) {
+
+                        if (commands[k].isStaticMethod) continue;
+
+                        MonoBehaviour script = null;
+                        if (scriptName == commands[k].scriptNameString) {
+                            script = monoScript;
+                        }
+
+                        //var script = objects[j].GetComponent(commands[k].scriptNameString) as MonoBehaviour;
+
+                        if (script != null /*&& script.gameObject.scene.name != null*/) {
                             var data = new ConsoleCommandData();
 
-                            data.SetValues(script, commands[j].methodname, commands[j].commandName, commands[j].defaultValue, commands[j].parameterType, false, commands[j].methodInfo, commands[j].isCoroutine, commands[j].hiddenCommand);
+                            data.SetValues(script, commands[k].methodname, commands[k].commandName, commands[k].defaultValue, commands[k].parameterType, false, commands[k].methodInfo, commands[k].isCoroutine, commands[k].hiddenCommand);
                             consoleCommands.Add(data);
                         }
                     }
                 }
             }
+
 
             // Add static commands to final console command list
             consoleCommands.AddRange(staticCommands);
