@@ -117,6 +117,14 @@ namespace DeveloperConsole {
         }
 
         /// <summary>
+        /// Get current GUI style
+        /// </summary>
+        /// <returns></returns>
+        public static bool PrintUnrecognizedCommandInfo() {
+            return settings.printUnrecognizedCommandInfo;
+        }
+
+        /// <summary>
         /// Set new ConsoleSettings
         /// </summary>
         /// <param name="newsettings"></param>

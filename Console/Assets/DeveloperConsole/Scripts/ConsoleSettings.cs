@@ -6,6 +6,7 @@ namespace DeveloperConsole {
     [Serializable]
     public class ConsoleSettings {
 
+
         [Header("GUI Settings")]
         public ConsoleGUIStyle InterfaceStyle = ConsoleGUIStyle.Large;
         [Space(5)]
@@ -17,6 +18,7 @@ namespace DeveloperConsole {
         [Tooltip("Large Developer Console scroll sensitivity")]
         [Range(2, 100)]
         public float scrollSensitivity = 30;
+
 
         [Header("Console Settings")]
 
@@ -59,6 +61,10 @@ namespace DeveloperConsole {
 
         [Tooltip("Print console debug info like startup time etc.")]
         public bool printConsoleDebugInfo = true;
+
+        [Tooltip("Whether to print unrecognized command info to console. 'Command [command name] was not recognized'")]
+        public bool printUnrecognizedCommandInfo = true;
+
 
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console

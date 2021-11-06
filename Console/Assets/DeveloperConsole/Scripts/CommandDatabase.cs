@@ -26,6 +26,8 @@ namespace DeveloperConsole {
         public static bool TryExecuteCommand(string input) {
 
             bool success = false;
+            bool foundCommand = false;
+
             string parameterAsString = null;
             char empty = ' ';
             if (input.Contains(empty)) {
@@ -39,6 +41,7 @@ namespace DeveloperConsole {
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (input == consoleCommands[i].commandName) {
+                    foundCommand = true;
 
                     // If command does not take parameter..
                     if (consoleCommands[i].parameterType == null && parameterAsString != null) {
@@ -83,9 +86,14 @@ namespace DeveloperConsole {
                 }
             }
 
-            if (!success) {
+            if (!success && ConsoleManager.PrintUnrecognizedCommandInfo()) {
+                if (!foundCommand) {
+                    Debug.Log(string.Format("Command '{0}' was not recognized.", input));
+                }
+                //else if (Debug.isDebugBuild) {
+                //    Debug.Log(string.Format("Failed to call command '{0}'", input));
+                //}
                 ++failedCommandCount;
-                Debug.Log(string.Format("Command '{0}' was not recognized.", input));
             }
 
             return success;
@@ -348,19 +356,18 @@ namespace DeveloperConsole {
 
             staticCommandsCached = true;
 
-
             return commandList;
         }
 
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
 
+            // Get all gameobjects in scene
             GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
             // loop through all gameobjects in scene and try to find MonoBehaviour
             // scripts with [ConsoleCommand] attribute, if found, add new console command
             // This way we can get Monobehaviour class instances
             // Note. This can be slow for big scenes!
-
             if (commands.Count != 0) {
                 for (int i = 0; i < allGameObjects.Length; i++) {
                     if (allGameObjects[i] == null) continue;
@@ -391,7 +398,6 @@ namespace DeveloperConsole {
                 consoleCommands.AddRange(consoleCommandsRegisteredBeforeInit);
                 consoleCommandsRegisteredBeforeInit.Clear();
             }
-
 
             // If user called Console.RemoveCommand before console was fully initilized
             // Remove those commands now.

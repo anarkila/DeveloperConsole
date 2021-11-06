@@ -1443,6 +1443,7 @@ MonoBehaviour:
     printMessageTimestamps: 1
     printHelpTextOnStartup: 1
     printConsoleDebugInfo: 1
+    printUnrecognizedCommandInfo: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273
