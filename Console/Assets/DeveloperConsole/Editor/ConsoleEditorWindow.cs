@@ -22,16 +22,21 @@ namespace DeveloperConsole {
         private void DrawLayout() {
             GUILayout.Space(20);
             if (GUILayout.Button("Generate Command list to txt file", GUILayout.Height(30))) {
-                if (!writingTextFile) MakeTextFile();
+                if (!writingTextFile) GenerateCommandList();
             }
         }
 
 
-        private void MakeTextFile() {
-            var path = GetScriptRootPath("DeveloperConsoleEditorWindow", true);
+        private void GenerateCommandList() {
+            if (Application.isPlaying) {
+                Debug.Log("Exit play mode to generate command txt list.");
+                return;
+            }
+
+            var path = GetScriptRootPath("ConsoleEditorWindow", true);
             path += "ConsoleCommands.txt";
             DeleteFile(path);
-            MakeTextFileAndWriteToIt(path);
+            MakeTextFile(path);
         }
 
         private void DeleteFile(string path) {
@@ -41,7 +46,7 @@ namespace DeveloperConsole {
             }
         }
 
-        private void MakeTextFileAndWriteToIt(string path) {
+        private void MakeTextFile(string path) {
             writingTextFile = true;
 
             // Get all console commands
@@ -50,7 +55,7 @@ namespace DeveloperConsole {
             // make new txt file and write to it
             StreamWriter writer = new StreamWriter(path, true);
             string sep = "------ \n";
-            writer.WriteLine("All commands found with [ConsoleCommand] attribute in current project. \n" +
+            writer.WriteLine("All commands found with [ConsoleCommand] attribute in the current project. \n" +
                 "Note that manually added commands won't show up here! \n");
 
             for (int i = 0; i < commands.Count; i++) {
