@@ -353,7 +353,6 @@ namespace DeveloperConsole {
         }
 
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
-            consoleCommands.AddRange(staticCommands);
 
             GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
@@ -361,24 +360,30 @@ namespace DeveloperConsole {
             // scripts with [ConsoleCommand] attribute, if found, add new console command
             // This way we can get Monobehaviour class instances
             // Note. This can be slow for big scenes!
-            for (int i = 0; i < allGameObjects.Length; i++) {
-                if (allGameObjects[i] == null) continue;
 
-                for (int j = 0; j < commands.Count; j++) {
+            if (commands.Count != 0) {
+                for (int i = 0; i < allGameObjects.Length; i++) {
+                    if (allGameObjects[i] == null) continue;
 
-                    if (commands[j].isStaticMethod) continue;
+                    for (int j = 0; j < commands.Count; j++) {
 
-                    var script = allGameObjects[i].GetComponent(commands[j].scriptNameString) as MonoBehaviour;
+                        if (commands[j].isStaticMethod) continue;
 
-                    // script.gameObject.scene.name != null check is for prefabs
-                    if (script != null && script.gameObject.scene.name != null) {
-                        var data = new ConsoleCommandData();
+                        var script = allGameObjects[i].GetComponent(commands[j].scriptNameString) as MonoBehaviour;
 
-                        data.SetValues(script, commands[j].methodname, commands[j].commandName, commands[j].defaultValue, commands[j].parameterType, false, commands[j].methodInfo, commands[j].isCoroutine, commands[j].hiddenCommand);
-                        consoleCommands.Add(data);
+                        // script.gameObject.scene.name != null check is for prefabs
+                        if (script != null && script.gameObject.scene.name != null) {
+                            var data = new ConsoleCommandData();
+
+                            data.SetValues(script, commands[j].methodname, commands[j].commandName, commands[j].defaultValue, commands[j].parameterType, false, commands[j].methodInfo, commands[j].isCoroutine, commands[j].hiddenCommand);
+                            consoleCommands.Add(data);
+                        }
                     }
                 }
             }
+
+            // Add static commands to final console command list
+            consoleCommands.AddRange(staticCommands);
 
             // If user called Console.RegisterCommand before console was fully initilized
             // Add those commands now.
