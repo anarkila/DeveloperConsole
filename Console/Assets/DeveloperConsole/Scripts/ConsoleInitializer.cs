@@ -28,9 +28,15 @@ namespace DeveloperConsole {
         private void OnValidate() {
             if (settings == null) return;
 
+            string previous = gameObject.tag;
+
             string tag = settings.íncludeConsoleInBuild ? "Untagged" : "EditorOnly";
             gameObject.tag = tag;
-            UnityEditor.EditorUtility.SetDirty(gameObject);
+
+            // If tag changed, mark scene as dirty.
+            if (previous != gameObject.tag) {
+                UnityEditor.EditorUtility.SetDirty(gameObject);
+            }
         }
 #endif
 
