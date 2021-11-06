@@ -289,10 +289,12 @@ namespace DeveloperConsole {
                 return;
             }
 
+            bool isDebugBuild = Debug.isDebugBuild;
+
 #if UNITY_WEBGL
-            commands = GetConsoleCommandAttributes(registerStaticOnly);
+            commands = GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly);
 #else    
-            commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(registerStaticOnly)); // Threaded work
+            commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly)); // Threaded work
 #endif
 
             timer.Stop();

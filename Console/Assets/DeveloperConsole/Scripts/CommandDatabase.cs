@@ -103,7 +103,7 @@ namespace DeveloperConsole {
         /// Register new Console command
         /// </summary>
         public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "",
-            bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
+            bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
 
             if (script == null) {
 #if UNITY_EDITOR
@@ -113,6 +113,7 @@ namespace DeveloperConsole {
             }
 
             if (script != null && ConsoleManager.GetSettings().registerStaticCommandAttributesOnly) return;
+            if (debugCommandOnly && !Debug.isDebugBuild) return;
 
             if (defaultValue == null) defaultValue = "";
 
@@ -233,7 +234,7 @@ namespace DeveloperConsole {
             consoleCommands.Clear();
         }
 
-        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool staticOnly = false) {
+        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly) {
             IEnumerable<MethodInfo> methods = null;
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
@@ -271,6 +272,10 @@ namespace DeveloperConsole {
                 if (method.IsStatic && staticCommandsCached) continue;
 
                 ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
+
+                if (attribute == null) continue; // this should never happen, but just in case.
+
+                if (attribute.IsDebugOnlyCommand() && !isDebugBuild) continue;
 
                 var commandName = attribute.GetCommandName();
                 var defaultValue = attribute.GetValue();
@@ -361,7 +366,6 @@ namespace DeveloperConsole {
 
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
 
-            // Get all gameobjects in scene
             GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
             // loop through all gameobjects in scene and try to find MonoBehaviour

@@ -50,7 +50,7 @@ namespace DeveloperConsole {
             writingTextFile = true;
 
             // Get all console commands
-            var commands = CommandDatabase.GetConsoleCommandAttributes();
+            var commands = CommandDatabase.GetConsoleCommandAttributes(Debug.isDebugBuild, false);
 
             // make new txt file and write to it
             StreamWriter writer = new StreamWriter(path, true);

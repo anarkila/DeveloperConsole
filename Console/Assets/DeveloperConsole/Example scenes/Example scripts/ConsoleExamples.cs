@@ -142,9 +142,9 @@ namespace DeveloperConsole {
         // as [ConsoleCommands] by default are only registered when scene is loaded,
         // so any [ConsoleCommands] added later will not be added.
         private void Start() {
-            Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", false);
-            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", false);
-            Console.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", false);
+            Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", false, false, false);
+            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", false, false, false);
+            Console.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", false, false, false);
         }
 
         private void ManuallyRegisteredCommand() {
