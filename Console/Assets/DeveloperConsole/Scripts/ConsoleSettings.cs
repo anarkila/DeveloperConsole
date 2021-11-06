@@ -29,8 +29,9 @@ namespace DeveloperConsole {
         [Tooltip("Show Developer Console in build")]
         public bool íncludeConsoleInBuild = true;
 
-        [Tooltip("Whether to register static commands only (No Monobehaviour commands). This can be done asynchronously expect in WebGL builds.")]
-        public bool registerStaticCommandsOnly = false;
+        [Tooltip("Whether to register static command attributes only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
+            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
+        public bool registerStaticCommandAttributesOnly = false;
 
         [Tooltip("Show closests matching commands")]
         public bool showInputPredictions = true;

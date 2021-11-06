@@ -1433,7 +1433,7 @@ MonoBehaviour:
     unityPrintOptions: 5
     maxMessageCount: 150
     "\xEDncludeConsoleInBuild": 1
-    registerStaticCommandsOnly: 0
+    registerStaticCommandAttributesOnly: 0
     showInputPredictions: 1
     allowConsoleResize: 1
     showCursorOnEnable: 1

@@ -17,11 +17,11 @@ namespace DeveloperConsole {
 
         private void Awake() {
             CursorState(false);
-            ConsoleAPI.RegisterConsoleStateChangeEvent += ConsoleEvent;    // Register console state change event
+            Console.RegisterConsoleStateChangeEvent += ConsoleEvent;    // Register console state change event
         }
 
         private void OnDestroy() {                                          // UnRegister console state change event
-            ConsoleAPI.RegisterConsoleStateChangeEvent -= ConsoleEvent;     // Be sure to unregister from events either on OnDestroy() or OnDisable() 
+            Console.RegisterConsoleStateChangeEvent -= ConsoleEvent;     // Be sure to unregister from events either on OnDestroy() or OnDisable() 
         }                   
 
         /// <summary>

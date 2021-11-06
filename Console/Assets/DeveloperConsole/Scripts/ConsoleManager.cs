@@ -267,7 +267,7 @@ namespace DeveloperConsole {
             timer.Start();
 
             List<ConsoleCommandData> commands = null;
-            bool registerStaticOnly = settings.registerStaticCommandsOnly;
+            bool registerStaticOnly = settings.registerStaticCommandAttributesOnly;
 
             if (registerStaticOnly && CommandDatabase.StaticCommandsRegistered()) {
                 timer.Stop();
@@ -300,7 +300,7 @@ namespace DeveloperConsole {
             string staticOnly = string.Empty;
 
 #if UNITY_EDITOR
-            if (settings.printEditorDebugInfo && settings.registerStaticCommandsOnly) {
+            if (settings.printEditorDebugInfo && settings.registerStaticCommandAttributesOnly) {
                 staticOnly = "(static commands only) ";
             }
 #endif

@@ -142,9 +142,9 @@ namespace DeveloperConsole {
         // as [ConsoleCommands] by default are only registered when scene is loaded,
         // so any [ConsoleCommands] added later will not be added.
         private void Start() {
-            ConsoleAPI.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", false);
-            ConsoleAPI.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", false);
-            ConsoleAPI.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", false);
+            Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", false);
+            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", false);
+            Console.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", false);
         }
 
         private void ManuallyRegisteredCommand() {
@@ -163,9 +163,9 @@ namespace DeveloperConsole {
 
         [ConsoleCommand("test.remove.commads")]
         private void RemoveCommands() {
-            ConsoleAPI.RemoveCommand("test.manual", true);
-            ConsoleAPI.RemoveCommand("test.manual.int", true);
-            ConsoleAPI.RemoveCommand("test.manual.coroutine", true);
+            Console.RemoveCommand("test.manual", true);
+            Console.RemoveCommand("test.manual.int", true);
+            Console.RemoveCommand("test.manual.coroutine", true);
         }
     }
 }

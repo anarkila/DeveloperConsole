@@ -9,11 +9,13 @@ namespace DeveloperConsole {
     public static class CommandDatabase {
 
         private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();
+        private static Dictionary<string, bool> commandRemovedBeforeInit = new Dictionary<string, bool>();
         private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
         private static List<string> commandStringsWithDefaultValues = new List<string>();
         private static List<string> consoleCommandStrings = new List<string>();
         private static List<string> executedCommands = new List<string>();
+
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
         private static int failedCommandCount;
@@ -92,7 +94,7 @@ namespace DeveloperConsole {
         /// <summary>
         /// Register new Console command
         /// </summary>
-        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", 
+        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "",
             bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
 
             if (script == null) {
@@ -102,7 +104,7 @@ namespace DeveloperConsole {
                 return;
             }
 
-            if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
+            if (script != null && ConsoleManager.GetSettings().registerStaticCommandAttributesOnly) return;
 
             if (defaultValue == null) defaultValue = "";
 
@@ -138,9 +140,17 @@ namespace DeveloperConsole {
 
 
         /// <summary>
-        /// UnRegister console command
+        /// Remove command
         /// </summary>
-        public static void RemoveCommand(string command, bool log = false) {
+        public static void RemoveCommand(string command, bool log = false, bool forceDelete = false) {
+
+            if (!ConsoleManager.IsConsoleInitialized() && !forceDelete) {
+                if (!commandRemovedBeforeInit.ContainsKey(command)) {
+                    commandRemovedBeforeInit.Add(command, log);
+                }
+                return;
+            }
+
             bool foundAny = false;
             var toBeRemoved = new List<ConsoleCommandData>();
             for (int i = 0; i < consoleCommands.Count; i++) {
@@ -157,14 +167,17 @@ namespace DeveloperConsole {
                 }
             }
 
+
+#if UNITY_EDITOR
             if (log) {
                 if (foundAny) {
                     Debug.Log(string.Format("Removed command [{0}]", command));
                 }
                 else {
-                    Debug.Log(string.Format("Did not find any Command with name [{0}]", command));
+                    Debug.Log(string.Format("Didn't find command with name [{0}]", command));
                 }
             }
+#endif
             UpdateLists();
             ConsoleEvents.ConsoleRefresh();
         }
@@ -328,7 +341,13 @@ namespace DeveloperConsole {
                 newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
                 commandList.Add(newData);
             }
+
+            if (!staticCommandsCached && staticOnly) {
+                consoleCommands.AddRange(staticCommands);
+            }
+
             staticCommandsCached = true;
+
 
             return commandList;
         }
@@ -361,9 +380,20 @@ namespace DeveloperConsole {
                 }
             }
 
+            // If user called Console.RegisterCommand before console was fully initilized
+            // Add those commands now.
             if (consoleCommandsRegisteredBeforeInit.Count != 0) {
                 consoleCommands.AddRange(consoleCommandsRegisteredBeforeInit);
                 consoleCommandsRegisteredBeforeInit.Clear();
+            }
+
+
+            // If user called Console.RemoveCommand before console was fully initilized
+            // Remove those commands now.
+            if (commandRemovedBeforeInit.Count != 0) {
+                foreach (var dict in commandRemovedBeforeInit) {
+                    RemoveCommand(dict.Key, dict.Value, true);
+                }
             }
 
             UpdateLists();

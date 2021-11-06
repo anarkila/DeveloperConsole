@@ -26,7 +26,7 @@ namespace DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
 
             if (settings.collectRenderInfoEditor) {
-                ConsoleAPI.RegisterCommand(this, "PrintRenderInfo", "debug.renderinfo");
+                Console.RegisterCommand(this, "PrintRenderInfo", "debug.renderinfo");
             }
             else {
                 this.enabled = false;
