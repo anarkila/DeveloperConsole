@@ -67,7 +67,7 @@ Editor Only:
 * ``debug.renderinfo`` - Print rendering information: High/Avg FPS, highest draw call, batches, triangle and vertices count.
 
 ## Logging
-``Console.Log()`` or ``ConsoleAPI.Log()``to output directly into Developer Console window.
+``Console.Log()`` to output directly into Developer Console window.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` will also output to Developer Console.
 
@@ -79,3 +79,4 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Improve GUI (I'm not GUI designer)
 - Improve Garbage Collection
 - Ability to generate grid or list of buttons that can fire commands
+- Ability to register commands in Editor
