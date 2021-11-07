@@ -264,9 +264,7 @@ namespace DeveloperConsole {
 
             var commandList = new List<ConsoleCommandData>();
 
-            string coroutine = "IEnumerator";
             string bracket = "(";
-            string empty = " ";
 
             foreach (var method in methods) {
                 if (method.IsStatic && staticCommandsCached) continue;
@@ -331,9 +329,9 @@ namespace DeveloperConsole {
                 }
 
                 bool isCoroutine = false;
-                isCoroutine = methodName.Contains(coroutine);
+                isCoroutine = methodName.Contains(ConsoleConstants.IENUMERATOR);
 
-                methodName = methodName.Substring(methodName.IndexOf(empty) + 1);
+                methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
                 methodName = methodName.Substring(0, methodName.IndexOf(bracket));
 
                 if (!ParameterParser.IsSupportedType(method, methodName, commandName, className)) {
@@ -433,15 +431,19 @@ namespace DeveloperConsole {
             UpdateLists();
         }
 
+        /// <summary>
+        /// Generate needed console lists
+        /// </summary>
         public static void UpdateLists() {
+
             consoleCommandStrings.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
-                consoleCommandStrings.Add(consoleCommands[i].commandName);
+
+                if (!consoleCommandStrings.Contains(consoleCommands[i].commandName)) {
+                    consoleCommandStrings.Add(consoleCommands[i].commandName);
+                }
             }
-            consoleCommandStrings = consoleCommandStrings.Distinct().ToList(); // Delete duplicates
-
-
 
             // create consoleCommandStringsWithSuggestions list
             var style = ConsoleManager.GetGUIStyle();
@@ -458,9 +460,13 @@ namespace DeveloperConsole {
                 if (first != empty) {
                     defaultValue = empty + defaultValue;
                 }
-                commandStringsWithDefaultValues.Add(consoleCommands[i].commandName + defaultValue);
+
+                var full = consoleCommands[i].commandName + defaultValue;
+
+                if (!commandStringsWithDefaultValues.Contains(full)) {
+                    commandStringsWithDefaultValues.Add(full);
+                }
             }
-            commandStringsWithDefaultValues = commandStringsWithDefaultValues.Distinct().ToList(); // Delete duplicates
         }
     }
 }
