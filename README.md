@@ -71,13 +71,14 @@ Editor Only:
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.
 
-By default Unity ``Debug.Log()`` or ``Debug.LogError()`` will also output to Developer Console.
+By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also output to Developer Console.
 
 By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
 ## Notes
 - Uses old Unity input system
-- Requires TextMeshPro
+- Uses Gameobject based UI
+- Uses TextMeshPro
 
 ## TODO
 - Explore ways to have multiple parameters
