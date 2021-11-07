@@ -86,3 +86,4 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Improve GUI's
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
+- Improve Large GUI resizing

@@ -65,7 +65,6 @@ namespace DeveloperConsole {
         [Tooltip("Whether to print unrecognized command info to console. 'Command [command name] was not recognized'")]
         public bool printUnrecognizedCommandInfo = true;
 
-
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
         public KeyCode consoleSubmitKey = KeyCode.Return;           // Key to submit command
@@ -73,9 +72,7 @@ namespace DeveloperConsole {
         public KeyCode consoleFillCommandKey = KeyCode.DownArrow;   // Key to fill suggestion
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
-
         [Header("Debug Settings")]
-
         [Tooltip("Print debug info (Editor and Development build)")]
         public bool printDebugInfo = true;
 
@@ -85,6 +82,8 @@ namespace DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
+        [Tooltip("Whether to clear Unity Console too when 'clear' command called (Editor only)'")]
+        public bool ClearUnityConsoleOnConsoleClear = false;
     }
 
     public enum ConsoleGUIStyle {

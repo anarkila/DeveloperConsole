@@ -36,6 +36,9 @@ namespace DeveloperConsole {
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
+#if UNITY_EDITOR
+            ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
+#endif
 
             SetSettings(settings);
 
@@ -56,6 +59,10 @@ namespace DeveloperConsole {
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
 
 #if UNITY_EDITOR
+            ConsoleEvents.RegisterConsoleClearEvent -= ConsoleClearEvent;
+#endif
+
+#if UNITY_EDITOR
             if (settings.printConsoleDebugInfo) {
 
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
@@ -68,6 +75,18 @@ namespace DeveloperConsole {
 #endif
         }
 
+#if UNITY_EDITOR
+        private static void ConsoleClearEvent() {
+            if (settings == null) return;
+
+            if (settings.ClearUnityConsoleOnConsoleClear) {
+                var assembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
+                var type = assembly.GetType("UnityEditor.LogEntries");
+                var method = type.GetMethod("Clear");
+                method.Invoke(new object(), null);
+            }
+        }
+#endif
         /// <summary>
         /// Get current console settings
         /// </summary>
@@ -234,7 +253,7 @@ namespace DeveloperConsole {
         }
 
         private static void UnityLogEventCallback(string text, string stackTrace, LogType type) {
-            if (settings == null 
+            if (settings == null
                 || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
                 || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
 
