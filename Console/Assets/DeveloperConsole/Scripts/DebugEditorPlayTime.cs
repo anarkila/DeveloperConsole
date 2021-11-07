@@ -37,7 +37,7 @@ namespace DeveloperConsole {
                     break;
 
                 case PlayModeStateChange.EnteredPlayMode:
-                    if (!ConsoleManager.GetSettings().printEditorDebugInfo || called) return;
+                    if (!ConsoleManager.GetSettings().printPlayButtonToSceneTime || called) return;
 
                     startTime = DateTime.Now.Ticks;
                     var difference = (startTime - playButtonTime) / TimeSpan.TicksPerMillisecond;

@@ -57,7 +57,7 @@ namespace DeveloperConsole {
         public bool printMessageTimestamps = true;
 
         [Tooltip("Should help info be printed on startup")]
-        public bool printHelpTextOnStartup = true;
+        public bool printStartupHelpText = true;
 
         [Tooltip("Print console debug info like startup time etc.")]
         public bool printConsoleDebugInfo = true;
@@ -78,6 +78,9 @@ namespace DeveloperConsole {
 
         [Tooltip("Print Editor debug info")]
         public bool printEditorDebugInfo = true;
+
+        [Tooltip("Print Play button click to playable scene time")]
+        public bool printPlayButtonToSceneTime = true;
 
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;

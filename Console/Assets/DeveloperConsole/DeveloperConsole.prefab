@@ -1441,7 +1441,7 @@ MonoBehaviour:
     scrollToBottomOnEnable: 1
     clearMessagesOnSceneChange: 1
     printMessageTimestamps: 1
-    printHelpTextOnStartup: 1
+    printStartupHelpText: 1
     printConsoleDebugInfo: 1
     printUnrecognizedCommandInfo: 1
     consoleToggleKey: 92
@@ -1450,6 +1450,7 @@ MonoBehaviour:
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
     printEditorDebugInfo: 1
+    printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
 --- !u!114 &1068871071940469467
 MonoBehaviour:
