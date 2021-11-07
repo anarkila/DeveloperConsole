@@ -6,7 +6,7 @@ namespace DeveloperConsole {
 
     public class ConsoleCommandData {
 
-        public MonoBehaviour scriptName;
+        public MonoBehaviour monoScript;
         public string methodname;
         public string commandName;
         public string defaultValue = "";
@@ -22,7 +22,7 @@ namespace DeveloperConsole {
             bool isStaticMethod = false, MethodInfo methodInfo = null, bool isCoroutine = false, bool hiddenCommand = false,
             bool hiddenCommandMinimalGUI = false,string scriptNameString = "") {
 
-            this.scriptName = scriptName;
+            this.monoScript = scriptName;
             this.methodname = methodname;
             this.commandName = commandName;
             this.defaultValue = commandExplanation;

@@ -25,11 +25,11 @@ namespace DeveloperConsole {
         /// </summary>
         public static bool TryExecuteCommand(string input) {
 
-            bool success = false;
-            bool foundCommand = false;
-
             string parameterAsString = null;
+            bool foundCommand = false;
+            bool success = false;
             char empty = ' ';
+
             if (input.Contains(empty)) {
                 int index = input.IndexOf(empty);
                 index = input.IndexOf(empty, index);
@@ -65,7 +65,7 @@ namespace DeveloperConsole {
                     try {
                         if (consoleCommands[i].isCoroutine) {
                             var param = parameter == null ? null : parameter[0];
-                            consoleCommands[i].scriptName.StartCoroutine(consoleCommands[i].methodname, param);
+                            consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
 
 
                             if (!executedCommands.Contains(input)) {
@@ -77,7 +77,16 @@ namespace DeveloperConsole {
 
                         if (consoleCommands[i].methodInfo == null) continue;
 
-                        consoleCommands[i].methodInfo.Invoke(consoleCommands[i].scriptName, parameter);
+                        if (consoleCommands[i].monoScript == null) {
+                            // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
+                            // so let's remove that command and refresh lists.
+                            consoleCommands.Remove(consoleCommands[i]);
+                            UpdateLists();
+                            ConsoleEvents.RefreshConsole();
+                            continue;
+                        }
+
+                        consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
                         }
@@ -145,7 +154,7 @@ namespace DeveloperConsole {
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
                 UpdateLists();
-                ConsoleEvents.ConsoleRefresh();
+                ConsoleEvents.RefreshConsole();
             }
             else {
                 // new command registered before console was itialized
@@ -194,7 +203,7 @@ namespace DeveloperConsole {
             }
 #endif
             UpdateLists();
-            ConsoleEvents.ConsoleRefresh();
+            ConsoleEvents.RefreshConsole();
         }
 
         public static int GetExcecutedCommandCount() {

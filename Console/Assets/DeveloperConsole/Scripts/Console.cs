@@ -29,6 +29,7 @@ public static class Console {
 
     /// <summary>
     /// Remove command
+    /// If there's multiple instances of the same command, all of them will be removed.
     /// </summary>
     /// <param name="command">Command to remove</param>
     public static void RemoveCommand(string command, bool log = false) {

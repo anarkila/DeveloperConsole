@@ -37,7 +37,7 @@ namespace DeveloperConsole {
         public static void ClearConsoleMessages() => RegisterConsoleClearEvent?.Invoke();
 
         public static event Action RegisterConsoleRefreshEvent;
-        public static void ConsoleRefresh() => RegisterConsoleRefreshEvent?.Invoke();
+        public static void RefreshConsole() => RegisterConsoleRefreshEvent?.Invoke();
 
         public static event Action RegisterConsoleScrollMoveEvent;
         public static void ScrollToBottom() => RegisterConsoleScrollMoveEvent?.Invoke();

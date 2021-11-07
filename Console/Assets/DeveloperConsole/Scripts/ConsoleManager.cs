@@ -210,7 +210,7 @@ namespace DeveloperConsole {
 
             if (consoleInitialized) {
                 CommandDatabase.UpdateLists();
-                ConsoleEvents.ConsoleRefresh();
+                ConsoleEvents.RefreshConsole();
             }
         }
 
@@ -360,7 +360,7 @@ namespace DeveloperConsole {
             }
             messagesBeforeInitDone.Clear();
 
-            ConsoleEvents.ConsoleRefresh();
+            ConsoleEvents.RefreshConsole();
         }
     }
 }
