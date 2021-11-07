@@ -46,6 +46,7 @@ public class ExampleScript : MonoBehaviour {
 - Log directly into Developer Console window
 - Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Developer Console window
 - Input predictions
+- Settings to tweak (some can be modified runtime through Console.cs script)
 - Documentation, Example scenes and scripts
 - Editor debug information:
     - Print rendering info
@@ -73,10 +74,13 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` will also output to Dev
 
 By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
+## Notes
+- Uses old Unity input system
+- Requires TextMeshPro
+
 ## TODO
 - Explore ways to have multiple parameters
 - Explore ways to register commands faster
-- Improve GUI
-- Improve Garbage Collection
+- Improve GUI's
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
