@@ -234,28 +234,37 @@ namespace DeveloperConsole {
         }
 
         private static void UnityLogEventCallback(string text, string stackTrace, LogType type) {
-            if (settings == null || settings.InterfaceStyle == ConsoleGUIStyle.Minimal || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return; // minimal console doesn't have logging capability
+            if (settings == null 
+                || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
+                || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
 
             if (type != LogType.Log) {
                 switch (settings.unityPrintOptions) {
 
                     case PrintOptions.PrintDebugLogsWithoutExpections:
                         return;
+
                     case PrintOptions.PrintDebugLogExpectionsWithStackTrace:
-                        text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
+                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
+                        text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
                         break;
+
                     case PrintOptions.PrintDebugLogsWithExpections:
-                        text = string.Format("<color=red>{0} </color>", text);
+                        //text = string.Format("<color=red>{0} </color>", text);
+                        text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
                         break;
 
                     case PrintOptions.PrintDebugLogsExpectionsWithStackTraceEditorOnly:
 #if UNITY_EDITOR
-                        text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
+                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
+                        text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
 #endif
                         break;
+
                     case PrintOptions.PrintDebugLogsWithExpectionsEditorOnly:
 #if UNITY_EDITOR
-                        text = string.Format("<color=red>{0} </color>", text);
+                        //text = string.Format("<color=red>{0} </color>", text);
+                        text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
 #endif
                         break;
                 }
@@ -266,8 +275,6 @@ namespace DeveloperConsole {
         }
 
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
-            // TODO: additive scenes? This could get slow..
-
             CommandDatabase.ClearLists();
 
             if (initDone) ++sceneChangeCount; // don't raise counter on start
@@ -321,9 +328,9 @@ namespace DeveloperConsole {
 #endif
             if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
 
-                string message = "Console Initialized. ";
+                string message = ConsoleConstants.CONSOLEINIT;
 
-                //Debug.Log("Console Initialized.");
+                //Debug.Log(ConsoleConstants.CONSOLEINIT);
 #if UNITY_WEBGL
                 var total = partOne + partTwo;
                 //Debug.Log(string.Format("Console Initialization work {0} took: {1} ms", staticOnly, total));

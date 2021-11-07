@@ -84,7 +84,7 @@ namespace DeveloperConsole {
                         success = true;
                     }
                     catch (ArgumentException e) {
-
+                        // Allow expection to be thrown so it can be printed to console (depending on the setting).
                     }
                     finally {
                         ++executedCommandCount;
