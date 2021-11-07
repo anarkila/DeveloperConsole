@@ -46,8 +46,8 @@ public class ExampleScript : MonoBehaviour {
 - Log directly into Developer Console window
 - Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Developer Console window
 - Input predictions
-- Documentation and Example scenes
-- Editor debug helpers:
+- Documentation, Example scenes and scripts
+- Editor debug information:
     - Print rendering info
     - Print Play button click to playable Scene time
 
@@ -56,15 +56,15 @@ Developer Console comes with few commands by default. If you wish to modify or d
 
 * ``help`` - Print list of available commands
 * ``quit`` - Quit the application
-* ``close`` - Close Developer Console
-* ``clear`` - Clear all Developer Console messages
-* ``console.style`` - Toggle GUI style between Large / Minimal
-* ``console.reset`` - Reset Developer Console window to default size and position. (Large GUI style only)
-* ``scene.loadbyindex (int)`` - Load new scene asynchronously by scene build index
-* ``scene.loadbyname (string)`` - Load new scene asynchronously by string
+* ``close`` - Close Console
+* ``clear`` - Clear all Console messages
+* ``reset`` - Reset Console window to default size and position (Large GUI only)
+* ``console.style`` - Toggle GUI style between Large and Minimal
+* ``scene.loadbyindex (int)`` - Load scene asynchronously by scene build index
+* ``scene.loadbyname (string)`` - Load scene asynchronously by scene name
 
 Editor Only:
-* ``debug.renderinfo`` - Print rendering information: High/Avg FPS, highest draw call, batches, triangle and vertices count.
+* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count.
 
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.
@@ -75,8 +75,8 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 
 ## TODO
 - Explore ways to have multiple parameters
-- Explore ways to register Monobehaviour commands faster
-- Improve GUI (I'm not GUI designer)
+- Explore ways to register commands faster
+- Improve GUI
 - Improve Garbage Collection
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
