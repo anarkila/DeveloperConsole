@@ -28,7 +28,7 @@ namespace DeveloperConsole {
         public static void Log(string text) => ConsoleManager.PrintLog(text, RegisterDeveloperConsoleLogEvent);
 
         public static event Action<List<string>> RegisterConsoleSuggestions;
-        public static void Suggestions(List<string> list) => RegisterConsoleSuggestions?.Invoke(list);
+        public static void Predictions(List<string> list) => RegisterConsoleSuggestions?.Invoke(list);
 
         public static event Action RegisterConsoleResetEvent;
         public static void ResetConsole() => RegisterConsoleResetEvent?.Invoke();

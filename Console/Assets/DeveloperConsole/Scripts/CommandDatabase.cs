@@ -66,7 +66,11 @@ namespace DeveloperConsole {
                         if (consoleCommands[i].isCoroutine) {
                             var param = parameter == null ? null : parameter[0];
                             consoleCommands[i].scriptName.StartCoroutine(consoleCommands[i].methodname, param);
-                            executedCommands.Add(input);
+
+
+                            if (!executedCommands.Contains(input)) {
+                                executedCommands.Add(input);
+                            }
                             success = true;
                             continue;
                         }
@@ -74,7 +78,9 @@ namespace DeveloperConsole {
                         if (consoleCommands[i].methodInfo == null) continue;
 
                         consoleCommands[i].methodInfo.Invoke(consoleCommands[i].scriptName, parameter);
-                        executedCommands.Add(input);
+                        if (!executedCommands.Contains(input)) {
+                            executedCommands.Add(input);
+                        }
                         success = true;
                     }
                     catch (ArgumentException e) {
@@ -227,7 +233,7 @@ namespace DeveloperConsole {
         /// Get previously successfully executed commands
         /// </summary>
         public static List<string> GetPreviouslyExecutedCommands() {
-            return executedCommands.Distinct().ToList();
+            return executedCommands;
         }
 
         public static void ClearLists() {

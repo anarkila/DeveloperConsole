@@ -8,9 +8,10 @@ namespace DeveloperConsole {
 
     public class ConsoleInputfield : MonoBehaviour {
 
-        private List<string> allConsoleCommandsWithSuggestions = new List<string>();
+        private List<string> commandsWithValues = new List<string>();
         private WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.050f);
-        private List<string> closestsMatchinCommands = new List<string>();
+        private List<string> closestMatches = new List<string>();
+        private List<string> predictions = new List<string>();
         private List<string> allConsoleCommands = new List<string>();
         private bool allowHintChecking = true;
         private int previousCommandIndex = 0;
@@ -38,7 +39,7 @@ namespace DeveloperConsole {
         private void Start() {
             if (inputField == null) return;
 
-            allConsoleCommandsWithSuggestions = CommandDatabase.GeCommandStringsWithDefaultValues();
+            commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetCommandStrings();
             inputField.onValueChanged.AddListener(FindClosestsPredictions);
         }
@@ -51,7 +52,7 @@ namespace DeveloperConsole {
         }
 
         private void ConsoleRefreshedCallback() {
-            allConsoleCommandsWithSuggestions = CommandDatabase.GeCommandStringsWithDefaultValues();
+            commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetCommandStrings();
         }
 
@@ -86,13 +87,13 @@ namespace DeveloperConsole {
             if (inputField == null || currentSuggestion == null) return;
 
 
-            if (suggestionIndex > closestsMatchinCommands.Count || suggestionIndex == closestsMatchinCommands.Count) {
+            if (suggestionIndex > closestMatches.Count || suggestionIndex == closestMatches.Count) {
                 suggestionIndex = 0;
             }
-            if (closestsMatchinCommands == null || closestsMatchinCommands.Count == 0) return;
+            if (closestMatches == null || closestMatches.Count == 0) return;
 
             allowHintChecking = false;
-            inputField.text = closestsMatchinCommands[suggestionIndex];
+            inputField.text = closestMatches[suggestionIndex];
             inputField.caretPosition = inputField.text.Length;
 
             ++suggestionIndex;
@@ -148,13 +149,14 @@ namespace DeveloperConsole {
 
         /// <summary>
         /// Try to find predictions from current inputfield text
+        /// This is pretty messy..
         /// </summary>
         private void FindClosestsPredictions(string text) {
             if (inputField == null || !allowHintChecking || !ConsoleManager.ShowConsolePredictions()) return;
 
             if (string.IsNullOrEmpty(text)) {
-                closestsMatchinCommands.Clear();
-                ConsoleEvents.Suggestions(null);
+                closestMatches.Clear();
+                ConsoleEvents.Predictions(null);
                 return;
             }
 
@@ -162,11 +164,12 @@ namespace DeveloperConsole {
             bool valid = false;
             bool closeMatch = false;
             int smallestDistance = 10000;
-            closestsMatchinCommands.Clear();
+            closestMatches.Clear();
+            predictions.Clear();
 
             // loop through all console commands strings and try to find closest matching command
             // TODO: If this list becomes huge, then this check might be better to move to background thread?
-            for (int i = 0; i < allConsoleCommandsWithSuggestions.Count; i++) {
+            for (int i = 0; i < commandsWithValues.Count; i++) {
 
                 // check if first letter is the same
                 char inputfieldFirstChar = text[0];
@@ -177,7 +180,7 @@ namespace DeveloperConsole {
                 if (text.Contains(allConsoleCommands[i])) {
                     closeMatch = true;
                     index = i;
-                    closestsMatchinCommands.Add(allConsoleCommandsWithSuggestions[i]);
+                    closestMatches.Add(commandsWithValues[i]);
                 }
 
                 int distance = ConsoleUtils.CalcLevenshteinDistance(text, allConsoleCommands[i]);
@@ -195,8 +198,8 @@ namespace DeveloperConsole {
                             validCharacters = false;
                         }
                         else {
-                            if (text.Length < allConsoleCommands[i].Length + 1) {
-                                closestsMatchinCommands.Add(allConsoleCommandsWithSuggestions[i]);
+                            if (text.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
+                                closestMatches.Add(commandsWithValues[i]);
                             }
                         }
                     }
@@ -206,15 +209,21 @@ namespace DeveloperConsole {
                 }
             }
 
-            if (closestsMatchinCommands.Count != 0) {
-                closestsMatchinCommands = closestsMatchinCommands.Distinct().ToList();    // Remove all duplicates
-                closestsMatchinCommands.Reverse();                                        // Reverse list
-                closestsMatchinCommands = closestsMatchinCommands.Take(5).ToList();       // Take first five items from list
+            if (closestMatches.Count != 0) {
+
+                // Reverse list
+                closestMatches.Reverse();
+
+                // add first 5 items from list to final list.
+                for (int i = 0; i < closestMatches.Count; i++) {
+                    predictions.Add(closestMatches[i]);
+                    if (i == 4) break;
+                }
             }
 
-            ConsoleEvents.Suggestions(closestsMatchinCommands);
-            if (closeMatch || smallestDistance < allConsoleCommandsWithSuggestions.Count && valid) {
-                currentSuggestion = allConsoleCommandsWithSuggestions[index];
+            ConsoleEvents.Predictions(predictions);
+            if (closeMatch || smallestDistance < commandsWithValues.Count && valid) {
+                currentSuggestion = commandsWithValues[index];
             }
             else {
                 ClearSuggestion();
@@ -223,8 +232,9 @@ namespace DeveloperConsole {
         }
 
         private void ClearSuggestion() {
-            closestsMatchinCommands.Clear();
-            ConsoleEvents.Suggestions(closestsMatchinCommands);
+            closestMatches.Clear();
+            predictions.Clear();
+            ConsoleEvents.Predictions(closestMatches);
         }
 
         private void ResetParameters() {

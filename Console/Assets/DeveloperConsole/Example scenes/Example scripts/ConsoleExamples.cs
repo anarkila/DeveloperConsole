@@ -100,7 +100,7 @@ namespace DeveloperConsole {
         [ConsoleCommand("test.numbers")]
         private IEnumerator PrintNumbers() {
             var delay = new WaitForSeconds(0.02f);
-            for (int i = 0; i < 151; i++) {
+            for (int i = 0; i < 101; i++) {
                 Debug.Log(i);
                 yield return delay;
             }
