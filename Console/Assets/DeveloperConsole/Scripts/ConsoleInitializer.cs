@@ -8,8 +8,10 @@ namespace DeveloperConsole {
         public ConsoleSettings settings;
 
         private void Awake() {
-            if (!settings.íncludeConsoleInBuild && !Application.isEditor) {
+
+            if (!settings.includeConsoleInFinalBuild && !Debug.isDebugBuild) {
                 this.gameObject.SetActive(false);
+                Console.DestroyConsole(1f);
                 return;
             }
 
@@ -22,23 +24,5 @@ namespace DeveloperConsole {
             ConsoleEvents.RegisterDestroyEvent -= DestroyConsole;
             Destroy(this.gameObject, time);
         }
-
-
-#if UNITY_EDITOR
-        private void OnValidate() {
-            if (settings == null) return;
-
-            string previous = gameObject.tag;
-
-            string tag = settings.íncludeConsoleInBuild ? "Untagged" : "EditorOnly";
-            gameObject.tag = tag;
-
-            // If tag changed, mark scene as dirty.
-            if (previous != gameObject.tag) {
-                UnityEditor.EditorUtility.SetDirty(gameObject);
-            }
-        }
-#endif
-
     }
 }

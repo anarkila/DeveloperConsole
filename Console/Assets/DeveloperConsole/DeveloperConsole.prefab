@@ -1432,7 +1432,7 @@ MonoBehaviour:
     scrollSensitivity: 30
     unityPrintOptions: 5
     maxMessageCount: 150
-    "\xEDncludeConsoleInBuild": 1
+    includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
     showInputPredictions: 1
     allowConsoleResize: 1

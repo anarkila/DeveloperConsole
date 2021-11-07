@@ -28,8 +28,8 @@ namespace DeveloperConsole {
         [Range(2, 500)]
         public int maxMessageCount = 150;
 
-        [Tooltip("Show Developer Console in build")]
-        public bool íncludeConsoleInBuild = true;
+        [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
+        public bool includeConsoleInFinalBuild = false;
 
         [Tooltip("Whether to register static command attributes only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
             "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
