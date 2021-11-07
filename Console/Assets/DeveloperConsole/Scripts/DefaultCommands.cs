@@ -52,10 +52,17 @@ namespace DeveloperConsole {
             ConsoleEvents.ResetConsole();
         }
 
+
+
+        // Below commands are set to be debug only commands,
+        // meaning they only register in Editor and Development Builds.
+        // For final build, these commands are ignored,
+        // remove 'debugOnlyCommand:true' if you wish to include these in final build for some reason.
+
         /// <summary>
-        /// Toggle console style between Large / Minimal
+        /// Toggle console style between Large and Minimal
         /// </summary>
-        [ConsoleCommand("console.style")]
+        [ConsoleCommand("console.style", debugOnlyCommand:true)]
         private static void ChangeConsoleGUI() {
             ConsoleEvents.SwitchGUIStyle();
         }
@@ -64,7 +71,7 @@ namespace DeveloperConsole {
         /// Load scene by Index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyindex", "1")]
+        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true)]
         private static void LoadSceneByIndex(int index) {
             ConsoleEvents.LoadSceneByIndex(index);
         }
@@ -73,7 +80,7 @@ namespace DeveloperConsole {
         /// Load scene by name
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyname")]
+        [ConsoleCommand("scene.loadbyname", debugOnlyCommand: true)]
         private static void LoadSceneByName(string sceneName) {
             ConsoleEvents.LoadSceneByName(sceneName);
         }
