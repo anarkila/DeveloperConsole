@@ -193,7 +193,7 @@ namespace DeveloperConsole {
         }
 
         /// <summary>
-        /// Checks if we are in Unity main thread
+        /// Check if we are in Unity main thread
         /// </summary>
         private static bool IsUnityThread(Thread thread) {
             return thread == UnityMainThreadID;
@@ -212,8 +212,6 @@ namespace DeveloperConsole {
                 CommandDatabase.UpdateLists();
                 ConsoleEvents.ConsoleRefresh();
             }
-
-          
         }
 
         private static void SetPredictions(bool show) {
@@ -292,7 +290,7 @@ namespace DeveloperConsole {
             bool isDebugBuild = Debug.isDebugBuild;
 
 #if UNITY_WEBGL
-            commands = GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly);
+            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly);
 #else    
             commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly)); // Threaded work
 #endif
@@ -323,21 +321,29 @@ namespace DeveloperConsole {
 #endif
             if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
 
-                Debug.Log("Console Initialized.");
+                string message = "Console Initialized. ";
+
+                //Debug.Log("Console Initialized.");
 #if UNITY_WEBGL
                 var total = partOne + partTwo;
-                Debug.Log(string.Format("Console Initialization work {0} took: {1} ms", staticOnly, total));
+                //Debug.Log(string.Format("Console Initialization work {0} took: {1} ms", staticOnly, total));
+                message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
+                Debug.Log(message);
 #else
-                Debug.Log(string.Format("Console Initialization work (Threaded) {0}took: {1} ms", staticOnly, partOne));
+                //Debug.Log(string.Format("Console Initialization work (Threaded) {0}took: {1} ms", staticOnly, partOne));
+                message += string.Format("Threaded work took: {1} ms {0}", staticOnly, partOne);
 
                 if (!registerStaticOnly) {
-                    Debug.Log(string.Format("Console Initialization work (Non-threaded) took: {0} ms", partTwo));
+                    //Debug.Log(string.Format("Console Initialization work (Non-threaded) took: {0} ms", partTwo));
+                    message += string.Format("and non-threaded work took: {0} ms.", partTwo);
                 }
+
+                Debug.Log(message);
 #endif
             }
 
-            if (settings.printHelpTextOnStartup) {
-                Debug.Log("Type 'help' and press Enter to print all available console commands.");
+            if (settings.printStartupHelpText) {
+                Debug.Log("Type 'help' and press Enter to print all available commands.");
             }
 
             // Print all messages that were called before console wasn't fully initialized.
