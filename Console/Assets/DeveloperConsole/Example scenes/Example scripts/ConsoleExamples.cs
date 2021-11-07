@@ -72,11 +72,6 @@ namespace DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.quaternion' successfully with value: {0} from Developer Console!", q));
         }
 
-        [ConsoleCommand("test.byte")]
-        private void TestByte(byte b) {
-            Debug.Log(string.Format("Called command 'test.byte' successfully with value: {0} from Developer Console!", b));
-        }
-
         [ConsoleCommand("test.coroutine")]
         private IEnumerator TestCoroutine() {
             Debug.Log("Coroutine start");

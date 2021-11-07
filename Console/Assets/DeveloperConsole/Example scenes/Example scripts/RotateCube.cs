@@ -32,7 +32,7 @@ namespace DeveloperConsole {
         }
 
 
-        [ConsoleCommand("cube.rotate", "false")]
+        [ConsoleCommand("cube.enabled", "false")]
         private void EnableCubeRotation(bool enabled) {
             this.enabled = enabled;
         }

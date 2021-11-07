@@ -27,13 +27,12 @@ public static class ConsoleConstants {
     // If you want to add types to this list,
     // you need to modify ParameterParser.ParseBuiltInTypes() function.
     public static Type[] SupportedTypes = {
-            typeof(int),     typeof(byte),
-            typeof(float),   typeof(decimal),
-            typeof(double),  typeof(bool),
-            typeof(string),  typeof(string[]),
-            typeof(Vector2), typeof(Vector3),
-            typeof(Vector4), typeof(Quaternion),
-            typeof(char),    // lonely char :(
+            typeof(int),      typeof(float),   
+            typeof(decimal),  typeof(double),  
+            typeof(bool),     typeof(string),  
+            typeof(string[]), typeof(char), 
+            typeof(Vector2),  typeof(Vector3), 
+            typeof(Vector4),  typeof(Quaternion)
     };
 
     // Array of supported Unity types

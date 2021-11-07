@@ -111,8 +111,6 @@ namespace DeveloperConsole {
                     return ParseFloat(input);
                 case TypeCode.String:
                     return input;
-                case TypeCode.Byte:
-                    return ParseByte(input);
                 case TypeCode.Char:
                     return ParseChar(input);
                 default:
@@ -168,16 +166,6 @@ namespace DeveloperConsole {
             }
         }
 
-        private static object ParseByte(string input) {
-            var asFloat = ParseFloat(input);
-            if (asFloat != null) {
-                return (byte)asFloat;
-            }
-            else {
-                return null;
-            }
-        }
-
         private static object ParseDouble(string input) {
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
             double number;
@@ -207,7 +195,7 @@ namespace DeveloperConsole {
             Char value;
             bool result = Char.TryParse(input, out value);
             if (result) {
-                return result;
+                return value;
             }
             else {
                 return null;

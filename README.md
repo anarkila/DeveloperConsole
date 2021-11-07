@@ -37,7 +37,7 @@ public class ExampleScript : MonoBehaviour {
 
 - Call static, instance methods and Unity Coroutines (both public and private)
 - Single parameter support with following types:
-    - int, float, string, string[], bool, double, byte, char, Vector2, Vector3, Vector4, Quaternion
+    - int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
 - Support for both Unity backends: Mono and IL2CPP
 - WebGL support
 - Simple [static API](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/ConsoleAPI.cs) to interact Console programmatically.
