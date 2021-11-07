@@ -27,9 +27,15 @@ namespace DeveloperConsole {
         private const float maxScaleY = 1f;
 
         private void Start() {
+            bool isWebGL = false;
+
+#if UNITY_WEBGL
+            // Resizing currently works very oddly in WebGL so it's disabled.
+            isWebGL = true;
+#endif
 
             var settings = ConsoleManager.GetSettings();
-            if (!settings.allowConsoleResize) {
+            if (!settings.allowConsoleResize || isWebGL) {
                 this.enabled = false;
                 return;
             }
