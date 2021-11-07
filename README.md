@@ -63,6 +63,7 @@ Developer Console comes with few commands by default. If you wish to modify or d
 * ``console.style`` - Toggle GUI style between Large and Minimal
 * ``scene.loadbyindex (int)`` - Load scene asynchronously by scene build index
 * ``scene.loadbyname (string)`` - Load scene asynchronously by scene name
+* ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
 
 Editor Only:
 * ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count.

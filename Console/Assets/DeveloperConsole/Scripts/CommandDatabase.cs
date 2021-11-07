@@ -77,7 +77,7 @@ namespace DeveloperConsole {
 
                         if (consoleCommands[i].methodInfo == null) continue;
 
-                        if (consoleCommands[i].monoScript == null) {
+                        if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
                             // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
                             // so let's remove that command and refresh lists.
                             consoleCommands.Remove(consoleCommands[i]);

@@ -52,6 +52,14 @@ namespace DeveloperConsole {
             ConsoleEvents.ResetConsole();
         }
 
+        /// <summary>
+        /// Set application target frame rate
+        /// </summary>
+        [ConsoleCommand("max_fps")]
+        private static void SetTargetFrameRate(int fps) {
+            Application.targetFrameRate = fps;
+        }
+
 
 
         // Below commands are set to be debug only commands,
