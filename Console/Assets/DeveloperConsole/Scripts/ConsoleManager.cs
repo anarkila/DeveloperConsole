@@ -315,7 +315,7 @@ namespace DeveloperConsole {
             string staticOnly = string.Empty;
 
 #if UNITY_EDITOR
-            if (settings.printEditorDebugInfo && settings.registerStaticCommandAttributesOnly) {
+            if (settings.printDebugInfo && settings.registerStaticCommandAttributesOnly) {
                 staticOnly = "(static commands only) ";
             }
 #endif

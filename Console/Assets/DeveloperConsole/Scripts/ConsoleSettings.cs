@@ -74,10 +74,10 @@ namespace DeveloperConsole {
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
 
-        [Header("Editor only Settings")]
+        [Header("Debug Settings")]
 
-        [Tooltip("Print Editor debug info")]
-        public bool printEditorDebugInfo = true;
+        [Tooltip("Print debug info (Editor and Development build)")]
+        public bool printDebugInfo = true;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;

@@ -1449,7 +1449,7 @@ MonoBehaviour:
     consoleSearchCommandKey: 273
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
-    printEditorDebugInfo: 1
+    printDebugInfo: 1
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
 --- !u!114 &1068871071940469467
