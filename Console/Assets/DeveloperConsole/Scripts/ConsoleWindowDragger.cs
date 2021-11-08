@@ -8,6 +8,7 @@ namespace DeveloperConsole {
     /// </summary>
     public class ConsoleWindowDragger : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
+        private bool forceInsideScreenBounds = true;
         private RectTransform rectTransform;
         private Vector3 positionOnBeginDrag;
         private Vector3 defaultPosition;
@@ -22,6 +23,24 @@ namespace DeveloperConsole {
                 enabled = false;
                 return;
             }
+        }
+
+        private void OnEnable() {
+            if (rectTransform == null) return;
+
+            // Check that at least two corners are inside screen bounds,
+            // if not, reset console.
+            if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 2)) {
+                ConsoleEvents.ResetConsole();
+            }
+        }
+
+        private void Start() {
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null) {
+                forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
+            }
+
             defaultPosition = rectTransform.position;
             ConsoleEvents.RegisterConsoleResetEvent += ResetWindowPosition;
         }
@@ -38,13 +57,13 @@ namespace DeveloperConsole {
             Vector3 oldPos = rectTransform.position;
             rectTransform.anchoredPosition += eventData.delta;
 
-            if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
+            if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
                 rectTransform.position = oldPos;
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
-            if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
+            if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
                 rectTransform.position = positionOnBeginDrag;
             }
         }

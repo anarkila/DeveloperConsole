@@ -153,7 +153,7 @@ public static class Console {
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Initialization() {
         var settings = ConsoleManager.GetSettings();
-        if (!settings.includeConsoleInFinalBuild && !Application.isEditor) return;
+        if (!settings.includeConsoleInFinalBuild && !Debug.isDebugBuild) return;
 
         ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChanged;
         Application.quitting += () => ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChanged;

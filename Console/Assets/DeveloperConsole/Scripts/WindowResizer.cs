@@ -26,6 +26,8 @@ namespace DeveloperConsole {
         private const float maxScaleX = 1f;
         private const float maxScaleY = 1f;
 
+        private bool forceInsideScreenBounds = true;
+
         private void Start() {
             bool isWebGL = false;
 
@@ -35,9 +37,13 @@ namespace DeveloperConsole {
 #endif
 
             var settings = ConsoleManager.GetSettings();
-            if (!settings.allowConsoleResize || isWebGL) {
-                this.enabled = false;
-                return;
+            if (settings != null) {
+                forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
+
+                if (!settings.allowConsoleResize || isWebGL) {
+                    this.enabled = false;
+                    return;
+                }
             }
 
             maxSize = new Vector2(Screen.width - 50, Screen.height - 50);
@@ -99,7 +105,7 @@ namespace DeveloperConsole {
             if (ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 15f)) {
                 rectTransform.localScale = new Vector3(localX, localY, rectTransform.localScale.z);
             }
-            else {
+            else if (forceInsideScreenBounds) {
                 localX = previousX;
                 localY = previosY;
             }

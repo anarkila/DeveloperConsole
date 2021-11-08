@@ -64,7 +64,7 @@ namespace DeveloperConsole {
             return distances[lengthA, lengthB];
         }
 
-        public static bool IsRectTransformInsideSreen(RectTransform rectTransform, float screenEdgeOffset = 0) {
+        public static bool IsRectTransformInsideSreen(RectTransform rectTransform, float screenEdgeOffset = 0, int cornerCount = 4) {
             bool isInside = false;
             Vector3[] corners = new Vector3[4];
             rectTransform.GetWorldCorners(corners);
@@ -75,7 +75,7 @@ namespace DeveloperConsole {
                     visibleCorners++;
                 }
             }
-            if (visibleCorners == 4) {
+            if (visibleCorners == cornerCount) {
                 isInside = true;
             }
             return isInside;

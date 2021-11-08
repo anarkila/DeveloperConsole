@@ -19,7 +19,6 @@ namespace DeveloperConsole {
         [Range(2, 100)]
         public float scrollSensitivity = 30;
 
-
         [Header("Console Settings")]
 
         public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
@@ -40,6 +39,9 @@ namespace DeveloperConsole {
 
         [Tooltip("Allow Console Resizing")]
         public bool allowConsoleResize = true;
+
+        [Tooltip("Whether force console to be inside screen bounds, both resize and drag")]
+        public bool ForceConsoleInsideScreenBounds = false;
 
         [Tooltip("Show Cursor when Console is opened")]
         public bool showCursorOnEnable = true;

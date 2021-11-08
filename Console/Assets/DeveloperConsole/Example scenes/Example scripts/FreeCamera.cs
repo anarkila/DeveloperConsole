@@ -20,8 +20,8 @@ namespace DeveloperConsole {
             Console.RegisterConsoleStateChangeEvent += ConsoleEvent;    // Register console state change event
         }
 
-        private void OnDestroy() {                                          // UnRegister console state change event
-            Console.RegisterConsoleStateChangeEvent -= ConsoleEvent;     // Be sure to unregister from events either on OnDestroy() or OnDisable() 
+        private void OnDestroy() {                                      // UnRegister console state change event
+            Console.RegisterConsoleStateChangeEvent -= ConsoleEvent;    // Be sure to unregister from events either on OnDestroy() or OnDisable() 
         }                   
 
         /// <summary>
@@ -30,10 +30,8 @@ namespace DeveloperConsole {
         /// and enable/disable this script based on console state
         /// </summary>
         private void ConsoleEvent(bool consoleIsEnabled) {
-            this.enabled = !consoleIsEnabled;
-            if (this.enabled) {
-                CursorState(false);
-            }
+           enabled = !consoleIsEnabled;
+            CursorState(!enabled);
         }
 
         private void OnEnable() {
