@@ -37,8 +37,11 @@ namespace DeveloperConsole {
         [Tooltip("Show closests matching commands")]
         public bool showInputPredictions = true;
 
-        [Tooltip("Allow Console Resizing")]
+        [Tooltip("Allow Console Resizing (Large GUI only)")]
         public bool allowConsoleResize = true;
+
+        [Tooltip("Allow Console Dragging (Large GUI only)")]
+        public bool allowConsoleWindowDrag= true;
 
         [Tooltip("Whether force console to be inside screen bounds, both resize and drag")]
         public bool ForceConsoleInsideScreenBounds = false;

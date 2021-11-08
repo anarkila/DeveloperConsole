@@ -9,6 +9,7 @@ namespace DeveloperConsole {
     public class ConsoleWindowDragger : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
         private bool forceInsideScreenBounds = true;
+        private bool allowWindowDragging = true;
         private RectTransform rectTransform;
         private Vector3 positionOnBeginDrag;
         private Vector3 defaultPosition;
@@ -39,6 +40,7 @@ namespace DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
                 forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
+                allowWindowDragging = settings.allowConsoleWindowDrag;
             }
 
             defaultPosition = rectTransform.position;
@@ -50,10 +52,14 @@ namespace DeveloperConsole {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
+            if (!allowWindowDragging) return;
+
             positionOnBeginDrag = rectTransform.position;
         }
 
         public void OnDrag(PointerEventData eventData) {
+            if (!allowWindowDragging) return;
+
             Vector3 oldPos = rectTransform.position;
             rectTransform.anchoredPosition += eventData.delta;
 
@@ -63,6 +69,8 @@ namespace DeveloperConsole {
         }
 
         public void OnEndDrag(PointerEventData eventData) {
+            if (!allowWindowDragging) return;
+
             if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
                 rectTransform.position = positionOnBeginDrag;
             }

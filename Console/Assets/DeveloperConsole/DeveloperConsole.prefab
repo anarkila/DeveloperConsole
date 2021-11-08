@@ -1436,6 +1436,7 @@ MonoBehaviour:
     registerStaticCommandAttributesOnly: 0
     showInputPredictions: 1
     allowConsoleResize: 1
+    allowConsoleWindowDrag: 1
     ForceConsoleInsideScreenBounds: 0
     showCursorOnEnable: 1
     hideCursorOnDisable: 1
