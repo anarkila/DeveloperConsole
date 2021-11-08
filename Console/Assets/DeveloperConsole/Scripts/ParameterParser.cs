@@ -8,6 +8,8 @@ namespace DeveloperConsole {
 
     public static class ParameterParser {
 
+        private static List<float> floats = new List<float>();
+
         /// <summary>
         ///  Check if parameter type is supported
         /// </summary>
@@ -68,7 +70,8 @@ namespace DeveloperConsole {
             }
 
             float f;
-            List<float> floats = new List<float>();
+            floats.Clear(); // Creating new list would generate garbage.
+
             for (int i = 0; i < paramArr.Length; i++) {
                 if (float.TryParse(paramArr[i], out f)) {
                     floats.Add(f);
