@@ -249,6 +249,9 @@ namespace DeveloperConsole {
             consoleCommands.Clear();
         }
 
+        /// <summary>
+        /// Get all [ConsoleCommand()] attributes from C# assembly.
+        /// </summary>
         public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly) {
             IEnumerable<MethodInfo> methods = null;
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -300,15 +303,13 @@ namespace DeveloperConsole {
 
                 if (string.IsNullOrEmpty(commandName)) {
 #if UNITY_EDITOR
-                    // this warning means you have method with [ConsoleCommand(null)] or [ConsoleCommand("")] somewhere
-                    // below message should print the script and method where this is located.
-                    // This message won't show up in Console window because this Debug.Log is called from another thread.
+                    // this warning means you have method with [ConsoleCommand(null)] or [ConsoleCommand("")] somewhere.
+                    // Below message should print the script and method where this is located.
+                    // This message won't show up in Console window because this Debug.Log is called from another thread (expect in WebGL)
                     Debug.Log(string.Format("{0}.{1} [ConsoleCommand] name is empty or null! Please assign different command name.", className, methodName));
 #endif
                     continue;
                 }
-
-                var newData = new ConsoleCommandData();
 
                 // Get ConsoleCommand method parameters
                 ParameterInfo[] parameters = method.GetParameters();
@@ -364,6 +365,8 @@ namespace DeveloperConsole {
                 }
 
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
+
+                var newData = new ConsoleCommandData();
                 newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
                 commandList.Add(newData);
             }
@@ -378,6 +381,10 @@ namespace DeveloperConsole {
         }
 
 
+        /// <summary>
+        /// Register MonoBehaviour commands
+        /// </summary>
+        /// <param name="commands"></param>
         public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
 
             // Find all different script names
@@ -392,19 +399,17 @@ namespace DeveloperConsole {
             // Loop through all different script names
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
             // loop though those scripts and all commands to find MonoBehaviour references.
-            // these loops look scary but this reasonable fast.
+            // these loops look scary but this is reasonable fast.
+            // if 'PrintDebugInfo' is set to true the time this takes to execute is printed to Console.
             for (int i = 0; i < scriptnames.Count; i++) {
-
                 Type type = Type.GetType(scriptnames[i]);
                 MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
 
                 for (int j = 0; j < objects.Length; j++) {
-
                     string scriptName = objects[j].GetType().ToString();
                     MonoBehaviour monoScript = objects[j];
 
                     for (int k = 0; k < commands.Count; k++) {
-
                         if (commands[k].isStaticMethod) continue;
 
                         MonoBehaviour script = null;
@@ -412,11 +417,8 @@ namespace DeveloperConsole {
                             script = monoScript;
                         }
 
-                        //var script = objects[j].GetComponent(commands[k].scriptNameString) as MonoBehaviour;
-
-                        if (script != null /*&& script.gameObject.scene.name != null*/) {
+                        if (script != null) {
                             var data = new ConsoleCommandData();
-
                             data.SetValues(script, commands[k].methodname, commands[k].commandName, commands[k].defaultValue, commands[k].parameterType, false, commands[k].methodInfo, commands[k].isCoroutine, commands[k].hiddenCommand);
                             consoleCommands.Add(data);
                         }
