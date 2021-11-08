@@ -6,6 +6,8 @@ namespace DeveloperConsole {
     class ConsoleUtils {
 
         public static string DeleteWhiteSpacesFromString(string input) {
+            if (input == null) return input;
+
             int j = 0, inputlen = input.Length;
             char[] newarr = new char[inputlen];
 
@@ -21,6 +23,8 @@ namespace DeveloperConsole {
         }
 
         public static string DeleteCharF(string input) {
+            if (input == null) return input;
+
             return input.Replace(ConsoleConstants.F, ConsoleConstants.EMPTY);
         }
 

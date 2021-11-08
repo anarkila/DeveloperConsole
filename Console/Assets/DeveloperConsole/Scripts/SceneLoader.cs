@@ -57,7 +57,7 @@ namespace DeveloperConsole {
             int sceneCount = SceneManager.sceneCount;
             if (index > sceneCount) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Scene at index [{0}] doesn't exist!", index));
+                Debug.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
 #endif
                 return;
             }

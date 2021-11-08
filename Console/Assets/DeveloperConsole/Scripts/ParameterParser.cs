@@ -57,6 +57,7 @@ namespace DeveloperConsole {
         }
 
         private static object ParseUnityTypes(string input, Type unityTypes) {
+            if (input == null) return input;
 
             // Delete all f's from strings
             input = ConsoleUtils.DeleteCharF(input);
@@ -133,6 +134,8 @@ namespace DeveloperConsole {
         }
 
         private static object ParseStringArray(string input) {
+            if (input == null) return input;
+
             string[] words = input.Split(ConsoleConstants.SEPARATORS);
 
             // Remove all whitespaces from start and end of the string
