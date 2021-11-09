@@ -175,14 +175,7 @@ namespace DeveloperConsole {
         /// Print message to Developer Console
         /// </summary>
         public static void PrintLog(string text, Action<string> subscribers) {
-            if (!Application.isPlaying) return;
-
-            if (!IsUnityThread(Thread.CurrentThread)) return;
-
-            if (!consoleInitialized) {
-                messagesBeforeInitDone.Add(text);
-                return;
-            }
+            if (!Application.isPlaying || !IsUnityThread(Thread.CurrentThread)) return;
 
             if (settings.printMessageTimestamps) {
                 sb.Clear();
@@ -191,6 +184,11 @@ namespace DeveloperConsole {
                 sb.Append(ConsoleConstants.CLOSEDBRACKET);
                 sb.Append(text);
                 text = sb.ToString();
+            }
+
+            if (!consoleInitialized) {
+                messagesBeforeInitDone.Add(text);
+                return;
             }
 
             subscribers.Invoke(text);
@@ -336,6 +334,14 @@ namespace DeveloperConsole {
             }
             consoleInitialized = true;
 
+            // Print all messages that were called before console wasn't fully initialized.
+            // For example if Debug.Log/Console.Log was called in Awake..
+            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
+                //Console.Log(messagesBeforeInitDone[i]);
+            }
+            messagesBeforeInitDone.Clear();
+
             var partOne = Math.Round(ms, 1);
             var partTwo = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
 
@@ -372,13 +378,6 @@ namespace DeveloperConsole {
             if (settings.printStartupHelpText) {
                 Debug.Log("Type 'help' and press Enter to print all available commands.");
             }
-
-            // Print all messages that were called before console wasn't fully initialized.
-            // For example if Debug.Log/Console.Log was called in Awake..
-            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                Console.Log(messagesBeforeInitDone[i]);
-            }
-            messagesBeforeInitDone.Clear();
 
             ConsoleEvents.RefreshConsole();
         }
