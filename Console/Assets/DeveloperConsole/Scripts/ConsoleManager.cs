@@ -8,6 +8,7 @@ using System;
 
 namespace DeveloperConsole {
 
+#pragma warning disable 1998
     public static class ConsoleManager {
 
         private static List<string> messagesBeforeInitDone = new List<string>();

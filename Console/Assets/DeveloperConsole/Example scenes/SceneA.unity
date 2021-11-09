@@ -625,7 +625,12 @@ PrefabInstance:
     - target: {fileID: 2026857663672648592, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: playButtonTime
-      value: 637720788000661749
+      value: 637720811339523093
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986511308605431580, guid: b5fbf8417053cf343a54a8bfb1069a55,
+        type: 3}
+      propertyPath: settings.includeConsoleInFinalBuild
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}
