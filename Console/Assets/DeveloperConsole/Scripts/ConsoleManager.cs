@@ -376,7 +376,7 @@ namespace DeveloperConsole {
             }
 
             if (settings.printStartupHelpText) {
-                Debug.Log("Type 'help' and press Enter to print all available commands.");
+                Console.Log("Type 'help' and press Enter to print all available commands.");
             }
 
             ConsoleEvents.RefreshConsole();
