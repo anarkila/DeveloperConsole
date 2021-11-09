@@ -44,9 +44,9 @@ public class ExampleScript : MonoBehaviour {
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log directly into Developer Console window
-- Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Developer Console window
+- Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Console window
 - Input predictions
-- Settings to tweak (some can be modified runtime through Console.cs script)
+- [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.png) to tweak
 - Documentation, Example scenes and scripts
 - Editor debug information:
     - Print rendering info
@@ -83,7 +83,7 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 ## TODO
 - Explore ways to have multiple parameters
 - Explore ways to register commands faster
-- Improve GUI's
+- Improve both GUI's
+- Improve GUI resizing
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
-- Improve Large GUI resizing
