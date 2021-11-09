@@ -27,23 +27,18 @@ namespace DeveloperConsole {
         private const float maxScaleY = 1f;
 
         private bool forceInsideScreenBounds = true;
+        private bool resetWindowSizeOnEnable = false;
 
         private void Start() {
             bool isWebGL = false;
-
 #if UNITY_WEBGL
             // Resizing currently works very oddly in WebGL so it's disabled.
             isWebGL = true;
 #endif
 
-            var settings = ConsoleManager.GetSettings();
-            if (settings != null) {
-                forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
-
-                if (!settings.allowConsoleResize || isWebGL) {
-                    this.enabled = false;
-                    return;
-                }
+            if (isWebGL) {
+                enabled = false;
+                return;
             }
 
             maxSize = new Vector2(Screen.width - 50, Screen.height - 50);
@@ -62,13 +57,38 @@ namespace DeveloperConsole {
                 Debug.LogError("rectTransform is null! Resizing console window will not work!");
             }
 #endif
+
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null) {
+                forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
+                resetWindowSizeOnEnable = settings.resetWindowPositionOnEnable;
+                var size = settings.consoleWindowDefaultSize;
+
+                if (rectTransform != null) {
+                    rectTransform.localScale = new Vector3(rectTransform.localScale.x * size, rectTransform.localScale.y * size, rectTransform.localScale.z);
+                    defaultSize = rectTransform.localScale;
+                }
+
+                if (!settings.allowConsoleResize) {
+                    enabled = false;
+                    return;
+                }
+            }
         }
 
         private void OnDestroy() {
             ConsoleEvents.RegisterConsoleResetEvent -= ResetConsole;
         }
 
+        private void OnEnable() {
+            if (resetWindowSizeOnEnable) {
+                ResetConsole();
+            }
+        }
+
         private void ResetConsole() {
+            if (rectTransform == null) return;
+
             rectTransform.localScale = defaultSize;
         }
 

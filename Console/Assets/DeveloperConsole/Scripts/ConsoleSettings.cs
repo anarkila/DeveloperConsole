@@ -11,6 +11,10 @@ namespace DeveloperConsole {
         public ConsoleGUIStyle InterfaceStyle = ConsoleGUIStyle.Large;
         [Space(5)]
 
+        [Tooltip("Console window size multiplier on start (Large GUI only)")]
+        [Range(0.50f, 1.2f)]
+        public float consoleWindowDefaultSize = 0.8f;
+
         [Tooltip("Large Developer Console background opacity")]
         [Range(1, 100)]
         public float consoleBackgroundOpacity = 55;
@@ -19,7 +23,13 @@ namespace DeveloperConsole {
         [Range(2, 100)]
         public float scrollSensitivity = 30;
 
-        [Header("Console Settings")]
+        [Tooltip("Whether to reset console window position back to center of the screen when console is opened (Large GUI only)")]
+        public bool resetWindowPositionOnEnable = false;
+
+        [Tooltip("Whether to reset console window size back to default when console is opened (Large GUI only)")]
+        public bool resetWindowSizeOnEnable = false;
+
+        [Header("General Settings")]
 
         public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
 

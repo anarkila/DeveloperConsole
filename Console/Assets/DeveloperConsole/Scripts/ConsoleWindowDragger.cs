@@ -8,6 +8,7 @@ namespace DeveloperConsole {
     /// </summary>
     public class ConsoleWindowDragger : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
 
+        private bool resetWindowPositionOnEnable = false;
         private bool forceInsideScreenBounds = true;
         private bool allowWindowDragging = true;
         private RectTransform rectTransform;
@@ -31,8 +32,8 @@ namespace DeveloperConsole {
 
             // Check that at least two corners are inside screen bounds,
             // if not, reset console.
-            if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 2)) {
-                ConsoleEvents.ResetConsole();
+            if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 2) || resetWindowPositionOnEnable) {
+                ResetWindowPosition();
             }
         }
 
@@ -41,6 +42,7 @@ namespace DeveloperConsole {
             if (settings != null) {
                 forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
                 allowWindowDragging = settings.allowConsoleWindowDrag;
+                resetWindowPositionOnEnable = settings.resetWindowPositionOnEnable;
             }
 
             defaultPosition = rectTransform.position;
