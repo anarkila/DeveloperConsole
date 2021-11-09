@@ -1428,7 +1428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     InterfaceStyle: 1
-    consoleWindowDefaultSize: 0.8
+    consoleWindowDefaultSize: 0.9
     consoleBackgroundOpacity: 55
     scrollSensitivity: 30
     resetWindowPositionOnEnable: 0

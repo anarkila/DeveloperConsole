@@ -6,6 +6,7 @@ using System;
 
 namespace DeveloperConsole {
 
+    #pragma warning disable 0168
     public static class CommandDatabase {
 
         private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();

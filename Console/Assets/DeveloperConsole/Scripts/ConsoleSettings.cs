@@ -13,7 +13,7 @@ namespace DeveloperConsole {
 
         [Tooltip("Console window size multiplier on start (Large GUI only)")]
         [Range(0.50f, 1.2f)]
-        public float consoleWindowDefaultSize = 0.8f;
+        public float consoleWindowDefaultSize = 0.9f;
 
         [Tooltip("Large Developer Console background opacity")]
         [Range(1, 100)]

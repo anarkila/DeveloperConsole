@@ -115,15 +115,6 @@ namespace DeveloperConsole {
             Debug.Log("<color=red>R</color><color=green>G</color><color=blue>B</color>");
         }
 
-
-        // If you have static MonoBehaviour methods,
-        // make sure to handle errors (GameObject not existing for example)
-        // or use Console.RemoveCommand().. when you no longer need the command.
-        //[ConsoleCommand("test.method.static")]
-        //private static void TestStatic() {
-        //    Debug.Log("Called command 'test.method' successfully from Console!");
-        //}
-
         // This command won't show up in predictions because it's set as hidden,
         // but it's still callable.
         [ConsoleCommand("test.hidden", null, null, false, true, true)]
@@ -157,7 +148,7 @@ namespace DeveloperConsole {
             Debug.Log("Manual Coroutine end");
         }
 
-        [ConsoleCommand("test.remove.commads")]
+        [ConsoleCommand("test.removecommads")]
         private void RemoveCommands() {
             Console.RemoveCommand("test.manual", true);
             Console.RemoveCommand("test.manual.int", true);

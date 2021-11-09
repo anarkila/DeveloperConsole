@@ -8,8 +8,7 @@ namespace DeveloperConsole {
     /// <summary>
     /// This script collects rendering information in Unity Editor
     /// if collectRenderInfoEditor setting is set to true.
-    /// To print rendering information to console
-    /// call 'debug.renderinfo'
+    /// To print rendering information to console call 'debug.renderinfo'
     /// </summary>
     public class DebugRenderInfo : MonoBehaviour {
 
@@ -24,17 +23,13 @@ namespace DeveloperConsole {
 
         private void Awake() {
             var settings = ConsoleManager.GetSettings();
-
-            if (settings.collectRenderInfoEditor) {
-                Console.RegisterCommand(this, "PrintRenderInfo", "debug.renderinfo");
-            }
-            else {
+            if (!settings.collectRenderInfoEditor) {
+                Console.RemoveCommand("debug.renderinfo");
                 this.enabled = false;
             }
         }
 
         private void Update() {
-
             var deltaTime = Time.deltaTime;
 
             // calculate low and high FPS
@@ -52,16 +47,15 @@ namespace DeveloperConsole {
             if (HighestVerticesCount < UnityStats.vertices) HighestVerticesCount = UnityStats.vertices;
         }
 
+        [ConsoleCommand("debug.renderinfo")]
         private void PrintRenderInfo() {
-            // this might always show really low fps as this checked right after scene load.
-            //Debug.Log("Low FPS: " + lowestFPS);      
+            //Debug.Log("Low FPS: " + lowestFPS); // this might always show really low fps as this checked right after scene load.
 
             Debug.Log("Avg FPS: " + (int)(1F / avgFPS));
             Debug.Log("High FPS: " + highestFPS);
 
             Debug.Log("Highest batches count: " + HighestBatchesCount);
             Debug.Log("Highest draw call count: " + HighestDrawCallsCount);
-
             Debug.Log("Highest vertices count: " + HighestVerticesCount);
             Debug.Log("Highest triagnles count: " + HighestTrianglessCount);
         }

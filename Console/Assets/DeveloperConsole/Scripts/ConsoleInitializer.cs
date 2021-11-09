@@ -15,7 +15,7 @@ namespace DeveloperConsole {
                 return;
             }
 
-            transform.parent = null;
+            transform.SetParent(null);
             ConsoleManager.InitilizeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
         }
