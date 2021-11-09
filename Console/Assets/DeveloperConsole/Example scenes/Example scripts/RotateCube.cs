@@ -32,6 +32,10 @@ namespace DeveloperConsole {
         }
 
 
+        // Multiple instances of same command is allowed.
+        // In the example scenes, all 3 cubes get disabled/enabled when this is called.
+        // if you were to use this same command elsewhere (different class or method),
+        // Developer Console would log an warning (Editor only)
         [ConsoleCommand("cube.enabled", "false")]
         private void EnableCubeRotation(bool enabled) {
             this.enabled = enabled;

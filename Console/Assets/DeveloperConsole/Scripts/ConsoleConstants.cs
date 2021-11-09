@@ -1,10 +1,13 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 public static class ConsoleConstants {
 
     // Constant strings, don't modify.
-    public const string WARNING = "<color=Yellow>Developer Console Warning: </color>";
+#if UNITY_EDITOR
+    public const string EDITORWARNING = "<color=red>Developer Console Editor Warning: </color>";
+#endif
+
     public const string CONSOLEINIT = "Console Initialized. ";
     public const string COLOR_RED_START = "<color=red>";
     public const string DATETIMEFORMAT = "HH:mm:ss";

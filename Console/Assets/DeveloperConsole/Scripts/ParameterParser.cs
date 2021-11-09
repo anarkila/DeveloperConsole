@@ -22,7 +22,7 @@ namespace DeveloperConsole {
 
             if (parameters.Length > 1) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format(ConsoleConstants.WARNING + "Command '{0}' in class '{1}' with method name {2} takes in two or more parameters.\n " +
+                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' in class '{1}' with method name {2} takes in two or more parameters.\n " +
                     "Multiple parameters are not supported!", commandName, className, methodName));
 #endif
                 return false;
@@ -35,7 +35,7 @@ namespace DeveloperConsole {
             else {
 #if UNITY_EDITOR
                 // See SupportedTypes array for all supported types
-                Debug.Log(string.Format(ConsoleConstants.WARNING + "Parameter typeof {0} is not supported! \n" +
+                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Parameter typeof {0} is not supported! \n" +
                     "Command '{1}' in class '{2}' with method name '{3}' will be ignored!", paramType, commandName, className, methodName));
 #endif
                 return false;

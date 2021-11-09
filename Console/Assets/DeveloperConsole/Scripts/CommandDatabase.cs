@@ -67,7 +67,6 @@ namespace DeveloperConsole {
                             var param = parameter == null ? null : parameter[0];
                             consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
 
-
                             if (!executedCommands.Contains(input)) {
                                 executedCommands.Add(input);
                             }
@@ -93,7 +92,7 @@ namespace DeveloperConsole {
                         success = true;
                     }
                     catch (ArgumentException e) {
-                        // Allow expection to be thrown so it can be printed to console (depending on the setting).
+                        // Allow expection to be thrown so it can be printed to console (depending on the print setting).
                     }
                     finally {
                         ++executedCommandCount;
@@ -119,6 +118,13 @@ namespace DeveloperConsole {
         /// </summary>
         public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "",
             bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
+
+            if (command == null || command.Length == 0 || methodName == null || methodName.Length == 0) {
+#if UNITY_EDITOR
+                Debug.Log("command or methodname is null or empty!");
+# endif
+                return;
+            }
 
             if (script == null) {
 #if UNITY_EDITOR
@@ -147,6 +153,10 @@ namespace DeveloperConsole {
                 paraType = methodParams[0].ParameterType;
             }
 
+            if (CheckForDuplicates(consoleCommands, paraType, command, methodInfo.DeclaringType.ToString(), methodName)) {
+                return;
+            }
+
             var data = new ConsoleCommandData();
             data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
             if (isStatic) staticCommands.Add(data);
@@ -167,6 +177,7 @@ namespace DeveloperConsole {
         /// Remove command
         /// </summary>
         public static void RemoveCommand(string command, bool log = false, bool forceDelete = false) {
+            if (command == null || command.Length == 0) return;
 
             if (!ConsoleManager.IsConsoleInitialized() && !forceDelete) {
                 if (!commandRemovedBeforeInit.ContainsKey(command)) {
@@ -190,7 +201,6 @@ namespace DeveloperConsole {
                     staticCommands.Remove(toBeRemoved[i]);
                 }
             }
-
 
 #if UNITY_EDITOR
             if (log) {
@@ -319,31 +329,6 @@ namespace DeveloperConsole {
                     defaultValue = "";
                 }
 
-                // check for duplicates.
-                bool foundDuplicate = false;
-                if (commandList.Count != 0) {
-                    for (int i = 0; i < commandList.Count; i++) {
-                        if (commandName == commandList[i].commandName) {
-                            if (parameters.Length == 0 && commandList[i].parameterType != null || parameters.Length != 0 && parameters[0].ParameterType != commandList[i].parameterType) {
-                                // If you see this this debug.log in console then you have
-                                // same console command that take in different parameters
-                                // try to avoid using same command in two places
-#if UNITY_EDITOR
-                                Debug.Log(string.Format(ConsoleConstants.WARNING + "Command '{0}' has already been registered with different parameter. " +
-                                    "Command '{0}' in class '{1}' with method name '{2}' will be ignored. \n " +
-                                    "Give this method another ConsoleCommand name!", commandName, className, methodName));
-#endif
-
-                                foundDuplicate = true;
-                            }
-                        }
-                    }
-                }
-
-                if (foundDuplicate) {
-                    continue;
-                }
-
                 bool isCoroutine = false;
                 isCoroutine = methodName.Contains(ConsoleConstants.IENUMERATOR);
 
@@ -354,21 +339,22 @@ namespace DeveloperConsole {
                     continue;
                 }
 
-                if (method.IsStatic) {
-                    var staticParameter = method.GetParameters();
-                    Type param = staticParameter.Length == 0 ? null : staticParameter[0].ParameterType;
+                bool isStatic = method.IsStatic;
+                Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
 
-                    var data = new ConsoleCommandData();
-                    data.SetValues(null, methodName, commandName, defaultValue, param, true, method, false, hiddenCommand, hiddenMinimalGUI);
-                    staticCommands.Add(data);
+                if (CheckForDuplicates(commandList, type, commandName, className.ToString(), methodName)) {
                     continue;
                 }
 
-                Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
-
                 var newData = new ConsoleCommandData();
-                newData.SetValues(null, methodName, commandName, defaultValue, type, false, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
-                commandList.Add(newData);
+                newData.SetValues(null, methodName, commandName, defaultValue, type, isStatic, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
+
+                if (isStatic) {
+                    staticCommands.Add(newData);
+                }
+                else {
+                    commandList.Add(newData);
+                }
             }
 
             if (!staticCommandsCached && staticOnly) {
@@ -378,6 +364,35 @@ namespace DeveloperConsole {
             staticCommandsCached = true;
 
             return commandList;
+        }
+
+        /// <summary>
+        /// Check that list doesn't already contain command that we are trying to register.
+        /// </summary>
+        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
+            if (commandList.Count == 0) return false;
+
+            bool foundDuplicate = false;
+
+            for (int i = 0; i < commandList.Count; i++) {
+                if (commandName == commandList[i].commandName) {
+                    if (className != commandList[i].scriptNameString // || parameters.Length == 0 && commandList[i].parameterType != null
+                        || methodName != commandList[i].methodname
+                        || parameter != commandList[i].parameterType) {
+#if UNITY_EDITOR
+                        // If you see this this debug.log in Unity and/or developer console then you have
+                        // same console command in multiple places
+                        // try to avoid using same command in two places!
+                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
+                              "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
+                              "Give this method another [ConsoleCommand()] command name!", commandName, className, methodName));
+#endif
+                        foundDuplicate = true;
+                    }
+                }
+            }
+
+            return foundDuplicate;
         }
 
 
@@ -433,7 +448,15 @@ namespace DeveloperConsole {
             // If user called Console.RegisterCommand before console was fully initilized
             // Add those commands now.
             if (consoleCommandsRegisteredBeforeInit.Count != 0) {
-                consoleCommands.AddRange(consoleCommandsRegisteredBeforeInit);
+                for (int i = 0; i < consoleCommandsRegisteredBeforeInit.Count; i++) {
+                    var command = consoleCommandsRegisteredBeforeInit[i];
+                    if (CheckForDuplicates(consoleCommands, command.parameterType, command.commandName, command.scriptNameString, command.methodname)) {
+                        consoleCommandsRegisteredBeforeInit.Remove(command);
+                    }
+                    else {
+                        consoleCommands.Add(command);
+                    }
+                }
                 consoleCommandsRegisteredBeforeInit.Clear();
             }
 
