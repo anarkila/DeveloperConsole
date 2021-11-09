@@ -33,7 +33,7 @@ namespace DeveloperConsole {
             var deltaTime = Time.deltaTime;
 
             // calculate low and high FPS
-            var fps = 1.0 / deltaTime;
+            var fps = 1.0f / deltaTime;
             //if (fps < lowestFPS) lowestFPS = (int)fps;
             if (fps > highestFPS) highestFPS = (int)fps;
             
@@ -51,9 +51,17 @@ namespace DeveloperConsole {
         private void PrintRenderInfo() {
             //Debug.Log("Low FPS: " + lowestFPS); // this might always show really low fps as this checked right after scene load.
 
-            Debug.Log("Avg FPS: " + (int)(1F / avgFPS));
-            Debug.Log("High FPS: " + highestFPS);
+            var currentTargetFPS = Application.targetFrameRate;
+            var target = string.Empty;
+            if (currentTargetFPS <= 0) {
+                target = ConsoleConstants.UNLIMITED;
+            } 
+            else {
+                target = currentTargetFPS.ToString();
+            }
 
+            Debug.Log("Application target frame rate is set to: " + target);
+            Debug.Log(string.Format("Highest FPS: {0} --- Avg FPS: {1}", highestFPS, (int)(1f / avgFPS)));
             Debug.Log("Highest batches count: " + HighestBatchesCount);
             Debug.Log("Highest draw call count: " + HighestDrawCallsCount);
             Debug.Log("Highest vertices count: " + HighestVerticesCount);

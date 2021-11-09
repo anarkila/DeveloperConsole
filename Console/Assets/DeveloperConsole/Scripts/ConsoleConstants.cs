@@ -6,6 +6,7 @@ public static class ConsoleConstants {
     // Constant strings, don't modify.
 #if UNITY_EDITOR
     public const string EDITORWARNING = "<color=red>Developer Console Editor Warning: </color>";
+    public const string UNLIMITED = "Unlimited";
 #endif
 
     public const string CONSOLEINIT = "Console Initialized. ";
