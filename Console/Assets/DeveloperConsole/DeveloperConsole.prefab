@@ -1447,14 +1447,13 @@ MonoBehaviour:
     clearMessagesOnSceneChange: 1
     printMessageTimestamps: 1
     printStartupHelpText: 1
-    printConsoleDebugInfo: 1
     printUnrecognizedCommandInfo: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
-    printDebugInfo: 1
+    printConsoleDebugInfo: 1
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
     ClearUnityConsoleOnConsoleClear: 0
