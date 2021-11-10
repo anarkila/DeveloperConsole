@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
+//using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -8,13 +8,14 @@ namespace DeveloperConsole {
 
     public class ConsoleInputfield : MonoBehaviour {
 
+        private WaitForSecondsRealtime cachedDelay = new WaitForSecondsRealtime(0.050f);
         private List<string> commandsWithValues = new List<string>();
-        private WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.050f);
+        private List<string> allConsoleCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
         private List<string> predictions = new List<string>();
-        private List<string> allConsoleCommands = new List<string>();
         private bool allowHintChecking = true;
         private int previousCommandIndex = 0;
+        private bool allowPredictions = true;
         private bool allowEnterClick = true;
         private TMP_InputField inputField;
         private string currentSuggestion;
@@ -31,7 +32,7 @@ namespace DeveloperConsole {
 #if UNITY_EDITOR
             if (inputField == null) {
                 Debug.LogError("InputField is null!");
-                this.enabled = false;
+                enabled = false;
             }
 #endif
         }
@@ -54,6 +55,7 @@ namespace DeveloperConsole {
         private void ConsoleRefreshedCallback() {
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetCommandStrings();
+            allowPredictions = ConsoleManager.ShowConsolePredictions();
         }
 
         private void OnEnable() {
@@ -121,7 +123,7 @@ namespace DeveloperConsole {
         }
 
         private IEnumerator AllowEnterClickDelay() {
-            yield return delay;
+            yield return cachedDelay;
             allowEnterClick = true;
         }
 
@@ -140,19 +142,30 @@ namespace DeveloperConsole {
         }
 
         private IEnumerator DelayEnable() {
-            yield return delay;
+            yield return cachedDelay;
             inputField.interactable = true;
             inputField.Select();
             inputField.ActivateInputField();
             allowHintChecking = true;
         }
 
+        private void ClearSuggestion() {
+            closestMatches.Clear();
+            predictions.Clear();
+            ConsoleEvents.Predictions(closestMatches);
+        }
+
+        private void ResetParameters() {
+            currentSuggestion = string.Empty;
+            suggestionIndex = 0;
+        }
+
         /// <summary>
         /// Try to find predictions from current inputfield text
-        /// This is pretty messy..
+        /// This is messy and needs cleanup
         /// </summary>
         private void FindClosestsPredictions(string text) {
-            if (inputField == null || !allowHintChecking || !ConsoleManager.ShowConsolePredictions()) return;
+            if (inputField == null || !allowHintChecking || !allowPredictions) return;
 
             if (string.IsNullOrEmpty(text)) {
                 closestMatches.Clear();
@@ -160,15 +173,14 @@ namespace DeveloperConsole {
                 return;
             }
 
-            int index = 10000;
-            bool valid = false;
-            bool closeMatch = false;
             int smallestDistance = 10000;
+            bool closeMatch = false;
             closestMatches.Clear();
             predictions.Clear();
+            bool valid = false;
+            int index = 10000;
 
             // loop through all console commands strings and try to find closest matching command
-            // TODO: If this list becomes huge, then this check might be better to move to background thread?
             for (int i = 0; i < commandsWithValues.Count; i++) {
 
                 // check if first letter is the same
@@ -193,25 +205,16 @@ namespace DeveloperConsole {
                     char[] charArr = text.ToCharArray();
                     bool validCharacters = true;
                     for (int j = 0; j < charArr.Length; j++) {
-                        valid = allConsoleCommands[i].Contains(charArr[j]);
-                        if (!valid) {
-                            validCharacters = false;
+                        valid = allConsoleCommands[i].Contains(charArr[j].ToString());
+                        validCharacters = valid;
+                        if (valid && text.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
+                            closestMatches.Add(commandsWithValues[i]);
                         }
-                        else {
-                            if (text.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
-                                closestMatches.Add(commandsWithValues[i]);
-                            }
-                        }
-                    }
-                    if (!validCharacters) {
-                        valid = false;
                     }
                 }
             }
 
             if (closestMatches.Count != 0) {
-
-                // Reverse list
                 closestMatches.Reverse();
 
                 // add first 5 items from list to final list.
@@ -229,17 +232,6 @@ namespace DeveloperConsole {
                 ClearSuggestion();
                 ResetParameters();
             }
-        }
-
-        private void ClearSuggestion() {
-            closestMatches.Clear();
-            predictions.Clear();
-            ConsoleEvents.Predictions(closestMatches);
-        }
-
-        private void ResetParameters() {
-            currentSuggestion = string.Empty;
-            suggestionIndex = 0;
         }
     }
 }
