@@ -56,7 +56,7 @@ namespace DeveloperConsole {
             }
         }
 
-        private static object ParseUnityTypes(string input, Type unityTypes) {
+        private static object ParseUnityTypes(string input, Type type) {
             if (input == null) return input;
 
             // Delete all f's from strings
@@ -79,16 +79,16 @@ namespace DeveloperConsole {
                 }
             }
 
-            if (unityTypes == typeof(UnityEngine.Vector2) && floats.Count == 2) {
+            if (type == typeof(UnityEngine.Vector2) && floats.Count == 2) {
                 return new Vector2(floats[0], floats[1]);
             }
-            else if (unityTypes == typeof(UnityEngine.Vector3) && floats.Count == 3) {
+            else if (type == typeof(UnityEngine.Vector3) && floats.Count == 3) {
                 return new Vector3(floats[0], floats[1], floats[2]);
             }
-            else if (unityTypes == typeof(UnityEngine.Vector4) && floats.Count == 4) {
+            else if (type == typeof(UnityEngine.Vector4) && floats.Count == 4) {
                 return new Vector4(floats[0], floats[1], floats[2], floats[3]);
             }
-            else if (unityTypes == typeof(UnityEngine.Quaternion) && floats.Count == 4) {
+            else if (type == typeof(UnityEngine.Quaternion) && floats.Count == 4) {
                 return new Quaternion(floats[0], floats[1], floats[2], floats[3]);
             }
             else {
