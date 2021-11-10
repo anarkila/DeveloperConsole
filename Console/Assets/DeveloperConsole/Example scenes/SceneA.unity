@@ -625,7 +625,7 @@ PrefabInstance:
     - target: {fileID: 2026857663672648592, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: playButtonTime
-      value: 637720856875373773
+      value: 637721650854749741
       objectReference: {fileID: 0}
     - target: {fileID: 3986511308605431580, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
@@ -1069,7 +1069,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 0}
+  m_BackGroundColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1110,7 +1110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.52, y: 1, z: -5}
+  m_LocalPosition: {x: 2.52, y: 1, z: -6.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
