@@ -11,9 +11,9 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png)
 
 ## Getting Started
-1. Import the DeveloperConsole package into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.0/DeveloperConsole_0.8.0.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
-3. Add [[ConsoleCommand]](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/ConsoleCommand.cs) attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
+3. Add ``[ConsoleCommand]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
 
 ```C#
