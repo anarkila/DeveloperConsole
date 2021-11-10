@@ -63,7 +63,7 @@ namespace DeveloperConsole {
         }
 
         [ConsoleCommand("test.vector4", "1.0, 2.0, 3.0, 4.0")]
-        private void TestVector4(Vector3 v) {
+        private void TestVector4(Vector4 v) {
             Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
         }
 
