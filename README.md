@@ -53,7 +53,7 @@ public class ExampleScript : MonoBehaviour {
     - Print Play button click to playable Scene time
 
 ## Default Commands
-Developer Console comes with few commands by default. If you wish to modify or delete them, modify [DefaultCommands.cs.](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/DefaultCommands.cs)
+Developer Console comes with few commands by default.
 
 * ``help`` - Print list of available commands
 * ``quit`` - Quit the application
