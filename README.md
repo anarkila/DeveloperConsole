@@ -11,9 +11,9 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png)
 
 ## Getting Started
-1. Import the DeveloperConsole package into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.0/DeveloperConsole_0.8.0.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
-3. Add [[ConsoleCommand]](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/ConsoleCommand.cs) attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
+3. Add ``[ConsoleCommand]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
 
 ```C#
@@ -35,19 +35,18 @@ public class ExampleScript : MonoBehaviour {
 
 ## Features
 
-- Call static, instance methods and Unity Coroutines (both public and private)
+- Call static, non-static and Unity Coroutines methods (both public and private)
 - Single parameter support with following types:
     - int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
 - Support for both Unity backends: Mono and IL2CPP
 - WebGL support
-- Simple [static API](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/ConsoleAPI.cs) to interact Console programmatically.
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log directly into Developer Console window
 - Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Console window
 - Input predictions
-- [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.png) to tweak
-- Documentation, Example scenes and scripts
+- [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
+- Documentation and example scenes
 - Editor debug information:
     - Print rendering info
     - Print Play button click to playable Scene time
