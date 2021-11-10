@@ -38,6 +38,7 @@ public class ExampleScript : MonoBehaviour {
 - Call static, non-static and Unity Coroutines methods (both public and private)
 - Single parameter support with following types:
     - int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
+- Easy drag & drop setup
 - Support for both Unity backends: Mono and IL2CPP
 - WebGL support
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
@@ -75,6 +76,7 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
 ## Notes
+- Tested on Unity 2019 LTS, 2020 LTS and 2021.2 versions.
 - Uses old Unity input system
 - Uses Gameobject based UI
 - Uses TextMeshPro
@@ -84,6 +86,7 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Explore ways to register commands faster
 - Improve both GUI's
 - Improve GUI resizing
+- Reduce garbage collection
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
 - Support for no Domain/Scene reload
