@@ -69,9 +69,9 @@ namespace DeveloperConsole {
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
                 var failedCommandCount = CommandDatabase.GetFailedCommandCount();
 
-                if (messageCount != 0) Debug.Log(string.Format("Debug.Log/LogError was called {0} times.", messageCount));
+                if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
                 if (executedCommandCount != 0) Debug.Log(string.Format("Console Commands was called {0} times.", executedCommandCount));
-                if (failedCommandCount != 0) Debug.Log(string.Format("Failed / not recognized commands was called {0} times.", failedCommandCount));
+                if (failedCommandCount != 0) Debug.Log(string.Format("Failed or not recognized commands was called {0} times.", failedCommandCount));
             }
 #endif
         }
@@ -256,7 +256,8 @@ namespace DeveloperConsole {
                 || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
                 || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
 
-            if (type != LogType.Log) {
+
+            if (type == LogType.Error || type == LogType.Exception) {
                 switch (settings.unityPrintOptions) {
 
                     case PrintOptions.PrintDebugLogsWithoutExpections:
@@ -348,29 +349,27 @@ namespace DeveloperConsole {
             string staticOnly = string.Empty;
 
 #if UNITY_EDITOR
-            if (settings.printDebugInfo && settings.registerStaticCommandAttributesOnly) {
+            if (settings.printConsoleDebugInfo && settings.registerStaticCommandAttributesOnly) {
                 staticOnly = "(static commands only) ";
             }
 #endif
             if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
 
                 string message = ConsoleConstants.CONSOLEINIT;
-
-                //Debug.Log(ConsoleConstants.CONSOLEINIT);
 #if UNITY_WEBGL
                 var total = partOne + partTwo;
                 //Debug.Log(string.Format("Console Initialization work {0} took: {1} ms", staticOnly, total));
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
 #else
-                //Debug.Log(string.Format("Console Initialization work (Threaded) {0}took: {1} ms", staticOnly, partOne));
                 message += string.Format("Threaded work took: {1} ms {0}", staticOnly, partOne);
 
                 if (!registerStaticOnly) {
-                    //Debug.Log(string.Format("Console Initialization work (Non-threaded) took: {0} ms", partTwo));
                     message += string.Format("and non-threaded work took: {0} ms.", partTwo);
                 }
 
+                // Uncomment below line if you wish to log this into Developer Console instead
+                //Console.Log(message);
                 Debug.Log(message);
 #endif
             }

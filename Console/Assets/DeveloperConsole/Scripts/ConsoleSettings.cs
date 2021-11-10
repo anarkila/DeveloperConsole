@@ -74,9 +74,6 @@ namespace DeveloperConsole {
         [Tooltip("Should help info be printed on startup")]
         public bool printStartupHelpText = true;
 
-        [Tooltip("Print console debug info like startup time etc.")]
-        public bool printConsoleDebugInfo = true;
-
         [Tooltip("Whether to print unrecognized command info to console. 'Command [command name] was not recognized'")]
         public bool printUnrecognizedCommandInfo = true;
 
@@ -88,8 +85,9 @@ namespace DeveloperConsole {
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
         [Header("Debug Settings")]
-        [Tooltip("Print debug info (Editor and Development build)")]
-        public bool printDebugInfo = true;
+
+        [Tooltip("Print Developer Console debug info like startup time etc.")]
+        public bool printConsoleDebugInfo = true;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;
@@ -97,7 +95,7 @@ namespace DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
-        [Tooltip("Whether to clear Unity Console too when 'clear' command called (Editor only)'")]
+        [Tooltip("Whether to clear Unity Console too when  command 'clear' called (Editor only)'")]
         public bool ClearUnityConsoleOnConsoleClear = false;
     }
 
