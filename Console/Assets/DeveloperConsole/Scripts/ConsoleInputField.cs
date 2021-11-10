@@ -13,7 +13,8 @@ namespace DeveloperConsole {
         private List<string> allConsoleCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
         private List<string> predictions = new List<string>();
-        private bool allowHintChecking = true;
+        private string previousText;
+        private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
         private bool allowPredictions = true;
         private bool allowEnterClick = true;
@@ -94,8 +95,9 @@ namespace DeveloperConsole {
             }
             if (closestMatches == null || closestMatches.Count == 0) return;
 
-            allowHintChecking = false;
+            allowPredictionCheck = false;
             inputField.text = closestMatches[suggestionIndex];
+            previousText = inputField.text;
             inputField.caretPosition = inputField.text.Length;
 
             ++suggestionIndex;
@@ -146,7 +148,7 @@ namespace DeveloperConsole {
             inputField.interactable = true;
             inputField.Select();
             inputField.ActivateInputField();
-            allowHintChecking = true;
+            allowPredictionCheck = true;
         }
 
         private void ClearSuggestion() {
@@ -165,13 +167,27 @@ namespace DeveloperConsole {
         /// This is messy and needs cleanup
         /// </summary>
         private void FindClosestsPredictions(string text) {
-            if (inputField == null || !allowHintChecking || !allowPredictions) return;
+            if (inputField == null || !allowPredictions) return;
 
             if (string.IsNullOrEmpty(text)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
                 return;
             }
+
+            if (!allowPredictionCheck) {
+                // if allowPredictionCheck is false (command filled with Tab)
+                // check if user deleted one char (backspace)
+                // and allow prediction checking again
+                int len = previousText.Length - text.Length;
+                if (len != 1) {
+                    return;
+                }
+                allowPredictionCheck = true;
+            }
+
+
+            previousText = text;
 
             int smallestDistance = 10000;
             bool closeMatch = false;
