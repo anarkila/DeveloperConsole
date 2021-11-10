@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-//using System.Linq;
 using UnityEngine;
 using TMPro;
 
 namespace DeveloperConsole {
 
-    public class ConsoleInputfield : MonoBehaviour {
+    public class ConsoleInputField : MonoBehaviour {
 
         private WaitForSecondsRealtime cachedDelay = new WaitForSecondsRealtime(0.050f);
         private List<string> commandsWithValues = new List<string>();
