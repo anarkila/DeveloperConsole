@@ -42,7 +42,7 @@ namespace DeveloperConsole {
 
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetCommandStrings();
-            inputField.onValueChanged.AddListener(FindClosestsPredictions);
+            inputField.onValueChanged.AddListener(PredictInput);
         }
 
         private void OnDestroy() {
@@ -72,16 +72,16 @@ namespace DeveloperConsole {
         }
 
         private void SearchPreviousCommand() {
-            var previouslyExecutedCommands = CommandDatabase.GetPreviouslyExecutedCommands();
+            var prevExecutedCommands = CommandDatabase.GetPreviouslyExecutedCommands();
 
-            if (inputField == null || previouslyExecutedCommands.Count == 0) return;
+            if (inputField == null || prevExecutedCommands.Count == 0) return;
 
             ++previousCommandIndex;
-            if (previousCommandIndex > previouslyExecutedCommands.Count || previousCommandIndex == previouslyExecutedCommands.Count) {
+            if (previousCommandIndex > prevExecutedCommands.Count || previousCommandIndex == prevExecutedCommands.Count) {
                 previousCommandIndex = 0;
             }
             inputField.text = string.Empty;
-            inputField.text = previouslyExecutedCommands[previousCommandIndex];
+            inputField.text = prevExecutedCommands[previousCommandIndex];
             inputField.caretPosition = inputField.text.Length;
         }
 
@@ -161,11 +161,12 @@ namespace DeveloperConsole {
             suggestionIndex = 0;
         }
 
+
         /// <summary>
         /// Try to find predictions from current inputfield text
         /// This is messy and needs cleanup
         /// </summary>
-        private void FindClosestsPredictions(string text) {
+        private void PredictInput(string text) {
             if (inputField == null || !allowPredictions) return;
 
             if (string.IsNullOrEmpty(text)) {

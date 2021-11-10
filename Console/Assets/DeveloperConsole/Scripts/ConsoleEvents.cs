@@ -28,8 +28,8 @@ namespace DeveloperConsole {
         public static void Log(string text) => ConsoleManager.PrintLog(text, RegisterDeveloperConsoleLogEvent);
         public static void DirectLog(string text) => RegisterDeveloperConsoleLogEvent.Invoke(text);
 
-        public static event Action<List<string>> RegisterConsoleSuggestions;
-        public static void Predictions(List<string> list) => RegisterConsoleSuggestions?.Invoke(list);
+        public static event Action<List<string>> RegisterConsolePredictionEvent;
+        public static void Predictions(List<string> list) => RegisterConsolePredictionEvent?.Invoke(list);
 
         public static event Action RegisterConsoleResetEvent;
         public static void ResetConsole() => RegisterConsoleResetEvent?.Invoke();
