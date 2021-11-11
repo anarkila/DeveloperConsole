@@ -5,7 +5,7 @@ using TMPro;
 
 namespace DeveloperConsole {
 
-    public class ConsolePredictionsHandler : MonoBehaviour {
+    public class PredictionPanel : MonoBehaviour {
 
         [SerializeField] private TMP_Text[] suggestions;            // must be setup in inspector!
         [SerializeField] private Image[] images;                    // must be setup in inspector!
@@ -15,28 +15,27 @@ namespace DeveloperConsole {
 
 #if UNITY_EDITOR
             if (suggestions.Length == 0 || images.Length == 0 || images.Length != suggestions.Length) {
-                Debug.Log("Suggestions are not setup correctly!");
+                Debug.Log("Prediction panel is not setup correctly!");
             }
 #endif
-
-            ShowSuggestionPanel(false);
-            ConsoleEvents.RegisterConsoleSuggestions += SuggestionsEvent;
+            ShowPredictionPanel(false);
+            ConsoleEvents.RegisterConsolePredictionEvent += PredictionEvent;
         }
 
         private void OnDestroy() {
-            ConsoleEvents.RegisterConsoleSuggestions -= SuggestionsEvent;
+            ConsoleEvents.RegisterConsolePredictionEvent -= PredictionEvent;
         }
 
-        private void SuggestionsEvent(List<string> newSuggestions) {
+        private void PredictionEvent(List<string> newSuggestions) {
             if (newSuggestions == null || newSuggestions.Count == 0) {
-                ShowSuggestionPanel(false);
-                ShowSuggestionPanelBackGroundImage(0);
-                HideAllSuggestionPanelImages();
+                ShowPredictionPanel(false);
+                ShowPredictionPanelImage(0);
+                HideAllPanelImages();
                 return;
             }
 
-            ShowSuggestionPanelBackGroundImage(newSuggestions.Count);
-            ShowSuggestionPanel(true);
+            ShowPredictionPanelImage(newSuggestions.Count);
+            ShowPredictionPanel(true);
             var count = newSuggestions.Count;
             for (int i = 0; i < suggestions.Length; i++) {
                 if (suggestions[i] == null) continue;
@@ -50,12 +49,12 @@ namespace DeveloperConsole {
             }
         }
 
-        private void ShowSuggestionPanel(bool show) {
+        private void ShowPredictionPanel(bool show) {
             gameObject.SetActive(show);
         }
 
-        private void ShowSuggestionPanelBackGroundImage(int suggestionCount) {
-            if (images[imageIndex] != null) images[imageIndex].enabled = false;     // disable previous image
+        private void ShowPredictionPanelImage(int suggestionCount) {
+            if (images[imageIndex] != null) images[imageIndex].enabled = false;
 
             int count = suggestionCount - 1;
             if (count >= 0 && count < suggestions.Length) {
@@ -64,7 +63,7 @@ namespace DeveloperConsole {
             }
         }
 
-        private void HideAllSuggestionPanelImages() {
+        private void HideAllPanelImages() {
             for (int i = 0; i < images.Length; i++) {
                 if (images[i] == null) continue;
 
