@@ -42,63 +42,62 @@ namespace DeveloperConsole {
 
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
-                if (input == consoleCommands[i].commandName) {
-                    foundCommand = true;
+                if (input != consoleCommands[i].commandName) continue;
 
-                    // If command does not take parameter..
-                    if (consoleCommands[i].parameterType == null && parameterAsString != null) {
+                // If command does not take parameter..
+                if (consoleCommands[i].parameterType == null && parameterAsString != null) {
+                    // if parameter is not null or just white spaces continue..
+                    if (!string.IsNullOrWhiteSpace(parameterAsString)) {
+                        continue;
+                    }
+                }
 
-                        // if parameter is not null or just white spaces continue..
-                        if (!string.IsNullOrWhiteSpace(parameterAsString)) {
-                            continue;
-                        }
+                foundCommand = true;
+
+                object[] parameter = null;
+                if (consoleCommands[i].parameterType != null) {
+                    parameter = new object[1];
+
+                    parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
+
+                    // if parsed parameter is null, continue loop
+                    if (parameter[0] == null) continue;
+                }
+
+                try {
+
+                    if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
+                        // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
+                        consoleCommands.Remove(consoleCommands[i]);
+                        UpdateLists();
+                        ConsoleEvents.RefreshConsole();
+                        continue;
                     }
 
-                    object[] parameter = null;
-                    if (consoleCommands[i].parameterType != null) {
-                        parameter = new object[1];
+                    if (consoleCommands[i].isCoroutine) {
+                        var param = parameter == null ? null : parameter[0];
+                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
 
-                        parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
-
-                        // if parsed parameter is null, continue loop
-                        if (parameter[0] == null) continue;
-                    }
-
-                    try {
-                        if (consoleCommands[i].isCoroutine) {
-                            var param = parameter == null ? null : parameter[0];
-                            consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
-
-                            if (!executedCommands.Contains(input)) {
-                                executedCommands.Add(input);
-                            }
-                            success = true;
-                            continue;
-                        }
-
-                        if (consoleCommands[i].methodInfo == null) continue;
-
-                        if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
-                            // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
-                            // so let's remove that command and refresh lists.
-                            consoleCommands.Remove(consoleCommands[i]);
-                            UpdateLists();
-                            ConsoleEvents.RefreshConsole();
-                            continue;
-                        }
-
-                        consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
                         }
                         success = true;
+                        continue;
                     }
-                    catch (ArgumentException e) {
-                        // Allow expection to be thrown so it can be printed to console (depending on the print setting).
+
+                    if (consoleCommands[i].methodInfo == null) continue;
+
+                    consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
+                    if (!executedCommands.Contains(input)) {
+                        executedCommands.Add(input);
                     }
-                    finally {
-                        ++executedCommandCount;
-                    }
+                    success = true;
+                }
+                catch (ArgumentException e) {
+                    // Allow expection to be thrown so it can be printed to console (depending on the print setting).
+                }
+                finally {
+                    ++executedCommandCount;
                 }
             }
 
@@ -294,8 +293,6 @@ namespace DeveloperConsole {
 
             var commandList = new List<ConsoleCommandData>();
 
-            string bracket = "(";
-
             foreach (var method in methods) {
                 if (method.IsStatic && staticCommandsCached) continue;
 
@@ -335,7 +332,7 @@ namespace DeveloperConsole {
                 isCoroutine = methodName.Contains(ConsoleConstants.IENUMERATOR);
 
                 methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
-                methodName = methodName.Substring(0, methodName.IndexOf(bracket));
+                methodName = methodName.Substring(0, methodName.IndexOf(ConsoleConstants.OPENPARENTHESIS));
 
                 if (!ParameterParser.IsSupportedType(method, methodName, commandName, className)) {
                     continue;

@@ -14,6 +14,7 @@ public static class ConsoleConstants {
     public const string DATETIMEFORMAT = "HH:mm:ss";
     public const string IENUMERATOR = "IEnumerator";
     public const string COLOR_END = "</color>";
+    public const string OPENPARENTHESIS = "(";
     public const string CLOSEDBRACKET = "] ";
     public const string OPENBRACKET = "[";
     public const char CHARCOMMA = ',';
