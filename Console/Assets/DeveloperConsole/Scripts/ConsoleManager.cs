@@ -264,25 +264,21 @@ namespace DeveloperConsole {
                         return;
 
                     case PrintOptions.PrintDebugLogExpectionsWithStackTrace:
-                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
                         text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
                         break;
 
                     case PrintOptions.PrintDebugLogsWithExpections:
-                        //text = string.Format("<color=red>{0} </color>", text);
                         text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
                         break;
 
                     case PrintOptions.PrintDebugLogsExpectionsWithStackTraceEditorOnly:
 #if UNITY_EDITOR
-                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
                         text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
 #endif
                         break;
 
                     case PrintOptions.PrintDebugLogsWithExpectionsEditorOnly:
 #if UNITY_EDITOR
-                        //text = string.Format("<color=red>{0} </color>", text);
                         text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
 #endif
                         break;

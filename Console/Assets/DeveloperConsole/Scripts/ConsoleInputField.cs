@@ -11,8 +11,7 @@ namespace DeveloperConsole {
         private List<string> commandsWithValues = new List<string>();
         private List<string> allConsoleCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
-        private List<string> predictions = new List<string>();
-        private string previousText;
+        private List<string> predictions = new List<string>(); 
         private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
         private bool allowPredictions = true;
@@ -20,6 +19,7 @@ namespace DeveloperConsole {
         private TMP_InputField inputField;
         private string currentSuggestion;
         private int suggestionIndex = 0;
+        private string previousText;
 
         private void Awake() {
             inputField = GetComponent<TMP_InputField>();
@@ -88,10 +88,10 @@ namespace DeveloperConsole {
         private void FillCommandFromSuggestion() {
             if (inputField == null || currentSuggestion == null) return;
 
-
             if (suggestionIndex > closestMatches.Count || suggestionIndex == closestMatches.Count) {
                 suggestionIndex = 0;
             }
+
             if (closestMatches == null || closestMatches.Count == 0) return;
 
             allowPredictionCheck = false;
