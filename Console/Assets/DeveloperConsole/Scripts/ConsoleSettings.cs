@@ -77,6 +77,9 @@ namespace DeveloperConsole {
         [Tooltip("Whether to print unrecognized command info to console. 'Command [command name] was not recognized'")]
         public bool printUnrecognizedCommandInfo = true;
 
+        [Tooltip("Whether to print available commands in alphabetical order.'")]
+        public bool printCommandsAlphabeticalOrder = true;
+
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
         public KeyCode consoleSubmitKey = KeyCode.Return;           // Key to submit command

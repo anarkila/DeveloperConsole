@@ -242,7 +242,14 @@ namespace DeveloperConsole {
         }
 
         public static void PrintAllCommands() {
+
             var consoleCommands = GetCommandStrings();
+
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null && settings.printCommandsAlphabeticalOrder) {
+                consoleCommands.Sort();
+            }
+
             Console.Log("All available commands:");
             for (int i = 0; i < consoleCommands.Count; i++) {
                 Console.Log(consoleCommands[i]);
