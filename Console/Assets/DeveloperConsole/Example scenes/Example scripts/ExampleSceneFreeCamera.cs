@@ -6,7 +6,7 @@ namespace DeveloperConsole {
     /// Simple free camera script for moving transform with mouse and keyboard input
     /// This script is enabled/disabled when Developer Console state changes
     /// </summary>
-    public class FreeCamera : MonoBehaviour {
+    public class ExampleSceneFreeCamera : MonoBehaviour {
 
         [SerializeField] private float lookSpeed = 3f;
         [SerializeField] private float moveSpeed = 4f;

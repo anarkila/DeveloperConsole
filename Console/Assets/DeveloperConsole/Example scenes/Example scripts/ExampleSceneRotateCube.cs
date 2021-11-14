@@ -2,7 +2,7 @@
 
 namespace DeveloperConsole {
 
-    public class RotateCube : MonoBehaviour {
+    public class ExampleSceneRotateCube : MonoBehaviour {
 
         private float degreesPerSecond = 29.0f;
         private float amplitude = 0.5f;
