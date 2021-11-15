@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class PredictionPanel : MonoBehaviour {
 

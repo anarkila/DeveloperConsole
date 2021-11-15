@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class handles enabling/disabling Developer Console

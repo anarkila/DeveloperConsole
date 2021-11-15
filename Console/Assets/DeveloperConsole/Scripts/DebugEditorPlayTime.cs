@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class measures Editor play button click to playable scene time

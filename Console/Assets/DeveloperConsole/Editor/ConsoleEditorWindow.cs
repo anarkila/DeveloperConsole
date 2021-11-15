@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class ConsoleEditorWindow : EditorWindow {
 

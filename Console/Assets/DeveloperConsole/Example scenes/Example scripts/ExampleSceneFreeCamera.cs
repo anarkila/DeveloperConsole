@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// Simple free camera script for moving transform with mouse and keyboard input

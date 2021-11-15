@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     [DefaultExecutionOrder(-10000)]
     public class ConsoleInitializer : MonoBehaviour {

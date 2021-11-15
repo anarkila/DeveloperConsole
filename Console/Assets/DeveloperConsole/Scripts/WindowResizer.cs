@@ -1,7 +1,7 @@
 ﻿using UnityEngine.EventSystems;
 using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class handles resizing Developer Console Window on mouse drag

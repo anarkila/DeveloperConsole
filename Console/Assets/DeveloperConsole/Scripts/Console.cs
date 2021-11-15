@@ -1,4 +1,4 @@
-﻿using DeveloperConsole; // Developer Console namespace
+﻿using Anarkila.DeveloperConsole; // Developer Console namespace
 using UnityEngine;
 using System;
 

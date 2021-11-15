@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
 #pragma warning disable 0168
 #pragma warning disable 0219

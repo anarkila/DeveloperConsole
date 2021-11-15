@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class ConsoleInputField : MonoBehaviour {
 

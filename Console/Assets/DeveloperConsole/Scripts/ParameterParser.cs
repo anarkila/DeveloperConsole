@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public static class ParameterParser {
 

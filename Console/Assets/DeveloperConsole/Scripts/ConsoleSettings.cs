@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     [Serializable]
     public class ConsoleSettings {

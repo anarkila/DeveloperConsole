@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class ConsoleMessage : MonoBehaviour {
 

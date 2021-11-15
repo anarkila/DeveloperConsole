@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
 #pragma warning disable 1998
     public static class ConsoleManager {

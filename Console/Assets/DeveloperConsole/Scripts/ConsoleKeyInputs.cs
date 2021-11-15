@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script handles listening key inputs:

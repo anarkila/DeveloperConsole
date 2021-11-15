@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     [CustomEditor(typeof(ConsoleInitializer))]
     public class ConsoleInitializerButtonEditor : Editor {

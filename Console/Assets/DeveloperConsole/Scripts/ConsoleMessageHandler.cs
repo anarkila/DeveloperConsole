@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script handles Developer Console messages
@@ -33,10 +33,10 @@ namespace DeveloperConsole {
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>();
         private List<GameObject> currentMessages = new List<GameObject>();
         private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
+        private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
         private int maxMessageCount = 150;
         private Transform cachedTransform;
-        private ConsoleGUIStyle currentGUIStyle;
         private bool setupDone = false;
         private int messageCount = 0;
         private bool allGhostsHidden;
