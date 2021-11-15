@@ -20,6 +20,12 @@ namespace Anarkila.DeveloperConsole {
                 EditorUtility.SetDirty(myTarget.gameObject);
                 Debug.Log("Settings reset to default.");
             }
+
+
+            GUILayout.Space(10);
+            if (GUILayout.Button("Generate Command List", GUILayout.Height(30))) {
+                CreateTextFileUtility.GenerateCommandList();
+            }
         }
     }
 }
