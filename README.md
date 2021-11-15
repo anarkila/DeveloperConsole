@@ -85,8 +85,6 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Explore ways to have multiple parameters
 - Explore ways to register commands faster
 - Improve both GUI's
-- Improve GUI resizing
-- Reduce garbage collection
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
 - Support for no Domain/Scene reload
