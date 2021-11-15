@@ -27,6 +27,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleRefreshEvent += ConsoleRefreshedCallback;
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
+            ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
 
 #if UNITY_EDITOR
@@ -49,7 +50,15 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleRefreshEvent -= ConsoleRefreshedCallback;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
+            ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
+        }
+
+        private void SetInputfieldText(string input) {
+            inputField.text = input;
+            previousText = inputField.text;
+            inputField.caretPosition = inputField.text.Length;
+            FocusInputField();
         }
 
         private void ConsoleRefreshedCallback() {
