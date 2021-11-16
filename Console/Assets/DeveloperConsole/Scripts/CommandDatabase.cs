@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
 #pragma warning disable 0168
 #pragma warning disable 0219
@@ -15,9 +15,8 @@ namespace DeveloperConsole {
         private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
         private static List<string> commandStringsWithDefaultValues = new List<string>();
-        private static List<string> consoleCommandStrings = new List<string>();
+        private static List<string> consoleCommandList = new List<string>();
         private static List<string> executedCommands = new List<string>();
-
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
         private static int failedCommandCount;
@@ -26,15 +25,13 @@ namespace DeveloperConsole {
         /// Try to execute command from string.
         /// </summary>
         public static bool TryExecuteCommand(string input) {
-
             string parameterAsString = null;
             bool foundCommand = false;
             bool success = false;
-            char empty = ' ';
 
-            if (input.Contains(empty)) {
-                int index = input.IndexOf(empty);
-                index = input.IndexOf(empty, index);
+            if (input.Contains(ConsoleConstants.EMPTYCHAR)) {
+                int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
+                index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
                 parameterAsString = input.Substring(index, input.Length - index);
                 input = input.Substring(0, index);
             }
@@ -42,63 +39,62 @@ namespace DeveloperConsole {
 
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
-                if (input == consoleCommands[i].commandName) {
-                    foundCommand = true;
+                if (input != consoleCommands[i].commandName) continue;
 
-                    // If command does not take parameter..
-                    if (consoleCommands[i].parameterType == null && parameterAsString != null) {
+                // If command does not take parameter..
+                if (consoleCommands[i].parameterType == null && parameterAsString != null) {
+                    // if parameter is not null or just white spaces continue..
+                    if (!string.IsNullOrWhiteSpace(parameterAsString)) {
+                        continue;
+                    }
+                }
 
-                        // if parameter is not null or just white spaces continue..
-                        if (!string.IsNullOrWhiteSpace(parameterAsString)) {
-                            continue;
-                        }
+                foundCommand = true;
+
+                object[] parameter = null;
+                if (consoleCommands[i].parameterType != null) {
+                    parameter = new object[1];
+
+                    parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
+
+                    // if parsed parameter is null, continue loop
+                    if (parameter[0] == null) continue;
+                }
+
+                try {
+
+                    if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
+                        // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
+                        consoleCommands.Remove(consoleCommands[i]);
+                        UpdateLists();
+                        ConsoleEvents.RefreshConsole();
+                        continue;
                     }
 
-                    object[] parameter = null;
-                    if (consoleCommands[i].parameterType != null) {
-                        parameter = new object[1];
+                    if (consoleCommands[i].isCoroutine) {
+                        var param = parameter == null ? null : parameter[0];
+                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
 
-                        parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
-
-                        // if parsed parameter is null, continue loop
-                        if (parameter[0] == null) continue;
-                    }
-
-                    try {
-                        if (consoleCommands[i].isCoroutine) {
-                            var param = parameter == null ? null : parameter[0];
-                            consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodname, param);
-
-                            if (!executedCommands.Contains(input)) {
-                                executedCommands.Add(input);
-                            }
-                            success = true;
-                            continue;
-                        }
-
-                        if (consoleCommands[i].methodInfo == null) continue;
-
-                        if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
-                            // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
-                            // so let's remove that command and refresh lists.
-                            consoleCommands.Remove(consoleCommands[i]);
-                            UpdateLists();
-                            ConsoleEvents.RefreshConsole();
-                            continue;
-                        }
-
-                        consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
                         }
                         success = true;
+                        continue;
                     }
-                    catch (ArgumentException e) {
-                        // Allow expection to be thrown so it can be printed to console (depending on the print setting).
+
+                    if (consoleCommands[i].methodInfo == null) continue;
+
+                    consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
+                    if (!executedCommands.Contains(input)) {
+                        executedCommands.Add(input);
                     }
-                    finally {
-                        ++executedCommandCount;
-                    }
+                    success = true;
+                }
+                catch (ArgumentException e) {
+                    // Allow expection to be thrown so it can be printed to console (depending on the print setting).
+                }
+                finally {
+                    ++executedCommandCount;
                 }
             }
 
@@ -161,7 +157,6 @@ namespace DeveloperConsole {
 
             var data = new ConsoleCommandData();
             data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
-            if (isStatic) staticCommands.Add(data);
 
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
@@ -169,7 +164,7 @@ namespace DeveloperConsole {
                 ConsoleEvents.RefreshConsole();
             }
             else {
-                // new command registered before console was itialized
+                // new command registered before console was initialized
                 consoleCommandsRegisteredBeforeInit.Add(data);
             }
         }
@@ -218,49 +213,6 @@ namespace DeveloperConsole {
             ConsoleEvents.RefreshConsole();
         }
 
-        public static int GetExcecutedCommandCount() {
-            return executedCommandCount;
-        }
-
-        public static int GetFailedCommandCount() {
-            return failedCommandCount;
-        }
-
-        public static List<ConsoleCommandData> GetConsoleCommands() {
-            return consoleCommands;
-        }
-
-        public static List<string> GeCommandStringsWithDefaultValues() {
-            return commandStringsWithDefaultValues;
-        }
-
-        public static List<string> GetCommandStrings() {
-            return consoleCommandStrings;
-        }
-
-        public static bool StaticCommandsRegistered() {
-            return staticCommandsCached;
-        }
-
-        public static void PrintAllCommands() {
-            var consoleCommands = GetCommandStrings();
-            Console.Log("All available commands:");
-            for (int i = 0; i < consoleCommands.Count; i++) {
-                Console.Log(consoleCommands[i]);
-            }
-        }
-
-        /// <summary>
-        /// Get previously successfully executed commands
-        /// </summary>
-        public static List<string> GetPreviouslyExecutedCommands() {
-            return executedCommands;
-        }
-
-        public static void ClearLists() {
-            consoleCommands.Clear();
-        }
-
         /// <summary>
         /// Get all [ConsoleCommand()] attributes from C# assembly.
         /// </summary>
@@ -293,8 +245,6 @@ namespace DeveloperConsole {
 #endif
 
             var commandList = new List<ConsoleCommandData>();
-
-            string bracket = "(";
 
             foreach (var method in methods) {
                 if (method.IsStatic && staticCommandsCached) continue;
@@ -335,7 +285,7 @@ namespace DeveloperConsole {
                 isCoroutine = methodName.Contains(ConsoleConstants.IENUMERATOR);
 
                 methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
-                methodName = methodName.Substring(0, methodName.IndexOf(bracket));
+                methodName = methodName.Substring(0, methodName.IndexOf(ConsoleConstants.OPENPARENTHESIS));
 
                 if (!ParameterParser.IsSupportedType(method, methodName, commandName, className)) {
                     continue;
@@ -368,35 +318,6 @@ namespace DeveloperConsole {
             return commandList;
         }
 
-        /// <summary>
-        /// Check that list doesn't already contain command that we are trying to register.
-        /// </summary>
-        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
-            if (commandList.Count == 0) return false;
-
-            bool foundDuplicate = false;
-
-            for (int i = 0; i < commandList.Count; i++) {
-                if (commandName == commandList[i].commandName) {
-                    if (className != commandList[i].scriptNameString // || parameters.Length == 0 && commandList[i].parameterType != null
-                        || methodName != commandList[i].methodname
-                        || parameter != commandList[i].parameterType) {
-#if UNITY_EDITOR
-                        // If you see this this debug.log in Unity and/or developer console then you have
-                        // same console command in multiple places
-                        // try to avoid using same command in two places!
-                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
-                              "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
-                              "Give this method another [ConsoleCommand()] command name!", commandName, className, methodName));
-#endif
-                        foundDuplicate = true;
-                    }
-                }
-            }
-
-            return foundDuplicate;
-        }
-
 
         /// <summary>
         /// Register MonoBehaviour commands
@@ -411,7 +332,6 @@ namespace DeveloperConsole {
                     scriptnames.Add(commands[i].scriptNameString);
                 }
             }
-
 
             // Loop through all different script names
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
@@ -477,13 +397,12 @@ namespace DeveloperConsole {
         /// Generate needed console lists
         /// </summary>
         public static void UpdateLists() {
-
-            consoleCommandStrings.Clear();
+            consoleCommandList.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
 
-                if (!consoleCommandStrings.Contains(consoleCommands[i].commandName)) {
-                    consoleCommandStrings.Add(consoleCommands[i].commandName);
+                if (!consoleCommandList.Contains(consoleCommands[i].commandName)) {
+                    consoleCommandList.Add(consoleCommands[i].commandName);
                 }
             }
 
@@ -498,9 +417,9 @@ namespace DeveloperConsole {
                 // Ensure first character in a string is space
                 var defaultValue = consoleCommands[i].defaultValue;
                 char first = defaultValue.FirstOrDefault();
-                char empty = ' ';
-                if (first != empty) {
-                    defaultValue = empty + defaultValue;
+                char space = ' ';
+                if (first != space) {
+                    defaultValue = space + defaultValue;
                 }
 
                 var full = consoleCommands[i].commandName + defaultValue;
@@ -509,6 +428,84 @@ namespace DeveloperConsole {
                     commandStringsWithDefaultValues.Add(full);
                 }
             }
+        }
+
+        public static int GetExcecutedCommandCount() {
+            return executedCommandCount;
+        }
+
+        public static int GetFailedCommandCount() {
+            return failedCommandCount;
+        }
+
+        public static List<ConsoleCommandData> GetConsoleCommands() {
+            return consoleCommands;
+        }
+
+        public static List<string> GeCommandStringsWithDefaultValues() {
+            return commandStringsWithDefaultValues;
+        }
+
+        public static List<string> GetConsoleCommandList() {
+            return consoleCommandList;
+        }
+
+        public static bool StaticCommandsRegistered() {
+            return staticCommandsCached;
+        }
+
+        public static void PrintAllCommands() {
+            var commands = GetConsoleCommandList();
+
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null && settings.printCommandsAlphabeticalOrder) {
+                commands = commands.OrderBy(x => x).ToList();
+            }
+
+            Console.Log(ConsoleConstants.COMMANDMESSAGE);
+            for (int i = 0; i < commands.Count; i++) {
+                Console.Log(commands[i]);
+            }
+        }
+
+        /// <summary>
+        /// Get previously successfully executed commands
+        /// </summary>
+        public static List<string> GetPreviouslyExecutedCommands() {
+            return executedCommands;
+        }
+
+        public static void ClearConsoleCommands() {
+            consoleCommands.Clear();
+        }
+
+        /// <summary>
+        /// Check that list doesn't already contain command that we are trying to register.
+        /// </summary>
+        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
+            if (commandList.Count == 0) return false;
+
+            bool foundDuplicate = false;
+
+            for (int i = 0; i < commandList.Count; i++) {
+                if (commandName == commandList[i].commandName) {
+                    if (className != commandList[i].scriptNameString // || parameters.Length == 0 && commandList[i].parameterType != null
+                        || methodName != commandList[i].methodname
+                        || parameter != commandList[i].parameterType) {
+#if UNITY_EDITOR
+                        // If you see this this debug.log in Unity and/or developer console then you have
+                        // same console command in multiple places
+                        // try to avoid using same command in two places!
+                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
+                              "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
+                              "Give this method another [ConsoleCommand()] command name!", commandName, className, methodName));
+#endif
+                        foundDuplicate = true;
+                    }
+                }
+            }
+
+            return foundDuplicate;
         }
     }
 }

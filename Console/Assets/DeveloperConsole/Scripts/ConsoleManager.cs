@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
 #pragma warning disable 1998
     public static class ConsoleManager {
@@ -264,25 +264,21 @@ namespace DeveloperConsole {
                         return;
 
                     case PrintOptions.PrintDebugLogExpectionsWithStackTrace:
-                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
                         text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
                         break;
 
                     case PrintOptions.PrintDebugLogsWithExpections:
-                        //text = string.Format("<color=red>{0} </color>", text);
                         text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
                         break;
 
                     case PrintOptions.PrintDebugLogsExpectionsWithStackTraceEditorOnly:
 #if UNITY_EDITOR
-                        //text = string.Format("<color=red>{0} {1} </color>", text, stackTrace);
                         text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
 #endif
                         break;
 
                     case PrintOptions.PrintDebugLogsWithExpectionsEditorOnly:
 #if UNITY_EDITOR
-                        //text = string.Format("<color=red>{0} </color>", text);
                         text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
 #endif
                         break;
@@ -294,7 +290,7 @@ namespace DeveloperConsole {
         }
 
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
-            CommandDatabase.ClearLists();
+            CommandDatabase.ClearConsoleCommands();
 
             if (initDone) ++sceneChangeCount; // don't raise counter on start
 
@@ -338,6 +334,8 @@ namespace DeveloperConsole {
             // Print all messages that were called before console wasn't fully initialized.
             // For example if Debug.Log/Console.Log was called in Awake..
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                if (!Application.isPlaying) continue;
+
                 ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
                 //Console.Log(messagesBeforeInitDone[i]);
             }

@@ -9,13 +9,16 @@ public static class ConsoleConstants {
     public const string UNLIMITED = "Unlimited";
 #endif
 
+    public const string COMMANDMESSAGE = "All available commands:";
     public const string CONSOLEINIT = "Console Initialized. ";
     public const string COLOR_RED_START = "<color=red>";
     public const string DATETIMEFORMAT = "HH:mm:ss";
     public const string IENUMERATOR = "IEnumerator";
     public const string COLOR_END = "</color>";
+    public const string OPENPARENTHESIS = "(";
     public const string CLOSEDBRACKET = "] ";
     public const string OPENBRACKET = "[";
+    public const char EMPTYCHAR = ' ';
     public const char CHARCOMMA = ',';
     public const string SPACE = " ";
     public const string COMMA = ",";
@@ -23,7 +26,7 @@ public static class ConsoleConstants {
     public const string T = "\t";
     public const string F = "f";
 
-  
+
     // Char array of all allowed supported array separators
     public static char[] SEPARATORS = { ',', '.', ':', ';' };
 
@@ -31,11 +34,11 @@ public static class ConsoleConstants {
     // If you want to add types to this list,
     // you need to modify ParameterParser.ParseBuiltInTypes() function.
     public static Type[] SupportedTypes = {
-            typeof(int),      typeof(float),   
-            typeof(decimal),  typeof(double),  
-            typeof(bool),     typeof(string),  
-            typeof(string[]), typeof(char), 
-            typeof(Vector2),  typeof(Vector3), 
+            typeof(int),      typeof(float),
+            typeof(decimal),  typeof(double),
+            typeof(bool),     typeof(string),
+            typeof(string[]), typeof(char),
+            typeof(Vector2),  typeof(Vector3),
             typeof(Vector4),  typeof(Quaternion)
     };
 

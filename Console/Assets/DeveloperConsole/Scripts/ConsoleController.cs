@@ -1,28 +1,15 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class handles enabling/disabling Developer Console
     /// </summary>
     public class ConsoleController : MonoBehaviour {
 
-        private static ConsoleController Instance;
-
         private ConsoleSettings settings;
         private GameObject minimalConsole;
         private GameObject largeConsole;
-
-        private void Awake() {
-            // Allow only one DeveloperConsole Instance
-            if (Instance != null && Instance != this) {
-                Destroy(this.gameObject);
-            }
-            else {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-        }
 
         private void Start() {
             settings = ConsoleManager.GetSettings();
@@ -43,7 +30,6 @@ namespace DeveloperConsole {
 
         private void OnDestroy() {
             ConsoleEvents.RegisterConsoleStateChangeEvent -= SetDeveloperConsoleState;
-            Instance = null;
         }
 
         private void SetDeveloperConsoleState(bool enable) {

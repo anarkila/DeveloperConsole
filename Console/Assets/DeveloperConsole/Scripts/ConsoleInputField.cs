@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class ConsoleInputField : MonoBehaviour {
 
@@ -11,8 +11,7 @@ namespace DeveloperConsole {
         private List<string> commandsWithValues = new List<string>();
         private List<string> allConsoleCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
-        private List<string> predictions = new List<string>();
-        private string previousText;
+        private List<string> predictions = new List<string>(); 
         private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
         private bool allowPredictions = true;
@@ -20,13 +19,15 @@ namespace DeveloperConsole {
         private TMP_InputField inputField;
         private string currentSuggestion;
         private int suggestionIndex = 0;
+        private string previousText;
 
         private void Awake() {
             inputField = GetComponent<TMP_InputField>();
 
-            ConsoleEvents.RegisterConsoleRefreshEvent += ConsoleRefreshedCallback;
+            ConsoleEvents.RegisterConsoleRefreshEvent += GetConsoleInfo;
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
+            ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
 
 #if UNITY_EDITOR
@@ -40,21 +41,31 @@ namespace DeveloperConsole {
         private void Start() {
             if (inputField == null) return;
 
-            commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
-            allConsoleCommands = CommandDatabase.GetCommandStrings();
+            GetConsoleInfo();
             inputField.onValueChanged.AddListener(PredictInput);
         }
 
         private void OnDestroy() {
-            ConsoleEvents.RegisterConsoleRefreshEvent -= ConsoleRefreshedCallback;
+            ConsoleEvents.RegisterConsoleRefreshEvent -= GetConsoleInfo;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
+            ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
         }
 
-        private void ConsoleRefreshedCallback() {
+        private void SetInputfieldText(string input) {
+            inputField.text = input;
+            previousText = inputField.text;
+            inputField.caretPosition = inputField.text.Length;
+
+            if (gameObject.activeInHierarchy) {
+                FocusInputField();
+            }
+        }
+
+        private void GetConsoleInfo() {
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
-            allConsoleCommands = CommandDatabase.GetCommandStrings();
+            allConsoleCommands = CommandDatabase.GetConsoleCommandList();
             allowPredictions = ConsoleManager.ShowConsolePredictions();
         }
 
@@ -64,6 +75,7 @@ namespace DeveloperConsole {
         }
 
         private void OnDisable() {
+            StopAllCoroutines();
             ClearInputField();
             ResetParameters();
             ClearSuggestion();
@@ -88,10 +100,10 @@ namespace DeveloperConsole {
         private void FillCommandFromSuggestion() {
             if (inputField == null || currentSuggestion == null) return;
 
-
             if (suggestionIndex > closestMatches.Count || suggestionIndex == closestMatches.Count) {
                 suggestionIndex = 0;
             }
+
             if (closestMatches == null || closestMatches.Count == 0) return;
 
             allowPredictionCheck = false;
@@ -119,7 +131,9 @@ namespace DeveloperConsole {
             FocusInputField();
             ClearSuggestion();
 
-            StartCoroutine(AllowEnterClickDelay());
+            if (gameObject.activeInHierarchy) {
+                StartCoroutine(AllowEnterClickDelay());
+            }
             CommandDatabase.TryExecuteCommand(text);
         }
 

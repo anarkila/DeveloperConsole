@@ -3,7 +3,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script collects rendering information in Unity Editor

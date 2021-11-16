@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public static class ConsoleEvents {
 
@@ -60,6 +60,9 @@ namespace DeveloperConsole {
 
         public static event Action<float> RegisterDestroyEvent;
         public static void DestroyConsole(float time) => RegisterDestroyEvent?.Invoke(time);
+
+        public static event Action<string> RegisterInputfieldTextEvent;
+        public static void SetInputfieldText(string text) => RegisterInputfieldTextEvent?.Invoke(text);
 
     }
 }

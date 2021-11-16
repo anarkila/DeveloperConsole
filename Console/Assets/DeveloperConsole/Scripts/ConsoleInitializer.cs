@@ -1,13 +1,24 @@
 ﻿using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     [DefaultExecutionOrder(-10000)]
     public class ConsoleInitializer : MonoBehaviour {
 
         public ConsoleSettings settings;
 
+        private static ConsoleInitializer Instance;
+
         private void Awake() {
+            // Allow only one instance of Developer Console.
+            if (Instance == null) {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else {
+                Destroy(gameObject);
+                return;
+            }
 
             if (!settings.includeConsoleInFinalBuild && !Debug.isDebugBuild) {
                 this.gameObject.SetActive(false);

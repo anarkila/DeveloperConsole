@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     class ConsoleUtils {
 

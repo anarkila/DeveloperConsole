@@ -50,6 +50,7 @@ public class ExampleScript : MonoBehaviour {
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
 - Documentation and example scenes
+- Generate command list into text file
 - Editor debug information:
     - Print rendering info
     - Print Play button click to playable Scene time
@@ -87,8 +88,7 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Explore ways to have multiple parameters
 - Explore ways to register commands faster
 - Improve both GUI's
-- Improve GUI resizing
-- Reduce garbage collection
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
 - Support for no Domain/Scene reload
+- Input prediction improvements

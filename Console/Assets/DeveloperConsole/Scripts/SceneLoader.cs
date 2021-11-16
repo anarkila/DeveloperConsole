@@ -1,26 +1,15 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 
-namespace DeveloperConsole {
+namespace Anarkila.DeveloperConsole {
 
     public class SceneLoader : MonoBehaviour {
-
-        private static SceneLoader Instance;
 
         private AsyncOperation asyncOperation;
         private string loadedSceneName;
         private bool loading = false;
 
         private void Awake() {
-            // Allow only one instance of this class
-            if (Instance != null && Instance != this) {
-                Destroy(this.gameObject);
-            }
-            else {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-
             enabled = false; // disable this script on start
 
             ConsoleEvents.RegisterSceneLoadByIndex += LoadSceneByIndexAsync;
@@ -30,7 +19,6 @@ namespace DeveloperConsole {
         private void OnDestroy() {
             ConsoleEvents.RegisterSceneLoadByIndex -= LoadSceneByIndexAsync;
             ConsoleEvents.RegisterSceneLoadByName -= LoadSceneByNameAsync;
-            Instance = null;
         }
 
         private void Update() {
