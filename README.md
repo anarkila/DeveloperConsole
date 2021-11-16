@@ -2,6 +2,8 @@
 
 Developer Console for Unity with easy integration to existing projects.
 
+[WebGL demo](https://anarkila.github.io/DeveloperConsole/Demo)
+
 ### Use cases 
 - Development cheats
 - Debug assistance
