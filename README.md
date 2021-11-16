@@ -77,7 +77,7 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
 ## Notes
-- Tested on Unity 2019 LTS, 2020 LTS and 2021.2 versions.
+- Tested on Unity 2019 LTS, 2020 LTS and 2021.2 versions (Requires Unity 2019 or later)
 - Uses old Unity input system
 - Uses Gameobject based UI
 - Uses TextMeshPro
