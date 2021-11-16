@@ -70,7 +70,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Toggle console style between Large and Minimal
         /// </summary>
-        [ConsoleCommand("console.style", debugOnlyCommand:true)]
+        [ConsoleCommand("console.style")]
         private static void ChangeConsoleGUI() {
             ConsoleEvents.SwitchGUIStyle();
         }
@@ -79,7 +79,7 @@ namespace Anarkila.DeveloperConsole {
         /// Load scene by Index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.loadbyindex", "1")]
         private static void LoadSceneByIndex(int index) {
             ConsoleEvents.LoadSceneByIndex(index);
         }
