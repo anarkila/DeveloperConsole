@@ -57,7 +57,10 @@ namespace Anarkila.DeveloperConsole {
             inputField.text = input;
             previousText = inputField.text;
             inputField.caretPosition = inputField.text.Length;
-            FocusInputField();
+
+            if (gameObject.activeInHierarchy) {
+                FocusInputField();
+            }
         }
 
         private void GetConsoleInfo() {
@@ -72,6 +75,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void OnDisable() {
+            StopAllCoroutines();
             ClearInputField();
             ResetParameters();
             ClearSuggestion();
@@ -127,7 +131,9 @@ namespace Anarkila.DeveloperConsole {
             FocusInputField();
             ClearSuggestion();
 
-            StartCoroutine(AllowEnterClickDelay());
+            if (gameObject.activeInHierarchy) {
+                StartCoroutine(AllowEnterClickDelay());
+            }
             CommandDatabase.TryExecuteCommand(text);
         }
 
