@@ -15,13 +15,16 @@ namespace Anarkila.DeveloperConsole {
         [Range(0.50f, 1.2f)]
         public float consoleWindowDefaultSize = 0.9f;
 
+        [Tooltip("Large Developer Console scroll sensitivity")]
+        [Range(2, 100)]
+        public float scrollSensitivity = 30;
+
         [Tooltip("Large Developer Console background opacity")]
         [Range(1, 100)]
         public float consoleBackgroundOpacity = 55;
 
-        [Tooltip("Large Developer Console scroll sensitivity")]
-        [Range(2, 100)]
-        public float scrollSensitivity = 30;
+        [Tooltip("Highlight color for mouse hover and click")]
+        public Color highlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
 
         [Tooltip("Whether to reset console window position back to center of the screen when console is opened (Large GUI only)")]
         public bool resetWindowPositionOnEnable = false;

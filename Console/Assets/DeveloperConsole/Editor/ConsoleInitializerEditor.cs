@@ -38,13 +38,13 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
 
-                if (0 <= i && i <= 5) {
+                if (0 <= i && i <= 6) {
                     AppendToList(guiSettings, name);
                 }
-                else if (6 <= i && i <= 21) {
+                else if (7 <= i && i <= 22) {
                     AppendToList(generalSettings, name);
                 }
-                else if (22 <= i && i <= 26) {
+                else if (23 <= i && i <= 27) {
                     AppendToList(keybindings, name);
                 }
                 else {
