@@ -157,7 +157,6 @@ namespace Anarkila.DeveloperConsole {
 
             var data = new ConsoleCommandData();
             data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
-            if (isStatic) staticCommands.Add(data);
 
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
