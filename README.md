@@ -48,6 +48,7 @@ public class ExampleScript : MonoBehaviour {
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
 - Documentation and example scenes
+- Generate command list into text file
 - Editor debug information:
     - Print rendering info
     - Print Play button click to playable Scene time
