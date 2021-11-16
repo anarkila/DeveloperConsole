@@ -24,7 +24,7 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             inputField = GetComponent<TMP_InputField>();
 
-            ConsoleEvents.RegisterConsoleRefreshEvent += ConsoleRefreshedCallback;
+            ConsoleEvents.RegisterConsoleRefreshEvent += GetConsoleInfo;
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
@@ -41,13 +41,12 @@ namespace Anarkila.DeveloperConsole {
         private void Start() {
             if (inputField == null) return;
 
-            commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
-            allConsoleCommands = CommandDatabase.GetCommandStrings();
+            GetConsoleInfo();
             inputField.onValueChanged.AddListener(PredictInput);
         }
 
         private void OnDestroy() {
-            ConsoleEvents.RegisterConsoleRefreshEvent -= ConsoleRefreshedCallback;
+            ConsoleEvents.RegisterConsoleRefreshEvent -= GetConsoleInfo;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
@@ -61,9 +60,9 @@ namespace Anarkila.DeveloperConsole {
             FocusInputField();
         }
 
-        private void ConsoleRefreshedCallback() {
+        private void GetConsoleInfo() {
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
-            allConsoleCommands = CommandDatabase.GetCommandStrings();
+            allConsoleCommands = CommandDatabase.GetConsoleCommandList();
             allowPredictions = ConsoleManager.ShowConsolePredictions();
         }
 

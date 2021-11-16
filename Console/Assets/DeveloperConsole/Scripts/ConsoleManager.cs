@@ -290,7 +290,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
-            CommandDatabase.ClearLists();
+            CommandDatabase.ClearConsoleCommands();
 
             if (initDone) ++sceneChangeCount; // don't raise counter on start
 
@@ -334,6 +334,8 @@ namespace Anarkila.DeveloperConsole {
             // Print all messages that were called before console wasn't fully initialized.
             // For example if Debug.Log/Console.Log was called in Awake..
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                if (!Application.isPlaying) continue;
+
                 ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
                 //Console.Log(messagesBeforeInitDone[i]);
             }

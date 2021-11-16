@@ -15,7 +15,7 @@ namespace Anarkila.DeveloperConsole {
         private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
         private static List<string> commandStringsWithDefaultValues = new List<string>();
-        private static List<string> consoleCommandStrings = new List<string>();
+        private static List<string> consoleCommandList = new List<string>();
         private static List<string> executedCommands = new List<string>();
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
@@ -397,13 +397,12 @@ namespace Anarkila.DeveloperConsole {
         /// Generate needed console lists
         /// </summary>
         public static void UpdateLists() {
-
-            consoleCommandStrings.Clear();
+            consoleCommandList.Clear();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
 
-                if (!consoleCommandStrings.Contains(consoleCommands[i].commandName)) {
-                    consoleCommandStrings.Add(consoleCommands[i].commandName);
+                if (!consoleCommandList.Contains(consoleCommands[i].commandName)) {
+                    consoleCommandList.Add(consoleCommands[i].commandName);
                 }
             }
 
@@ -418,9 +417,9 @@ namespace Anarkila.DeveloperConsole {
                 // Ensure first character in a string is space
                 var defaultValue = consoleCommands[i].defaultValue;
                 char first = defaultValue.FirstOrDefault();
-                char empty = ' ';
-                if (first != empty) {
-                    defaultValue = empty + defaultValue;
+                char space = ' ';
+                if (first != space) {
+                    defaultValue = space + defaultValue;
                 }
 
                 var full = consoleCommands[i].commandName + defaultValue;
@@ -447,8 +446,8 @@ namespace Anarkila.DeveloperConsole {
             return commandStringsWithDefaultValues;
         }
 
-        public static List<string> GetCommandStrings() {
-            return consoleCommandStrings;
+        public static List<string> GetConsoleCommandList() {
+            return consoleCommandList;
         }
 
         public static bool StaticCommandsRegistered() {
@@ -456,17 +455,16 @@ namespace Anarkila.DeveloperConsole {
         }
 
         public static void PrintAllCommands() {
-
-            var consoleCommands = GetCommandStrings();
+            var commands = GetConsoleCommandList();
 
             var settings = ConsoleManager.GetSettings();
             if (settings != null && settings.printCommandsAlphabeticalOrder) {
-                consoleCommands.Sort();
+                commands = commands.OrderBy(x => x).ToList();
             }
 
             Console.Log(ConsoleConstants.COMMANDMESSAGE);
-            for (int i = 0; i < consoleCommands.Count; i++) {
-                Console.Log(consoleCommands[i]);
+            for (int i = 0; i < commands.Count; i++) {
+                Console.Log(commands[i]);
             }
         }
 
@@ -477,7 +475,7 @@ namespace Anarkila.DeveloperConsole {
             return executedCommands;
         }
 
-        public static void ClearLists() {
+        public static void ClearConsoleCommands() {
             consoleCommands.Clear();
         }
 
