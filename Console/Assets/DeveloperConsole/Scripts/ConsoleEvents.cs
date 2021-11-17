@@ -46,8 +46,15 @@ namespace Anarkila.DeveloperConsole {
         public static event Action<string> RegisterSceneLoadByName;
         public static void LoadSceneByName(string name) => RegisterSceneLoadByName?.Invoke(name);
 
-        public static event Action<int> RegisterSceneLoadByIndex;
-        public static void LoadSceneByIndex(int index) => RegisterSceneLoadByIndex?.Invoke(index);
+        public static event Action<string> RegisterSceneUnLoadByName;
+        public static void UnLoadSceneByName(string name) => RegisterSceneUnLoadByName?.Invoke(name);
+
+        public static event Action<int, UnityEngine.SceneManagement.LoadSceneMode> RegisterSceneLoadByIndex;
+        public static void LoadSceneByIndexSingle(int index) => RegisterSceneLoadByIndex?.Invoke(index, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        public static void LoadSceneByIndexAdditive(int index) => RegisterSceneLoadByIndex?.Invoke(index, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+
+        public static event Action<int> RegisterSceneUnLoadByIndex;
+        public static void UnloadSceneByIndex(int index) => RegisterSceneUnLoadByIndex?.Invoke(index);
 
         public static event Action<bool> RegisterListenActivatStateEvent;
         public static void SetListenActivateKeyState(bool enabled) => RegisterListenActivatStateEvent?.Invoke(enabled);

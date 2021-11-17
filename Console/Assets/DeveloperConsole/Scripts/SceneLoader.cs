@@ -12,11 +12,15 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             enabled = false; // disable this script on start
 
+            ConsoleEvents.RegisterSceneUnLoadByIndex += UnLoadSceneByIndexAsync;
+            ConsoleEvents.RegisterSceneUnLoadByName += UnLoadSceneByNameAsync;
             ConsoleEvents.RegisterSceneLoadByIndex += LoadSceneByIndexAsync;
             ConsoleEvents.RegisterSceneLoadByName += LoadSceneByNameAsync;
         }
 
         private void OnDestroy() {
+            ConsoleEvents.RegisterSceneUnLoadByIndex -= UnLoadSceneByIndexAsync;
+            ConsoleEvents.RegisterSceneUnLoadByName -= UnLoadSceneByNameAsync;
             ConsoleEvents.RegisterSceneLoadByIndex -= LoadSceneByIndexAsync;
             ConsoleEvents.RegisterSceneLoadByName -= LoadSceneByNameAsync;
         }
@@ -39,24 +43,28 @@ namespace Anarkila.DeveloperConsole {
         /// Try to load level by index
         /// scene must be included in Build settings!
         /// </summary>
-        private void LoadSceneByIndexAsync(int index) {
+        private void LoadSceneByIndexAsync(int index, LoadSceneMode mode) {
             if (loading) return;
 
-            int sceneCount = SceneManager.sceneCount;
-            if (index > sceneCount) {
+            int sceneCount = SceneManager.sceneCountInBuildSettings;
+            if (index > sceneCount || index < 0) {
 #if UNITY_EDITOR
                 Debug.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
 #endif
                 return;
             }
-
-            ConsoleEvents.CloseConsole();
-            asyncOperation = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
-            loadedSceneName = SceneManager.GetSceneByBuildIndex(index).name;
-
-            asyncOperation.allowSceneActivation = false;
-            loading = true;
-            enabled = true;
+           
+            if (mode == LoadSceneMode.Single) {
+                ConsoleEvents.CloseConsole();
+                asyncOperation = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
+                loadedSceneName = SceneManager.GetSceneByBuildIndex(index).name;
+                asyncOperation.allowSceneActivation = false;
+                loading = true;
+                enabled = true;
+            }
+            else {
+                SceneManager.LoadSceneAsync(index, LoadSceneMode.Additive);
+            }
         }
 
         /// <summary>
@@ -81,6 +89,46 @@ namespace Anarkila.DeveloperConsole {
             asyncOperation.allowSceneActivation = false;
             loading = true;
             enabled = true;
+        }
+
+
+        /// <summary>
+        /// Try to load level by index
+        /// scene must be included in Build settings!
+        /// </summary>
+        private void UnLoadSceneByIndexAsync(int index) {
+            if (SceneManager.sceneCount == 1) {
+#if UNITY_EDITOR
+                Debug.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", index));
+#endif
+                return;
+            }
+
+            if (index > SceneManager.sceneCountInBuildSettings || index < 0) {
+#if UNITY_EDITOR
+                Debug.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
+#endif
+                return;
+            }
+            SceneManager.UnloadSceneAsync(index);
+        }
+
+        /// <summary>
+        /// Try to load level by index
+        /// scene must be included in Build settings!
+        /// </summary>
+        private void UnLoadSceneByNameAsync(string sceneName) {
+            if (SceneManager.sceneCount == 1) {
+#if UNITY_EDITOR
+                Debug.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", sceneName));
+#endif
+                return;
+            }
+
+            sceneName = ConsoleUtils.DeleteWhiteSpace(sceneName);
+            if (Application.CanStreamedLevelBeLoaded(sceneName)) {
+                SceneManager.UnloadSceneAsync(sceneName);
+            }
         }
     }
 }

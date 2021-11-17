@@ -60,37 +60,53 @@ namespace Anarkila.DeveloperConsole {
             Application.targetFrameRate = fps;
         }
 
-
-
-        // Below commands are set to be debug only commands,
-        // meaning they only register in Editor and Development Builds.
-        // For final build, these commands are ignored,
-        // remove 'debugOnlyCommand:true' if you wish to include these in final build for some reason.
-
         /// <summary>
         /// Toggle console style between Large and Minimal
         /// </summary>
-        [ConsoleCommand("console.style")]
+        [ConsoleCommand("console.style", debugOnlyCommand: true)]
         private static void ChangeConsoleGUI() {
             ConsoleEvents.SwitchGUIStyle();
         }
 
         /// <summary>
-        /// Load scene by Index
+        /// Load scene by build index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyindex", "1")]
-        private static void LoadSceneByIndex(int index) {
-            ConsoleEvents.LoadSceneByIndex(index);
+        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true)]
+        private static void LoadSceneByIndexSingle(int index) {
+            ConsoleEvents.LoadSceneByIndexSingle(index);
         }
 
         /// <summary>
-        /// Load scene by name
-        /// Scenes must be included in 'Scenes in build' in the Build settings!
+        /// Load scene by build name
         /// </summary>
         [ConsoleCommand("scene.loadbyname", debugOnlyCommand: true)]
         private static void LoadSceneByName(string sceneName) {
             ConsoleEvents.LoadSceneByName(sceneName);
+        }
+
+        /// <summary>
+        /// Load scene additively by build index
+        /// </summary>
+        [ConsoleCommand("scene.loadbyindexadd", "2", debugOnlyCommand: true)]
+        private static void LoadSceneByIndexAdditive(int index) {
+            ConsoleEvents.LoadSceneByIndexAdditive(index);
+        }
+
+        /// <summary>
+        /// Load scene by build name
+        /// </summary>
+        [ConsoleCommand("scene.unloadbyname", debugOnlyCommand: true)]
+        private static void UnLoadSceneByName(string sceneName) {
+            ConsoleEvents.UnLoadSceneByName(sceneName);
+        }
+
+        /// <summary>
+        /// Unload scene by build index
+        /// </summary>
+        [ConsoleCommand("scene.unloadbyindex", debugOnlyCommand: true)]
+        private static void UnLoadSceneByIndex(int index) {
+            ConsoleEvents.UnloadSceneByIndex(index);
         }
     }
 }
