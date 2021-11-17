@@ -64,8 +64,11 @@ Developer Console comes with few commands by default.
 * ``clear`` - Clear all Console messages
 * ``reset`` - Reset Console window to default size and position (Large GUI only)
 * ``console.style`` - Toggle GUI style between Large and Minimal
-* ``scene.loadbyindex (int)`` - Load scene asynchronously by scene build index
+* ``scene.loadbyindex (int)`` - Load scene asynchronously by build index
+* ``scene.loadbyindexadd (int)`` - Load scene asynchronously additively by build index
 * ``scene.loadbyname (string)`` - Load scene asynchronously by scene name
+* ``scene.uloadbyindex (int)`` - UnLoad scene asynchronously by build index
+* ``scene.unloadbyname (string)`` - UnLoad scene asynchronously by scene name
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
 
 Editor Only:
