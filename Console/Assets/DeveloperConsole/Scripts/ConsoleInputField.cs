@@ -24,18 +24,19 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             inputField = GetComponent<TMP_InputField>();
 
-            ConsoleEvents.RegisterConsoleRefreshEvent += GetConsoleInfo;
-            ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
-            ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
-            ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
-            ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
-
+          
 #if UNITY_EDITOR
             if (inputField == null) {
                 Debug.LogError("InputField is null!");
                 enabled = false;
+                return;
             }
 #endif
+            ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
+            ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
+            ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
+            ConsoleEvents.RegisterConsoleRefreshEvent += GetConsoleInfo;
+            ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
         }
 
         private void Start() {
@@ -46,10 +47,10 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void OnDestroy() {
-            ConsoleEvents.RegisterConsoleRefreshEvent -= GetConsoleInfo;
-            ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
+            ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
+            ConsoleEvents.RegisterConsoleRefreshEvent -= GetConsoleInfo;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
         }
 

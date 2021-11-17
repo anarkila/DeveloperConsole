@@ -50,17 +50,17 @@ namespace Anarkila.DeveloperConsole {
                 defaultSize = rectTransform.offsetMax;
             }
             PoolObjects();
+            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
             ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
             ConsoleEvents.RegisterDeveloperConsoleLogEvent += LogMessage;
-            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
         }
 
         private void OnDestroy() {
+            ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChange;
             ConsoleEvents.RegisterConsoleClearEvent -= ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= ConsoleGUIChanged;
             ConsoleEvents.RegisterDeveloperConsoleLogEvent -= LogMessage;
-            ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChange;
         }
 
         private void Start() {

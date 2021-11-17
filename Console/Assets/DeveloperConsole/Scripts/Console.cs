@@ -107,19 +107,9 @@ public static class Console {
     }
 
     /// <summary>
-    /// Set whether console can print message timestamps.
-    /// Messages that have already been printed are unaffected. 
-    /// </summary>
-    public static void PrintMessageTimeStamps(bool print) {
-        var settings = ConsoleManager.GetSettings();
-        settings.printMessageTimestamps = print;
-        ConsoleManager.SetSettings(settings);
-    }
-
-    /// <summary>
     /// Set new Console settings
     /// </summary>
-    public static void SetNewSettings(ConsoleSettings newSettings) {
+    public static void SetSettings(ConsoleSettings newSettings) {
         ConsoleManager.SetSettings(newSettings);
     }
 
