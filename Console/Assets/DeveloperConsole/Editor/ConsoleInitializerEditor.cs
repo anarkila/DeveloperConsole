@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Anarkila.DeveloperConsole {
 
-    [CustomEditor(typeof(ConsoleInitializer))]
+    [CustomEditor(typeof(DeveloperConsole))]
     public class ConsoleInitializerEditor : Editor {
 
         private string[] tabs = new string[] { "All Settings", "GUI Settings", "General Settings", "Keybindings", "Debug Settings" };
@@ -17,11 +17,11 @@ namespace Anarkila.DeveloperConsole {
         private List<SerializedProperty> keybindings = new List<SerializedProperty>();
         private List<SerializedProperty> debugSettings = new List<SerializedProperty>();
 
-        private ConsoleInitializer myTarget;
+        private DeveloperConsole myTarget;
         private bool renderCustomGUI = true;
 
         private void OnEnable() {
-            myTarget = (ConsoleInitializer)target;
+            myTarget = (DeveloperConsole)target;
             sTarget = new SerializedObject(target);
 
             RegisterSerializedProperties();
