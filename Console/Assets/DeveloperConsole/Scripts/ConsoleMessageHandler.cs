@@ -49,7 +49,6 @@ namespace Anarkila.DeveloperConsole {
                 rectTransform = content.GetComponent<RectTransform>();
                 defaultSize = rectTransform.offsetMax;
             }
-            PoolObjects();
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
             ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
@@ -69,6 +68,7 @@ namespace Anarkila.DeveloperConsole {
                 maxMessageCount = settings.maxMessageCount;
                 currentGUIStyle = settings.InterfaceStyle;
             }
+            PoolObjects();
             HandleGhostMessages();
         }
 
