@@ -1,5 +1,7 @@
-﻿using System;
+﻿using UnityEngine.UI;
 using UnityEngine;
+using System;
+
 
 namespace Anarkila.DeveloperConsole {
 
@@ -31,6 +33,9 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Whether to reset console window size back to default when console is opened (Large GUI only)")]
         public bool resetWindowSizeOnEnable = false;
+
+        [Tooltip("ScrollRect scrollbar visibility")]
+        public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
         [Header("General Settings")]
 

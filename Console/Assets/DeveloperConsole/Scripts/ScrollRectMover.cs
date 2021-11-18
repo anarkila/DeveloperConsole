@@ -20,6 +20,12 @@ namespace Anarkila.DeveloperConsole {
                 return;
             }
 
+
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null) {
+                scrollRect.verticalScrollbarVisibility = settings.ScrollRectVisibility;
+            }
+
             ConsoleEvents.RegisterConsoleScrollMoveEvent += ScrollToBottom;
         }
 

@@ -1789,7 +1789,6 @@ GameObject:
   - component: {fileID: 8715211967801145185}
   - component: {fileID: 3485955249862943070}
   - component: {fileID: 6180391167201028984}
-  - component: {fileID: 8227840958279133077}
   m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
@@ -1837,7 +1836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.25882354, g: 0.24705882, b: 0.24313726, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1853,21 +1852,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8227840958279133077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815262198010466732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &2117100082749205951
 GameObject:
   m_ObjectHideFlags: 0
@@ -4997,6 +4981,7 @@ MonoBehaviour:
     highlightColor: {r: 0.41, g: 0.41, b: 0.41, a: 1}
     resetWindowPositionOnEnable: 0
     resetWindowSizeOnEnable: 0
+    ScrollRectVisibility: 0
     unityPrintOptions: 5
     maxMessageCount: 150
     includeConsoleInFinalBuild: 0
@@ -8054,6 +8039,7 @@ GameObject:
   - component: {fileID: 7012425521501517890}
   - component: {fileID: 513154075180209414}
   - component: {fileID: 6670154013325670111}
+  - component: {fileID: 1056863446596146702}
   - component: {fileID: 7215981676018589734}
   m_Layer: 5
   m_Name: Scrollbar Vertical
@@ -8119,6 +8105,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1056863446596146702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7935253403622626459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.09019608, g: 0.0627451, b: 0.0627451, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &7215981676018589734
 MonoBehaviour:
   m_ObjectHideFlags: 0

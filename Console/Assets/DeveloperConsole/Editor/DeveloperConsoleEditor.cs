@@ -6,7 +6,7 @@ using UnityEditor;
 namespace Anarkila.DeveloperConsole {
 
     [CustomEditor(typeof(DeveloperConsole))]
-    public class ConsoleInitializerEditor : Editor {
+    public class DeveloperConsoleEditor : Editor {
 
         private string[] tabs = new string[] { "All Settings", "GUI Settings", "General Settings", "Keybindings", "Debug Settings" };
         private SerializedObject sTarget;
@@ -38,13 +38,13 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
 
-                if (0 <= i && i <= 6) {
+                if (0 <= i && i <= 7) {
                     AppendToList(guiSettings, name);
                 }
-                else if (7 <= i && i <= 22) {
+                else if (8 <= i && i <= 23) {
                     AppendToList(generalSettings, name);
                 }
-                else if (23 <= i && i <= 27) {
+                else if (24 <= i && i <= 28) {
                     AppendToList(keybindings, name);
                 }
                 else {
