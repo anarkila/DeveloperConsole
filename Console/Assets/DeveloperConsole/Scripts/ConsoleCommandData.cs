@@ -10,6 +10,7 @@ namespace Anarkila.DeveloperConsole {
         public string methodname;
         public string commandName;
         public string defaultValue = "";
+        public string info = "";
         public Type parameterType;
         public bool isStaticMethod = false;
         public MethodInfo methodInfo;
@@ -17,8 +18,8 @@ namespace Anarkila.DeveloperConsole {
         public bool hiddenCommand = false;
         public bool hiddenCommandMinimalGUI = false;
         public string scriptNameString;
-
-        public void SetValues(MonoBehaviour scriptName, string methodname, string commandName, string commandExplanation, Type parameterType,
+       
+        public void SetValues(MonoBehaviour scriptName, string methodname, string commandName, string commandExplanation, string info, Type parameterType,
             bool isStaticMethod = false, MethodInfo methodInfo = null, bool isCoroutine = false, bool hiddenCommand = false,
             bool hiddenCommandMinimalGUI = false,string scriptNameString = "") {
 
@@ -26,6 +27,7 @@ namespace Anarkila.DeveloperConsole {
             this.methodname = methodname;
             this.commandName = commandName;
             this.defaultValue = commandExplanation;
+            this.info = info;
             this.parameterType = parameterType;
             this.isStaticMethod = isStaticMethod;
             this.methodInfo = methodInfo;

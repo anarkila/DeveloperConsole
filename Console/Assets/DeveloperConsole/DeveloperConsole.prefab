@@ -4998,6 +4998,7 @@ MonoBehaviour:
     printStartupHelpText: 1
     printUnrecognizedCommandInfo: 1
     printCommandsAlphabeticalOrder: 1
+    printCommandInfoTexts: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273

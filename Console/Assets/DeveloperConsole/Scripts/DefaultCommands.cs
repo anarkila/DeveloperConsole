@@ -19,7 +19,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Quit Application
         /// </summary>
-        [ConsoleCommand("quit")]
+        [ConsoleCommand("quit", info:"Quit the application")]
         private static void QuitApplication() {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -55,7 +55,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Set application target frame rate
         /// </summary>
-        [ConsoleCommand("max_fps")]
+        [ConsoleCommand("max_fps", info:"Set application target frame rate")]
         private static void SetTargetFrameRate(int fps) {
             Application.targetFrameRate = fps;
         }

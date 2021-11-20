@@ -88,6 +88,9 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print available commands in alphabetical order.'")]
         public bool printCommandsAlphabeticalOrder = true;
 
+        [Tooltip("Whether to print commands info text with 'help' command")]
+        public bool printCommandInfoTexts = true;
+
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
         public KeyCode consoleSubmitKey = KeyCode.Return;           // Key to submit command

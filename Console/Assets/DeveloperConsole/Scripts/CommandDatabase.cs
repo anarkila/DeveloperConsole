@@ -6,8 +6,8 @@ using System;
 
 namespace Anarkila.DeveloperConsole {
 
-#pragma warning disable 0168
-#pragma warning disable 0219
+    #pragma warning disable 0168
+    #pragma warning disable 0219
     public static class CommandDatabase {
 
         private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();
@@ -15,6 +15,7 @@ namespace Anarkila.DeveloperConsole {
         private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
         private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
         private static List<string> commandStringsWithDefaultValues = new List<string>();
+        private static List<string> commandStringsWithInfos = new List<string>();
         private static List<string> consoleCommandList = new List<string>();
         private static List<string> executedCommands = new List<string>();
         private static bool staticCommandsCached = false;
@@ -114,7 +115,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Register new Console command
         /// </summary>
-        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "",
+        public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", string info = "",
             bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
 
             if (command == null || command.Length == 0 || methodName == null || methodName.Length == 0) {
@@ -156,7 +157,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             var data = new ConsoleCommandData();
-            data.SetValues(script, methodName, command, defaultValue, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
+            data.SetValues(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, isHiddenCommand, hiddenCommandMinimalGUI);
 
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
@@ -259,6 +260,7 @@ namespace Anarkila.DeveloperConsole {
                 var defaultValue = attribute.GetValue();
                 var hiddenCommand = attribute.IsHiddenCommand();
                 var hiddenMinimalGUI = attribute.IsHiddenMinimalGUI();
+                var info = attribute.GetInfo();
 
                 var className = method.DeclaringType;
                 var methodName = method.ToString();
@@ -299,7 +301,7 @@ namespace Anarkila.DeveloperConsole {
                 }
 
                 var newData = new ConsoleCommandData();
-                newData.SetValues(null, methodName, commandName, defaultValue, type, isStatic, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
+                newData.SetValues(null, methodName, commandName, defaultValue, info, type, isStatic, method, isCoroutine, hiddenCommand, hiddenMinimalGUI, className.ToString());
 
                 if (isStatic) {
                     staticCommands.Add(newData);
@@ -355,7 +357,7 @@ namespace Anarkila.DeveloperConsole {
 
                         if (script != null) {
                             var data = new ConsoleCommandData();
-                            data.SetValues(script, commands[k].methodname, commands[k].commandName, commands[k].defaultValue, commands[k].parameterType, false, commands[k].methodInfo, commands[k].isCoroutine, commands[k].hiddenCommand);
+                            data.SetValues(script, commands[k].methodname, commands[k].commandName, commands[k].defaultValue, commands[k].info, commands[k].parameterType, false, commands[k].methodInfo, commands[k].isCoroutine, commands[k].hiddenCommand);
                             consoleCommands.Add(data);
                         }
                     }
@@ -396,21 +398,35 @@ namespace Anarkila.DeveloperConsole {
         /// Generate needed console lists
         /// </summary>
         public static void UpdateLists() {
+
+            commandStringsWithInfos.Clear();
             consoleCommandList.Clear();
+            commandStringsWithDefaultValues.Clear();
+
+            // create consoleCommandStringsWithSuggestions list
+            var style = ConsoleManager.GetGUIStyle();
+
+            string line = " - ";
+
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
 
                 if (!consoleCommandList.Contains(consoleCommands[i].commandName)) {
                     consoleCommandList.Add(consoleCommands[i].commandName);
                 }
-            }
 
-            // create consoleCommandStringsWithSuggestions list
-            var style = ConsoleManager.GetGUIStyle();
-            commandStringsWithDefaultValues.Clear();
-            for (int i = 0; i < consoleCommands.Count; i++) {
+                if (!string.IsNullOrWhiteSpace(consoleCommands[i].info)) {
+                    var fullText = consoleCommands[i].commandName + line + consoleCommands[i].info;
+                    if (!commandStringsWithInfos.Contains(fullText)) {
+                        commandStringsWithInfos.Add(fullText);
+                    }
+                }
+                else {
+                    if (!commandStringsWithInfos.Contains(consoleCommands[i].commandName)) {
+                        commandStringsWithInfos.Add(consoleCommands[i].commandName);
+                    }
+                }
 
-                if (consoleCommands[i].hiddenCommand) continue;
                 if (consoleCommands[i].hiddenCommandMinimalGUI && style == ConsoleGUIStyle.Minimal) continue;
 
                 // Ensure first character in a string is space
@@ -449,21 +465,28 @@ namespace Anarkila.DeveloperConsole {
             return consoleCommandList;
         }
 
+        public static List<string> GetCommandsWithInfos() {
+            return commandStringsWithInfos;
+        }
+
         public static bool StaticCommandsRegistered() {
             return staticCommandsCached;
         }
 
         public static void PrintAllCommands() {
-            var commands = GetConsoleCommandList();
-
             var settings = ConsoleManager.GetSettings();
-            if (settings != null && settings.printCommandsAlphabeticalOrder) {
-                commands = commands.OrderBy(x => x).ToList();
-            }
 
-            Console.Log(ConsoleConstants.COMMANDMESSAGE);
-            for (int i = 0; i < commands.Count; i++) {
-                Console.Log(commands[i]);
+            if (settings != null) {
+                var commands = settings.printCommandInfoTexts ? GetCommandsWithInfos() : GetConsoleCommandList();
+
+                if (settings.printCommandsAlphabeticalOrder) {
+                    commands = commands.OrderBy(x => x).ToList();
+                }
+
+                Console.Log(ConsoleConstants.COMMANDMESSAGE);
+                for (int i = 0; i < commands.Count; i++) {
+                    Console.Log(commands[i]);
+                }
             }
         }
 
