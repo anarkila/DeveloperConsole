@@ -8,11 +8,12 @@ namespace Anarkila.DeveloperConsole {
         private Image image;
 
         private void Start() {
-            image = GetComponent<Image>();
+            if (TryGetComponent(out Image img)) {
+                image = img;
+            }
 
             var settings = ConsoleManager.GetSettings();
             float percentage = settings.consoleBackgroundOpacity / 100;
-
             SetBackgroundAlpha(percentage);
         }
 

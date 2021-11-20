@@ -10,14 +10,13 @@ namespace Anarkila.DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
             if (settings == null) return;
 
-            var button = GetComponent<Button>();
-            if (button == null) return;
-
-            var highlightColor = settings.highlightColor;
-            ColorBlock colorVar = button.colors;
-            colorVar.highlightedColor = highlightColor;
-            colorVar.pressedColor = highlightColor;
-            button.colors = colorVar;
+            if (TryGetComponent(out Button button)) {
+                var highlightColor = settings.highlightColor;
+                ColorBlock colorVar = button.colors;
+                colorVar.highlightedColor = highlightColor;
+                colorVar.pressedColor = highlightColor;
+                button.colors = colorVar;
+            }
         }
     }
 }

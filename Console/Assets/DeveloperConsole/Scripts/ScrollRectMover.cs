@@ -10,16 +10,16 @@ namespace Anarkila.DeveloperConsole {
         private bool scrollToBottom;
 
         private void Awake() {
-            scrollRect = GetComponent<ScrollRect>();
-
-            if (scrollRect == null) {
+            if (TryGetComponent(out ScrollRect rect)) {
+                scrollRect = rect;
+            }
+            else {
 #if UNITY_EDITOR
                 Debug.Log(string.Format("Gameobject {0} doesn't have ScrollRect component!", gameObject.name));
 #endif
                 this.enabled = false;
                 return;
             }
-
 
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
@@ -52,7 +52,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void ScrollToBottom() {
-            if (scrollRect == null) return;
+            if (scrollRect == null) return; //
 
             scrollRect.normalizedPosition = cachedVector;
         }

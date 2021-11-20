@@ -22,12 +22,12 @@ namespace Anarkila.DeveloperConsole {
         private string previousText;
 
         private void Awake() {
-            inputField = GetComponent<TMP_InputField>();
-
-          
+            if (TryGetComponent(out TMP_InputField inputfield)) {
+                inputField = inputfield;
+            }
 #if UNITY_EDITOR
-            if (inputField == null) {
-                Debug.LogError("InputField is null!");
+            else {
+                Debug.Log(string.Format("Gameobject {0} doesn't have TMP_InputField component!", gameObject.name));
                 enabled = false;
                 return;
             }

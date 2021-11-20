@@ -8,16 +8,21 @@ namespace Anarkila.DeveloperConsole {
         private Button button;
 
         private void Start() {
-            button = GetComponent<Button>();
-
-            if (button != null) {
+            if (TryGetComponent(out Button btn)) {
+                button = btn;
                 button.onClick.AddListener(SubmitButtonClick);
             }
 #if UNITY_EDITOR
             else {
-                Debug.Log("button is null! Submitting will not work!");
+                Debug.Log(string.Format("Gameobject: {0} doesn't have Button component!", gameObject.name));
             }
 #endif
+        }
+
+        private void OnDestroy() {
+            if (button == null) return;
+
+            button.onClick.RemoveAllListeners();
         }
 
         private void SubmitButtonClick() {

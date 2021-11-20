@@ -46,7 +46,16 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             cachedTransform = this.transform;
             if (content != null) {
-                rectTransform = content.GetComponent<RectTransform>();
+
+                if (content.TryGetComponent(out RectTransform rect)) {
+                    rectTransform = rect;
+                }
+#if UNITY_EDITOR
+                else {
+                    Debug.Log(string.Format("Gameobject: {0} doesn't have RectTransform component!", content.name));
+                }
+#endif
+
                 defaultSize = rectTransform.offsetMax;
             }
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
@@ -119,8 +128,9 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < maxMessageCount; ++i) {
                 GameObject obj = Instantiate(pool.prefab);
 
-                var msg = obj.GetComponent<ConsoleMessage>();
-                if (msg != null) messages.Add(obj, msg);
+                if (obj.TryGetComponent(out ConsoleMessage msg)) {
+                    messages.Add(obj, msg);
+                }
 
                 obj.SetActive(false);
                 obj.transform.SetParent(cachedTransform);

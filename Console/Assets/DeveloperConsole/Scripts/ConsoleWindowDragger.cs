@@ -1,5 +1,5 @@
-﻿using UnityEngine.EventSystems;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -16,9 +16,10 @@ namespace Anarkila.DeveloperConsole {
         private Vector3 defaultPosition;
 
         private void Awake() {
-            rectTransform = GetComponent<RectTransform>();
-
-            if (rectTransform == null) {
+            if (TryGetComponent(out RectTransform rect)) {
+                rectTransform = rect;
+            }
+            else {
 #if UNITY_EDITOR
                 Debug.Log(string.Format("Gameobject: {0} doesn't have RectTransform component!", gameObject.name));
 #endif

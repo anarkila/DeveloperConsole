@@ -10,7 +10,14 @@ namespace Anarkila.DeveloperConsole {
         private TMP_Text textComponent;
 
         private void Awake() {
-            textComponent = GetComponent<TMP_Text>();
+            if (TryGetComponent(out TMP_Text text)) {
+                textComponent = text;
+            }
+#if UNITY_EDITOR
+            else {
+                Debug.Log(string.Format("Gameobject {0} doesn't have TMP_Text component!", gameObject.name));
+            }
+#endif
             cachedTransform = this.transform;
         }
 

@@ -8,14 +8,13 @@ namespace Anarkila.DeveloperConsole {
         private Button button;
 
         private void Start() {
-            button = GetComponent<Button>();
-
-            if (button != null) {
+            if (TryGetComponent(out Button btn)) {
+                button = btn;
                 button.onClick.AddListener(CloseButtonClicked);
             }
 #if UNITY_EDITOR
             else {
-                Debug.Log("button is null! Closing will not work!");
+                Debug.Log(string.Format("Gameobject: {0} doesn't have Button component!", gameObject.name));
             }
 #endif
         }
