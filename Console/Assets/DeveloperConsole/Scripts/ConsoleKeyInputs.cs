@@ -16,17 +16,19 @@ namespace Anarkila.DeveloperConsole {
         private KeyCode searchPreviousCommand = KeyCode.UpArrow;
         private KeyCode fillCommand = KeyCode.DownArrow;
         private KeyCode fillCommandAlt = KeyCode.Tab;
-        private bool checkActivatorKey = true;
+        private bool listenActivateKey = true;
         private bool consoleIsOpen = false;
        
         private void Start() {
             GetSettings();
             ConsoleEvents.RegisterListenActivatStateEvent += ActivatorStateChangeEvent;
+            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChanged;
             ConsoleEvents.RegisterSettingsChangedEvent += GetSettings;
         }
 
         private void OnDestroy() {
             ConsoleEvents.RegisterListenActivatStateEvent -= ActivatorStateChangeEvent;
+            ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChanged;
             ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
         }
 
@@ -35,16 +37,16 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void ListenPlayerInputs() {
-            if (Input.GetKeyDown(consoleToggleKey) && checkActivatorKey) {
-                consoleIsOpen ^= true;
-                ConsoleEvents.SetConsoleState(consoleIsOpen);
+            if (Input.GetKeyDown(consoleToggleKey) && listenActivateKey) {
+                ConsoleEvents.SetConsoleState(!consoleIsOpen);
             }
 
-            if (!checkActivatorKey) {
+            if (!listenActivateKey) {
                 consoleIsOpen = ConsoleManager.IsConsoleOpen();
             }
 
-            if (!consoleIsOpen) return;   // If console is not open then don't check other input keys
+            // If console is not open then don't check other input keys
+            if (!consoleIsOpen) return;
 
             if (Input.GetKeyDown(submitKey)) {
                 ConsoleEvents.InputFieldSubmit();
@@ -60,7 +62,11 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void ActivatorStateChangeEvent(bool enabled) {
-            checkActivatorKey = enabled;
+            listenActivateKey = enabled;
+        }
+
+        private void ConsoleStateChanged(bool state) {
+            consoleIsOpen = state;
         }
 
         private void GetSettings() {
