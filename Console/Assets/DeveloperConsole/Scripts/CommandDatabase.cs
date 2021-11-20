@@ -323,7 +323,7 @@ namespace Anarkila.DeveloperConsole {
         /// Register MonoBehaviour commands
         /// </summary>
         /// <param name="commands"></param>
-        public static void RegisterCommandsPartTwo(List<ConsoleCommandData> commands) {
+        public static void RegisterMonoBehaviourCommands(List<ConsoleCommandData> commands) {
 
             // Find all different script names
             var scriptnames = new List<string>();
@@ -336,8 +336,7 @@ namespace Anarkila.DeveloperConsole {
             // Loop through all different script names
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
             // loop though those scripts and all commands to find MonoBehaviour references.
-            // these loops look scary but this is reasonable fast.
-            // if 'PrintDebugInfo' is set to true the time this takes to execute is printed to Console.
+            // these loops look scary but this is reasonable fast (approx. ~1.2 ms for example scenes)
             for (int i = 0; i < scriptnames.Count; i++) {
                 Type type = Type.GetType(scriptnames[i]);
                 MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];

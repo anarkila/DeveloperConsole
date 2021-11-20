@@ -55,9 +55,9 @@ namespace Anarkila.DeveloperConsole {
                     Debug.Log(string.Format("Gameobject: {0} doesn't have RectTransform component!", content.name));
                 }
 #endif
-
                 defaultSize = rectTransform.offsetMax;
             }
+
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
             ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;

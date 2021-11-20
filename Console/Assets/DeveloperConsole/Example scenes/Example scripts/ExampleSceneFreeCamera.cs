@@ -8,7 +8,7 @@ namespace Anarkila.DeveloperConsole {
     /// </summary>
     public class ExampleSceneFreeCamera : MonoBehaviour {
 
-        [SerializeField] private float lookSpeed = 3f;
+        [SerializeField] private float lookSpeed = 2.5f;
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float sprintSpeed = 40f;
 

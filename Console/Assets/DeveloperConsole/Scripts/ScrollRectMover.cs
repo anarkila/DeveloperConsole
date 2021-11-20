@@ -12,6 +12,12 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             if (TryGetComponent(out ScrollRect rect)) {
                 scrollRect = rect;
+
+                var settings = ConsoleManager.GetSettings();
+                if (settings != null) {
+                    scrollRect.verticalScrollbarVisibility = settings.ScrollRectVisibility;
+                }
+                ConsoleEvents.RegisterConsoleScrollMoveEvent += ScrollToBottom;
             }
             else {
 #if UNITY_EDITOR
@@ -20,13 +26,6 @@ namespace Anarkila.DeveloperConsole {
                 this.enabled = false;
                 return;
             }
-
-            var settings = ConsoleManager.GetSettings();
-            if (settings != null) {
-                scrollRect.verticalScrollbarVisibility = settings.ScrollRectVisibility;
-            }
-
-            ConsoleEvents.RegisterConsoleScrollMoveEvent += ScrollToBottom;
         }
 
         private void OnDestroy() {
@@ -36,7 +35,7 @@ namespace Anarkila.DeveloperConsole {
         private void Start() {
             var settings = ConsoleManager.GetSettings();
 
-            if (settings != null && scrollRect != null) {
+            if (settings != null) {
                 scrollToBottom = settings.scrollToBottomOnEnable;
                 scrollRect.scrollSensitivity = settings.scrollSensitivity;
                 ScrollToBottom();
@@ -44,16 +43,12 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void OnDisable() {
-            // whether to scroll to bottom when Developer console is disabled
-            // So when console is opened again, scroll will be at bottom
             if (scrollToBottom) {
                 ScrollToBottom();
             }
         }
 
         private void ScrollToBottom() {
-            if (scrollRect == null) return; //
-
             scrollRect.normalizedPosition = cachedVector;
         }
     }

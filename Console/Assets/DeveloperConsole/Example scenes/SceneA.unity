@@ -999,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1d97d909537b44aae64cdffc29ee41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookSpeed: 3
+  lookSpeed: 2.5
   moveSpeed: 4
   sprintSpeed: 40
 --- !u!1 &1067621487
@@ -1511,7 +1511,7 @@ PrefabInstance:
     - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: playButtonTime
-      value: 637730026948792720
+      value: 637730144654246866
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}

@@ -175,7 +175,7 @@ namespace Anarkila.DeveloperConsole {
         /// Print message to Developer Console
         /// </summary>
         public static void PrintLog(string text, Action<string> subscribers) {
-            if (!Application.isPlaying || !IsUnityThread(Thread.CurrentThread)) return;
+            if (!Application.isPlaying || !IsRunningOnMainThread(Thread.CurrentThread)) return;
 
             if (settings.printMessageTimestamps) {
                 sb.Clear();
@@ -213,7 +213,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Check if we are in Unity main thread
         /// </summary>
-        private static bool IsUnityThread(Thread thread) {
+        private static bool IsRunningOnMainThread(Thread thread) {
             return thread == UnityMainThreadID;
         }
 
@@ -323,7 +323,7 @@ namespace Anarkila.DeveloperConsole {
 
             if (!registerStaticOnly) {
                 timer.Start();
-                CommandDatabase.RegisterCommandsPartTwo(commands); // Rest of the work must be in done in Unity main thread
+                CommandDatabase.RegisterMonoBehaviourCommands(commands); // Rest of the work must be in done in Unity main thread
                 timer.Stop();
             }
             else {
