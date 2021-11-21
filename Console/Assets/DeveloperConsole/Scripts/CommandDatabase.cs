@@ -403,7 +403,6 @@ namespace Anarkila.DeveloperConsole {
             consoleCommandList.Clear();
             commandStringsWithDefaultValues.Clear();
 
-            // create consoleCommandStringsWithSuggestions list
             var style = ConsoleManager.GetGUIStyle();
 
             string line = " - ";

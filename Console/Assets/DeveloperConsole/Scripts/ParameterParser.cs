@@ -22,7 +22,7 @@ namespace Anarkila.DeveloperConsole {
 
             if (parameters.Length > 1) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' in class '{1}' with method name {2} takes in two or more parameters.\n " +
+                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' in class '{1}' with method name {2} takes in two or more parameters. " +
                     "Multiple parameters are not supported!", commandName, className, methodName));
 #endif
                 return false;

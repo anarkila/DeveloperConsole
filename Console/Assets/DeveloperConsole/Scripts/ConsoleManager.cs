@@ -191,7 +191,9 @@ namespace Anarkila.DeveloperConsole {
                 return;
             }
 
-            subscribers.Invoke(text);
+            if (subscribers != null && Application.isPlaying) {
+                subscribers.Invoke(text);
+            }
         }
 
         /// <summary>
