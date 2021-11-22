@@ -1448,6 +1448,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeveloperConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 5145576890018042408, guid: b5fbf8417053cf343a54a8bfb1069a55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_RootOrder
@@ -1511,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: playButtonTime
-      value: 637730144654246866
+      value: 637732107077096930
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}

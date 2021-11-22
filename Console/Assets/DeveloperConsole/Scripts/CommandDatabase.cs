@@ -12,12 +12,12 @@ namespace Anarkila.DeveloperConsole {
 
         private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();
         private static Dictionary<string, bool> commandRemovedBeforeInit = new Dictionary<string, bool>();
-        private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>();
-        private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>();
-        private static List<string> commandStringsWithDefaultValues = new List<string>();
-        private static List<string> commandStringsWithInfos = new List<string>();
-        private static List<string> consoleCommandList = new List<string>();
-        private static List<string> executedCommands = new List<string>();
+        private static List<ConsoleCommandData> consoleCommands = new List<ConsoleCommandData>(32);
+        private static List<ConsoleCommandData> staticCommands = new List<ConsoleCommandData>(32);
+        private static List<string> commandStringsWithDefaultValues = new List<string>(32);
+        private static List<string> commandStringsWithInfos = new List<string>(32);
+        private static List<string> consoleCommandList = new List<string>(32);
+        private static List<string> executedCommands = new List<string>(32);
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
         private static int failedCommandCount;

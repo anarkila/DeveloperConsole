@@ -30,8 +30,8 @@ namespace Anarkila.DeveloperConsole {
         [SerializeField] private Image[] ScrollBarImages;
         [SerializeField] private GameObject[] Ghosts;
 
-        private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>();
-        private List<GameObject> currentMessages = new List<GameObject>();
+        private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
+        private List<GameObject> currentMessages = new List<GameObject>(64);
         private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
@@ -122,8 +122,8 @@ namespace Anarkila.DeveloperConsole {
         private void PoolObjects() {
             if (setupDone || pool.prefab == null) return;
 
-            poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>();
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(256);
+            Queue<GameObject> objectPool = new Queue<GameObject>(256);
 
             for (int i = 0; i < maxMessageCount; ++i) {
                 GameObject obj = Instantiate(pool.prefab);
