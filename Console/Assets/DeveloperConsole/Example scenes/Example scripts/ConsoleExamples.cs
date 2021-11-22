@@ -96,7 +96,7 @@ namespace Anarkila.DeveloperConsole {
         private IEnumerator PrintNumbers() {
             var delay = new WaitForSeconds(0.02f);
             for (int i = 0; i < 101; i++) {
-                Debug.Log(i);
+                Console.Log(i);
                 yield return delay;
             }
         }
@@ -106,7 +106,7 @@ namespace Anarkila.DeveloperConsole {
             var text = string.Empty;
             for (int i = 0; i < 151; i++) {
                 text += i.ToString();
-                Debug.Log(text);
+                Console.Log(text);
             }
         }
 

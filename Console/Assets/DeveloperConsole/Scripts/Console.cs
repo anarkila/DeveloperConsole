@@ -17,6 +17,14 @@ public static class Console {
     }
 
     /// <summary>
+    /// Log message directly into Developer Console window
+    /// </summary>
+    /// <param name="obj">Object to print</param>
+    public static void Log(System.Object obj) {
+        ConsoleEvents.Log(obj.ToString());
+    }
+
+    /// <summary>
     /// Register new command
     /// </summary>
     /// <param name="script">Reference to Monobehaviour</param>
