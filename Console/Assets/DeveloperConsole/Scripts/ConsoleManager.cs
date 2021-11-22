@@ -11,6 +11,7 @@ namespace Anarkila.DeveloperConsole {
 #pragma warning disable 1998
     public static class ConsoleManager {
 
+        public static Dictionary<LogType, string> LogTypes = new Dictionary<LogType, string>();
         private static List<string> messagesBeforeInitDone = new List<string>();
         private static ConsoleSettings settings = new ConsoleSettings();
         private static StringBuilder sb = new StringBuilder();
@@ -27,6 +28,10 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         public static void InitilizeDeveloperConsole(ConsoleSettings settings, Thread thread) {
             if (initDone) return;
+
+            foreach (LogType logType in Enum.GetValues(typeof(LogType))) {
+                LogTypes.Add(logType, logType.ToString());
+            }
 
             UnityMainThreadID = thread;
 
@@ -171,6 +176,16 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
+        private static string AddMessagePrefix(string prefixMessage, string msg) {
+            sb.Clear();
+            sb.Append(ConsoleConstants.OPENBRACKET);
+            sb.Append(prefixMessage);
+            sb.Append(ConsoleConstants.CLOSEDBRACKET);
+            sb.Append(msg);
+
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Print message to Developer Console
         /// </summary>
@@ -178,12 +193,7 @@ namespace Anarkila.DeveloperConsole {
             if (!Application.isPlaying || !IsRunningOnMainThread(Thread.CurrentThread)) return;
 
             if (settings.printMessageTimestamps) {
-                sb.Clear();
-                sb.Append(ConsoleConstants.OPENBRACKET);
-                sb.Append(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT));
-                sb.Append(ConsoleConstants.CLOSEDBRACKET);
-                sb.Append(text);
-                text = sb.ToString();
+                text = AddMessagePrefix(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT), text);
             }
 
             if (!consoleInitialized) {
@@ -254,8 +264,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void UnityLogEventCallback(string text, string stackTrace, LogType type) {
-            if (settings == null
-                || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
+            if (settings == null || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
                 || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
 
 
@@ -285,6 +294,10 @@ namespace Anarkila.DeveloperConsole {
 #endif
                         break;
                 }
+            }
+
+            if (settings.printLogType && Debug.isDebugBuild) {
+                text = AddMessagePrefix(LogTypes[type], text);
             }
 
             ConsoleEvents.Log(text);

@@ -98,7 +98,8 @@ namespace Anarkila.DeveloperConsole {
         public KeyCode consoleFillCommandKey = KeyCode.DownArrow;   // Key to fill suggestion
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
-        [Header("Debug Settings")]
+
+        [Header("Debug Settings")] // These settings only apply in Editor and Debug builds.
 
         [Tooltip("Print Developer Console debug info like startup time etc.")]
         public bool printConsoleDebugInfo = true;
@@ -109,8 +110,11 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
-        [Tooltip("Whether to clear Unity Console too when  command 'clear' called (Editor only)'")]
+        [Tooltip("Whether to clear Unity Console too when  command 'clear' called'")]
         public bool ClearUnityConsoleOnConsoleClear = false;
+
+        [Tooltip("whether to print Unity log type. ")]
+        public bool printLogType = false;
     }
 
     public enum ConsoleGUIStyle {

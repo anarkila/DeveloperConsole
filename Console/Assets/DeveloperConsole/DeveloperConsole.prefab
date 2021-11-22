@@ -5008,6 +5008,7 @@ MonoBehaviour:
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
     ClearUnityConsoleOnConsoleClear: 0
+    printLogType: 0
 --- !u!1 &5162824032744049764
 GameObject:
   m_ObjectHideFlags: 0
