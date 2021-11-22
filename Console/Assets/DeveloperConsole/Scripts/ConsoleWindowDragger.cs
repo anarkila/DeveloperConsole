@@ -1,18 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
+using UnityEngine;
 
 namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class handles moving Developer Console Window on mouse drag (Large GUI only)
     /// </summary>
-    public class ConsoleWindowDragger : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
+    public class ConsoleWindowDragger : MonoBehaviour, IDragHandler {
 
         private bool resetWindowPositionOnEnable = false;
         private bool forceInsideScreenBounds = true;
         private bool allowWindowDragging = true;
         private RectTransform rectTransform;
-        private Vector3 positionOnBeginDrag;
         private Vector3 defaultPosition;
 
         private void Awake() {
@@ -54,28 +53,16 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleResetEvent -= ResetWindowPosition;
         }
 
-        public void OnBeginDrag(PointerEventData eventData) {
-            if (!allowWindowDragging) return;
-
-            positionOnBeginDrag = rectTransform.position;
-        }
-
         public void OnDrag(PointerEventData eventData) {
             if (!allowWindowDragging) return;
 
             Vector3 oldPos = rectTransform.position;
-            rectTransform.anchoredPosition += eventData.delta;
+
+            //rectTransform.anchoredPosition += eventData.delta; // works as well but feels a bit off
+            rectTransform.position += (Vector3)eventData.delta;
 
             if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
                 rectTransform.position = oldPos;
-            }
-        }
-
-        public void OnEndDrag(PointerEventData eventData) {
-            if (!allowWindowDragging) return;
-
-            if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform)) {
-                rectTransform.position = positionOnBeginDrag;
             }
         }
 
