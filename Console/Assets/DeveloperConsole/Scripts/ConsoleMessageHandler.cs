@@ -7,10 +7,10 @@ namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script handles Developer Console messages
-    /// this is implemented by having basic object pool system
-    /// By default Developer Console pools 150 messages and once 150 messages has been reached, 
+    /// this is implementes basic object pooler and
+    /// by default Developer Console pools 150 messages and once 150 messages has been reached, 
     /// it will start to recycle messages from the beginning.
-    /// Increase maxMessageCount in inspector if you want to increase this value
+    /// Increase maxMessageCount setting in inspector if you want to increase this value
     /// </summary>
     public class ConsoleMessageHandler : MonoBehaviour {
 

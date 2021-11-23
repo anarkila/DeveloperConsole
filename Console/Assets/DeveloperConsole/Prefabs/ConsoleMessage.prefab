@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8473884968966394246}
   - component: {fileID: 7267554186985374363}
   - component: {fileID: 1251975718447506137}
+  - component: {fileID: 7162525145084894521}
   - component: {fileID: 5201533228087022768}
   m_Layer: 0
   m_Name: ConsoleMessage
@@ -58,6 +59,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7162525145084894521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063239664772878050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  style: 1
 --- !u!114 &5201533228087022768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

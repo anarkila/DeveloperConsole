@@ -11,7 +11,7 @@ namespace Anarkila.DeveloperConsole {
             if (settings == null) return;
 
             if (TryGetComponent(out Button button)) {
-                var highlightColor = settings.highlightColor;
+                var highlightColor = settings.largeGUIHighlightColor;
                 ColorBlock colorVar = button.colors;
                 colorVar.highlightedColor = highlightColor;
                 colorVar.pressedColor = highlightColor;

@@ -8,11 +8,11 @@ namespace Anarkila.DeveloperConsole {
     [Serializable]
     public class ConsoleSettings {
 
-
         [Header("GUI Settings")]
         public ConsoleGUIStyle InterfaceStyle = ConsoleGUIStyle.Large;
-        [Space(5)]
 
+
+        [Header("Large GUI Settings")]
         [Tooltip("Console window size multiplier on start (Large GUI only)")]
         [Range(0.50f, 1.2f)]
         public float consoleWindowDefaultSize = 0.9f;
@@ -20,13 +20,6 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Large Developer Console scroll sensitivity")]
         [Range(2, 100)]
         public float scrollSensitivity = 30;
-
-        [Tooltip("Large Developer Console background opacity")]
-        [Range(1, 100)]
-        public float consoleBackgroundOpacity = 55;
-
-        [Tooltip("Highlight color for mouse hover and click")]
-        public Color highlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
 
         [Tooltip("Whether to reset console window position back to center of the screen when console is opened (Large GUI only)")]
         public bool resetWindowPositionOnEnable = false;
@@ -37,8 +30,30 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("ScrollRect scrollbar visibility")]
         public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
-        [Header("General Settings")]
+        [Tooltip("Large GUI background color")]
+        public Color largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
 
+        [Tooltip("Large GUI background color")]
+        public Color largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+
+        [Tooltip("Large GUI highlight color for mouse hover and click")]
+        public Color largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
+
+        [Tooltip("Large GUI inputfield, scrollrect, button color")]
+        public Color largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+
+        [Tooltip("Large GUI all text color")]
+        public Color largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+
+
+        [Header("Minimal GUI Settings")]
+        [Tooltip("Minimal GUI background color")]
+        public Color minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
+
+        [Tooltip("Minimal GUI all text color")]
+        public Color MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+
+        [Header("General Settings")]
         public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
@@ -91,6 +106,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print commands info text with 'help' command")]
         public bool printCommandInfoTexts = true;
 
+
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
         public KeyCode consoleSubmitKey = KeyCode.Return;           // Key to submit command
@@ -100,7 +116,6 @@ namespace Anarkila.DeveloperConsole {
 
 
         [Header("Debug Settings")] // These settings only apply in Editor and Debug builds.
-
         [Tooltip("Print Developer Console debug info like startup time etc.")]
         public bool printConsoleDebugInfo = true;
 
