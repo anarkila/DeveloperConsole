@@ -23,24 +23,19 @@ namespace Anarkila.DeveloperConsole {
 
         private const float minScaleX = 0.5f;
         private const float minScaleY = 0.5f;
-        private const float maxScaleX = 1f;
+        private const float maxScaleX = 1.1f;
         private const float maxScaleY = 1f;
 
         private bool forceInsideScreenBounds = true;
         private bool resetWindowSizeOnEnable = false;
 
         private void Start() {
-            bool isWebGL = false;
 #if UNITY_WEBGL
             // Resizing currently works very oddly in WebGL so it's disabled.
             isWebGL = true;
-#endif
-
-            if (isWebGL) {
-                enabled = false;
+            enabled = false;
                 return;
-            }
-
+#endif
             maxSize = new Vector2(Screen.width - 50, Screen.height - 50);
 
             if (rectTransform != null) {
@@ -55,6 +50,8 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             else {
                 Debug.LogError("rectTransform is null! Resizing console window will not work!");
+                enabled = false;
+                return;
             }
 #endif
 
@@ -95,7 +92,6 @@ namespace Anarkila.DeveloperConsole {
         public void OnPointerDown(PointerEventData data) {
             if (rectTransform == null) return;
 
-            rectTransform.SetAsLastSibling();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, data.position, data.pressEventCamera, out previousPointerPosition);
         }
 
@@ -121,13 +117,13 @@ namespace Anarkila.DeveloperConsole {
             if (localY >= maxScaleY) localY = maxScaleY;
             if (localY <= minScaleY) localY = minScaleY;
 
-            // Lastly check that window is still inside screen boounds
-            if (ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 15f)) {
-                rectTransform.localScale = new Vector3(localX, localY, rectTransform.localScale.z);
-            }
-            else if (forceInsideScreenBounds) {
+            // check that window is still inside screen boounds if forceInsideScreenBounds is set to true
+            if (forceInsideScreenBounds && !ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 15f)) {
                 localX = previousX;
                 localY = previosY;
+            }
+            else {
+                rectTransform.localScale = new Vector3(localX, localY, rectTransform.localScale.z);
             }
         }
     }
