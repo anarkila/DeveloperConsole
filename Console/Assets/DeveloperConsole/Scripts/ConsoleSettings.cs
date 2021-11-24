@@ -2,14 +2,18 @@
 using UnityEngine;
 using System;
 
-
 namespace Anarkila.DeveloperConsole {
 
     [Serializable]
     public class ConsoleSettings {
 
         [Header("GUI Settings")]
+
+        [Tooltip("GUI style to use")]
         public ConsoleGUIStyle InterfaceStyle = ConsoleGUIStyle.Large;
+
+        [Tooltip("GUI Theme to use")]
+        public GUITheme InterfaceTheme = GUITheme.Dark;
 
 
         [Header("Large GUI Settings")]
@@ -74,7 +78,7 @@ namespace Anarkila.DeveloperConsole {
         public bool allowConsoleResize = true;
 
         [Tooltip("Allow Console Dragging (Large GUI only)")]
-        public bool allowConsoleWindowDrag= true;
+        public bool allowConsoleWindowDrag = true;
 
         [Tooltip("Whether force console to be inside screen bounds, both resize and drag")]
         public bool ForceConsoleInsideScreenBounds = false;
@@ -130,11 +134,57 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("whether to print Unity log type. ")]
         public bool printLogType = false;
+
+        public void SetColors() {
+            if (InterfaceTheme == GUITheme.Custom) return;
+
+            switch (InterfaceTheme) {
+
+                case GUITheme.Dark: // default theme
+                    largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
+                    largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
+                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+
+                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
+                    MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    break;
+
+                case GUITheme.Red:
+                    largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.55f);
+                    largeGUIBorderColor = new Color(0.2392157f, 0f, 0f, 1f);
+                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
+                    largeGUIControlsColor = new Color(0f, 0f, 0f, 1f);
+                    largeGUITextColor = new Color(1f, 0f, 0f, 1f);
+
+                    minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f);
+                    MinimalGUITextColor = new Color(1f, 0f, 0f, 1f);
+                    break;
+
+                default:
+                    largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
+                    largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
+                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+
+                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
+                    MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    break;
+            }
+        }
     }
 
     public enum ConsoleGUIStyle {
-        Minimal,
-        Large
+        Large,
+        Minimal
+    }
+
+    public enum GUITheme {
+        Dark,
+        Red,
+        Custom
     }
 
     public enum PrintOptions {

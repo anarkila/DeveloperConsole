@@ -5254,7 +5254,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    InterfaceStyle: 1
+    InterfaceStyle: 0
+    InterfaceTheme: 0
     consoleWindowDefaultSize: 0.9
     scrollSensitivity: 30
     resetWindowPositionOnEnable: 0

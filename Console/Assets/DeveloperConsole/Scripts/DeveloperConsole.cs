@@ -10,6 +10,7 @@ namespace Anarkila.DeveloperConsole {
         private static DeveloperConsole Instance;
 
         private void Awake() {
+
             // Allow only one instance of Developer Console.
             if (Instance == null) {
                 Instance = this;
@@ -27,6 +28,13 @@ namespace Anarkila.DeveloperConsole {
             }
 
             transform.SetParent(null);
+
+            // this should never happen, but just in case.
+            if (settings == null) {
+                settings = new ConsoleSettings();
+            }
+
+            settings.SetColors();
             ConsoleManager.InitilizeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
         }

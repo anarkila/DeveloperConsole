@@ -38,13 +38,13 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
 
-                if (0 <= i && i <= 12) {
+                if (0 <= i && i <= 13) {
                     AppendToList(guiSettings, name);
                 }
-                else if (13 <= i && i <= 29) {
+                else if (14 <= i && i <= 30) {
                     AppendToList(generalSettings, name);
                 }
-                else if (30 <= i && i <= 34) {
+                else if (31 <= i && i <= 35) {
                     AppendToList(keybindings, name);
                 }
                 else {
@@ -115,7 +115,15 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void RenderGUISettings() {
-            Render(guiSettings);
+            //Render(guiSettings);
+
+            bool customTheme = myTarget.settings.InterfaceTheme == GUITheme.Custom;
+            for (int i = 0; i < guiSettings.Count; i++) {
+                if (!customTheme && i >= 6) {
+                    continue;
+                }
+                EditorGUILayout.PropertyField(guiSettings[i]);
+            }
         }
 
         private void RenderGeneralSettings() {
