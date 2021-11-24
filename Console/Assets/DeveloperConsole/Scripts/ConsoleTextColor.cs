@@ -13,7 +13,7 @@ namespace Anarkila.DeveloperConsole {
             if (settings == null) return;
 
             if (TryGetComponent(out TMP_Text textComponent)) {
-                var color = style == ConsoleGUIStyle.Large ? settings.largeGUITextColor : settings.MinimalGUITextColor;
+                var color = style == ConsoleGUIStyle.Large ? settings.largeGUITextColor : settings.minimalGUITextColor;
                 textComponent.color = color;
             }
         }

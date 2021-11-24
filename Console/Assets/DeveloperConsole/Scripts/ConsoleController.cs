@@ -33,7 +33,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void SetDeveloperConsoleState(bool enable) {
-            switch (settings.InterfaceStyle) {
+            switch (settings.interfaceStyle) {
                 case ConsoleGUIStyle.Minimal:
                     minimalConsole.SetActive(enable);
                     break;

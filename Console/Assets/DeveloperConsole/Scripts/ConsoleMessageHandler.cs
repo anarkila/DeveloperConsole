@@ -75,7 +75,7 @@ namespace Anarkila.DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
                 maxMessageCount = settings.maxMessageCount;
-                currentGUIStyle = settings.InterfaceStyle;
+                currentGUIStyle = settings.interfaceStyle;
             }
             PoolObjects();
             HandleGhostMessages();

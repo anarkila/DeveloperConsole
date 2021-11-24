@@ -10,10 +10,10 @@ namespace Anarkila.DeveloperConsole {
         [Header("GUI Settings")]
 
         [Tooltip("GUI style to use")]
-        public ConsoleGUIStyle InterfaceStyle = ConsoleGUIStyle.Large;
+        public ConsoleGUIStyle interfaceStyle = ConsoleGUIStyle.Large;
 
         [Tooltip("GUI Theme to use")]
-        public GUITheme InterfaceTheme = GUITheme.Dark;
+        public GUITheme interfaceTheme = GUITheme.Dark;
 
 
         [Header("Large GUI Settings")]
@@ -30,6 +30,9 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Whether to reset console window size back to default when console is opened (Large GUI only)")]
         public bool resetWindowSizeOnEnable = false;
+
+        [Tooltip("Whether force console to be inside screen bounds, both resize and drag")]
+        public bool forceConsoleInsideScreenBounds = false;
 
         [Tooltip("ScrollRect scrollbar visibility")]
         public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
@@ -55,7 +58,7 @@ namespace Anarkila.DeveloperConsole {
         public Color minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
 
         [Tooltip("Minimal GUI all text color")]
-        public Color MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+        public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("General Settings")]
         public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
@@ -79,9 +82,6 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Allow Console Dragging (Large GUI only)")]
         public bool allowConsoleWindowDrag = true;
-
-        [Tooltip("Whether force console to be inside screen bounds, both resize and drag")]
-        public bool ForceConsoleInsideScreenBounds = false;
 
         [Tooltip("Show Cursor when Console is opened")]
         public bool showCursorOnEnable = true;
@@ -130,15 +130,15 @@ namespace Anarkila.DeveloperConsole {
         public bool collectRenderInfoEditor = true;
 
         [Tooltip("Whether to clear Unity Console too when  command 'clear' called'")]
-        public bool ClearUnityConsoleOnConsoleClear = false;
+        public bool clearUnityConsoleOnConsoleClear = false;
 
         [Tooltip("whether to print Unity log type. ")]
         public bool printLogType = false;
 
         public void SetColors() {
-            if (InterfaceTheme == GUITheme.Custom) return;
+            if (interfaceTheme == GUITheme.Custom) return;
 
-            switch (InterfaceTheme) {
+            switch (interfaceTheme) {
 
                 case GUITheme.Dark: // default theme
                     largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
@@ -148,7 +148,7 @@ namespace Anarkila.DeveloperConsole {
                     largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-                    MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
                     break;
 
                 case GUITheme.Red:
@@ -159,7 +159,7 @@ namespace Anarkila.DeveloperConsole {
                     largeGUITextColor = new Color(1f, 0f, 0f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f);
-                    MinimalGUITextColor = new Color(1f, 0f, 0f, 1f);
+                    minimalGUITextColor = new Color(1f, 0f, 0f, 1f);
                     break;
 
                 default:
@@ -170,7 +170,7 @@ namespace Anarkila.DeveloperConsole {
                     largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-                    MinimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
                     break;
             }
         }

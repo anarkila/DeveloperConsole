@@ -60,7 +60,7 @@ namespace Anarkila.DeveloperConsole {
 
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
-                forceInsideScreenBounds = settings.ForceConsoleInsideScreenBounds;
+                forceInsideScreenBounds = settings.forceConsoleInsideScreenBounds;
                 resetWindowSizeOnEnable = settings.resetWindowPositionOnEnable;
                 var size = settings.consoleWindowDefaultSize;
 

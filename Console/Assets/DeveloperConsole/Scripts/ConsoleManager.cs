@@ -85,7 +85,7 @@ namespace Anarkila.DeveloperConsole {
         private static void ConsoleClearEvent() {
             if (settings == null) return;
 
-            if (settings.ClearUnityConsoleOnConsoleClear) {
+            if (settings.clearUnityConsoleOnConsoleClear) {
                 var assembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
                 var type = assembly.GetType("UnityEditor.LogEntries");
                 var method = type.GetMethod("Clear");
@@ -138,7 +138,7 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         /// <returns></returns>
         public static ConsoleGUIStyle GetGUIStyle() {
-            return settings.InterfaceStyle;
+            return settings.interfaceStyle;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Anarkila.DeveloperConsole {
 
             settings = newsettings;
             SetPredictions(settings.showInputPredictions);
-            GUIStyleChanged(settings.InterfaceStyle);
+            GUIStyleChanged(settings.interfaceStyle);
             if (settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) {
                 Application.logMessageReceived -= UnityLogEventCallback;
             }
@@ -212,7 +212,7 @@ namespace Anarkila.DeveloperConsole {
         public static void ToggleInterfaceStyle(bool reOpenConsole = true) {
             if (reOpenConsole) ConsoleEvents.CloseConsole();
 
-            if (settings.InterfaceStyle == ConsoleGUIStyle.Large) {
+            if (settings.interfaceStyle == ConsoleGUIStyle.Large) {
                 ConsoleEvents.ChangeGUIStyle(ConsoleGUIStyle.Minimal);
             }
             else {
@@ -236,7 +236,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void GUIStyleChanged(ConsoleGUIStyle style) {
-            settings.InterfaceStyle = style;
+            settings.interfaceStyle = style;
 
             if (consoleInitialized) {
                 CommandDatabase.UpdateLists();
@@ -264,7 +264,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void UnityLogEventCallback(string text, string stackTrace, LogType type) {
-            if (settings == null || settings.InterfaceStyle == ConsoleGUIStyle.Minimal
+            if (settings == null || settings.interfaceStyle == ConsoleGUIStyle.Minimal
                 || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
 
 
