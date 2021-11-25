@@ -61,18 +61,19 @@ namespace Anarkila.DeveloperConsole {
         public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("General Settings")]
+        [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
+        public bool includeConsoleInFinalBuild = false;
+
+        [Tooltip("Whether to register static command attributes only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
+           "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
+        public bool registerStaticCommandAttributesOnly = false;
+
+        [Tooltip("Debug.Log and Debug.LogError settings")]
         public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 500)]
         public int maxMessageCount = 150;
-
-        [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
-        public bool includeConsoleInFinalBuild = false;
-
-        [Tooltip("Whether to register static command attributes only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
-            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
-        public bool registerStaticCommandAttributesOnly = false;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;
