@@ -864,6 +864,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5313586173010665361, guid: b5fbf8417053cf343a54a8bfb1069a55,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
+        type: 3}
+      propertyPath: playButtonTime
+      value: 637734683222632833
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}
 --- !u!1 &853966380

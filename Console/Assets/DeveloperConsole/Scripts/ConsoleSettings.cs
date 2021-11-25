@@ -74,7 +74,10 @@ namespace Anarkila.DeveloperConsole {
             "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandAttributesOnly = false;
 
-        [Tooltip("Show closests matching commands")]
+        [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
+        public bool allowMultipleCommands = true;
+
+        [Tooltip("Show input predictions")]
         public bool showInputPredictions = true;
 
         [Tooltip("Allow Console Resizing (Large GUI only)")]

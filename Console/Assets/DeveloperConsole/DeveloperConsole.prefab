@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &1238475018295719653
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,7 +2242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &2209081053378829791
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,7 +3902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &3945922591183338218
 GameObject:
   m_ObjectHideFlags: 0
@@ -5254,12 +5254,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    InterfaceStyle: 0
-    InterfaceTheme: 0
+    interfaceStyle: 0
+    interfaceTheme: 0
     consoleWindowDefaultSize: 0.9
     scrollSensitivity: 30
     resetWindowPositionOnEnable: 0
     resetWindowSizeOnEnable: 0
+    forceConsoleInsideScreenBounds: 0
     ScrollRectVisibility: 0
     largeGUIBackgroundColor: {r: 0.2588, g: 0.247, b: 0.2431, a: 0.55}
     largeGUIBorderColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
@@ -5267,15 +5268,15 @@ MonoBehaviour:
     largeGUIControlsColor: {r: 0.2588235, g: 0.2470588, b: 0.2431373, a: 1}
     largeGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     minimalGUIBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
-    MinimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
+    minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     unityPrintOptions: 5
     maxMessageCount: 150
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
+    allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1
     allowConsoleWindowDrag: 1
-    ForceConsoleInsideScreenBounds: 0
     showCursorOnEnable: 1
     hideCursorOnDisable: 1
     scrollToBottomOnEnable: 1
@@ -5293,7 +5294,7 @@ MonoBehaviour:
     printConsoleDebugInfo: 1
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
-    ClearUnityConsoleOnConsoleClear: 0
+    clearUnityConsoleOnConsoleClear: 0
     printLogType: 0
 --- !u!1 &5162824032744049764
 GameObject:
@@ -5477,7 +5478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &5311520247630655244
 GameObject:
   m_ObjectHideFlags: 0
@@ -7065,7 +7066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &6442647039319167372
 GameObject:
   m_ObjectHideFlags: 0
@@ -7360,7 +7361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &7037500023436688495
 GameObject:
   m_ObjectHideFlags: 0
@@ -8057,7 +8058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d9437edb5852b4eb7306f32bdc3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style: 1
+  style: 0
 --- !u!1 &7614976783169691618
 GameObject:
   m_ObjectHideFlags: 0

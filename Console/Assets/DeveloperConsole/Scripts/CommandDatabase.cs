@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using System;
 
 namespace Anarkila.DeveloperConsole {
 
-    #pragma warning disable 0168
-    #pragma warning disable 0219
+#pragma warning disable 0168
+#pragma warning disable 0219
     public static class CommandDatabase {
 
         private static List<ConsoleCommandData> consoleCommandsRegisteredBeforeInit = new List<ConsoleCommandData>();
@@ -18,25 +18,58 @@ namespace Anarkila.DeveloperConsole {
         private static List<string> commandStringsWithInfos = new List<string>(32);
         private static List<string> consoleCommandList = new List<string>(32);
         private static List<string> executedCommands = new List<string>(32);
+        private static List<string> parseList = new List<string>();
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
         private static int failedCommandCount;
 
         /// <summary>
-        /// Try to execute command from string.
+        /// Try to execute command
         /// </summary>
         public static bool TryExecuteCommand(string input) {
-            string parameterAsString = null;
-            bool foundCommand = false;
+
             bool success = false;
 
+            // Does input constain "&"
+            var constainsAnd = input.Contains(ConsoleConstants.AND);
+
+            // Test single command first
+            success = ExecuteCommand(input, constainsAnd);
+
+            // If single command failed then test multi but only if input contains "&"
+            if (!success && constainsAnd && ConsoleManager.AllowMultipleCommands()) {
+                var commandList = ParseMultipleCommands(input);
+
+                if (commandList == null || commandList.Count == 0) return success;
+
+                for (int i = 0; i < commandList.Count; i++) {
+                    success = ExecuteCommand(commandList[i]);
+
+                    if (!success) return success;
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Execute command
+        /// <summary>
+        private static bool ExecuteCommand(string input, bool silent = false) {
+
+            string parameterAsString = null;
+            bool commandFound = false;
+            bool success = false;
+
+            // Parse input for empty characters
             if (input.Contains(ConsoleConstants.EMPTYCHAR)) {
                 int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
                 index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
                 parameterAsString = input.Substring(index, input.Length - index);
                 input = input.Substring(0, index);
             }
-            //Debug.Log(parameterAsString);
+
+           
 
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
@@ -50,7 +83,7 @@ namespace Anarkila.DeveloperConsole {
                     }
                 }
 
-                foundCommand = true;
+                commandFound = true;
 
                 object[] parameter = null;
                 if (consoleCommands[i].parameterType != null) {
@@ -99,17 +132,43 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
-            if (!success && ConsoleManager.PrintUnrecognizedCommandInfo()) {
-                if (!foundCommand) {
-                    Debug.Log(string.Format("Command '{0}' was not recognized.", input));
-                }
-                //else if (Debug.isDebugBuild) {
-                //    Debug.Log(string.Format("Failed to call command '{0}'", input));
-                //}
+            if (!success && !commandFound && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
+                Debug.Log(string.Format("Command '{0}' was not recognized.", input));
                 ++failedCommandCount;
             }
 
             return success;
+        }
+
+        /// <summary>
+        /// Parse multiple commands separated by "&" or "&&"
+        /// </summary>
+        private static List<string> ParseMultipleCommands(string input) {
+            if (input == null || input.Length == 0) return null;
+
+            parseList.Clear();
+
+            string[] commandArray = input.Split(ConsoleConstants.ANDCHAR);
+
+            for (int i = 0; i < commandArray.Length; i++) {
+
+                // if commandArray length is 0, skip it
+                // this likely happens because "&&" was typed instead of "&"
+                if (commandArray[i].Length == 0) continue;
+
+                char[] arr = commandArray[i].ToCharArray();
+                for (int j = 0; j < arr.Length; j++) {
+                    if (arr[j] != ' ') {
+                        break;
+                    }
+                    else {
+                        commandArray[i] = commandArray[i].Substring(1);
+                    }
+                }
+                parseList.Add(commandArray[i]);
+            }
+
+            return parseList;
         }
 
         /// <summary>
@@ -264,6 +323,14 @@ namespace Anarkila.DeveloperConsole {
 
                 var className = method.DeclaringType;
                 var methodName = method.ToString();
+
+
+                if (commandName.Contains(ConsoleConstants.AND)) {
+#if UNITY_EDITOR
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&'. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+#endif
+                    continue;
+                }
 
                 if (string.IsNullOrEmpty(commandName)) {
 #if UNITY_EDITOR

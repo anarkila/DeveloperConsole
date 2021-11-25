@@ -21,9 +21,11 @@ public static class ConsoleConstants {
     public const string OPENBRACKET = "[";
     public const char EMPTYCHAR = ' ';
     public const char CHARCOMMA = ',';
+    public const char ANDCHAR = '&';
     public const string SPACE = " ";
     public const string COMMA = ",";
     public const string EMPTY = "";
+    public const string AND = "&";
     public const string T = "\t";
     public const string F = "f";
 

@@ -141,12 +141,12 @@ namespace Anarkila.DeveloperConsole {
             return settings.interfaceStyle;
         }
 
-        /// <summary>
-        /// Get current GUI style
-        /// </summary>
-        /// <returns></returns>
         public static bool PrintUnrecognizedCommandInfo() {
             return settings.printUnrecognizedCommandInfo;
+        }
+
+        public static bool AllowMultipleCommands() {
+            return settings.allowMultipleCommands;
         }
 
         /// <summary>
