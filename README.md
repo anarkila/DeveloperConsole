@@ -43,12 +43,13 @@ public class ExampleScript : MonoBehaviour {
 - Easy drag & drop setup
 - Mono and IL2CPP support
 - WebGL support
-- 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
+- 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log directly into Developer Console window
 - Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Console window
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
+- GUI themes (Dark, Red or Custom)
 - Documentation and example scenes
 - Generate command list into text file
 - Editor debug information:
