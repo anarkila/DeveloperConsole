@@ -32,7 +32,6 @@ namespace Anarkila.DeveloperConsole {
         private void Start() {
 #if UNITY_WEBGL
             // Resizing currently works very oddly in WebGL so it's disabled.
-            isWebGL = true;
             enabled = false;
                 return;
 #endif
