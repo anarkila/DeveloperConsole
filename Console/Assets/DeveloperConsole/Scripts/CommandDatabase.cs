@@ -374,10 +374,7 @@ namespace Anarkila.DeveloperConsole {
                 bool optionalParameter = false;
                 if (type != null) {
                     optionalParameter = parameters[0].IsOptional;
-                    Debug.Log(optionalParameter);
                 }
-
-
 
                 if (CheckForDuplicates(commandList, type, commandName, className.ToString(), methodName)) {
                     continue;
