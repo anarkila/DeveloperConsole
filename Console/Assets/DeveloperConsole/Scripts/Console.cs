@@ -11,17 +11,17 @@ public static class Console {
     /// <summary>
     /// Log message directly into Developer Console window
     /// </summary>
-    /// <param name="text">Text to print</param>
-    public static void Log(string text) {
-        ConsoleEvents.Log(text);
+    /// <param name="message">Text to print</param>
+    public static void Log(string message) {
+        ConsoleEvents.Log(message);
     }
 
     /// <summary>
     /// Log message directly into Developer Console window
     /// </summary>
-    /// <param name="obj">Object to print</param>
-    public static void Log(System.Object obj) {
-        ConsoleEvents.Log(obj.ToString());
+    /// <param name="message">Object to print</param>
+    public static void Log(System.Object message) {
+        ConsoleEvents.Log(message.ToString());
     }
 
     /// <summary>
@@ -40,8 +40,8 @@ public static class Console {
     /// If there's multiple instances of the same command, all of them will be removed.
     /// </summary>
     /// <param name="command">Command to remove</param>
-    public static void RemoveCommand(string command, bool log = false) {
-        CommandDatabase.RemoveCommand(command, log);
+    public static void RemoveCommand(string commandToRemove, bool logResult = false) {
+        CommandDatabase.RemoveCommand(commandToRemove, logResult);
     }
 
     /// <summary>
@@ -83,6 +83,15 @@ public static class Console {
     }
 
     /// <summary>
+    /// enable/disable listening default Console activator key input.
+    /// If disabled Developer Console doesn't handle opening or closing Console.
+    /// Only use this if you plan to handle opening/closing console yourself.
+    /// </summary>
+    public static void AllowConsoleActivateKey(bool enabled) {
+        ConsoleEvents.SetListenActivateKeyState(enabled);
+    }
+
+    /// <summary>
     /// Clear all console messages
     /// </summary>
     public static void ClearConsoleMessages() {
@@ -95,15 +104,6 @@ public static class Console {
     /// <param name="newKey">New keycode</param>
     public static void RebindConsoleActivateKey(KeyCode newKey) {
         ConsoleEvents.ChangeActivateKeyCode(newKey);
-    }
-
-    /// <summary>
-    /// enable/disable listening default Console activator key input.
-    /// If disabled Developer Console doesn't handle opening or closing Console.
-    /// Only use this if you plan to handle opening/closing console yourself.
-    /// </summary>
-    public static void AllowConsoleActivateKey(bool enabled) {
-        ConsoleEvents.SetListenActivateKeyState(enabled);
     }
 
     /// <summary>
