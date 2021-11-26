@@ -15,6 +15,11 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.int' successfully with value: {0} from Console!", i));
         }
 
+        [ConsoleCommand("test.int.opt")]                // this command takes in optional int parameter. 
+        private void TestIntOpt(int i = 0) {            // 'test.int.opt' is valid, as well as 'test.int.opt 42'
+            Debug.Log(string.Format("Called command 'test.int.opt' successfully with value: {0} from Console!", i));
+        }
+
         [ConsoleCommand("test.float", "3.7")]
         private void TestFloat(float f) {
             Debug.Log(string.Format("Called command 'test.float' successfully with value: {0} from Console!", f));
@@ -40,7 +45,7 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
         }
 
-        [ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon
+        [ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon -- . , : ;
         private void StringArray(string[] stringArray) {
             for (int i = 0; i < stringArray.Length; i++) {
                 Debug.Log(string.Format("Array index {0} with value: {1}", i, stringArray[i]));

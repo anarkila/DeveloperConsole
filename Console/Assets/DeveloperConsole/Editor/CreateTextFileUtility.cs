@@ -72,7 +72,7 @@ namespace Anarkila.DeveloperConsole {
                     methodType = "void ";
                 }
 
-                writer.WriteLine("Method name: " + methodType + commands[i].methodname);
+                writer.WriteLine("Method name: " + methodType + commands[i].methodName);
 
 
                 if (commands[i].hiddenCommand) {

@@ -8,6 +8,7 @@ namespace Anarkila.DeveloperConsole {
 
     public static class ParameterParser {
 
+        // Creating new list in C# would create garbage
         private static List<float> floats = new List<float>();
 
         /// <summary>
@@ -59,8 +60,8 @@ namespace Anarkila.DeveloperConsole {
         private static object ParseUnityTypes(string input, Type type) {
             if (input == null) return input;
 
-            // Delete all f's from strings
-            input = ConsoleUtils.DeleteCharF(input);
+            // Delete all character 'f' from string
+            input = ConsoleUtils.DeleteCharacterF(input);
 
             string[] paramArr;
             if (input.Contains(ConsoleConstants.COMMA)) {
@@ -71,7 +72,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             float f;
-            floats.Clear(); // Creating new list would generate garbage.
+            floats.Clear();  // Creating new list in C# would create garbage
 
             for (int i = 0; i < paramArr.Length; i++) {
                 if (float.TryParse(paramArr[i], out f)) {
@@ -159,7 +160,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static object ParseFloat(string input) {
-            input = ConsoleUtils.DeleteCharF(input);
+            input = ConsoleUtils.DeleteCharacterF(input);
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
 
             float number;

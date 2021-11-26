@@ -149,6 +149,10 @@ namespace Anarkila.DeveloperConsole {
             return settings.allowMultipleCommands;
         }
 
+        public static bool IsCaseSensetive() {
+            return settings.caseSensetive;
+        }
+
         /// <summary>
         /// Set new ConsoleSettings
         /// </summary>

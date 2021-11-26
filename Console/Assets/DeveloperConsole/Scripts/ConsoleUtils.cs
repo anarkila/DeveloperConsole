@@ -22,7 +22,7 @@ namespace Anarkila.DeveloperConsole {
             return new String(newarr, 0, j);
         }
 
-        public static string DeleteCharF(string input) {
+        public static string DeleteCharacterF(string input) {
             if (input == null) return input;
 
             return input.Replace(ConsoleConstants.F, ConsoleConstants.EMPTY);

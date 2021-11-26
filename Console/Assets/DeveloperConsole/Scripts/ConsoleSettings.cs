@@ -60,6 +60,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Minimal GUI all text color")]
         public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
 
+
         [Header("General Settings")]
         [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
         public bool includeConsoleInFinalBuild = false;
@@ -74,6 +75,9 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 500)]
         public int maxMessageCount = 150;
+
+        [Tooltip("Whether calling commands must be case sensetive'")]
+        public bool caseSensetive = false;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;
@@ -142,6 +146,7 @@ namespace Anarkila.DeveloperConsole {
         public void SetColors() {
             if (interfaceTheme == GUITheme.Custom) return;
 
+            // Perhaps not the cleanest solution but simple.
             switch (interfaceTheme) {
 
                 case GUITheme.Dark: // default theme

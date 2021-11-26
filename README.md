@@ -7,8 +7,7 @@ Developer Console for Unity with easy integration to existing projects.
 ### Use cases 
 - Development cheats
 - Debug assistance
-- In game cheat codes
-- Change settings easily in game
+- In game cheat codes, change settings easily etc
 
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png)
 
@@ -38,10 +37,11 @@ public class ExampleScript : MonoBehaviour {
 ## Features
 
 - Call static, non-static and Unity Coroutines methods (both public and private)
-- Single parameter support with following types:
-    - int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
+- Single parameter support:
+    - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
+    - Optional parameter support
 - Easy drag & drop setup
-- Support for both Unity backends: Mono and IL2CPP
+- Mono and IL2CPP support
 - WebGL support
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
