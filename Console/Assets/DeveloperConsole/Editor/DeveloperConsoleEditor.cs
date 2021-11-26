@@ -58,7 +58,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         public override void OnInspectorGUI() {
-            EditorGUILayout.LabelField("Developer Console 0.9.0", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Developer Console 0.8.2", EditorStyles.boldLabel);
 
             renderCustomGUI = EditorGUILayout.Toggle("Custom GUI", renderCustomGUI);
             GUILayout.Space(20);

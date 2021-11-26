@@ -5269,10 +5269,11 @@ MonoBehaviour:
     largeGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     minimalGUIBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
     minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
-    unityPrintOptions: 5
-    maxMessageCount: 150
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
+    unityPrintOptions: 5
+    maxMessageCount: 150
+    caseSensetive: 0
     allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1
