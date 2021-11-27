@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public static class ConsoleConstants {
@@ -10,6 +9,7 @@ public static class ConsoleConstants {
     public const string UNLIMITED = "Unlimited";
 #endif
 
+    public const string REGISTEREDSTATIC = "(Registered static commands only) ";
     public const string COMMANDMESSAGE = "All available commands:";
     public const string CONSOLEINIT = "Console Initialized. ";
     public const string COLOR_RED_START = "<color=red>";

@@ -25,7 +25,7 @@ namespace Anarkila.DeveloperConsole {
         public static void SwitchGUIStyle() => ConsoleManager.ToggleInterfaceStyle();
 
         public static event Action<string> RegisterDeveloperConsoleLogEvent;
-        public static void Log(string text) => ConsoleManager.PrintLog(text, RegisterDeveloperConsoleLogEvent);
+        public static void Log(string text) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent);
         public static void DirectLog(string text) => RegisterDeveloperConsoleLogEvent.Invoke(text);
 
         public static event Action<List<string>> RegisterConsolePredictionEvent;
@@ -39,6 +39,9 @@ namespace Anarkila.DeveloperConsole {
 
         public static event Action RegisterConsoleRefreshEvent;
         public static void RefreshConsole() => RegisterConsoleRefreshEvent?.Invoke();
+
+        public static event Action RegisterConsoleInitializedEvent;
+        public static void ConsoleInitialized() => RegisterConsoleInitializedEvent?.Invoke();
 
         public static event Action RegisterConsoleScrollMoveEvent;
         public static void ScrollToBottom() => RegisterConsoleScrollMoveEvent?.Invoke();

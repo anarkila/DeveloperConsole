@@ -1,6 +1,6 @@
-﻿using UnityEngine.UI;
+﻿using System;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -69,8 +69,11 @@ namespace Anarkila.DeveloperConsole {
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandAttributesOnly = false;
 
-        [Tooltip("Debug.Log and Debug.LogError settings")]
-        public PrintOptions unityPrintOptions = PrintOptions.PrintDebugLogExpectionsWithStackTrace;
+        [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console")]
+        public ConsoleLogOptions UnityLogOptions = ConsoleLogOptions.LogExpectionsWithStackTrace;
+
+        [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads")]
+        public ConsoleLogOptions unityThreadedLogOptions = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 500)]
@@ -196,32 +199,32 @@ namespace Anarkila.DeveloperConsole {
         Custom
     }
 
-    public enum PrintOptions {
+    public enum ConsoleLogOptions {
         // Don't print any Debug.Log/LogError to Console
-        DontPrintDebugLogs,
+        DontPrintLogs,
 
         // Print expections to Console such as
         // "UnityException: Transform child out of bounds"
         // In Unity Editor only!
-        PrintDebugLogsWithExpectionsEditorOnly,
+        LogWithExpectionsEditorOnly,
 
         // Print expections expections with stack trace to Console such as
         // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
         // in Unity Editor only!
-        PrintDebugLogsExpectionsWithStackTraceEditorOnly,
+        LogExpectionsWithStackTraceEditorOnly,
 
         // Print Debug logs without expections or stack traces to Console
         // In Editor and Build!
-        PrintDebugLogsWithoutExpections,
+        LogWithoutExpections,
 
         // Print expections to Console such
         // as "UnityException: Transform child out of bounds"
         // In Editor and Build!
-        PrintDebugLogsWithExpections,
+        LogWithExpections,
 
         // Print expections with stack trace to Console such as
         // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
         // In Editor and Build!
-        PrintDebugLogExpectionsWithStackTrace
+        LogExpectionsWithStackTrace
     }
 }

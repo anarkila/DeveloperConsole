@@ -45,16 +45,15 @@ namespace Anarkila.DeveloperConsole {
                 for (int i = 0; i < commandList.Count; i++) {
                     success = ExecuteCommand(commandList[i]);
 
-                    if (!success) return success;
+                    // uncomment this if you wish to return after command have failed.
+                    //if (!success) return success;
                 }
             }
 
             return success;
         }
 
-        /// <summary>
-        /// Execute command
-        /// <summary>
+
         private static bool ExecuteCommand(string input, bool silent = false) {
 
             string parameterAsString = null;
@@ -280,7 +279,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Get all [ConsoleCommand()] attributes from C# assembly.
+        /// Get all [ConsoleCommand()] attributes
         /// </summary>
         public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly) {
             IEnumerable<MethodInfo> methods = null;
@@ -376,11 +375,12 @@ namespace Anarkila.DeveloperConsole {
                     optionalParameter = parameters[0].IsOptional;
                 }
 
-                if (CheckForDuplicates(commandList, type, commandName, className.ToString(), methodName)) {
+                string classNameString = className.ToString();
+                if (CheckForDuplicates(commandList, type, commandName, classNameString, methodName)) {
                     continue;
                 }
 
-                var newData = new ConsoleCommandData(null, methodName, commandName, defaultValue, info, type, isStatic, method, isCoroutine, optionalParameter, hiddenCommand, hiddenMinimalGUI, className.ToString());
+                var newData = new ConsoleCommandData(null, methodName, commandName, defaultValue, info, type, isStatic, method, isCoroutine, optionalParameter, hiddenCommand, hiddenMinimalGUI, classNameString);
 
                 if (isStatic) {
                     staticCommands.Add(newData);
@@ -590,16 +590,14 @@ namespace Anarkila.DeveloperConsole {
 
             for (int i = 0; i < commandList.Count; i++) {
                 if (commandName == commandList[i].commandName) {
+
                     if (className != commandList[i].scriptNameString
                         || methodName != commandList[i].methodName
                         || parameter != commandList[i].parameterType) {
 #if UNITY_EDITOR
-                        // If you see this this debug.log in Unity and/or developer console then you have
-                        // same console command in multiple places
-                        // try to avoid using same command in two places!
                         Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
                               "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
-                              "Give this method another [ConsoleCommand()] command name!", commandName, className, methodName));
+                              "Give this attribute other command name!", commandName, className, methodName));
 #endif
                         foundDuplicate = true;
                     }

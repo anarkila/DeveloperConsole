@@ -184,7 +184,7 @@ namespace Anarkila.DeveloperConsole {
         private void PredictInput(string text) {
             if (inputField == null || !allowPredictions) return;
 
-            if (string.IsNullOrEmpty(text)) {
+            if (string.IsNullOrEmpty(text) || text.Length == 0 || text.Contains(ConsoleConstants.AND)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
                 return;

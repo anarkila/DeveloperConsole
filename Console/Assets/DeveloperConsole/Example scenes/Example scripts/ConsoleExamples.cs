@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Anarkila.DeveloperConsole {
@@ -114,6 +116,18 @@ namespace Anarkila.DeveloperConsole {
                 Console.Log(text);
             }
         }
+
+#if UNITY_EDITOR
+#if !UNITY_WEBGL
+        [ConsoleCommand("test.threadedlog")]
+        private void PrintLogFromAnotherThread() {
+            Task.Run(() =>{
+                Debug.Log("Logged message from thread " + Thread.CurrentThread.ManagedThreadId);
+                //Console.Log("Message from thread: " + Thread.CurrentThread.ManagedThreadId); // todo
+            });
+        }
+# endif
+#endif
 
         [ConsoleCommand("test.colors")]
         private void PrintColors() {

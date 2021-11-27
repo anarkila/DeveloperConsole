@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Text;
 using UnityEngine;
 using System;
 
@@ -11,17 +10,13 @@ namespace Anarkila.DeveloperConsole {
 #pragma warning disable 1998
     public static class ConsoleManager {
 
-        public static Dictionary<LogType, string> LogTypes = new Dictionary<LogType, string>();
-        private static List<string> messagesBeforeInitDone = new List<string>();
         private static ConsoleSettings settings = new ConsoleSettings();
-        private static StringBuilder sb = new StringBuilder();
         private static bool consoleInitialized = false;
         private static bool showSuggestions = true;
         private static int sceneChangeCount = 0;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
         private static bool consoleIsOpen;
-        private static int messageCount;
 
         /// <summary>
         /// Initilize Developer Console
@@ -29,13 +24,8 @@ namespace Anarkila.DeveloperConsole {
         public static void InitilizeDeveloperConsole(ConsoleSettings settings, Thread thread) {
             if (initDone) return;
 
-            foreach (LogType logType in Enum.GetValues(typeof(LogType))) {
-                LogTypes.Add(logType, logType.ToString());
-            }
-
             UnityMainThreadID = thread;
 
-            Application.logMessageReceived += UnityLogEventCallback;                    // Get logMessageReceived callback from Unity Engine
             SceneManager.sceneLoaded += SceneLoadCallback;                              // Register OnSceneChanged  event from Unity Engine
             Application.quitting += OnDestroy;                                          // Register ApplicationQuit event from Unity Engine
 
@@ -55,8 +45,6 @@ namespace Anarkila.DeveloperConsole {
         /// OnDestroy callback from Unity Engine.
         /// </summary>
         private static void OnDestroy() {
-
-            Application.logMessageReceived -= UnityLogEventCallback;
             SceneManager.sceneLoaded -= SceneLoadCallback;
             Application.quitting -= OnDestroy;
 
@@ -69,12 +57,10 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
 #if UNITY_EDITOR
-            if (settings.printConsoleDebugInfo) {
-
+            if (settings != null && settings.printConsoleDebugInfo) {
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
                 var failedCommandCount = CommandDatabase.GetFailedCommandCount();
 
-                if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
                 if (executedCommandCount != 0) Debug.Log(string.Format("Console Commands was called {0} times.", executedCommandCount));
                 if (failedCommandCount != 0) Debug.Log(string.Format("Failed or not recognized commands was called {0} times.", failedCommandCount));
             }
@@ -163,10 +149,6 @@ namespace Anarkila.DeveloperConsole {
             settings = newsettings;
             SetPredictions(settings.showInputPredictions);
             GUIStyleChanged(settings.interfaceStyle);
-            if (settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) {
-                Application.logMessageReceived -= UnityLogEventCallback;
-            }
-
             ConsoleEvents.NewSettingsSet();
         }
 
@@ -180,41 +162,11 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private static string AddMessagePrefix(string prefixMessage, string msg) {
-            sb.Clear();
-            sb.Append(ConsoleConstants.OPENBRACKET);
-            sb.Append(prefixMessage);
-            sb.Append(ConsoleConstants.CLOSEDBRACKET);
-            sb.Append(msg);
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Print message to Developer Console
-        /// </summary>
-        public static void PrintLog(string text, Action<string> subscribers) {
-            if (!Application.isPlaying || !IsRunningOnMainThread(Thread.CurrentThread)) return;
-
-            if (settings.printMessageTimestamps) {
-                text = AddMessagePrefix(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT), text);
-            }
-
-            if (!consoleInitialized) {
-                messagesBeforeInitDone.Add(text);
-                return;
-            }
-
-            if (subscribers != null && Application.isPlaying) {
-                subscribers.Invoke(text);
-            }
-        }
-
         /// <summary>
         /// Toggle GUI style between Large and minimal
         /// </summary>
-        public static void ToggleInterfaceStyle(bool reOpenConsole = true) {
-            if (reOpenConsole) ConsoleEvents.CloseConsole();
+        public static void ToggleInterfaceStyle(bool reOpen = true) {
+            if (reOpen) ConsoleEvents.CloseConsole();
 
             if (settings.interfaceStyle == ConsoleGUIStyle.Large) {
                 ConsoleEvents.ChangeGUIStyle(ConsoleGUIStyle.Minimal);
@@ -223,13 +175,15 @@ namespace Anarkila.DeveloperConsole {
                 ConsoleEvents.ChangeGUIStyle(ConsoleGUIStyle.Large);
             }
 
-            if (reOpenConsole) ConsoleEvents.OpenConsole();
+            if (reOpen) ConsoleEvents.OpenConsole();
         }
 
         /// <summary>
         /// Check if we are in Unity main thread
         /// </summary>
-        private static bool IsRunningOnMainThread(Thread thread) {
+        public static bool IsRunningOnMainThread(Thread thread) {
+            if (UnityMainThreadID == null) return false;
+
             return thread == UnityMainThreadID;
         }
 
@@ -241,7 +195,6 @@ namespace Anarkila.DeveloperConsole {
 
         private static void GUIStyleChanged(ConsoleGUIStyle style) {
             settings.interfaceStyle = style;
-
             if (consoleInitialized) {
                 CommandDatabase.UpdateLists();
                 ConsoleEvents.RefreshConsole();
@@ -265,47 +218,6 @@ namespace Anarkila.DeveloperConsole {
                     ConsoleUtils.ShowCursor(false);
                 }
             }
-        }
-
-        private static void UnityLogEventCallback(string text, string stackTrace, LogType type) {
-            if (settings == null || settings.interfaceStyle == ConsoleGUIStyle.Minimal
-                || settings.unityPrintOptions == PrintOptions.DontPrintDebugLogs) return;
-
-
-            if (type == LogType.Error || type == LogType.Exception) {
-                switch (settings.unityPrintOptions) {
-
-                    case PrintOptions.PrintDebugLogsWithoutExpections:
-                        return;
-
-                    case PrintOptions.PrintDebugLogExpectionsWithStackTrace:
-                        text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
-                        break;
-
-                    case PrintOptions.PrintDebugLogsWithExpections:
-                        text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
-                        break;
-
-                    case PrintOptions.PrintDebugLogsExpectionsWithStackTraceEditorOnly:
-#if UNITY_EDITOR
-                        text = string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, text, stackTrace, ConsoleConstants.COLOR_END);
-#endif
-                        break;
-
-                    case PrintOptions.PrintDebugLogsWithExpectionsEditorOnly:
-#if UNITY_EDITOR
-                        text = string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, text, ConsoleConstants.COLOR_END);
-#endif
-                        break;
-                }
-            }
-
-            if (settings.printLogType && Debug.isDebugBuild) {
-                text = AddMessagePrefix(LogTypes[type], text);
-            }
-
-            ConsoleEvents.Log(text);
-            ++messageCount;
         }
 
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
@@ -350,16 +262,6 @@ namespace Anarkila.DeveloperConsole {
             }
             consoleInitialized = true;
 
-            // Print all messages that were called before console wasn't fully initialized.
-            // For example if Debug.Log/Console.Log was called in Awake..
-            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                if (!Application.isPlaying) continue;
-
-                ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
-                //Console.Log(messagesBeforeInitDone[i]);
-            }
-            messagesBeforeInitDone.Clear();
-
             var partOne = Math.Round(ms, 1);
             var partTwo = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
 
@@ -367,7 +269,7 @@ namespace Anarkila.DeveloperConsole {
 
 #if UNITY_EDITOR
             if (settings.printConsoleDebugInfo && settings.registerStaticCommandAttributesOnly) {
-                staticOnly = "(static commands only) ";
+                staticOnly = ConsoleConstants.REGISTEREDSTATIC;
             }
 #endif
             if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
@@ -396,6 +298,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             ConsoleEvents.RefreshConsole();
+            ConsoleEvents.ConsoleInitialized();
         }
     }
 }

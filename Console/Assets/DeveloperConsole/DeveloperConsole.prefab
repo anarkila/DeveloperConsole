@@ -5271,7 +5271,8 @@ MonoBehaviour:
     minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
-    unityPrintOptions: 5
+    UnityLogOptions: 5
+    unityThreadedLogOptions: 2
     maxMessageCount: 150
     caseSensetive: 0
     allowMultipleCommands: 1
@@ -6132,6 +6133,7 @@ GameObject:
   - component: {fileID: 3642370973653600593}
   - component: {fileID: 8681050125355759076}
   - component: {fileID: 6528089719648083598}
+  - component: {fileID: 7106105780779474707}
   m_Layer: 0
   m_Name: Canvas Base
   m_TagString: Untagged
@@ -6279,6 +6281,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11a3d05384c76dc44941c7c0039c2e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7106105780779474707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313586173010665362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506c46618b6ddd84fb3711049529afb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5313586173059821191
