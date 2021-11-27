@@ -23,7 +23,7 @@ namespace Anarkila.DeveloperConsole {
         /// Init Message Printer
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Init() {
+        public static void Init() {
             if (initDone) return;
 
             foreach (LogType logType in Enum.GetValues(typeof(LogType))) {
@@ -45,8 +45,6 @@ namespace Anarkila.DeveloperConsole {
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
             if (consoleInitialized) {
                 for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                    if (!Application.isPlaying) continue;
-
                     ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
                 }
                 messagesBeforeInitDone.Clear();
@@ -55,14 +53,12 @@ namespace Anarkila.DeveloperConsole {
 
         private static void Refresh() {
             settings = ConsoleManager.GetSettings();
-            consoleInitialized = ConsoleManager.IsConsoleInitialized();
         }
 
         /// <summary>
         /// OnDestroy callback from Unity Engine.
         /// </summary>
         private static void OnDestroy() {
-
             Application.logMessageReceived -= UnityLogEvent;
             Application.quitting -= OnDestroy;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
@@ -79,7 +75,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void UnityLogEvent(string input, string stackTrace, LogType type) {
-            if (settings == null || settings.interfaceStyle == ConsoleGUIStyle.Minimal
+            if (currentGUIStyle == ConsoleGUIStyle.Minimal
                 || settings.UnityLogOptions == ConsoleLogOptions.DontPrintLogs) return;
 
             if (type == LogType.Error || type == LogType.Exception) {

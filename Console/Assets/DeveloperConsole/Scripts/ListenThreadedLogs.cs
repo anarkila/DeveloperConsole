@@ -21,6 +21,11 @@ namespace Anarkila.DeveloperConsole {
         private static volatile bool messagesQueued = false;
 
         private void Awake() {
+#if UNITY_WEBGL
+            enabled = false;
+            return;
+#endif
+
             if (Instance == null) {
                 Instance = this;
             }

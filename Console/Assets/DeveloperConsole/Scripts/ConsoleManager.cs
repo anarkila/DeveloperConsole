@@ -35,9 +35,8 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
 #endif
-
+            MessagePrinter.Init();
             SetSettings(settings);
-
             initDone = true;
         }
 
@@ -122,7 +121,6 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get current GUI style
         /// </summary>
-        /// <returns></returns>
         public static ConsoleGUIStyle GetGUIStyle() {
             return settings.interfaceStyle;
         }
@@ -142,7 +140,6 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Set new ConsoleSettings
         /// </summary>
-        /// <param name="newsettings"></param>
         public static void SetSettings(ConsoleSettings newsettings) {
             if (newsettings == null) return;
 
@@ -153,9 +150,8 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Set new ConsoleSettings
+        /// Set GUI style to use
         /// </summary>
-        /// <param name="newsettings"></param>
         public static void SetGUIStyle(ConsoleGUIStyle style) {
             if (style != GetGUIStyle()) {
                 ToggleInterfaceStyle(false);
@@ -277,7 +273,6 @@ namespace Anarkila.DeveloperConsole {
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
                 var total = partOne + partTwo;
-                //Debug.Log(string.Format("Console Initialization work {0} took: {1} ms", staticOnly, total));
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
 #else
@@ -287,14 +282,13 @@ namespace Anarkila.DeveloperConsole {
                     message += string.Format("and non-threaded work took: {0} ms.", partTwo);
                 }
 
-                // Uncomment below line if you wish to log this into Developer Console instead
-                //Console.Log(message);
-                Debug.Log(message);
+                //Debug.Log(message);
+                Console.Log(message);
 #endif
             }
 
             if (settings.printStartupHelpText) {
-                Console.Log("Type 'help' and press Enter to print all available commands.");
+                ConsoleEvents.Log("Type 'help' and press Enter to print all available commands.");
             }
 
             ConsoleEvents.RefreshConsole();

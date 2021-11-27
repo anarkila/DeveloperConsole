@@ -101,7 +101,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void LogMessage(string text) {
-            if (messageParent == null) return;
+            if (!Application.isPlaying || messageParent == null) return;
 
             var messageObj = SpawnMessageFromPool(text);
             if (messageObj == null) return;
