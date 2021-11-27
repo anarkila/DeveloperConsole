@@ -40,7 +40,7 @@ namespace Anarkila.DeveloperConsole {
             if (settings == null) return;
 
             // Get current log option setting for threaded logs
-            logOption = settings.unityThreadedLogOptions;
+            logOption = settings.unityThreadedLogOption;
 
             // Don't print logs if ConsoleLogOptions.DontPrintLogs enum is selected
             if (logOption == ConsoleLogOptions.DontPrintLogs) {

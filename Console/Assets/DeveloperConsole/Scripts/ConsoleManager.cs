@@ -12,7 +12,7 @@ namespace Anarkila.DeveloperConsole {
 
         private static ConsoleSettings settings = new ConsoleSettings();
         private static bool consoleInitialized = false;
-        private static bool showSuggestions = true;
+        private static bool showInputPredictions = true;
         private static int sceneChangeCount = 0;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
@@ -26,8 +26,8 @@ namespace Anarkila.DeveloperConsole {
 
             UnityMainThreadID = thread;
 
-            SceneManager.sceneLoaded += SceneLoadCallback;                              // Register OnSceneChanged  event from Unity Engine
-            Application.quitting += OnDestroy;                                          // Register ApplicationQuit event from Unity Engine
+            SceneManager.sceneLoaded += SceneLoadCallback;
+            Application.quitting += OnDestroy;
 
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
@@ -81,7 +81,6 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get current console settings
         /// </summary>
-        /// <returns></returns>
         public static ConsoleSettings GetSettings() {
             return settings;
         }
@@ -89,9 +88,8 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Show Console Predictions
         /// </summary>
-        /// <returns>boolean</returns>
         public static bool ShowConsolePredictions() {
-            return showSuggestions;
+            return showInputPredictions;
         }
 
         /// <summary>
@@ -125,14 +123,23 @@ namespace Anarkila.DeveloperConsole {
             return settings.interfaceStyle;
         }
 
+        /// <summary>
+        /// Get current setting printUnrecognizedCommandInfo
+        /// </summary>
         public static bool PrintUnrecognizedCommandInfo() {
             return settings.printUnrecognizedCommandInfo;
         }
 
+        /// <summary>
+        /// Get current setting allowMultipleCommands
+        /// </summary>
         public static bool AllowMultipleCommands() {
             return settings.allowMultipleCommands;
         }
 
+        /// <summary>
+        /// Get current setting caseSensetive
+        /// </summary>
         public static bool IsCaseSensetive() {
             return settings.caseSensetive;
         }
@@ -144,7 +151,7 @@ namespace Anarkila.DeveloperConsole {
             if (newsettings == null) return;
 
             settings = newsettings;
-            SetPredictions(settings.showInputPredictions);
+            showInputPredictions = settings.showInputPredictions;
             GUIStyleChanged(settings.interfaceStyle);
             ConsoleEvents.NewSettingsSet();
         }
@@ -183,9 +190,12 @@ namespace Anarkila.DeveloperConsole {
             return thread == UnityMainThreadID;
         }
 
+        /// <summary>
+        /// Rebind console activate key (default §)
+        /// </summary>
+        /// <param name="key"></param>
         private static void RebindActivateKeyEvent(KeyCode key) {
             settings.consoleToggleKey = key;
-
             SetSettings(settings);
         }
 
@@ -195,10 +205,6 @@ namespace Anarkila.DeveloperConsole {
                 CommandDatabase.UpdateLists();
                 ConsoleEvents.RefreshConsole();
             }
-        }
-
-        private static void SetPredictions(bool show) {
-            showSuggestions = show;
         }
 
         private static void ConsoleState(bool enabled) {

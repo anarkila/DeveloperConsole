@@ -70,10 +70,10 @@ namespace Anarkila.DeveloperConsole {
         public bool registerStaticCommandAttributesOnly = false;
 
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console")]
-        public ConsoleLogOptions UnityLogOptions = ConsoleLogOptions.LogExpectionsWithStackTrace;
+        public ConsoleLogOptions UnityLogOption = ConsoleLogOptions.LogExpectionsWithStackTrace;
 
         [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads")]
-        public ConsoleLogOptions unityThreadedLogOptions = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
+        public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 500)]

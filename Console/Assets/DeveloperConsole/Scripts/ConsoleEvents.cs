@@ -40,6 +40,9 @@ namespace Anarkila.DeveloperConsole {
         public static event Action RegisterConsoleRefreshEvent;
         public static void RefreshConsole() => RegisterConsoleRefreshEvent?.Invoke();
 
+        public static event Action RegisterSettingsChangedEvent;
+        public static void NewSettingsSet() => RegisterSettingsChangedEvent?.Invoke();
+
         public static event Action RegisterConsoleInitializedEvent;
         public static void ConsoleInitialized() => RegisterConsoleInitializedEvent?.Invoke();
 
@@ -64,9 +67,6 @@ namespace Anarkila.DeveloperConsole {
 
         public static event Action<KeyCode> RegisterConsoleActivateKeyChangeEvent;
         public static void ChangeActivateKeyCode(KeyCode key) => RegisterConsoleActivateKeyChangeEvent?.Invoke(key);
-
-        public static event Action RegisterSettingsChangedEvent;
-        public static void NewSettingsSet() => RegisterSettingsChangedEvent?.Invoke();
 
         public static event Action<float> RegisterDestroyEvent;
         public static void DestroyConsole(float time) => RegisterDestroyEvent?.Invoke(time);

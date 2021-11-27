@@ -32,26 +32,26 @@ namespace Anarkila.DeveloperConsole {
 
             Application.logMessageReceived += UnityLogEvent;
             Application.quitting += OnDestroy;
-
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
-            ConsoleEvents.RegisterConsoleRefreshEvent += Refresh;
+            ConsoleEvents.RegisterSettingsChangedEvent += GetSettings;
             ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleIsInitialized;
             initDone = true;
         }
+
 
         private static void ConsoleIsInitialized() {
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
-            if (consoleInitialized) {
-                for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                    ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
-                }
-                messagesBeforeInitDone.Clear();
+
+            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
             }
+            messagesBeforeInitDone.Clear();
+            GetSettings();
         }
 
-        private static void Refresh() {
+        private static void GetSettings() {
             settings = ConsoleManager.GetSettings();
         }
 
@@ -62,6 +62,8 @@ namespace Anarkila.DeveloperConsole {
             Application.logMessageReceived -= UnityLogEvent;
             Application.quitting -= OnDestroy;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
+            ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
+            ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
 #if UNITY_EDITOR
             if (settings != null && settings.printConsoleDebugInfo) {
@@ -76,10 +78,10 @@ namespace Anarkila.DeveloperConsole {
 
         private static void UnityLogEvent(string input, string stackTrace, LogType type) {
             if (currentGUIStyle == ConsoleGUIStyle.Minimal
-                || settings.UnityLogOptions == ConsoleLogOptions.DontPrintLogs) return;
+                || settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs) return;
 
             if (type == LogType.Error || type == LogType.Exception) {
-                input = AppendStrackTrace(input, stackTrace, settings.UnityLogOptions);
+                input = AppendStrackTrace(input, stackTrace, settings.UnityLogOption);
             }
 
             if (settings.printLogType && Debug.isDebugBuild) {
