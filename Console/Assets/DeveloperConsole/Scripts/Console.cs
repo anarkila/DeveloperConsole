@@ -144,9 +144,13 @@ public static class Console {
 
     /// <summary>
     /// Register to receive Developer Console state change event
-    /// See FreeCamera.cs for example usage
     /// </summary>
     public static event Action<bool> RegisterConsoleStateChangeEvent;
+
+    /// <summary>
+    /// Register to receive Developer Console initialized event
+    /// </summary>
+    public static event Action RegisterConsoleInitializedEvent;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Initialization() {
@@ -154,10 +158,16 @@ public static class Console {
         if (!settings.includeConsoleInFinalBuild && !Debug.isDebugBuild) return;
 
         ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChanged;
+        ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleInitialized;
         Application.quitting += () => ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChanged;
+        Application.quitting += () => ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleInitialized;
     }
 
     private static void ConsoleStateChanged(bool enabled) {
         RegisterConsoleStateChangeEvent?.Invoke(enabled);
+    }
+
+    private static void ConsoleInitialized() {
+        RegisterConsoleInitializedEvent?.Invoke();
     }
 }

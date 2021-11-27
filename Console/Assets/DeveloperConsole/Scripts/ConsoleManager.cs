@@ -21,7 +21,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Initilize Developer Console
         /// </summary>
-        public static void InitilizeDeveloperConsole(ConsoleSettings settings, Thread thread) {
+        public static void InitializeDeveloperConsole(ConsoleSettings settings, Thread thread) {
             if (initDone) return;
 
             UnityMainThreadID = thread;
@@ -288,7 +288,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             if (settings.printStartupHelpText) {
-                ConsoleEvents.Log("Type 'help' and press Enter to print all available commands.");
+                ConsoleEvents.Log(ConsoleConstants.HELPTEXT);
             }
 
             ConsoleEvents.RefreshConsole();

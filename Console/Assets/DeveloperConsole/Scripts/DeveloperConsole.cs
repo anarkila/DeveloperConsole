@@ -35,7 +35,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             settings.SetColors();
-            ConsoleManager.InitilizeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
+            ConsoleManager.InitializeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
         }
 
