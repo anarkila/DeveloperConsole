@@ -32,6 +32,7 @@ namespace Anarkila.DeveloperConsole {
 
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
         private List<GameObject> currentMessages = new List<GameObject>(64);
+        private List<string> msgsBeforeSetupDone = new List<string>(64);
         private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
@@ -46,7 +47,6 @@ namespace Anarkila.DeveloperConsole {
         private void Awake() {
             cachedTransform = this.transform;
             if (content != null) {
-
                 if (content.TryGetComponent(out RectTransform rect)) {
                     rectTransform = rect;
                 }
@@ -101,8 +101,8 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void LogMessage(string text) {
-            if (!Application.isPlaying || messageParent == null) return;
-
+            if (!Application.isPlaying) return;
+           
             var messageObj = SpawnMessageFromPool(text);
             if (messageObj == null) return;
 
@@ -138,10 +138,18 @@ namespace Anarkila.DeveloperConsole {
             }
             poolDictionary.Add(pool.tag, objectPool);
             setupDone = true;
+
+            for (int i = 0; i < msgsBeforeSetupDone.Count; i++) {
+                LogMessage(msgsBeforeSetupDone[i]);
+            }
+            msgsBeforeSetupDone.Clear();
         }
 
         private GameObject SpawnMessageFromPool(string message) {
-            if (!setupDone || messageParent == null) return null;
+            if (!setupDone || messageParent == null) {
+                msgsBeforeSetupDone.Add(message);
+                return null;
+            }
 
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
 
