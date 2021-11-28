@@ -9,10 +9,10 @@ Developer Console for Unity with easy integration to existing projects.
 - Debug assistance
 - In game cheat codes, change settings easily etc
 
-![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large.png)
+![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG)
 
 ## Getting Started
-1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.1/DeveloperConsole_0.8.1.unitypackage) into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.2/DeveloperConsole_0.8.2.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
 3. Add ``[ConsoleCommand()]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
@@ -71,9 +71,7 @@ Developer Console comes with few commands by default.
 * ``scene.uloadbyindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene.unloadbyname (string)`` - UnLoad scene asynchronously by scene name
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
-
-Editor Only:
-* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count.
+* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.
@@ -90,7 +88,6 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 
 ## TODO
 - Explore ways to have multiple parameters
-- Improve both GUI's
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
 - Support for no Domain/Scene reload
