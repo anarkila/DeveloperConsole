@@ -69,10 +69,12 @@ namespace Anarkila.DeveloperConsole {
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandAttributesOnly = false;
 
-        [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console")]
+
+        // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
+        [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
         public ConsoleLogOptions UnityLogOption = ConsoleLogOptions.LogExpectionsWithStackTrace;
 
-        [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads")]
+        [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads (Large GUI only)")]
         public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
 
         [Tooltip("Max message count before starting to recycle from beginning")]

@@ -3,8 +3,7 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// Class to easily log to Developer Console from anywhere 
-/// without adding DeveloperConsole namespace
+/// Class to interact with Developer Console from anywhere
 /// </summary>
 public static class Console {
 
@@ -151,6 +150,7 @@ public static class Console {
     /// Register to receive Developer Console initialized event
     /// </summary>
     public static event Action RegisterConsoleInitializedEvent;
+
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Initialization() {

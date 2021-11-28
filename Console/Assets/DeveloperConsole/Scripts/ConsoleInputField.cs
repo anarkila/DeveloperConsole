@@ -181,10 +181,10 @@ namespace Anarkila.DeveloperConsole {
         /// Try to find predictions from current inputfield text
         /// This is messy and needs cleanup
         /// </summary>
-        private void PredictInput(string text) {
+        private void PredictInput(string input) {
             if (inputField == null || !allowPredictions) return;
 
-            if (string.IsNullOrEmpty(text) || text.Length == 0 || text.Contains(ConsoleConstants.AND)) {
+            if (string.IsNullOrEmpty(input) || input.Length == 0 || input.Contains(ConsoleConstants.AND)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
                 return;
@@ -194,7 +194,7 @@ namespace Anarkila.DeveloperConsole {
                 // if allowPredictionCheck is false (command filled with Tab)
                 // check if user deleted one char (backspace)
                 // and allow prediction checking again
-                int len = previousText.Length - text.Length;
+                int len = previousText.Length - input.Length;
                 if (len != 1) {
                     return;
                 }
@@ -202,7 +202,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
 
-            previousText = text;
+            previousText = input;
 
             int smallestDistance = 10000;
             bool closeMatch = false;
@@ -215,30 +215,30 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < commandsWithValues.Count; i++) {
 
                 // check if first letter is the same
-                char inputfieldFirstChar = text[0];
+                char inputfieldFirstChar = input[0];
                 char commandFirstChar = allConsoleCommands[i][0];
                 if (inputfieldFirstChar != commandFirstChar) continue;
 
                 // if text contains command name
-                if (text.Contains(allConsoleCommands[i])) {
+                if (input.Contains(allConsoleCommands[i])) {
                     closeMatch = true;
                     index = i;
                     closestMatches.Add(commandsWithValues[i]);
                 }
 
-                int distance = ConsoleUtils.CalcLevenshteinDistance(text, allConsoleCommands[i]);
+                int distance = ConsoleUtils.CalcLevenshteinDistance(input, allConsoleCommands[i]);
 
                 if (smallestDistance >= distance) {
                     smallestDistance = distance;
                     index = i;
 
                     // Validate that all characters in a string exist in current command name string
-                    char[] charArr = text.ToCharArray();
+                    char[] charArr = input.ToCharArray();
                     bool validCharacters = true;
                     for (int j = 0; j < charArr.Length; j++) {
                         valid = allConsoleCommands[i].Contains(charArr[j].ToString());
                         validCharacters = valid;
-                        if (valid && text.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
+                        if (valid && input.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
                             closestMatches.Add(commandsWithValues[i]);
                         }
                     }
@@ -250,7 +250,10 @@ namespace Anarkila.DeveloperConsole {
 
                 // add first 5 items from list to final list.
                 for (int i = 0; i < closestMatches.Count; i++) {
+                    if (string.IsNullOrEmpty(closestMatches[i])) continue;
+  
                     predictions.Add(closestMatches[i]);
+
                     if (i == 4) break;
                 }
             }

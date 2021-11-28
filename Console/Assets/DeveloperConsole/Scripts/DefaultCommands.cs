@@ -11,7 +11,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Print all available console commands
         /// </summary>
-        [ConsoleCommand("help", hiddenCommandMinimalGUI:true)] // hide 'help' command when console GUI style is Minimal
+        [ConsoleCommand("help", hiddenCommandMinimalGUI:true)]
         private static void Help() {
             CommandDatabase.PrintAllCommands();
         }
@@ -19,7 +19,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Quit Application
         /// </summary>
-        [ConsoleCommand("quit", info:"Quit the application")]
+        [ConsoleCommand("quit", info:"Quit application")]
         private static void QuitApplication() {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -31,7 +31,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Close console
         /// </summary>
-        [ConsoleCommand("close")]
+        [ConsoleCommand("close", info: "Close Console")]
         private static void CloseDeveloperConsole() {
             ConsoleEvents.CloseConsole();
         }
@@ -39,7 +39,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Clear all console messages
         /// </summary>
-        [ConsoleCommand("clear")]
+        [ConsoleCommand("clear", info: "Clear all messages")]
         private static void ClearAllDeveloperConsoleMessages() {
             ConsoleEvents.ClearConsoleMessages();
         }
@@ -47,7 +47,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Resets Console window size and position
         /// </summary>
-        [ConsoleCommand("reset", hiddenCommandMinimalGUI: true)]
+        [ConsoleCommand("reset", hiddenCommandMinimalGUI: true, info: "Reset Console window size and position")]
         private static void ResetDeveloperConsole() {
             ConsoleEvents.ResetConsole();
         }
@@ -63,7 +63,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Toggle console style between Large and Minimal
         /// </summary>
-        [ConsoleCommand("console.style", debugOnlyCommand: true)]
+        [ConsoleCommand("console.style", debugOnlyCommand: true, info: "Change console style between Large and Minimal")]
         private static void ChangeConsoleGUI() {
             ConsoleEvents.SwitchGUIStyle();
         }
@@ -72,7 +72,7 @@ namespace Anarkila.DeveloperConsole {
         /// Load scene by build index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true, info: "Load scene by index")]
         private static void LoadSceneByIndexSingle(int index) {
             ConsoleEvents.LoadSceneByIndexSingle(index);
         }
@@ -80,7 +80,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene by build name
         /// </summary>
-        [ConsoleCommand("scene.loadbyname", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.loadbyname", debugOnlyCommand: true, info: "Load scene by name")]
         private static void LoadSceneByName(string sceneName) {
             ConsoleEvents.LoadSceneByName(sceneName);
         }
@@ -88,7 +88,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene additively by build index
         /// </summary>
-        [ConsoleCommand("scene.loadbyindexadd", "2", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.loadbyindexadd", "2", debugOnlyCommand: true, info: "Load scene by index additively")]
         private static void LoadSceneByIndexAdditive(int index) {
             ConsoleEvents.LoadSceneByIndexAdditive(index);
         }
@@ -96,7 +96,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene by build name
         /// </summary>
-        [ConsoleCommand("scene.unloadbyname", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.unloadbyname", debugOnlyCommand: true, info: "Unload scene by name")]
         private static void UnLoadSceneByName(string sceneName) {
             ConsoleEvents.UnLoadSceneByName(sceneName);
         }
@@ -104,7 +104,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Unload scene by build index
         /// </summary>
-        [ConsoleCommand("scene.unloadbyindex", debugOnlyCommand: true)]
+        [ConsoleCommand("scene.unloadbyindex", debugOnlyCommand: true, info: "Unload scene by index")]
         private static void UnLoadSceneByIndex(int index) {
             ConsoleEvents.UnloadSceneByIndex(index);
         }

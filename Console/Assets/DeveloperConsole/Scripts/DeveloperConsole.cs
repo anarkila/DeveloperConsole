@@ -37,6 +37,18 @@ namespace Anarkila.DeveloperConsole {
             settings.SetColors();
             ConsoleManager.InitializeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
+
+
+#if UNITY_EDITOR
+            if (settings.interfaceStyle == ConsoleGUIStyle.Minimal) {
+                if (settings.UnityLogOption != ConsoleLogOptions.DontPrintLogs || settings.unityThreadedLogOption != ConsoleLogOptions.DontPrintLogs) {
+                    // if you are only using Minimal GUI style, Consider changing settings UnityLogOption and unityThreadedLogOption to ConsoleLogOptions.DontPrintLogs
+                    // to reduce garbage collection. By default messages are still printed to Large GUI even when Minimal GUI is selected!
+                    // Why? So you can toggle between them during runtime with command 'console.style'
+                    Debug.Log("If you are only using Minimal console style, consider changing settings UnityLogOption and unityThreadedLogOption to DontPrintLogs.");
+                }
+            }
+#endif
         }
 
         private void DestroyConsole(float time) {

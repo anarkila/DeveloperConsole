@@ -577,6 +577,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
+        type: 3}
+      propertyPath: playButtonTime
+      value: 637737079028199501
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}
 --- !u!1 &395368504
