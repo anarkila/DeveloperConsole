@@ -71,9 +71,7 @@ Developer Console comes with few commands by default.
 * ``scene.uloadbyindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene.unloadbyname (string)`` - UnLoad scene asynchronously by scene name
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
-
-Editor Only:
-* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count.
+* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.
@@ -90,7 +88,6 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 
 ## TODO
 - Explore ways to have multiple parameters
-- Improve both GUI's
 - Ability to generate grid or list of buttons that can fire commands
 - Ability to register commands in Editor
 - Support for no Domain/Scene reload
