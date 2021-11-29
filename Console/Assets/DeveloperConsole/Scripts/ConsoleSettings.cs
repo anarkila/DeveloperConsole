@@ -69,6 +69,9 @@ namespace Anarkila.DeveloperConsole {
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandAttributesOnly = false;
 
+        [Tooltip("Whether to scan all C# assemblies. Enabling this increases the Initialization time from approx. 20 ms to 1500 ms. " +
+          "You shouldn't have to enable this.")]
+        public bool scanAllAssemblies = false;
 
         // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
@@ -123,6 +126,9 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print commands info text with 'help' command")]
         public bool printCommandInfoTexts = true;
 
+        [Tooltip("Print Developer Console debug info like startup time etc.")]
+        public bool printInitializationTime = true;
+
 
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
@@ -132,9 +138,9 @@ namespace Anarkila.DeveloperConsole {
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
 
-        [Header("Debug Settings")] // These settings only apply in Editor and Debug builds.
-        [Tooltip("Print Developer Console debug info like startup time etc.")]
-        public bool printConsoleDebugInfo = true;
+        [Header("Debug Settings")]
+        [Tooltip("Print message count after stopping play mode")]
+        public bool printMessageCount = true;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;

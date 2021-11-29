@@ -281,8 +281,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
-        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly) {
-            IEnumerable<MethodInfo> methods = null;
+        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
             if (staticCommandsCached) {
@@ -292,26 +291,23 @@ namespace Anarkila.DeveloperConsole {
                 flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             }
 
+
+            // Linq way
+            /*IEnumerable<MethodInfo> methods = null;
 #if UNITY_WEBGL || ENABLE_IL2CPP
-            // Get all methods with the execute attribute
-            methods = AppDomain.CurrentDomain.GetAssemblies()
-                                   .SelectMany(x => x.GetTypes())
-                                   .Where(x => x.IsClass)
-                                   .SelectMany(x => x.GetMethods(flags))
-                                   .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
-
+            methods = GetAllAttributesFromAssembly(flags, false);
 #else
-            // For Mono backend 
-            methods = AppDomain.CurrentDomain.GetAssemblies().AsParallel()
-                                               .SelectMany(x => x.GetTypes())
-                                               .Where(x => x.IsClass)
-                                               .SelectMany(x => x.GetMethods(flags))
-                                               .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+            methods = GetAllAttributesFromAssembly(flags, true);
 #endif
+            //Debug.Log(methods.Count());*/
 
-            var commandList = new List<ConsoleCommandData>();
+            // Non-Linq way. This is a bit faster.
+            var types = GetAllAttributesFromAssemblyFast(flags, scanAllAssemblies);
+            //Debug.Log(types.Count);
 
-            foreach (var method in methods) {
+            var commandList = new List<ConsoleCommandData>(64);
+
+            foreach (var method in types) {
                 if (method.IsStatic && staticCommandsCached) continue;
 
                 ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
@@ -328,7 +324,6 @@ namespace Anarkila.DeveloperConsole {
 
                 var className = method.DeclaringType;
                 var methodName = method.ToString();
-
 
                 if (commandName.Contains(ConsoleConstants.AND)) {
 #if UNITY_EDITOR
@@ -399,6 +394,71 @@ namespace Anarkila.DeveloperConsole {
             return commandList;
         }
 
+
+        /// <summary>
+        /// Get all ConsoleCommand attributes from assembly Linq way.
+        /// </summary>
+        private static IEnumerable<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool parallel) {
+            IEnumerable<MethodInfo> methods = null;
+            string assemblyToSearch = "Assembly-CSharp";
+            if (parallel) {
+                // For Mono backend
+                methods = AppDomain.CurrentDomain.GetAssemblies()
+                                                   .AsParallel()
+                                                   .Where(x => x.FullName.Contains(assemblyToSearch))
+                                                   .SelectMany(x => x.GetTypes())
+                                                   .Where(x => x.IsClass)
+                                                   .SelectMany(x => x.GetMethods(flags))
+                                                   .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+
+            }
+            else {
+                // WebGL and IL2CPP
+                // Get all methods with the execute attribute
+                methods = AppDomain.CurrentDomain.GetAssemblies()
+                                       .Where(x => x.FullName.Contains(assemblyToSearch))
+                                       .SelectMany(x => x.GetTypes())
+                                       .Where(x => x.IsClass)
+                                       .SelectMany(x => x.GetMethods(flags))
+                                       .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+            }
+
+            return methods;
+        }
+
+        /// <summary>
+        /// Get all ConsoleCommand attributes from assembly non-Linq way.
+        /// This is slitghly faster than GetAllAttributesFromAssembly which uses Linq.
+        /// </summary>
+        private static List<MethodInfo> GetAllAttributesFromAssemblyFast(BindingFlags flags, bool scanAllAssemblies = false) {
+            List<MethodInfo> types = new List<MethodInfo>(64);
+            string assemblyToSearch = "Assembly-CSharp";
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            for (int i = 0; i < assemblies.Length; i++) {
+
+                // Ignore all other assemblies
+                if (!scanAllAssemblies && !assemblies[i].FullName.Contains(assemblyToSearch)) continue;
+
+                var type = assemblies[i].GetTypes();
+                for (int j = 0; j < type.Length; j++) {
+
+                    if (!type[j].IsClass) continue;
+
+                    var methodInfos = type[j].GetMethods(flags);
+
+                    if (methodInfos.Length == 0) continue;
+
+                    for (int k = 0; k < methodInfos.Length; k++) {
+                        if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) { //.FirstOrDefault() != null
+                            types.Add(methodInfos[k]);
+                        }
+                    }
+                }
+            }
+
+            return types;
+        }
 
         /// <summary>
         /// Register MonoBehaviour commands

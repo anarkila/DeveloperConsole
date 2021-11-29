@@ -5271,6 +5271,7 @@ MonoBehaviour:
     minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
+    scanAllAssemblies: 0
     UnityLogOption: 5
     unityThreadedLogOption: 2
     maxMessageCount: 150
@@ -5288,12 +5289,13 @@ MonoBehaviour:
     printUnrecognizedCommandInfo: 1
     printCommandsAlphabeticalOrder: 1
     printCommandInfoTexts: 1
+    printInitializationTime: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
-    printConsoleDebugInfo: 1
+    printMessageCount: 1
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
     clearUnityConsoleOnConsoleClear: 0

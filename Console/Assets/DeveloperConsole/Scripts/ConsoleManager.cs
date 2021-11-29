@@ -56,7 +56,7 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
 #if UNITY_EDITOR
-            if (settings != null && settings.printConsoleDebugInfo) {
+            if (settings != null && settings.printMessageCount) {
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
                 var failedCommandCount = CommandDatabase.GetFailedCommandCount();
 
@@ -244,18 +244,27 @@ namespace Anarkila.DeveloperConsole {
 
             bool isDebugBuild = Debug.isDebugBuild;
 
-#if UNITY_WEBGL
-            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly);
-#else    
-            commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly)); // Threaded work
+            bool scanAllAssemblies = settings.scanAllAssemblies;
+#if UNITY_EDITOR
+            if (scanAllAssemblies) {
+                Debug.Log(ConsoleConstants.EDITORWARNING + "setting ScanAllAssemblies is set to true. This increases Initialization time a lot.");
+            }
 #endif
 
-            timer.Stop();
-            var ms = timer.Elapsed.TotalMilliseconds;
-            timer.Reset();
+
+#if UNITY_WEBGL
+            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
+#else    
+            //commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly)); // Threaded work
+            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
+#endif
+
+            //timer.Stop();
+            //var ms = timer.Elapsed.TotalMilliseconds;
+            //timer.Reset();
 
             if (!registerStaticOnly) {
-                timer.Start();
+                //timer.Start();
                 CommandDatabase.RegisterMonoBehaviourCommands(commands); // Rest of the work must be in done in Unity main thread
                 timer.Stop();
             }
@@ -264,17 +273,17 @@ namespace Anarkila.DeveloperConsole {
             }
             consoleInitialized = true;
 
-            var partOne = Math.Round(ms, 1);
+            //var partOne = Math.Round(ms, 1);
             var partTwo = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
 
             string staticOnly = string.Empty;
 
+            if (settings.printInitializationTime) {
 #if UNITY_EDITOR
-            if (settings.printConsoleDebugInfo && settings.registerStaticCommandAttributesOnly) {
-                staticOnly = ConsoleConstants.REGISTEREDSTATIC;
-            }
+                if (settings.registerStaticCommandAttributesOnly) {
+                    staticOnly = ConsoleConstants.REGISTEREDSTATIC;
+                }
 #endif
-            if (settings.printConsoleDebugInfo && Debug.isDebugBuild) {
 
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
@@ -282,11 +291,13 @@ namespace Anarkila.DeveloperConsole {
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
 #else
-                message += string.Format("Threaded work took: {1} ms {0}", staticOnly, partOne);
+                //message += string.Format("Threaded work took: {1} ms {0}", staticOnly, partTwo);
 
-                if (!registerStaticOnly) {
-                    message += string.Format("and non-threaded work took: {0} ms.", partTwo);
-                }
+                //if (!registerStaticOnly) {
+                //    message += string.Format("and non-threaded work took: {0} ms.", partTwo);
+                //}
+
+                message += string.Format("Initialization took: {0} ms.", partTwo);
 
                 //Debug.Log(message);
                 Console.Log(message);

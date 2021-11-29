@@ -66,7 +66,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
 #if UNITY_EDITOR
-            if (settings != null && settings.printConsoleDebugInfo) {
+            if (settings != null && settings.printMessageCount) {
                 if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
             }
 #endif
