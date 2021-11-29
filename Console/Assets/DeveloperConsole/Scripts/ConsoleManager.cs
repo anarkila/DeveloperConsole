@@ -287,7 +287,8 @@ namespace Anarkila.DeveloperConsole {
 
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
-                var total = partOne + partTwo;
+                //var total = partOne + partTwo;
+                var total = partTwo;
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
 #else
