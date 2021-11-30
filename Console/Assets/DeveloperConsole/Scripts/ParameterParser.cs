@@ -15,9 +15,8 @@ namespace Anarkila.DeveloperConsole {
         ///  Check if parameter type is supported
         /// </summary>
         /// <returns></returns>
-        public static bool IsSupportedType(MethodInfo method, string methodName, string commandName, Type className) {
-            var parameters = method.GetParameters();
-
+        public static bool IsSupportedType(ParameterInfo[] parameters, string methodName, string commandName, Type className) {
+            
             // Early return if method doesn't take in any parameters.
             if (parameters == null || parameters.Length == 0) return true;
 
