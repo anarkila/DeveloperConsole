@@ -53,10 +53,10 @@ namespace Anarkila.DeveloperConsole {
             return success;
         }
 
-
         private static bool ExecuteCommand(string input, bool silent = false) {
-
             string parameterAsString = null;
+            bool parameterParsed = false;
+            object[] parameter = null;
             bool commandFound = false;
             bool success = false;
 
@@ -86,12 +86,16 @@ namespace Anarkila.DeveloperConsole {
 
                 commandFound = true;
 
-                object[] parameter = null;
+                
                 if (consoleCommands[i].parameterType != null) {
-                    parameter = new object[1];
 
-                    parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
-
+                    // We only need parse this once.
+                    if (!parameterParsed) {
+                        parameter = new object[1];
+                        parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
+                        parameterParsed = true;
+                    }
+  
                     // if parsed parameter is null, continue loop
                     if (parameter[0] == null && !consoleCommands[i].optionalParameter) {
                         continue;
