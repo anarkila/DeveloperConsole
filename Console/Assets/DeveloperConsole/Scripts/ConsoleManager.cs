@@ -292,13 +292,13 @@ namespace Anarkila.DeveloperConsole {
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
 #else
-                //message += string.Format("Threaded work took: {1} ms {0}", staticOnly, partTwo);
+                //message += string.Format("Threaded work took {1} ms {0}", staticOnly, partTwo);
 
                 //if (!registerStaticOnly) {
                 //    message += string.Format("and non-threaded work took: {0} ms.", partTwo);
                 //}
 
-                message += string.Format("Initialization took: {0} ms.", partTwo);
+                message += string.Format("Initialization took {0} ms.", partTwo);
 
                 //Debug.Log(message);
                 Console.Log(message);
