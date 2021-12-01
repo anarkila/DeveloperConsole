@@ -1,6 +1,5 @@
 ﻿using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 using System;
@@ -11,8 +10,8 @@ namespace Anarkila.DeveloperConsole {
     public static class ConsoleManager {
 
         private static ConsoleSettings settings = new ConsoleSettings();
-        private static bool consoleInitialized = false;
         private static bool showInputPredictions = true;
+        private static bool consoleInitialized = false;
         private static int sceneChangeCount = 0;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
@@ -141,7 +140,7 @@ namespace Anarkila.DeveloperConsole {
         /// Get current setting caseSensetive
         /// </summary>
         public static bool IsCaseSensetive() {
-            return settings.caseSensetive;
+            return settings.commandsAreCaseSensetive;
         }
 
         /// <summary>
@@ -223,13 +222,30 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
+            // if not first load
+            if (sceneChangeCount != 0) {
+                if (!settings.clearMessagesOnSceneChange) {
+                    ConsoleEvents.DirectLog(ConsoleConstants.SPACE);
+                }
+                else {
+                    ConsoleEvents.ClearConsoleMessages();
+                }
+
+                if (settings.printLoadedSceneName) {
+                    // https://docs.unity3d.com/ScriptReference/SceneManagement.LoadSceneMode.html
+                    string additive = mode == LoadSceneMode.Additive ? "(Additive)" : null;
+                    Console.Log(string.Format("Loaded Scene: {0} {1}", scene.name, additive));
+                }
+            }
+            else if (!settings.printPlayButtonToSceneTime && settings.printLoadedSceneName) {
+                Console.Log(string.Format("Loaded Scene: {0}", scene.name));
+            }
+
+
+            consoleInitialized = false;
             CommandDatabase.ClearConsoleCommands();
 
             if (initDone) ++sceneChangeCount; // don't raise counter on start
-
-            if (sceneChangeCount != 0 && settings.clearMessagesOnSceneChange) {
-                ConsoleEvents.ClearConsoleMessages();
-            }
 
             var timer = new System.Diagnostics.Stopwatch();
             timer.Start();
@@ -243,14 +259,13 @@ namespace Anarkila.DeveloperConsole {
             }
 
             bool isDebugBuild = Debug.isDebugBuild;
-
             bool scanAllAssemblies = settings.scanAllAssemblies;
+
 #if UNITY_EDITOR
             if (scanAllAssemblies) {
                 Debug.Log(ConsoleConstants.EDITORWARNING + "setting ScanAllAssemblies is set to true. This increases Initialization time a lot.");
             }
 #endif
-
 
 #if UNITY_WEBGL
             commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
@@ -259,23 +274,15 @@ namespace Anarkila.DeveloperConsole {
             commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
 #endif
 
-            //timer.Stop();
-            //var ms = timer.Elapsed.TotalMilliseconds;
-            //timer.Reset();
-
             if (!registerStaticOnly) {
-                //timer.Start();
                 CommandDatabase.RegisterMonoBehaviourCommands(commands); // Rest of the work must be in done in Unity main thread
                 timer.Stop();
             }
             else {
                 CommandDatabase.UpdateLists();
             }
-            consoleInitialized = true;
 
-            //var partOne = Math.Round(ms, 1);
             var partTwo = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
-
             string staticOnly = string.Empty;
 
             if (settings.printInitializationTime) {
@@ -284,10 +291,8 @@ namespace Anarkila.DeveloperConsole {
                     staticOnly = ConsoleConstants.REGISTEREDSTATIC;
                 }
 #endif
-
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
-                //var total = partOne + partTwo;
                 var total = partTwo;
                 message += string.Format("Initialization work {0} took: {1} ms", staticOnly, total);
                 Debug.Log(message);
@@ -299,7 +304,6 @@ namespace Anarkila.DeveloperConsole {
                 //}
 
                 message += string.Format("Initialization took {0} ms.", partTwo);
-
                 //Debug.Log(message);
                 Console.Log(message);
 #endif
@@ -309,6 +313,7 @@ namespace Anarkila.DeveloperConsole {
                 ConsoleEvents.Log(ConsoleConstants.HELPTEXT);
             }
 
+            consoleInitialized = true;
             ConsoleEvents.RefreshConsole();
             ConsoleEvents.ConsoleInitialized();
         }

@@ -103,8 +103,8 @@ namespace Anarkila.DeveloperConsole {
         private void LogMessage(string text) {
             if (!Application.isPlaying) return;
            
-            var messageObj = SpawnMessageFromPool(text);
-            if (messageObj == null) return;
+            var success = SpawnMessageFromPool(text);
+            if (!success) return;
 
             ++messageCount;
             HandleGhostMessages();
@@ -145,10 +145,13 @@ namespace Anarkila.DeveloperConsole {
             msgsBeforeSetupDone.Clear();
         }
 
-        private GameObject SpawnMessageFromPool(string message) {
+        private bool SpawnMessageFromPool(string message) {
+
+            bool success = false;
+
             if (!setupDone || messageParent == null) {
                 msgsBeforeSetupDone.Add(message);
-                return null;
+                return success;
             }
 
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
@@ -160,12 +163,13 @@ namespace Anarkila.DeveloperConsole {
                 var msg = messages[objectToSpawn];
                 if (msg != null) {
                     msg.SetMessage(message);
+                    success = true;
                 }
             }
 
             poolDictionary[PoolTag.Message].Enqueue(objectToSpawn);
             currentMessages.Add(objectToSpawn);
-            return objectToSpawn;
+            return success;
         }
 
 

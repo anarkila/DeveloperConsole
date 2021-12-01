@@ -1,6 +1,6 @@
-﻿using System;
+﻿using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -85,7 +85,7 @@ namespace Anarkila.DeveloperConsole {
         public int maxMessageCount = 150;
 
         [Tooltip("Whether calling commands must be case sensetive'")]
-        public bool caseSensetive = false;
+        public bool commandsAreCaseSensetive = false;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;
@@ -109,7 +109,7 @@ namespace Anarkila.DeveloperConsole {
         public bool scrollToBottomOnEnable = true;
 
         [Tooltip("Whether to clear all consoles messages when scene changes")]
-        public bool clearMessagesOnSceneChange = true;
+        public bool clearMessagesOnSceneChange = false;
 
         [Tooltip("Print timestamp always when printing message to Developer Console")]
         public bool printMessageTimestamps = true;
@@ -128,6 +128,9 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Print Developer Console debug info like startup time etc.")]
         public bool printInitializationTime = true;
+
+        [Tooltip("Whether to print loaded scene name and LoadSceneMode")]
+        public bool printLoadedSceneName = true;
 
 
         [Header("KeyBindings")]
@@ -148,7 +151,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
-        [Tooltip("Whether to clear Unity Console too when  command 'clear' called'")]
+        [Tooltip("Whether to clear Unity Console messages when 'clear' command called'")]
         public bool clearUnityConsoleOnConsoleClear = false;
 
         [Tooltip("whether to print Unity log type. ")]

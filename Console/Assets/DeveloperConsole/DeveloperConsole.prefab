@@ -5275,7 +5275,7 @@ MonoBehaviour:
     UnityLogOption: 5
     unityThreadedLogOption: 2
     maxMessageCount: 150
-    caseSensetive: 0
+    commandsAreCaseSensetive: 0
     allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1
@@ -5283,13 +5283,14 @@ MonoBehaviour:
     showCursorOnEnable: 1
     hideCursorOnDisable: 1
     scrollToBottomOnEnable: 1
-    clearMessagesOnSceneChange: 1
+    clearMessagesOnSceneChange: 0
     printMessageTimestamps: 1
     printStartupHelpText: 1
     printUnrecognizedCommandInfo: 1
     printCommandsAlphabeticalOrder: 1
     printCommandInfoTexts: 1
     printInitializationTime: 1
+    printLoadedSceneName: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273

@@ -43,16 +43,18 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
+            GetSettings();
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
                 ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
             }
             messagesBeforeInitDone.Clear();
-            GetSettings();
+            
         }
 
         private static void GetSettings() {
             settings = ConsoleManager.GetSettings();
+            printMessageTimestamps = settings.printMessageTimestamps;
         }
 
         /// <summary>
@@ -138,8 +140,7 @@ namespace Anarkila.DeveloperConsole {
         public static void PrintLog(string text, Action<string> subscribers) {
             if (!ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)
                 || !Application.isPlaying
-                || currentGUIStyle == ConsoleGUIStyle.Minimal
-                || subscribers == null) return;
+                || currentGUIStyle == ConsoleGUIStyle.Minimal) return;
 
             if (printMessageTimestamps) {
                 text = AddMessagePrefix(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT), text);
