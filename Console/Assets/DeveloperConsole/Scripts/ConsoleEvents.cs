@@ -25,8 +25,8 @@ namespace Anarkila.DeveloperConsole {
         public static void SwitchGUIStyle() => ConsoleManager.ToggleInterfaceStyle();
 
         public static event Action<string> RegisterDeveloperConsoleLogEvent;
-        public static void Log(string text) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent);
-        public static void DirectLog(string text) => RegisterDeveloperConsoleLogEvent.Invoke(text);
+        public static void Log(string text, bool forceIgnoreTimeStamp = false) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent, forceIgnoreTimeStamp);
+        //public static void DirectLog(string text) => RegisterDeveloperConsoleLogEvent?.Invoke(text);
 
         public static event Action<List<string>> RegisterConsolePredictionEvent;
         public static void Predictions(List<string> list) => RegisterConsolePredictionEvent?.Invoke(list);

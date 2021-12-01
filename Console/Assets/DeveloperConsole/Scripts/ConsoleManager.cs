@@ -225,7 +225,7 @@ namespace Anarkila.DeveloperConsole {
             // if not first load
             if (sceneChangeCount != 0) {
                 if (!settings.clearMessagesOnSceneChange) {
-                    ConsoleEvents.DirectLog(ConsoleConstants.SPACE);
+                    ConsoleEvents.Log(ConsoleConstants.SPACE, true);
                 }
                 else {
                     ConsoleEvents.ClearConsoleMessages();
