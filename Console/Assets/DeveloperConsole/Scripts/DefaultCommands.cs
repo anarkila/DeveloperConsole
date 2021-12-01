@@ -72,7 +72,7 @@ namespace Anarkila.DeveloperConsole {
         /// Load scene by build index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
-        [ConsoleCommand("scene.loadbyindex", "1", debugOnlyCommand: true, info: "Load scene by index")]
+        [ConsoleCommand("scene.loadindex", "1", debugOnlyCommand: true, info: "Load scene by index")]
         private static void LoadSceneByIndexSingle(int index) {
             ConsoleEvents.LoadSceneByIndexSingle(index);
         }
@@ -80,7 +80,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene by build name
         /// </summary>
-        [ConsoleCommand("scene.loadbyname", debugOnlyCommand: true, info: "Load scene by name")]
+        [ConsoleCommand("scene.loadname", debugOnlyCommand: true, info: "Load scene by name")]
         private static void LoadSceneByName(string sceneName) {
             ConsoleEvents.LoadSceneByName(sceneName);
         }
@@ -88,7 +88,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene additively by build index
         /// </summary>
-        [ConsoleCommand("scene.loadbyindexadd", "2", debugOnlyCommand: true, info: "Load scene by index additively")]
+        [ConsoleCommand("scene.loadindexadd", "2", debugOnlyCommand: true, info: "Load scene by index additively")]
         private static void LoadSceneByIndexAdditive(int index) {
             ConsoleEvents.LoadSceneByIndexAdditive(index);
         }
@@ -96,7 +96,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Load scene by build name
         /// </summary>
-        [ConsoleCommand("scene.unloadbyname", debugOnlyCommand: true, info: "Unload scene by name")]
+        [ConsoleCommand("scene.unloadname", debugOnlyCommand: true, info: "Unload scene by name")]
         private static void UnLoadSceneByName(string sceneName) {
             ConsoleEvents.UnLoadSceneByName(sceneName);
         }
@@ -104,7 +104,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Unload scene by build index
         /// </summary>
-        [ConsoleCommand("scene.unloadbyindex", debugOnlyCommand: true, info: "Unload scene by index")]
+        [ConsoleCommand("scene.unloadindex", debugOnlyCommand: true, info: "Unload scene by index")]
         private static void UnLoadSceneByIndex(int index) {
             ConsoleEvents.UnloadSceneByIndex(index);
         }
