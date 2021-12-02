@@ -1,6 +1,6 @@
-﻿using System;
+﻿using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -69,6 +69,9 @@ namespace Anarkila.DeveloperConsole {
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandAttributesOnly = false;
 
+        [Tooltip("Whether to scan all C# assemblies. Enabling this increases the Initialization time from approx. 20 ms to 1500 ms. " +
+          "You shouldn't have to enable this.")]
+        public bool scanAllAssemblies = false;
 
         // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
@@ -82,7 +85,7 @@ namespace Anarkila.DeveloperConsole {
         public int maxMessageCount = 150;
 
         [Tooltip("Whether calling commands must be case sensetive'")]
-        public bool caseSensetive = false;
+        public bool commandsAreCaseSensetive = false;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;
@@ -106,7 +109,7 @@ namespace Anarkila.DeveloperConsole {
         public bool scrollToBottomOnEnable = true;
 
         [Tooltip("Whether to clear all consoles messages when scene changes")]
-        public bool clearMessagesOnSceneChange = true;
+        public bool clearMessagesOnSceneChange = false;
 
         [Tooltip("Print timestamp always when printing message to Developer Console")]
         public bool printMessageTimestamps = true;
@@ -123,6 +126,12 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print commands info text with 'help' command")]
         public bool printCommandInfoTexts = true;
 
+        [Tooltip("Print Developer Console debug info like startup time etc.")]
+        public bool printInitializationTime = true;
+
+        [Tooltip("Whether to print loaded scene name and LoadSceneMode")]
+        public bool printLoadedSceneName = true;
+
 
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
@@ -132,9 +141,9 @@ namespace Anarkila.DeveloperConsole {
         public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
 
-        [Header("Debug Settings")] // These settings only apply in Editor and Debug builds.
-        [Tooltip("Print Developer Console debug info like startup time etc.")]
-        public bool printConsoleDebugInfo = true;
+        [Header("Debug Settings")]
+        [Tooltip("Print message count after stopping play mode")]
+        public bool printMessageCount = true;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;
@@ -142,7 +151,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
-        [Tooltip("Whether to clear Unity Console too when  command 'clear' called'")]
+        [Tooltip("Whether to clear Unity Console messages when 'clear' command called'")]
         public bool clearUnityConsoleOnConsoleClear = false;
 
         [Tooltip("whether to print Unity log type. ")]

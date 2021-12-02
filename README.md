@@ -64,14 +64,14 @@ Developer Console comes with few commands by default.
 * ``close`` - Close Console
 * ``clear`` - Clear all Console messages
 * ``reset`` - Reset Console window to default size and position (Large GUI only)
-* ``console.style`` - Toggle GUI style between Large and Minimal
-* ``scene.loadbyindex (int)`` - Load scene asynchronously by build index
-* ``scene.loadbyindexadd (int)`` - Load scene asynchronously additively by build index
-* ``scene.loadbyname (string)`` - Load scene asynchronously by scene name
-* ``scene.uloadbyindex (int)`` - UnLoad scene asynchronously by build index
-* ``scene.unloadbyname (string)`` - UnLoad scene asynchronously by scene name
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
-* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
+* ``console_style`` - Toggle GUI style between Large and Minimal
+* ``scene_loadindex (int)`` - Load scene asynchronously by build index
+* ``scene_addloadindex (int)`` - Load scene asynchronously additively by build index
+* ``scene_loadname (string)`` - Load scene asynchronously by scene name
+* ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
+* ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
+* ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.
@@ -81,14 +81,13 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
 ## Notes
-- Tested on Unity 2019 LTS, 2020 LTS and 2021.2 versions (Requires Unity 2019 or later)
+- Requires Unity 2019 or later
 - Uses old Unity input system
 - Uses Gameobject based UI
 - Uses TextMeshPro
 
 ## TODO
-- Explore ways to have multiple parameters
+- Explore way to have multiple parameters
 - Ability to generate grid or list of buttons that can fire commands
-- Ability to register commands in Editor
 - Support for no Domain/Scene reload
 - Input prediction improvements

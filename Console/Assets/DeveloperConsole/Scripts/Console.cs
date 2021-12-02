@@ -8,19 +8,28 @@ using System;
 public static class Console {
 
     /// <summary>
-    /// Log message directly into Developer Console window
+    ///  Log message directly into Developer Console window
     /// </summary>
-    /// <param name="message">Text to print</param>
-    public static void Log(string message) {
-        ConsoleEvents.Log(message);
+    /// <param name="message">Message to print</param>
+    /// <param name="forceIgnoreTimestamp">force ignore timestamp</param>
+    public static void Log(string message, bool forceIgnoreTimestamp = false) {
+        ConsoleEvents.Log(message, forceIgnoreTimestamp);
     }
 
     /// <summary>
-    /// Log message directly into Developer Console window
+    ///  Log message directly into Developer Console window
     /// </summary>
-    /// <param name="message">Object to print</param>
-    public static void Log(System.Object message) {
-        ConsoleEvents.Log(message.ToString());
+    /// <param name="message">Message to print</param>
+    /// <param name="forceIgnoreTimestamp">force ignore timestamp</param>
+    public static void Log(System.Object message, bool forceIgnoreTimestamp = false) {
+        ConsoleEvents.Log(message.ToString(), forceIgnoreTimestamp);
+    }
+
+    /// <summary>
+    /// Log empty message without timestamp
+    /// </summary>
+    public static void LogEmpty() {
+        ConsoleEvents.Log(ConsoleConstants.SPACE, true);
     }
 
     /// <summary>

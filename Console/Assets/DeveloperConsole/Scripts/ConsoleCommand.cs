@@ -7,7 +7,6 @@
     private bool hiddenCommandMinimalGUI = false;   // Optional parameter: if set to true, command won't show up in predictions when using Minimal GUI
     private bool fullyHiddenCommand = false;        // Optional parameter: if set to true, command won't show up in predictions
 
-
     public ConsoleCommand(string commandName, string value = "", string info = "",
         bool debugOnlyCommand = false, bool hiddenCommandMinimalGUI = false, bool hiddenCommand = false) {
 

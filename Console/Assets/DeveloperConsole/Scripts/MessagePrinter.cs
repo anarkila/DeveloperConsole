@@ -43,16 +43,18 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
+            GetSettings();
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                ConsoleEvents.DirectLog(messagesBeforeInitDone[i]);
+                ConsoleEvents.Log(messagesBeforeInitDone[i], true);
             }
             messagesBeforeInitDone.Clear();
-            GetSettings();
+            
         }
 
         private static void GetSettings() {
             settings = ConsoleManager.GetSettings();
+            printMessageTimestamps = settings.printMessageTimestamps;
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
 
 #if UNITY_EDITOR
-            if (settings != null && settings.printConsoleDebugInfo) {
+            if (settings != null && settings.printMessageCount) {
                 if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
             }
 #endif
@@ -135,13 +137,12 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Print message to Developer Console
         /// </summary>
-        public static void PrintLog(string text, Action<string> subscribers) {
+        public static void PrintLog(string text, Action<string> subscribers, bool forceIgnoreTimestamp = false) {
             if (!ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)
                 || !Application.isPlaying
-                || currentGUIStyle == ConsoleGUIStyle.Minimal
-                || subscribers == null) return;
+                || currentGUIStyle == ConsoleGUIStyle.Minimal) return;
 
-            if (printMessageTimestamps) {
+            if (!forceIgnoreTimestamp && printMessageTimestamps) {
                 text = AddMessagePrefix(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT), text);
             }
 

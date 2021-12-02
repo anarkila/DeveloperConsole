@@ -8,6 +8,7 @@ namespace Anarkila.DeveloperConsole {
     [CustomEditor(typeof(DeveloperConsole))]
     public class DeveloperConsoleEditor : Editor {
 
+        private const string VERSION = "Developer Console 0.8.3";
         private string[] tabs = new string[] { "All Settings", "GUI Settings", "General Settings", "Keybindings", "Debug Settings" };
         private SerializedObject sTarget;
         private int toolbarTab;
@@ -58,7 +59,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         public override void OnInspectorGUI() {
-            EditorGUILayout.LabelField("Developer Console 0.8.2", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(VERSION, EditorStyles.boldLabel);
 
             renderCustomGUI = EditorGUILayout.Toggle("Custom GUI", renderCustomGUI);
             GUILayout.Space(20);

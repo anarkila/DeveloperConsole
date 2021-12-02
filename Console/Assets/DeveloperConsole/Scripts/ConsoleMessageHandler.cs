@@ -12,6 +12,7 @@ namespace Anarkila.DeveloperConsole {
     /// it will start to recycle messages from the beginning.
     /// Increase maxMessageCount setting in inspector if you want to increase this value
     /// </summary>
+    [DefaultExecutionOrder(-9999)]
     public class ConsoleMessageHandler : MonoBehaviour {
 
         public enum PoolTag {
@@ -45,6 +46,12 @@ namespace Anarkila.DeveloperConsole {
         private bool consoleIsOpen;
 
         private void Awake() {
+            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
+            ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
+            ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
+            ConsoleEvents.RegisterDeveloperConsoleLogEvent += LogMessage;
+
+
             cachedTransform = this.transform;
             if (content != null) {
                 if (content.TryGetComponent(out RectTransform rect)) {
@@ -57,11 +64,6 @@ namespace Anarkila.DeveloperConsole {
 #endif
                 defaultSize = rectTransform.offsetMax;
             }
-
-            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChange;
-            ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
-            ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
-            ConsoleEvents.RegisterDeveloperConsoleLogEvent += LogMessage;
         }
 
         private void OnDestroy() {
@@ -103,8 +105,8 @@ namespace Anarkila.DeveloperConsole {
         private void LogMessage(string text) {
             if (!Application.isPlaying) return;
            
-            var messageObj = SpawnMessageFromPool(text);
-            if (messageObj == null) return;
+            var success = SpawnMessageFromPool(text);
+            if (!success) return;
 
             ++messageCount;
             HandleGhostMessages();
@@ -145,10 +147,12 @@ namespace Anarkila.DeveloperConsole {
             msgsBeforeSetupDone.Clear();
         }
 
-        private GameObject SpawnMessageFromPool(string message) {
+        private bool SpawnMessageFromPool(string message) {
+            bool success = false;
+
             if (!setupDone || messageParent == null) {
                 msgsBeforeSetupDone.Add(message);
-                return null;
+                return success;
             }
 
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
@@ -160,12 +164,13 @@ namespace Anarkila.DeveloperConsole {
                 var msg = messages[objectToSpawn];
                 if (msg != null) {
                     msg.SetMessage(message);
+                    success = true;
                 }
             }
 
             poolDictionary[PoolTag.Message].Enqueue(objectToSpawn);
             currentMessages.Add(objectToSpawn);
-            return objectToSpawn;
+            return success;
         }
 
 

@@ -53,15 +53,15 @@ namespace Anarkila.DeveloperConsole {
             return success;
         }
 
-
         private static bool ExecuteCommand(string input, bool silent = false) {
-
             string parameterAsString = null;
+            bool parameterParsed = false;
+            object[] parameter = null;
             bool commandFound = false;
             bool success = false;
 
             // Parse input for empty characters
-            if (input.Contains(ConsoleConstants.EMPTYCHAR)) {
+            if (input.Contains(ConsoleConstants.SPACE)) {
                 int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
                 index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
                 parameterAsString = input.Substring(index, input.Length - index);
@@ -86,12 +86,16 @@ namespace Anarkila.DeveloperConsole {
 
                 commandFound = true;
 
-                object[] parameter = null;
+                
                 if (consoleCommands[i].parameterType != null) {
-                    parameter = new object[1];
 
-                    parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
-
+                    // We only need parse this once.
+                    if (!parameterParsed) {
+                        parameter = new object[1];
+                        parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
+                        parameterParsed = true;
+                    }
+  
                     // if parsed parameter is null, continue loop
                     if (parameter[0] == null && !consoleCommands[i].optionalParameter) {
                         continue;
@@ -231,6 +235,7 @@ namespace Anarkila.DeveloperConsole {
             else {
                 // new command registered before console was initialized
                 consoleCommandsRegisteredBeforeInit.Add(data);
+
             }
         }
 
@@ -281,8 +286,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
-        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly) {
-            IEnumerable<MethodInfo> methods = null;
+        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
             if (staticCommandsCached) {
@@ -292,29 +296,26 @@ namespace Anarkila.DeveloperConsole {
                 flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             }
 
+
+            // Linq way
+            /*IEnumerable<MethodInfo> methods = null;
 #if UNITY_WEBGL || ENABLE_IL2CPP
-            // Get all methods with the execute attribute
-            methods = AppDomain.CurrentDomain.GetAssemblies()
-                                   .SelectMany(x => x.GetTypes())
-                                   .Where(x => x.IsClass)
-                                   .SelectMany(x => x.GetMethods(flags))
-                                   .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
-
+            methods = GetAllAttributesFromAssembly(flags, false);
 #else
-            // For Mono backend 
-            methods = AppDomain.CurrentDomain.GetAssemblies().AsParallel()
-                                               .SelectMany(x => x.GetTypes())
-                                               .Where(x => x.IsClass)
-                                               .SelectMany(x => x.GetMethods(flags))
-                                               .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
-#endif
+            methods = GetAllAttributesFromAssembly(flags, true);
+#endif*/
 
-            var commandList = new List<ConsoleCommandData>();
+            var commandList = new List<ConsoleCommandData>(64);
+
+            // Non-Linq way. This is a bit faster.
+            var methods = GetAllAttributesFromAssemblyFast(flags, scanAllAssemblies);
 
             foreach (var method in methods) {
+
                 if (method.IsStatic && staticCommandsCached) continue;
 
-                ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
+                //ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
+                ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false)[0];
 
                 if (attribute == null) continue; // this should never happen, but just in case.
 
@@ -329,16 +330,6 @@ namespace Anarkila.DeveloperConsole {
                 var className = method.DeclaringType;
                 var methodName = method.ToString();
 
-
-                if (commandName.Contains(ConsoleConstants.AND)) {
-#if UNITY_EDITOR
-                    // [ConsoleCommand()] cannot contain character & because it's used to parse multiple commands.
-                    // like: 'test.int 1 & test.int 2' or 'test.int 3 && test.int 4'
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&'. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
-#endif
-                    continue;
-                }
-
                 if (string.IsNullOrEmpty(commandName)) {
 #if UNITY_EDITOR
                     // this warning means you have method with [ConsoleCommand(null)] or [ConsoleCommand("")] somewhere.
@@ -349,8 +340,24 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
+                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.SPACE)) {
+#if UNITY_EDITOR
+                    // [ConsoleCommand()] cannot contain character & or empty space.
+                    // Character '&' is used to parse multiple commands
+                    // empty space is used to separate from [Command] [parameter]
+
+                    // TODO: add support for empty spaces.
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&' or empty space. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+#endif
+                    continue;
+                }
+
                 // Get ConsoleCommand method parameters
                 ParameterInfo[] parameters = method.GetParameters();
+
+                if (!ParameterParser.IsSupportedType(parameters, methodName, commandName, className)) {
+                    continue;
+                }
 
                 // if method doesn't take parameter and it was given some default value, don't show it.
                 if (parameters.Length == 0 && !string.IsNullOrWhiteSpace(defaultValue) || defaultValue == null) {
@@ -362,10 +369,6 @@ namespace Anarkila.DeveloperConsole {
 
                 methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
                 methodName = methodName.Substring(0, methodName.IndexOf(ConsoleConstants.OPENPARENTHESIS));
-
-                if (!ParameterParser.IsSupportedType(method, methodName, commandName, className)) {
-                    continue;
-                }
 
                 bool isStatic = method.IsStatic;
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
@@ -399,6 +402,82 @@ namespace Anarkila.DeveloperConsole {
             return commandList;
         }
 
+
+        /// <summary>
+        /// Get all ConsoleCommand attributes from assembly Linq way.
+        /// </summary>
+        //private static IEnumerable<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool parallel) {
+        //    IEnumerable<MethodInfo> methods = null;
+        //    string assemblyToSearch = "Assembly-CSharp";
+        //    if (parallel) {
+        //        // For Mono backend
+        //        methods = AppDomain.CurrentDomain.GetAssemblies()
+        //                                           .AsParallel()
+        //                                           .Where(x => x.FullName.Contains(assemblyToSearch))
+        //                                           .SelectMany(x => x.GetTypes())
+        //                                           .Where(x => x.IsClass)
+        //                                           .SelectMany(x => x.GetMethods(flags))
+        //                                           .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+
+        //    }
+        //    else {
+        //        // WebGL and IL2CPP
+        //        // Get all methods with the execute attribute
+        //        methods = AppDomain.CurrentDomain.GetAssemblies()
+        //                               .Where(x => x.FullName.Contains(assemblyToSearch))
+        //                               .SelectMany(x => x.GetTypes())
+        //                               .Where(x => x.IsClass)
+        //                               .SelectMany(x => x.GetMethods(flags))
+        //                               .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+        //    }
+
+        //    return methods;
+        //}
+
+        /// <summary>
+        /// Get all ConsoleCommand attributes from assembly non-Linq way.
+        /// This is a bit faster than GetAllAttributesFromAssembly which uses Linq.
+        /// </summary>
+        private static List<MethodInfo> GetAllAttributesFromAssemblyFast(BindingFlags flags, bool scanAllAssemblies = false) {
+            List<MethodInfo> attributeMethodInfos = new List<MethodInfo>(64);
+
+            // If setting 'scanAllAssemblies' is set to false (default) then only scan assemblies that contain "Assembly-CSharp"
+            // this is Unity runtime script assebmly
+            // https://docs.unity3d.com/Manual/ScriptCompileOrderFolders.html
+            string assemblyToSearch = "Assembly-CSharp";
+
+            // skip all assemblies with Editor in its name such as "Assembly-CSharp-Editor"
+            string ignoreEditor = "Editor";
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            for (int i = 0; i < assemblies.Length; i++) {
+
+                // Ignore all other assemblies
+                if (!scanAllAssemblies) {
+                    if (!assemblies[i].FullName.Contains(assemblyToSearch) || assemblies[i].FullName.Contains(ignoreEditor)) {
+                        continue;
+                    }
+                }
+
+                var type = assemblies[i].GetTypes();
+                for (int j = 0; j < type.Length; j++) {
+
+                    if (!type[j].IsClass) continue;
+
+                    var methodInfos = type[j].GetMethods(flags);
+
+                    if (methodInfos.Length == 0) continue;
+
+                    for (int k = 0; k < methodInfos.Length; k++) {
+                        if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) { //.FirstOrDefault() != null
+                            attributeMethodInfos.Add(methodInfos[k]);
+                        }
+                    }
+                }
+            }
+
+            return attributeMethodInfos;
+        }
 
         /// <summary>
         /// Register MonoBehaviour commands

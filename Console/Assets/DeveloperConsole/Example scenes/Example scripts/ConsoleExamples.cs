@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System.Threading.Tasks;
+using System.Collections;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Anarkila.DeveloperConsole {
@@ -123,7 +123,10 @@ namespace Anarkila.DeveloperConsole {
         private void PrintLogFromAnotherThread() {
             Task.Run(() =>{
                 Debug.Log("Logged message from thread " + Thread.CurrentThread.ManagedThreadId);
-                //Console.Log("Message from thread: " + Thread.CurrentThread.ManagedThreadId); // todo
+
+                // Console.Log cannot be called from another thread.
+                // TODO: add support for this.
+                //Console.Log("Message from thread: " + Thread.CurrentThread.ManagedThreadId); 
             });
         }
 # endif

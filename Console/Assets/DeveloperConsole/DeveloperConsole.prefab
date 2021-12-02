@@ -442,7 +442,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1945194472752879591}
   - component: {fileID: 3172321082756492443}
-  - component: {fileID: 6260117284375136527}
   - component: {fileID: 2285618491160871211}
   m_Layer: 0
   m_Name: GhostMessage
@@ -478,18 +477,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397336871552091952}
   m_CullTransparentMesh: 0
---- !u!114 &6260117284375136527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 397336871552091952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2285618491160871211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,7 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -560,7 +547,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -826,7 +813,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5470448715634337423}
   - component: {fileID: 8003097145230172509}
-  - component: {fileID: 4182372465868509650}
   - component: {fileID: 8800469758794152661}
   m_Layer: 0
   m_Name: GhostMessage
@@ -862,18 +848,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975070527845450493}
   m_CullTransparentMesh: 0
---- !u!114 &4182372465868509650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975070527845450493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8800469758794152661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,7 +862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -944,7 +918,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -972,7 +946,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8032102464678487013}
   - component: {fileID: 110222203629570729}
-  - component: {fileID: 7358809430742621382}
   - component: {fileID: 6819707384376607135}
   m_Layer: 0
   m_Name: GhostMessage
@@ -1008,18 +981,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018767501500195844}
   m_CullTransparentMesh: 0
---- !u!114 &7358809430742621382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018767501500195844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6819707384376607135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,7 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1090,7 +1051,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1265,7 +1226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2875078961549058351}
   - component: {fileID: 7537272911936282292}
-  - component: {fileID: 4964925463153696918}
   - component: {fileID: 5449273092935650339}
   m_Layer: 0
   m_Name: GhostMessage
@@ -1301,18 +1261,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238475018295719653}
   m_CullTransparentMesh: 0
---- !u!114 &4964925463153696918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238475018295719653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5449273092935650339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,7 +1275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1383,7 +1331,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1411,7 +1359,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8833375622571445907}
   - component: {fileID: 2987815830229916774}
-  - component: {fileID: 4343379217535894324}
   - component: {fileID: 8046004034172508590}
   m_Layer: 0
   m_Name: GhostMessage
@@ -1447,18 +1394,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285921089581524910}
   m_CullTransparentMesh: 0
---- !u!114 &4343379217535894324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285921089581524910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8046004034172508590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1473,7 +1408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1529,7 +1464,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2507,7 +2442,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8348482798151330168}
   - component: {fileID: 4060715502532990255}
-  - component: {fileID: 2425689086784171168}
   - component: {fileID: 2819037335237235775}
   m_Layer: 0
   m_Name: GhostMessage
@@ -2543,18 +2477,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2570300505955200908}
   m_CullTransparentMesh: 0
---- !u!114 &2425689086784171168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2570300505955200908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2819037335237235775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2569,7 +2491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2625,7 +2547,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -3620,7 +3542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5167310288867313912}
   - component: {fileID: 2710878366401969561}
-  - component: {fileID: 2893159922251102833}
   - component: {fileID: 2068078844766189473}
   m_Layer: 0
   m_Name: GhostMessage
@@ -3656,18 +3577,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3929307887686123436}
   m_CullTransparentMesh: 0
---- !u!114 &2893159922251102833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3929307887686123436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2068078844766189473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3682,7 +3591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3738,7 +3647,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4129,7 +4038,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1929677877760099923}
   - component: {fileID: 5099856623337961938}
-  - component: {fileID: 3151240231411914346}
   - component: {fileID: 4445927159971272996}
   m_Layer: 0
   m_Name: GhostMessage
@@ -4165,18 +4073,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4278624946356988364}
   m_CullTransparentMesh: 0
---- !u!114 &3151240231411914346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4278624946356988364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4445927159971272996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4191,7 +4087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4247,7 +4143,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4275,7 +4171,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1687631288881596257}
   - component: {fileID: 7791589660602834396}
-  - component: {fileID: 2536994841673716110}
   - component: {fileID: 2513404269677068219}
   m_Layer: 0
   m_Name: GhostMessage
@@ -4311,18 +4206,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4285197355461519713}
   m_CullTransparentMesh: 0
---- !u!114 &2536994841673716110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4285197355461519713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2513404269677068219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4337,7 +4220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4393,7 +4276,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4568,7 +4451,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3942973650961730670}
   - component: {fileID: 3818845557951669386}
-  - component: {fileID: 1952283639579360971}
   - component: {fileID: 98920651726356225}
   m_Layer: 0
   m_Name: GhostMessage
@@ -4604,18 +4486,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4514313875244990165}
   m_CullTransparentMesh: 0
---- !u!114 &1952283639579360971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4514313875244990165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &98920651726356225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4630,7 +4500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4686,7 +4556,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -5271,10 +5141,11 @@ MonoBehaviour:
     minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
+    scanAllAssemblies: 0
     UnityLogOption: 5
     unityThreadedLogOption: 2
     maxMessageCount: 150
-    caseSensetive: 0
+    commandsAreCaseSensetive: 0
     allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1
@@ -5282,18 +5153,20 @@ MonoBehaviour:
     showCursorOnEnable: 1
     hideCursorOnDisable: 1
     scrollToBottomOnEnable: 1
-    clearMessagesOnSceneChange: 1
+    clearMessagesOnSceneChange: 0
     printMessageTimestamps: 1
     printStartupHelpText: 1
     printUnrecognizedCommandInfo: 1
     printCommandsAlphabeticalOrder: 1
     printCommandInfoTexts: 1
+    printInitializationTime: 1
+    printLoadedSceneName: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
-    printConsoleDebugInfo: 1
+    printMessageCount: 1
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
     clearUnityConsoleOnConsoleClear: 0
@@ -6529,7 +6402,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2423443331765728058}
   - component: {fileID: 8453239406225339652}
-  - component: {fileID: 7787362116020163861}
   - component: {fileID: 8569924063353414608}
   m_Layer: 0
   m_Name: GhostMessage
@@ -6565,18 +6437,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5340088375702916360}
   m_CullTransparentMesh: 0
---- !u!114 &7787362116020163861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5340088375702916360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8569924063353414608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6591,7 +6451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6647,7 +6507,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -7499,7 +7359,6 @@ GameObject:
   m_Component:
   - component: {fileID: 544630947181519303}
   - component: {fileID: 3678279977042345715}
-  - component: {fileID: 4772796470336046936}
   - component: {fileID: 8171513252437688480}
   m_Layer: 0
   m_Name: GhostMessage
@@ -7535,18 +7394,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7151936354108205613}
   m_CullTransparentMesh: 0
---- !u!114 &4772796470336046936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7151936354108205613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8171513252437688480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7561,7 +7408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7617,7 +7464,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -7645,7 +7492,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6548961986275361243}
   - component: {fileID: 1817382313545474253}
-  - component: {fileID: 4032472711450085943}
   - component: {fileID: 1880234671987543972}
   m_Layer: 0
   m_Name: GhostMessage
@@ -7681,18 +7527,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7244634228897982162}
   m_CullTransparentMesh: 0
---- !u!114 &4032472711450085943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7244634228897982162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1880234671987543972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7707,7 +7541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7763,7 +7597,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -7791,7 +7625,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2402608053612689161}
   - component: {fileID: 8036505736369224688}
-  - component: {fileID: 7367981413297493419}
   - component: {fileID: 2139312630246641382}
   m_Layer: 0
   m_Name: GhostMessage
@@ -7827,18 +7660,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7536766821228551967}
   m_CullTransparentMesh: 0
---- !u!114 &7367981413297493419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7536766821228551967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2139312630246641382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7853,7 +7674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7909,7 +7730,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -8651,7 +8472,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4461568432326132074}
   - component: {fileID: 3217944690264134263}
-  - component: {fileID: 6425524967552365109}
   - component: {fileID: 26013668338713692}
   m_Layer: 0
   m_Name: GhostMessage
@@ -8687,18 +8507,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8075063327781707278}
   m_CullTransparentMesh: 0
---- !u!114 &6425524967552365109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8075063327781707278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &26013668338713692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8713,7 +8521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8769,7 +8577,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -9381,7 +9189,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3441673323784415475}
   - component: {fileID: 6781387459459176740}
-  - component: {fileID: 1301063140705122577}
   - component: {fileID: 7653245038047672144}
   m_Layer: 0
   m_Name: GhostMessage
@@ -9417,18 +9224,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8441731723357408319}
   m_CullTransparentMesh: 0
---- !u!114 &1301063140705122577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8441731723357408319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7653245038047672144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9443,7 +9238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9499,7 +9294,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -9527,7 +9322,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4958477460317264412}
   - component: {fileID: 2390842855916750985}
-  - component: {fileID: 7700650028462651264}
   - component: {fileID: 5347458617495948179}
   m_Layer: 0
   m_Name: GhostMessage
@@ -9563,18 +9357,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8456590160420711522}
   m_CullTransparentMesh: 0
---- !u!114 &7700650028462651264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456590160420711522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5347458617495948179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9589,7 +9371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9645,7 +9427,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -9819,7 +9601,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1880149905457255530}
   - component: {fileID: 7418161381482326503}
-  - component: {fileID: 2376314843629253864}
   - component: {fileID: 5282303160633412280}
   m_Layer: 0
   m_Name: GhostMessage
@@ -9855,18 +9636,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8827663215523915883}
   m_CullTransparentMesh: 0
---- !u!114 &2376314843629253864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8827663215523915883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5282303160633412280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9881,7 +9650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9937,7 +9706,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -10092,7 +9861,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3955563917987673206}
   - component: {fileID: 6977679141441728976}
-  - component: {fileID: 990901590057848238}
   - component: {fileID: 7337002087710685062}
   m_Layer: 0
   m_Name: GhostMessage
@@ -10128,18 +9896,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9158038537139731921}
   m_CullTransparentMesh: 0
---- !u!114 &990901590057848238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9158038537139731921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea0b48d0d751bd4282f5b81e4c4eb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7337002087710685062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10154,7 +9910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -10210,7 +9966,7 @@ MonoBehaviour:
   m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
-  m_isRichText: 1
+  m_isRichText: 0
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
