@@ -38,7 +38,6 @@ namespace Anarkila.DeveloperConsole {
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
         private int maxMessageCount = 150;
-        private Transform cachedTransform;
         private bool setupDone = false;
         private int messageCount = 0;
         private bool allGhostsHidden;
@@ -51,8 +50,6 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
             ConsoleEvents.RegisterDeveloperConsoleLogEvent += LogMessage;
 
-
-            cachedTransform = this.transform;
             if (content != null) {
                 if (content.TryGetComponent(out RectTransform rect)) {
                     rectTransform = rect;
@@ -94,7 +91,6 @@ namespace Anarkila.DeveloperConsole {
         private void ClearConsoleMessages() {
             for (int i = 0; i < currentMessages.Count; i++) {
                 currentMessages[i].SetActive(false);
-                currentMessages[i].transform.SetParent(cachedTransform);
             }
             currentMessages.Clear();
             messageCount = 0;
@@ -122,7 +118,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void PoolObjects() {
-            if (setupDone || pool.prefab == null) return;
+            if (setupDone || pool.prefab == null || messageParent == null) return;
 
             poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(256);
             Queue<GameObject> objectPool = new Queue<GameObject>(256);
@@ -135,7 +131,7 @@ namespace Anarkila.DeveloperConsole {
                 }
 
                 obj.SetActive(false);
-                obj.transform.SetParent(cachedTransform);
+                obj.transform.SetParent(messageParent);
                 objectPool.Enqueue(obj);
             }
             poolDictionary.Add(pool.tag, objectPool);
@@ -158,7 +154,6 @@ namespace Anarkila.DeveloperConsole {
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
 
             if (objectToSpawn != null) {
-                objectToSpawn.transform.SetParent(messageParent);
                 objectToSpawn.SetActive(true);
 
                 var msg = messages[objectToSpawn];
@@ -172,7 +167,6 @@ namespace Anarkila.DeveloperConsole {
             currentMessages.Add(objectToSpawn);
             return success;
         }
-
 
         // HACK: In order to have console messages from bottom to top
         // There's invisible text components with text color alpha set to zero

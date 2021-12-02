@@ -3,6 +3,9 @@ using TMPro;
 
 namespace Anarkila.DeveloperConsole {
 
+    /// <summary>
+    /// This script is attached to every Console message
+    /// </summary>
     public class ConsoleMessage : MonoBehaviour {
 
         private Vector3 cachedVector = Vector3.one;
