@@ -340,11 +340,14 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
-                if (commandName.Contains(ConsoleConstants.AND)) {
+                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.SPACE)) {
 #if UNITY_EDITOR
-                    // [ConsoleCommand()] cannot contain character & because it's used to parse multiple commands.
-                    // like: 'test.int 1 & test.int 2' or 'test.int 3 && test.int 4'
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&'. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+                    // [ConsoleCommand()] cannot contain character & or empty space.
+                    // Character '&' is used to parse multiple commands
+                    // empty space is used to separate from [Command] [parameter]
+
+                    // TODO: add support for empty spaces.
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&' or empty space. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
 #endif
                     continue;
                 }
