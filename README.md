@@ -64,14 +64,14 @@ Developer Console comes with few commands by default.
 * ``close`` - Close Console
 * ``clear`` - Clear all Console messages
 * ``reset`` - Reset Console window to default size and position (Large GUI only)
-* ``console.style`` - Toggle GUI style between Large and Minimal
-* ``scene.loadindex (int)`` - Load scene asynchronously by build index
-* ``scene.loadindexadd (int)`` - Load scene asynchronously additively by build index
-* ``scene.loadname (string)`` - Load scene asynchronously by scene name
-* ``scene.unloadindex (int)`` - UnLoad scene asynchronously by build index
-* ``scene.unloadname (string)`` - UnLoad scene asynchronously by scene name
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
-* ``debug.renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
+* ``console_style`` - Toggle GUI style between Large and Minimal
+* ``scene_loadindex (int)`` - Load scene asynchronously by build index
+* ``scene_addloadindex (int)`` - Load scene asynchronously additively by build index
+* ``scene_loadname (string)`` - Load scene asynchronously by scene name
+* ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
+* ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
+* ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
 ``Console.Log()`` to output directly into Developer Console window.

@@ -47,7 +47,7 @@ namespace Anarkila.DeveloperConsole {
             if (HighestVerticesCount < UnityStats.vertices) HighestVerticesCount = UnityStats.vertices;
         }
 
-        [ConsoleCommand("debug.renderinfo", info: "Print rendering information (Editor only)")]
+        [ConsoleCommand("debug_renderinfo", info: "Print rendering information (Editor only)")]
         private void PrintRenderInfo() {
             //Debug.Log("Low FPS: " + lowestFPS); // this might always show really low fps as this checked right after scene load.
 
