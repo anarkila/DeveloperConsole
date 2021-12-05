@@ -225,7 +225,7 @@ namespace Anarkila.DeveloperConsole {
             // if not first load
             if (sceneChangeCount != 0) {
                 if (!settings.clearMessagesOnSceneChange) {
-                    ConsoleEvents.Log(ConsoleConstants.SPACE, true);
+                    ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp:true);
                 }
                 else {
                     ConsoleEvents.ClearConsoleMessages();
@@ -305,7 +305,7 @@ namespace Anarkila.DeveloperConsole {
 
                 message += string.Format("Initialization took {0} ms.", partTwo);
                 //Debug.Log(message);
-                Console.Log(message);
+                ConsoleEvents.Log(message);
 #endif
             }
 

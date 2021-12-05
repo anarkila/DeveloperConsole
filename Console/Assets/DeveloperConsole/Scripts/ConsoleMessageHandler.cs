@@ -34,6 +34,7 @@ namespace Anarkila.DeveloperConsole {
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
         private List<GameObject> currentMessages = new List<GameObject>(64);
         private List<string> msgsBeforeSetupDone = new List<string>(64);
+        private List<Color?> msgsBeforeSetupDoneColors = new List<Color?>(64);
         private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
@@ -98,10 +99,10 @@ namespace Anarkila.DeveloperConsole {
             HandleGhostMessages();
         }
 
-        private void LogMessage(string text) {
+        private void LogMessage(string text, Color? textColor) {
             if (!Application.isPlaying) return;
            
-            var success = SpawnMessageFromPool(text);
+            var success = SpawnMessageFromPool(text, textColor);
             if (!success) return;
 
             ++messageCount;
@@ -138,27 +139,29 @@ namespace Anarkila.DeveloperConsole {
             setupDone = true;
 
             for (int i = 0; i < msgsBeforeSetupDone.Count; i++) {
-                LogMessage(msgsBeforeSetupDone[i]);
+                LogMessage(msgsBeforeSetupDone[i], msgsBeforeSetupDoneColors[i]);
             }
             msgsBeforeSetupDone.Clear();
         }
 
-        private bool SpawnMessageFromPool(string message) {
+        private bool SpawnMessageFromPool(string message, Color? textColor) {
             bool success = false;
 
             if (!setupDone || messageParent == null) {
                 msgsBeforeSetupDone.Add(message);
+                msgsBeforeSetupDoneColors.Add(textColor);
                 return success;
             }
 
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
 
             if (objectToSpawn != null) {
+                objectToSpawn.SetActive(false);
                 objectToSpawn.SetActive(true);
 
                 var msg = messages[objectToSpawn];
                 if (msg != null) {
-                    msg.SetMessage(message);
+                    msg.SetMessage(message, textColor);
                     success = true;
                 }
             }

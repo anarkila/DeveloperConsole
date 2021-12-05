@@ -37,6 +37,9 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("ScrollRect scrollbar visibility")]
         public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
+        [Tooltip("Default message text color")]
+        public Color defaultMessageTextColor = Color.white;
+
         [Tooltip("Large GUI background color")]
         public Color largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
 

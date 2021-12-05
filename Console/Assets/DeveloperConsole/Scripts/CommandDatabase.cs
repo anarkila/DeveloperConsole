@@ -641,9 +641,9 @@ namespace Anarkila.DeveloperConsole {
                     commands = commands.OrderBy(x => x).ToList();
                 }
 
-                Console.Log(ConsoleConstants.COMMANDMESSAGE);
+                ConsoleEvents.Log(ConsoleConstants.COMMANDMESSAGE);
                 for (int i = 0; i < commands.Count; i++) {
-                    Console.Log(commands[i]);
+                    ConsoleEvents.Log(commands[i]);
                 }
             }
         }

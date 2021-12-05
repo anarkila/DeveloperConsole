@@ -24,9 +24,10 @@ namespace Anarkila.DeveloperConsole {
         public static void ChangeGUIStyle(ConsoleGUIStyle style) => RegisterGUIStyleChangeEvent?.Invoke(style);
         public static void SwitchGUIStyle() => ConsoleManager.ToggleInterfaceStyle();
 
-        public static event Action<string> RegisterDeveloperConsoleLogEvent;
-        public static void Log(string text, bool forceIgnoreTimeStamp = false) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent, forceIgnoreTimeStamp);
-        //public static void DirectLog(string text) => RegisterDeveloperConsoleLogEvent?.Invoke(text);
+        public static event Action<string, Color?> RegisterDeveloperConsoleLogEvent;
+        public static void Log(string text, Color? textColor = null, bool forceIgnoreTimeStamp = false) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent, textColor, false, forceIgnoreTimestamp:forceIgnoreTimeStamp);
+        //public static void LogError(string text, Color? textColor = null, bool forceIgnoreTimeStamp = false) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent, textColor, true, LogType.Error, null, forceIgnoreTimeStamp);
+        public static void UnityLog(string text,string stacktrace, LogType type, Color? textColor = null, bool forceIgnoreTimeStamp = false) => MessagePrinter.PrintLog(text, RegisterDeveloperConsoleLogEvent, textColor, true, type, stacktrace, forceIgnoreTimeStamp);
 
         public static event Action<List<string>> RegisterConsolePredictionEvent;
         public static void Predictions(List<string> list) => RegisterConsolePredictionEvent?.Invoke(list);

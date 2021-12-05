@@ -10,6 +10,7 @@ namespace Anarkila.DeveloperConsole {
     public static class MessagePrinter {
 
         private static Dictionary<LogType, string> LogTypes = new Dictionary<LogType, string>();
+        private static List<Color?> messagesBeforeInitDoneColors = new List<Color?>();
         private static List<string> messagesBeforeInitDone = new List<string>();
         private static ConsoleGUIStyle currentGUIStyle = ConsoleGUIStyle.Large;
         private static ConsoleSettings settings = new ConsoleSettings();
@@ -46,7 +47,7 @@ namespace Anarkila.DeveloperConsole {
             GetSettings();
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                ConsoleEvents.Log(messagesBeforeInitDone[i], true);
+                ConsoleEvents.Log(messagesBeforeInitDone[i], messagesBeforeInitDoneColors[i], true);
             }
             messagesBeforeInitDone.Clear();
             
@@ -79,19 +80,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void UnityLogEvent(string input, string stackTrace, LogType type) {
-            if (currentGUIStyle == ConsoleGUIStyle.Minimal
-                || settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs) return;
-
-            if (type == LogType.Error || type == LogType.Exception) {
-                input = AppendStrackTrace(input, stackTrace, settings.UnityLogOption);
-            }
-
-            if (settings.printLogType && Debug.isDebugBuild) {
-                input = AddMessagePrefix(LogTypes[type], input);
-            }
-
-            ConsoleEvents.Log(input);
-            ++messageCount;
+            ConsoleEvents.UnityLog(input, stackTrace, type, settings.defaultMessageTextColor);
         }
 
         /// <summary>
@@ -137,10 +126,27 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Print message to Developer Console
         /// </summary>
-        public static void PrintLog(string text, Action<string> subscribers, bool forceIgnoreTimestamp = false) {
+        public static void PrintLog(string text, Action<string, Color?> subscribers, Color? textColor = null,
+            bool appendStackTrace = false, LogType type = LogType.Error, string stackTrace = "", 
+            bool forceIgnoreTimestamp = false) {
+
             if (!ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)
                 || !Application.isPlaying
                 || currentGUIStyle == ConsoleGUIStyle.Minimal) return;
+
+
+            if (currentGUIStyle == ConsoleGUIStyle.Minimal
+                || settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs) return;
+
+            if (appendStackTrace) {
+                if (type == LogType.Error || type == LogType.Exception) {
+                    text = AppendStrackTrace(text, stackTrace, settings.UnityLogOption);
+                }
+
+                if (settings.printLogType && Debug.isDebugBuild) {
+                    text = AddMessagePrefix(LogTypes[type], text);
+                }
+            }
 
             if (!forceIgnoreTimestamp && printMessageTimestamps) {
                 text = AddMessagePrefix(DateTime.Now.ToString(ConsoleConstants.DATETIMEFORMAT), text);
@@ -148,11 +154,12 @@ namespace Anarkila.DeveloperConsole {
 
             if (!consoleInitialized) {
                 messagesBeforeInitDone.Add(text);
+                messagesBeforeInitDoneColors.Add(textColor);
                 return;
             }
 
             if (subscribers != null && Application.isPlaying) {
-                subscribers.Invoke(text);
+                subscribers.Invoke(text, textColor);
             }
         }
     }

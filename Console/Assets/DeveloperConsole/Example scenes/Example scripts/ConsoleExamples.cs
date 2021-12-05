@@ -132,9 +132,14 @@ namespace Anarkila.DeveloperConsole {
 # endif
 #endif
 
-        [ConsoleCommand("test.colors")]
+        [ConsoleCommand("test.richtext")]
         private void PrintColors() {
             Debug.Log("<color=red>R</color><color=green>G</color><color=blue>B</color>");
+        }
+
+        [ConsoleCommand("test.colorlog")]
+        private void PrintColoredLog() {
+            Console.Log("This message is red!", Color.red);
         }
 
         // This command won't show up in predictions because it's set as hidden,

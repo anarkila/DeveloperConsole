@@ -5132,6 +5132,7 @@ MonoBehaviour:
     resetWindowSizeOnEnable: 0
     forceConsoleInsideScreenBounds: 0
     ScrollRectVisibility: 0
+    defaultMessageTextColor: {r: 1, g: 1, b: 1, a: 1}
     largeGUIBackgroundColor: {r: 0.2588, g: 0.247, b: 0.2431, a: 0.55}
     largeGUIBorderColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
     largeGUIHighlightColor: {r: 0.41, g: 0.41, b: 0.41, a: 1}

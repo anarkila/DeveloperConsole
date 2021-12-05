@@ -11,25 +11,27 @@ public static class Console {
     ///  Log message directly into Developer Console window
     /// </summary>
     /// <param name="message">Message to print</param>
+    /// <param name="textColor">Text color</param>
     /// <param name="forceIgnoreTimestamp">force ignore timestamp</param>
-    public static void Log(string message, bool forceIgnoreTimestamp = false) {
-        ConsoleEvents.Log(message, forceIgnoreTimestamp);
+    public static void Log(string message, Color? textColor = null, bool forceIgnoreTimestamp = false) {
+        ConsoleEvents.Log(message, textColor, forceIgnoreTimestamp);
     }
 
     /// <summary>
     ///  Log message directly into Developer Console window
     /// </summary>
     /// <param name="message">Message to print</param>
+    /// <param name="textColor">Text color</param>
     /// <param name="forceIgnoreTimestamp">force ignore timestamp</param>
-    public static void Log(System.Object message, bool forceIgnoreTimestamp = false) {
-        ConsoleEvents.Log(message.ToString(), forceIgnoreTimestamp);
+    public static void Log(System.Object message, Color? textColor = null, bool forceIgnoreTimestamp = false) {
+        ConsoleEvents.Log(message.ToString(), textColor, forceIgnoreTimestamp);
     }
 
     /// <summary>
     /// Log empty message without timestamp
     /// </summary>
     public static void LogEmpty() {
-        ConsoleEvents.Log(ConsoleConstants.SPACE, true);
+        ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp:true);
     }
 
     /// <summary>
