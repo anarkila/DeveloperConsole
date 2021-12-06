@@ -10,8 +10,7 @@ namespace Anarkila.DeveloperConsole {
     public static class MessagePrinter {
 
         private static Dictionary<LogType, string> LogTypes = new Dictionary<LogType, string>();
-        private static List<Color?> messagesBeforeInitDoneColors = new List<Color?>();
-        private static List<string> messagesBeforeInitDone = new List<string>();
+        private static List<TempMessage> messagesBeforeInitDone = new List<TempMessage>(32);
         private static ConsoleGUIStyle currentGUIStyle = ConsoleGUIStyle.Large;
         private static ConsoleSettings settings = new ConsoleSettings();
         private static StringBuilder sb = new StringBuilder();
@@ -47,10 +46,10 @@ namespace Anarkila.DeveloperConsole {
             GetSettings();
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                ConsoleEvents.Log(messagesBeforeInitDone[i], messagesBeforeInitDoneColors[i], true);
+                ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor);
             }
             messagesBeforeInitDone.Clear();
-            
+
         }
 
         private static void GetSettings() {
@@ -153,8 +152,10 @@ namespace Anarkila.DeveloperConsole {
             }
 
             if (!consoleInitialized) {
-                messagesBeforeInitDone.Add(text);
-                messagesBeforeInitDoneColors.Add(textColor);
+                var temp = new TempMessage();
+                temp.message = text;
+                temp.messageColor = textColor;
+                messagesBeforeInitDone.Add(temp);
                 return;
             }
 

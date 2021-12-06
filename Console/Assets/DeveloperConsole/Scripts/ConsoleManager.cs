@@ -221,7 +221,7 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private static async void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
+        private static void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
             // if not first load
             if (sceneChangeCount != 0) {
                 if (!settings.clearMessagesOnSceneChange) {

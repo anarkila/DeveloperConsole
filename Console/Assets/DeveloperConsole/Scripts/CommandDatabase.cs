@@ -564,8 +564,6 @@ namespace Anarkila.DeveloperConsole {
 
             var style = ConsoleManager.GetGUIStyle();
 
-            string line = " - ";
-
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
 
@@ -574,7 +572,7 @@ namespace Anarkila.DeveloperConsole {
                 }
 
                 if (!string.IsNullOrWhiteSpace(consoleCommands[i].info)) {
-                    var fullText = consoleCommands[i].commandName + line + consoleCommands[i].info;
+                    var fullText = consoleCommands[i].commandName + ConsoleConstants.LINE + consoleCommands[i].info;
                     if (!commandStringsWithInfos.Contains(fullText)) {
                         commandStringsWithInfos.Add(fullText);
                     }
@@ -601,6 +599,50 @@ namespace Anarkila.DeveloperConsole {
                     commandStringsWithDefaultValues.Add(full);
                 }
             }
+        }
+
+        public static void PrintAllCommands() {
+            var settings = ConsoleManager.GetSettings();
+
+            if (settings != null) {
+                var commands = settings.printCommandInfoTexts ? GetCommandsWithInfos() : GetConsoleCommandList();
+
+                if (settings.printCommandsAlphabeticalOrder) {
+                    commands = commands.OrderBy(x => x).ToList();
+                }
+
+                ConsoleEvents.Log(ConsoleConstants.COMMANDMESSAGE);
+                for (int i = 0; i < commands.Count; i++) {
+                    ConsoleEvents.Log(commands[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check that list doesn't already contain command that we are trying to register.
+        /// </summary>
+        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
+            if (commandList.Count == 0) return false;
+
+            bool found = false;
+
+            for (int i = 0; i < commandList.Count; i++) {
+                if (commandName == commandList[i].commandName) {
+
+                    if (className != commandList[i].scriptNameString
+                        || methodName != commandList[i].methodName
+                        || parameter != commandList[i].parameterType) {
+#if UNITY_EDITOR
+                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
+                              "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
+                              "Give this attribute other command name!", commandName, className, methodName));
+#endif
+                        found = true;
+                    }
+                }
+            }
+
+            return found;
         }
 
         public static int GetExcecutedCommandCount() {
@@ -631,59 +673,12 @@ namespace Anarkila.DeveloperConsole {
             return staticCommandsCached;
         }
 
-        public static void PrintAllCommands() {
-            var settings = ConsoleManager.GetSettings();
-
-            if (settings != null) {
-                var commands = settings.printCommandInfoTexts ? GetCommandsWithInfos() : GetConsoleCommandList();
-
-                if (settings.printCommandsAlphabeticalOrder) {
-                    commands = commands.OrderBy(x => x).ToList();
-                }
-
-                ConsoleEvents.Log(ConsoleConstants.COMMANDMESSAGE);
-                for (int i = 0; i < commands.Count; i++) {
-                    ConsoleEvents.Log(commands[i]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get previously successfully executed commands
-        /// </summary>
         public static List<string> GetPreviouslyExecutedCommands() {
             return executedCommands;
         }
 
         public static void ClearConsoleCommands() {
             consoleCommands.Clear();
-        }
-
-        /// <summary>
-        /// Check that list doesn't already contain command that we are trying to register.
-        /// </summary>
-        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
-            if (commandList.Count == 0) return false;
-
-            bool foundDuplicate = false;
-
-            for (int i = 0; i < commandList.Count; i++) {
-                if (commandName == commandList[i].commandName) {
-
-                    if (className != commandList[i].scriptNameString
-                        || methodName != commandList[i].methodName
-                        || parameter != commandList[i].parameterType) {
-#if UNITY_EDITOR
-                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
-                              "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
-                              "Give this attribute other command name!", commandName, className, methodName));
-#endif
-                        foundDuplicate = true;
-                    }
-                }
-            }
-
-            return foundDuplicate;
         }
     }
 }

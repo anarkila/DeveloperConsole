@@ -21,6 +21,7 @@ public static class ConsoleConstants {
     public const string OPENBRACKET = "[";
     public const char EMPTYCHAR = ' ';
     public const char CHARCOMMA = ',';
+    public const string LINE = " - ";
     public const char ANDCHAR = '&';
     public const string SPACE = " ";
     public const string COMMA = ",";
@@ -28,7 +29,6 @@ public static class ConsoleConstants {
     public const string AND = "&";
     public const string T = "\t";
     public const string F = "f";
-
 
     // Char array of all allowed supported array separators
     public static char[] SEPARATORS = { ',', '.', ':', ';' };

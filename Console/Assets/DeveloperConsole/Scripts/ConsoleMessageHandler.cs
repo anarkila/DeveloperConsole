@@ -7,7 +7,6 @@ namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script handles Developer Console messages
-    /// this is implementes basic object pooler and
     /// by default Developer Console pools 150 messages and once 150 messages has been reached, 
     /// it will start to recycle messages from the beginning.
     /// Increase maxMessageCount setting in inspector if you want to increase this value
@@ -32,9 +31,8 @@ namespace Anarkila.DeveloperConsole {
         [SerializeField] private GameObject[] Ghosts;
 
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
+        private List<TempMessage> messagesBeforeInitDone = new List<TempMessage>(32);
         private List<GameObject> currentMessages = new List<GameObject>(64);
-        private List<string> msgsBeforeSetupDone = new List<string>(64);
-        private List<Color?> msgsBeforeSetupDoneColors = new List<Color?>(64);
         private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
@@ -77,7 +75,7 @@ namespace Anarkila.DeveloperConsole {
                 maxMessageCount = settings.maxMessageCount;
                 currentGUIStyle = settings.interfaceStyle;
             }
-            PoolObjects();
+            PoolMessages();
             HandleGhostMessages();
         }
 
@@ -118,7 +116,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.ScrollToBottom();
         }
 
-        private void PoolObjects() {
+        private void PoolMessages() {
             if (setupDone || pool.prefab == null || messageParent == null) return;
 
             poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(256);
@@ -138,18 +136,20 @@ namespace Anarkila.DeveloperConsole {
             poolDictionary.Add(pool.tag, objectPool);
             setupDone = true;
 
-            for (int i = 0; i < msgsBeforeSetupDone.Count; i++) {
-                LogMessage(msgsBeforeSetupDone[i], msgsBeforeSetupDoneColors[i]);
+            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                LogMessage(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor);
             }
-            msgsBeforeSetupDone.Clear();
+            messagesBeforeInitDone.Clear();
         }
 
         private bool SpawnMessageFromPool(string message, Color? textColor) {
             bool success = false;
 
             if (!setupDone || messageParent == null) {
-                msgsBeforeSetupDone.Add(message);
-                msgsBeforeSetupDoneColors.Add(textColor);
+                var temp = new TempMessage();
+                temp.message = message;
+                temp.messageColor = textColor;
+                messagesBeforeInitDone.Add(temp);
                 return success;
             }
 

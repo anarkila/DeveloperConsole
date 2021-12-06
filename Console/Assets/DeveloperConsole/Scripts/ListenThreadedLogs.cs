@@ -71,7 +71,6 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void Update() {
-
             // early return if there's no messages to log!
             if (!messagesQueued) return;
 
