@@ -20,7 +20,9 @@ namespace Anarkila.DeveloperConsole {
         public bool hiddenCommand = false;
         public bool hiddenCommandMinimalGUI = false;
         public string scriptNameString;
-       
+        public char[] commandNameCharArray;
+        public char[] commandNameLowerCharArray;
+
         public ConsoleCommandData(MonoBehaviour scriptName, string methodName, string commandName, string commandExplanation, string info, Type parameterType,
             bool isStaticMethod, MethodInfo methodInfo, bool isCoroutine, bool optionalParameter, bool hiddenCommand = false,
             bool hiddenCommandMinimalGUI = false,string scriptNameString = "") {
@@ -39,6 +41,8 @@ namespace Anarkila.DeveloperConsole {
             this.hiddenCommandMinimalGUI = hiddenCommandMinimalGUI;
             this.scriptNameString = scriptNameString;
             this.commandNameLower = commandName.ToLower();
+            this.commandNameCharArray = commandName.ToCharArray();
+            this.commandNameLowerCharArray = this.commandNameLower.ToCharArray();
         }
     }
 }

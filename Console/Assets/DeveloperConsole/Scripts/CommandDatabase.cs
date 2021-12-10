@@ -23,6 +23,12 @@ namespace Anarkila.DeveloperConsole {
         private static int executedCommandCount;
         private static int failedCommandCount;
 
+        private struct CommandStruct {
+            public bool found;
+            public string command;
+            public string parameter;
+        }
+
         /// <summary>
         /// Try to execute command
         /// </summary>
@@ -45,7 +51,7 @@ namespace Anarkila.DeveloperConsole {
                 for (int i = 0; i < commandList.Count; i++) {
                     success = ExecuteCommand(commandList[i]);
 
-                    // uncomment this if you wish to return after command have failed.
+                    // uncomment this to return after command have failed.
                     //if (!success) return success;
                 }
             }
@@ -60,24 +66,26 @@ namespace Anarkila.DeveloperConsole {
             bool commandFound = false;
             bool success = false;
 
-            // Parse input for empty characters
-            if (input.Contains(ConsoleConstants.SPACE)) {
-                int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
-                index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
-                parameterAsString = input.Substring(index, input.Length - index);
-                input = input.Substring(0, index);
-            }
-
             bool caseSensetive = ConsoleManager.IsCaseSensetive();
+
+            if (!caseSensetive) {
+                input = input.ToLower();
+            }
 
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
 
-                if (caseSensetive && input != consoleCommands[i].commandName) continue;
-                else if (input.ToLower() != consoleCommands[i].commandNameLower) continue;
-                // else command matches..
+                var command = ParseInput(consoleCommands[i], input, caseSensetive);
+                if (command.found) {
+                    parameterAsString = command.parameter;
+                    input = command.command;
+                }
+                else {
+                    // Didn't match --> continue
+                    continue;
+                }
 
-                // If command does not take parameter and user passed in parameter.
+                // If command does not take parameter and user passed in parameter --> continue
                 if (consoleCommands[i].parameterType == null && parameterAsString != null) {
                     if (!string.IsNullOrWhiteSpace(parameterAsString)) {
                         continue;
@@ -86,21 +94,19 @@ namespace Anarkila.DeveloperConsole {
 
                 commandFound = true;
 
-                
                 if (consoleCommands[i].parameterType != null) {
 
-                    // We only need parse this once.
+                    // We only need parse this once
                     if (!parameterParsed) {
                         parameter = new object[1];
                         parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
                         parameterParsed = true;
                     }
   
-                    // if parsed parameter is null, continue loop
+                    // if parsed parameter is null --> continue
                     if (parameter[0] == null && !consoleCommands[i].optionalParameter) {
                         continue;
                     }
-
                 }
 
                 try {
@@ -146,6 +152,45 @@ namespace Anarkila.DeveloperConsole {
             }
 
             return success;
+        }
+
+        /// <summary>
+        /// Parse user input and see if it matches command
+        /// </summary>
+        private static CommandStruct ParseInput(ConsoleCommandData command, string input, bool lower) {
+
+            char[] chararray = lower ? command.commandNameLowerCharArray : command.commandNameCharArray;
+            string commandName = lower ? command.commandNameLower : command.commandName;
+
+            int lastPos = -1;
+
+            var consoleCommand = new CommandStruct();
+
+            for (int i = 0; i < chararray.Length; i++) {
+                lastPos++;
+                while (lastPos < input.Length && input[lastPos] != chararray[i]) {
+                    lastPos++;
+                }
+
+                if (lastPos == input.Length) {
+                    consoleCommand.found = false;
+                    return consoleCommand;
+                }
+            }
+
+            string parsedCommand = input.Substring(0, lastPos + 1);
+
+            // if parsed command is not command name --> return false
+            if (parsedCommand != commandName) {
+                consoleCommand.found = false;
+                return consoleCommand;
+            }
+
+            consoleCommand.found = true;
+            consoleCommand.parameter = input.Substring(lastPos + 1);
+            consoleCommand.command = parsedCommand;
+
+            return consoleCommand;
         }
 
         /// <summary>
@@ -235,7 +280,6 @@ namespace Anarkila.DeveloperConsole {
             else {
                 // new command registered before console was initialized
                 consoleCommandsRegisteredBeforeInit.Add(data);
-
             }
         }
 
@@ -340,16 +384,17 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
-                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.SPACE)) {
+                if (commandName.Contains(ConsoleConstants.AND) /*|| commandName.Contains(ConsoleConstants.SPACE)*/) {
 #if UNITY_EDITOR
                     // [ConsoleCommand()] cannot contain character & or empty space.
                     // Character '&' is used to parse multiple commands
                     // empty space is used to separate from [Command] [parameter]
 
                     // TODO: add support for empty spaces.
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&' or empty space. Please rename command {1} in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+                    //Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&' or empty space. Please rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&'. Please rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
 #endif
-                    continue;
+                    //continue;
                 }
 
                 // Get ConsoleCommand method parameters
@@ -522,7 +567,6 @@ namespace Anarkila.DeveloperConsole {
                     }
                 }
             }
-
 
             // Add static commands to final console command list
             consoleCommands.AddRange(staticCommands);
