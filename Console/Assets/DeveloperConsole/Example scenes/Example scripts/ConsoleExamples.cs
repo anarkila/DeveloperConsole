@@ -151,11 +151,10 @@ namespace Anarkila.DeveloperConsole {
 
 
         // Registering commands with Console.cs example.
-        // this is fastests way to register MonoBehaviour commands.
-        // this can be also useful if you Instantiate objects runtime with MonoBehaviour script
-        // as [ConsoleCommands] by default are only registered when scene is loaded,
-        // so any [ConsoleCommands] added later will not be added.
-        private void Start() {
+        // this can be also useful if you Instantiate objects runtime with MonoBehaviour script with [ConsoleCommand] attribute,
+        // as [ConsoleCommand] attributes are only registered when scene is loaded,
+        // so any [ConsoleCommand] attributes added later will not be registered.
+        private void OnEnable() {
             Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", "", false, false, false);
             Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", "", false, false, false);
             Console.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", "", false, false, false);
@@ -175,8 +174,8 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Manual Coroutine end");
         }
 
-        [ConsoleCommand("test.removecommads")]
-        private void RemoveCommands() {
+        // Example how to RemoveCommand with Console.cs
+        private void OnDisable() {
             Console.RemoveCommand("test.manual", true);
             Console.RemoveCommand("test.manual.int", true);
             Console.RemoveCommand("test.manual.coroutine", true);
