@@ -17,7 +17,6 @@ namespace Anarkila.DeveloperConsole {
         private int HighestVerticesCount = 0;
         private int HighestBatchesCount = 0;
 
-        //private int lowestFPS = 10000;
         private int highestFPS = 0;
         private float avgFPS = 0f;
 
@@ -34,7 +33,6 @@ namespace Anarkila.DeveloperConsole {
 
             // calculate low and high FPS
             var fps = 1.0f / deltaTime;
-            //if (fps < lowestFPS) lowestFPS = (int)fps;
             if (fps > highestFPS) highestFPS = (int)fps;
             
             // calculate average FPS
@@ -49,7 +47,6 @@ namespace Anarkila.DeveloperConsole {
 
         [ConsoleCommand("debug_renderinfo", info: "Print rendering information (Editor only)")]
         private void PrintRenderInfo() {
-            //Debug.Log("Low FPS: " + lowestFPS); // this might always show really low fps as this checked right after scene load.
 
             var currentTargetFPS = Application.targetFrameRate;
             var target = string.Empty;
