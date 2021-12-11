@@ -46,10 +46,9 @@ namespace Anarkila.DeveloperConsole {
             GetSettings();
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor);
+                ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp:true);
             }
             messagesBeforeInitDone.Clear();
-
         }
 
         private static void GetSettings() {

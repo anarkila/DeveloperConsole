@@ -38,7 +38,6 @@ namespace Anarkila.DeveloperConsole {
             ConsoleManager.InitializeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
 
-
 #if UNITY_EDITOR
             if (settings.interfaceStyle == ConsoleGUIStyle.Minimal) {
                 if (settings.UnityLogOption != ConsoleLogOptions.DontPrintLogs || settings.unityThreadedLogOption != ConsoleLogOptions.DontPrintLogs) {
