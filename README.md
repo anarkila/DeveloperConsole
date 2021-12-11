@@ -43,6 +43,7 @@ public class ExampleScript : MonoBehaviour {
 - Easy drag & drop setup
 - Mono and IL2CPP support
 - WebGL support
+- No domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log directly into Developer Console window
