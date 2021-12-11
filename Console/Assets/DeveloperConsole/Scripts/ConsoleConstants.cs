@@ -9,7 +9,7 @@ public static class ConsoleConstants {
     public const string UNLIMITED = "Unlimited";
 #endif
     public const string HELPTEXT = "Type 'help' and press Enter to print all available commands.";
-    public const string REGISTEREDSTATIC = " (Registered static commands only) ";
+    public const string REGISTEREDSTATIC = "(static commands only)";
     public const string COMMANDMESSAGE = "All available commands:";
     public const string CONSOLEINIT = "Console Initialized. ";
     public const string COLOR_RED_START = "<color=red>";

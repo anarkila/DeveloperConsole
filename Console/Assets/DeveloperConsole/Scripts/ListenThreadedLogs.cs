@@ -10,6 +10,7 @@ namespace Anarkila.DeveloperConsole {
     /// Most of the Unity API's are not thread safe so we need to be sure we call
     /// Developer Console Log events from the Unity main thread!
     /// </summary>
+#pragma warning disable 0162
     [DefaultExecutionOrder(-9999)]
     public class ListenThreadedLogs : MonoBehaviour {
 
@@ -52,6 +53,14 @@ namespace Anarkila.DeveloperConsole {
         private void OnDestroy() {
             UnRegister();
             Instance = null;
+
+#if UNITY_EDITOR
+            // for domain reload purposes
+            logOption = ConsoleLogOptions.DontPrintLogs;
+            messageBacklog.Clear();
+            messages.Clear();
+            messagesQueued = false;
+#endif
         }
 
         private void UnRegister() {

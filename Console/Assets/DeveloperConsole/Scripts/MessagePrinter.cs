@@ -40,15 +40,19 @@ namespace Anarkila.DeveloperConsole {
 
 
         private static void ConsoleIsInitialized() {
-            ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
-
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
             GetSettings();
 
-            for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp:true);
+
+            if (messagesBeforeInitDone.Count != 0) {
+                // Add slight delay before logging messages
+                ConsoleUtils.DelayedCall(() => {
+                    for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                        ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp: true);
+                    }
+                    messagesBeforeInitDone.Clear();
+                }, 0.1f);
             }
-            messagesBeforeInitDone.Clear();
         }
 
         private static void GetSettings() {
@@ -70,6 +74,16 @@ namespace Anarkila.DeveloperConsole {
             if (settings != null && settings.printMessageCount) {
                 if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
             }
+
+            // for domain reload purposes
+            LogTypes.Clear();
+            messagesBeforeInitDone.Clear();
+            currentGUIStyle = ConsoleGUIStyle.Large;
+            sb = new StringBuilder();
+            printMessageTimestamps = true;
+            consoleInitialized = false;
+            initDone = false;
+            messageCount = 0;
 #endif
         }
 
@@ -125,15 +139,12 @@ namespace Anarkila.DeveloperConsole {
         /// Print message to Developer Console
         /// </summary>
         public static void PrintLog(string text, Action<string, Color?> subscribers, Color? textColor = null,
-            bool appendStackTrace = false, LogType type = LogType.Error, string stackTrace = "", 
+            bool appendStackTrace = false, LogType type = LogType.Error, string stackTrace = "",
             bool forceIgnoreTimestamp = false) {
 
             if (!ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)
                 || !Application.isPlaying
-                || currentGUIStyle == ConsoleGUIStyle.Minimal) return;
-
-
-            if (currentGUIStyle == ConsoleGUIStyle.Minimal
+                || currentGUIStyle == ConsoleGUIStyle.Minimal
                 || settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs) return;
 
             if (appendStackTrace) {
@@ -155,6 +166,7 @@ namespace Anarkila.DeveloperConsole {
                 temp.message = text;
                 temp.messageColor = textColor;
                 messagesBeforeInitDone.Add(temp);
+                //Debug.Log(text);
                 return;
             }
 

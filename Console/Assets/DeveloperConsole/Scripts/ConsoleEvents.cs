@@ -38,8 +38,8 @@ namespace Anarkila.DeveloperConsole {
         public static event Action RegisterConsoleClearEvent;
         public static void ClearConsoleMessages() => RegisterConsoleClearEvent?.Invoke();
 
-        public static event Action RegisterConsoleRefreshEvent;
-        public static void RefreshConsole() => RegisterConsoleRefreshEvent?.Invoke();
+        public static event Action RegisterListsChangedEvent;
+        public static void ListsChanged() => RegisterListsChangedEvent?.Invoke();
 
         public static event Action RegisterSettingsChangedEvent;
         public static void NewSettingsSet() => RegisterSettingsChangedEvent?.Invoke();

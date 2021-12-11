@@ -1221,7 +1221,7 @@ PrefabInstance:
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.910233
+      value: -2.9101562
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
@@ -1241,17 +1241,17 @@ PrefabInstance:
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
@@ -1276,7 +1276,7 @@ PrefabInstance:
     - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: playButtonTime
-      value: 637748299595285122
+      value: 637748525294365768
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}

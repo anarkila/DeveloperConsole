@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -25,9 +26,7 @@ namespace Anarkila.DeveloperConsole {
 
             UnityMainThreadID = thread;
 
-            SceneManager.sceneLoaded += SceneLoadCallback;
             Application.quitting += OnDestroy;
-
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
@@ -35,8 +34,17 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
 #endif
+
             MessagePrinter.Init();
             SetSettings(settings);
+            RegisterCommands(logMessage: false);
+
+            // Register to sceneloaded callback from UnityEngine after small delay
+            // otherwise RegisterCommand might get called twice.
+            ConsoleUtils.DelayedCall(() => {
+                SceneManager.sceneLoaded += SceneLoadCallback;
+            }, 0.2f);
+
             initDone = true;
         }
 
@@ -64,6 +72,13 @@ namespace Anarkila.DeveloperConsole {
                 if (executedCommandCount != 0) Debug.Log(string.Format("Console Commands was called {0} times.", executedCommandCount));
                 if (failedCommandCount != 0) Debug.Log(string.Format("Failed or not recognized commands was called {0} times.", failedCommandCount));
             }
+
+            // for domain reload purposes
+            showInputPredictions = true;
+            consoleInitialized = false;
+            consoleIsOpen = false;
+            sceneChangeCount = 0;
+            initDone = false;
 #endif
         }
 
@@ -208,7 +223,7 @@ namespace Anarkila.DeveloperConsole {
             settings.interfaceStyle = style;
             if (consoleInitialized) {
                 CommandDatabase.UpdateLists();
-                ConsoleEvents.RefreshConsole();
+                ConsoleEvents.ListsChanged();
             }
         }
 
@@ -228,28 +243,31 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void SceneLoadCallback(Scene scene, LoadSceneMode mode) {
-            // if not first load
-            if (sceneChangeCount != 0) {
-                if (!settings.clearMessagesOnSceneChange) {
-                    ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp:true);
-                }
-                else {
-                    ConsoleEvents.ClearConsoleMessages();
-                }
+            RegisterCommands(scene.name, mode);
+        }
 
-                if (settings.printLoadedSceneName) {
-                    // https://docs.unity3d.com/ScriptReference/SceneManagement.LoadSceneMode.html
-                    string additive = mode == LoadSceneMode.Additive ? "(Additive)" : null;
-                    Console.Log(string.Format("Loaded Scene: {0} {1}", scene.name, additive));
-                }
-            }
-            else if (!settings.printPlayButtonToSceneTime && settings.printLoadedSceneName) {
-                Console.Log(string.Format("Loaded Scene: {0}", scene.name));
-            }
-
-
+        private static void RegisterCommands(string sceneName = "", LoadSceneMode mode = LoadSceneMode.Single, bool logMessage = true) {
             consoleInitialized = false;
-            CommandDatabase.ClearConsoleCommands();
+
+            if (logMessage) {
+                if (sceneChangeCount != 0) { // if not first load
+                    if (!settings.clearMessagesOnSceneChange) {
+                        ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp: true);
+                    }
+                    else {
+                        ConsoleEvents.ClearConsoleMessages();
+                    }
+
+                    if (settings.printLoadedSceneName) {
+                        // https://docs.unity3d.com/ScriptReference/SceneManagement.LoadSceneMode.html
+                        string additive = mode == LoadSceneMode.Additive ? "(Additive)" : null;
+                        Console.Log(string.Format("Loaded Scene: {0} {1}", sceneName, additive));
+                    }
+                }
+                else if (!settings.printPlayButtonToSceneTime && settings.printLoadedSceneName) {
+                    Console.Log(string.Format("Loaded Scene: {0}", sceneName));
+                }
+            }
 
             if (initDone) ++sceneChangeCount; // don't raise counter on start
 
@@ -276,10 +294,8 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_WEBGL
             commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
 #else    
-            //commands = await Task.Run(() => CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly)); // Threaded work
             commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
 #endif
-
             if (!registerStaticOnly) {
                 CommandDatabase.RegisterMonoBehaviourCommands(commands); // Rest of the work must be in done in Unity main thread
                 timer.Stop();
@@ -299,12 +315,11 @@ namespace Anarkila.DeveloperConsole {
 #endif
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
-                var total = partTwo;
-                message += string.Format("Initialization work{0} took: {1} ms", staticOnly, total);
-                Debug.Log(message);
+                message += string.Format("Initialization took: {0} ms {1}", partTwo, staticOnly);
+                ConsoleEvents.Log(message);
 #else
-                message += string.Format("Initialization took {0} ms.", partTwo);
-                //Debug.Log(message);
+                message += string.Format("Initialization took: {0} ms {1}", partTwo, staticOnly);
+                //message += string.Format("Initialization took {0} ms.", partTwo);
                 ConsoleEvents.Log(message);
 #endif
             }
@@ -314,8 +329,9 @@ namespace Anarkila.DeveloperConsole {
             }
 
             consoleInitialized = true;
-            ConsoleEvents.RefreshConsole();
+
             ConsoleEvents.ConsoleInitialized();
+            ConsoleEvents.ListsChanged();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using System;
 
 namespace Anarkila.DeveloperConsole {
@@ -84,6 +85,15 @@ namespace Anarkila.DeveloperConsole {
         public static void ShowCursor(bool show) {
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
+        }
+
+
+        public static async void DelayedCall(Action callback, float timeInSeconds) {
+            if (callback == null) return;
+
+            int timeInMilliSeconds = (int)(timeInSeconds * 1000);
+            await Task.Delay(timeInMilliSeconds);
+            callback.Invoke();
         }
     }
 }

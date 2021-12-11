@@ -23,6 +23,25 @@ namespace Anarkila.DeveloperConsole {
         private static int executedCommandCount;
         private static int failedCommandCount;
 
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void Clear() {
+            // for domain reload purposes
+            consoleCommandsRegisteredBeforeInit.Clear();
+            commandRemovedBeforeInit.Clear();
+            consoleCommands.Clear();
+            staticCommands.Clear();
+            commandStringsWithDefaultValues.Clear();
+            commandStringsWithInfos.Clear();
+            consoleCommandList.Clear();
+            executedCommands.Clear();
+            parseList.Clear();
+            staticCommandsCached = false;
+            executedCommandCount = 0;
+            failedCommandCount = 0;
+        }
+#endif
+
         private struct CommandStruct {
             public bool found;
             public string command;
@@ -116,7 +135,7 @@ namespace Anarkila.DeveloperConsole {
                         // This can happen when GameObject with [ConsoleCommand()] attribute is destroyed runtime.
                         consoleCommands.Remove(consoleCommands[i]);
                         UpdateLists();
-                        ConsoleEvents.RefreshConsole();
+                        ConsoleEvents.ListsChanged();
                         continue;
                     }
 
@@ -285,7 +304,7 @@ namespace Anarkila.DeveloperConsole {
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
                 UpdateLists();
-                ConsoleEvents.RefreshConsole();
+                ConsoleEvents.ListsChanged();
             }
             else {
                 // new command registered before console was initialized
@@ -342,13 +361,14 @@ namespace Anarkila.DeveloperConsole {
             }
 #endif
             UpdateLists();
-            ConsoleEvents.RefreshConsole();
+            ConsoleEvents.ListsChanged();
         }
 
         /// <summary>
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
         public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
+            ClearConsoleCommands();
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
             if (staticCommandsCached) {
@@ -739,7 +759,7 @@ namespace Anarkila.DeveloperConsole {
             return executedCommands;
         }
 
-        public static void ClearConsoleCommands() {
+        private static void ClearConsoleCommands() {
             consoleCommands.Clear();
         }
     }

@@ -35,14 +35,14 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
-            ConsoleEvents.RegisterConsoleRefreshEvent += GetConsoleInfo;
+            ConsoleEvents.RegisterListsChangedEvent += GetLists;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
         }
 
         private void Start() {
             if (inputField == null) return;
 
-            GetConsoleInfo();
+            GetLists();
             inputField.onValueChanged.AddListener(PredictInput);
         }
 
@@ -50,7 +50,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
-            ConsoleEvents.RegisterConsoleRefreshEvent -= GetConsoleInfo;
+            ConsoleEvents.RegisterListsChangedEvent -= GetLists;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
         }
 
@@ -64,7 +64,7 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private void GetConsoleInfo() {
+        private void GetLists() {
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetConsoleCommandList();
             allowPredictions = ConsoleManager.ShowConsolePredictions();
