@@ -31,6 +31,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
+            ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
 #endif
@@ -49,6 +50,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent -= RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
+            ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
 
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent -= ConsoleClearEvent;
@@ -63,6 +65,10 @@ namespace Anarkila.DeveloperConsole {
                 if (failedCommandCount != 0) Debug.Log(string.Format("Failed or not recognized commands was called {0} times.", failedCommandCount));
             }
 #endif
+        }
+
+        private static void ConsoleDestroyed(float obj) {
+            OnDestroy();
         }
 
 #if UNITY_EDITOR
