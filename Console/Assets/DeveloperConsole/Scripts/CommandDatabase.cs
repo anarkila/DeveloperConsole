@@ -230,6 +230,13 @@ namespace Anarkila.DeveloperConsole {
         public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", string info = "",
             bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
 
+            if (!ConsoleManager.IsRunningOnMainThread(System.Threading.Thread.CurrentThread)) {
+#if UNITY_EDITOR
+                Debug.Log(ConsoleConstants.EDITORWARNING + "Console.RegisterCommand cannot be called from another thread.");
+#endif
+                return;
+            }
+
             if (command == null || command.Length == 0 || methodName == null || methodName.Length == 0) {
 #if UNITY_EDITOR
                 Debug.Log("command or methodname is null or empty!");
@@ -288,7 +295,15 @@ namespace Anarkila.DeveloperConsole {
         /// Remove command
         /// </summary>
         public static void RemoveCommand(string command, bool log = false, bool forceDelete = false) {
-            if (command == null || command.Length == 0) return;
+
+            if (!ConsoleManager.IsRunningOnMainThread(System.Threading.Thread.CurrentThread)) {
+#if UNITY_EDITOR
+                Debug.Log(ConsoleConstants.EDITORWARNING + "Console.RemoveCommand cannot be called from another thread.");
+#endif
+                return;
+            }
+
+            if (command == null || command.Length == 0 || !Application.isPlaying) return;
 
             if (!ConsoleManager.IsConsoleInitialized() && !forceDelete) {
                 if (!commandRemovedBeforeInit.ContainsKey(command)) {
@@ -316,10 +331,10 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             if (log) {
                 if (foundAny) {
-                    Debug.Log(string.Format("Removed command [{0}]", command));
+                    Console.Log(string.Format("Removed command [{0}]", command));
                 }
                 else {
-                    Debug.Log(string.Format("Didn't find command with name [{0}]", command));
+                    Console.Log(string.Format("Didn't find command with name [{0}]", command));
                 }
             }
 #endif
