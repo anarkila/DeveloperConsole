@@ -72,6 +72,7 @@ Developer Console comes with few commands by default.
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
 * ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
+- ``empty`` – Log empty line to console. This command is Editor only.
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging

@@ -108,5 +108,19 @@ namespace Anarkila.DeveloperConsole {
         private static void UnLoadSceneByIndex(int index) {
             ConsoleEvents.UnloadSceneByIndex(index);
         }
+
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Log empty line to console (Editor only command)
+        /// This is for visibility help.
+        /// You can call this programmatically from anywhere with the same below method: 
+        /// Console.LogEmpty();
+        /// </summary>
+        [ConsoleCommand("empty", debugOnlyCommand: true)]
+        private static void LogEmpty() {
+            Console.LogEmpty();
+        }
+#endif
     }
 }
