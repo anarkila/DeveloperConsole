@@ -6,6 +6,7 @@ namespace Anarkila.DeveloperConsole {
     /// <summary>
     /// This class handles resizing Developer Console Window on mouse drag
     /// </summary>
+#pragma warning disable 0162
     public class WindowResizer : MonoBehaviour, IPointerDownHandler, IDragHandler {
 
         [SerializeField] private RectTransform rectTransform;
@@ -33,7 +34,7 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_WEBGL
             // Resizing currently works very oddly in WebGL so it's disabled.
             enabled = false;
-                return;
+            return;
 #endif
             maxSize = new Vector2(Screen.width - 50, Screen.height - 50);
 
