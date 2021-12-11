@@ -65,6 +65,7 @@ namespace Anarkila.DeveloperConsole {
             object[] parameter = null;
             bool commandFound = false;
             bool success = false;
+            string rawInput = input;
 
             bool caseSensetive = ConsoleManager.IsCaseSensetive();
 
@@ -146,8 +147,10 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
-            if (!success && !commandFound && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
-                Debug.Log(string.Format("Command '{0}' was not recognized.", input));
+            // TODO:
+            // perhaps there should be log if command was right but parameter was wrong?
+            if (!success /*&& !commandFound*/ && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
+                Console.Log(string.Format("Command '{0}' was not recognized.", rawInput));
                 ++failedCommandCount;
             }
 

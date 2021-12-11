@@ -49,7 +49,8 @@ public static class Console {
     /// Remove command
     /// If there's multiple instances of the same command, all of them will be removed.
     /// </summary>
-    /// <param name="command">Command to remove</param>
+    /// <param name="commandToRemove">Command to remove</param>
+    /// <param name="logResult">Log result to console (Editor only)</param>
     public static void RemoveCommand(string commandToRemove, bool logResult = false) {
         CommandDatabase.RemoveCommand(commandToRemove, logResult);
     }

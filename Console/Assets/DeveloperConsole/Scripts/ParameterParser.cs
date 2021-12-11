@@ -8,8 +8,9 @@ namespace Anarkila.DeveloperConsole {
 
     public static class ParameterParser {
 
-        // Creating new list in C# would create garbage
-        private static List<float> floats = new List<float>();
+        // To avoid creating new list which in C# creates garbage
+        // we reuse this list
+        private static List<float> unityTypeList = new List<float>();
 
         /// <summary>
         ///  Check if parameter type is supported
@@ -71,25 +72,28 @@ namespace Anarkila.DeveloperConsole {
             }
 
             float f;
-            floats.Clear();  // Creating new list in C# would create garbage
+
+            // To avoid creating new list which in C# creates garbage
+            // we reuse this list
+            unityTypeList.Clear();  
 
             for (int i = 0; i < paramArr.Length; i++) {
                 if (float.TryParse(paramArr[i], out f)) {
-                    floats.Add(f);
+                    unityTypeList.Add(f);
                 }
             }
 
-            if (type == typeof(UnityEngine.Vector2) && floats.Count == 2) {
-                return new Vector2(floats[0], floats[1]);
+            if (type == typeof(UnityEngine.Vector2) && unityTypeList.Count == 2) {
+                return new Vector2(unityTypeList[0], unityTypeList[1]);
             }
-            else if (type == typeof(UnityEngine.Vector3) && floats.Count == 3) {
-                return new Vector3(floats[0], floats[1], floats[2]);
+            else if (type == typeof(UnityEngine.Vector3) && unityTypeList.Count == 3) {
+                return new Vector3(unityTypeList[0], unityTypeList[1], unityTypeList[2]);
             }
-            else if (type == typeof(UnityEngine.Vector4) && floats.Count == 4) {
-                return new Vector4(floats[0], floats[1], floats[2], floats[3]);
+            else if (type == typeof(UnityEngine.Vector4) && unityTypeList.Count == 4) {
+                return new Vector4(unityTypeList[0], unityTypeList[1], unityTypeList[2], unityTypeList[3]);
             }
-            else if (type == typeof(UnityEngine.Quaternion) && floats.Count == 4) {
-                return new Quaternion(floats[0], floats[1], floats[2], floats[3]);
+            else if (type == typeof(UnityEngine.Quaternion) && unityTypeList.Count == 4) {
+                return new Quaternion(unityTypeList[0], unityTypeList[1], unityTypeList[2], unityTypeList[3]);
             }
             else {
                 return null;
