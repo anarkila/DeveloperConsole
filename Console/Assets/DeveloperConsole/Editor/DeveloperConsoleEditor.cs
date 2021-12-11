@@ -8,7 +8,7 @@ namespace Anarkila.DeveloperConsole {
     [CustomEditor(typeof(DeveloperConsole))]
     public class DeveloperConsoleEditor : Editor {
 
-        private const string VERSION = "Developer Console 0.8.3";
+        private const string VERSION = "Developer Console 0.8.4";
         private string[] tabs = new string[] { "All Settings", "GUI Settings", "General Settings", "Keybindings", "Debug Settings" };
         private SerializedObject sTarget;
         private int toolbarTab;
