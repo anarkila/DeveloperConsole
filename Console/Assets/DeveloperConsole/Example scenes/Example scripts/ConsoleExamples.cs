@@ -122,11 +122,8 @@ namespace Anarkila.DeveloperConsole {
         [ConsoleCommand("test.threadedlog")]
         private void PrintLogFromAnotherThread() {
             Task.Run(() =>{
+                // Note. Console.Log cannot be called from another thread.
                 Debug.Log("Logged message from thread " + Thread.CurrentThread.ManagedThreadId);
-
-                // Console.Log cannot be called from another thread.
-                // TODO: add support for this.
-                //Console.Log("Message from thread: " + Thread.CurrentThread.ManagedThreadId); 
             });
         }
 # endif
@@ -149,11 +146,10 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Called hidden command 'hidden.command' successfully from Console!");
         }
 
-
         // Registering commands with Console.cs example.
-        // this can be also useful if you Instantiate objects runtime with MonoBehaviour script with [ConsoleCommand] attribute,
-        // as [ConsoleCommand] attributes are only registered when scene is loaded,
-        // so any [ConsoleCommand] attributes added later will not be registered.
+        // this is useful if you instantiate objects runtime with MonoBehaviour script that you want to control via console command,
+        // as [ConsoleCommand] attributes are only registered when scene is loaded.
+        // Objects that are instantiated runtime with [ConsoleCommand] attribute are not registered.
         private void OnEnable() {
             Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", "", false, false, false);
             Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", "", false, false, false);
@@ -176,9 +172,9 @@ namespace Anarkila.DeveloperConsole {
 
         // Example how to RemoveCommand with Console.cs
         private void OnDisable() {
-            Console.RemoveCommand("test.manual", true);
-            Console.RemoveCommand("test.manual.int", true);
-            Console.RemoveCommand("test.manual.coroutine", true);
+            Console.RemoveCommand("test.manual");
+            Console.RemoveCommand("test.manual.int");
+            Console.RemoveCommand("test.manual.coroutine", true); // optional boolean parameter to log whether removing command was successfull
         }
     }
 }
