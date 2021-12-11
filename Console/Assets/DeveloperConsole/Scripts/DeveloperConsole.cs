@@ -11,6 +11,8 @@ namespace Anarkila.DeveloperConsole {
 
         private void Awake() {
 
+            transform.SetParent(null);
+
             // Allow only one instance of Developer Console.
             if (Instance == null) {
                 Instance = this;
@@ -26,8 +28,6 @@ namespace Anarkila.DeveloperConsole {
                 Console.DestroyConsole(1f);
                 return;
             }
-
-            transform.SetParent(null);
 
             // this should never happen, but just in case.
             if (settings == null) {
@@ -53,6 +53,11 @@ namespace Anarkila.DeveloperConsole {
         private void DestroyConsole(float time) {
             ConsoleEvents.RegisterDestroyEvent -= DestroyConsole;
             Destroy(this.gameObject, time);
+        }
+
+        // for domain reload purposes
+        private void OnDestroy() {
+            Instance = null;
         }
     }
 }
