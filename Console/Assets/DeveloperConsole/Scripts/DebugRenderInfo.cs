@@ -34,7 +34,7 @@ namespace Anarkila.DeveloperConsole {
             // calculate low and high FPS
             var fps = 1.0f / deltaTime;
             if (fps > highestFPS) highestFPS = (int)fps;
-            
+    
             // calculate average FPS
             avgFPS += ((deltaTime / Time.timeScale) - avgFPS) * 0.03f;
 
@@ -57,12 +57,19 @@ namespace Anarkila.DeveloperConsole {
                 target = currentTargetFPS.ToString();
             }
 
+
+            Console.LogEmpty();
+
+            Debug.Log(string.Format("Current resolution is: {0} x {1}", Screen.width, Screen.height));
+            //Debug.Log(string.Format("Current fullScreenMode is: {0}", Screen.fullScreenMode));
             Debug.Log("Application target frame rate is set to: " + target);
             Debug.Log(string.Format("Highest FPS: {0} --- Avg FPS: {1}", highestFPS, (int)(1f / avgFPS)));
             Debug.Log("Highest batches count: " + HighestBatchesCount);
             Debug.Log("Highest draw call count: " + HighestDrawCallsCount);
             Debug.Log("Highest vertices count: " + HighestVerticesCount);
-            Debug.Log("Highest triagnles count: " + HighestTrianglessCount);
+            Debug.Log("Highest triangles count: " + HighestTrianglessCount);
+
+            Console.LogEmpty();
         }
     }
 }
