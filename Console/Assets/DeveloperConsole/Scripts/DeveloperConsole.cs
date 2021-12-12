@@ -49,6 +49,16 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 #endif
+            if (settings.allowGUIChangeRuntime) {
+                Console.RegisterCommand(this, "ChangeConsoleGUI", "console_style", info: "Change console style between Large and Minimal", hiddenCommandMinimalGUI:false);
+            }
+        }
+
+        /// <summary>
+        /// Toggle console style between Large and Minimal
+        /// </summary>
+        private void ChangeConsoleGUI() {
+            ConsoleEvents.SwitchGUIStyle();
         }
 
         private void DestroyConsole(float time) {
@@ -56,7 +66,7 @@ namespace Anarkila.DeveloperConsole {
             Destroy(this.gameObject, time);
         }
 
-        // for domain reload purposes
+        // for no domain/scene reload purposes
         private void OnDestroy() {
             Instance = null;
         }

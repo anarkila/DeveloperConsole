@@ -61,14 +61,6 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Toggle console style between Large and Minimal
-        /// </summary>
-        [ConsoleCommand("console_style", debugOnlyCommand: true, info: "Change console style between Large and Minimal")]
-        private static void ChangeConsoleGUI() {
-            ConsoleEvents.SwitchGUIStyle();
-        }
-
-        /// <summary>
         /// Load scene by build index
         /// Scenes must be included in 'Scenes in build' in the Build settings!
         /// </summary>
