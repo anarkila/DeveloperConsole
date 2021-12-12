@@ -31,18 +31,22 @@ public class ExampleScript : MonoBehaviour {
     private void TestInt(int i) {
        Debug.Log(string.Format("Called 'TestInt' with value: {0} from Developer Console!", i));
     }
+
+     [ConsoleCommand("test.multi")]
+    private void TestInt(int i, int j) {
+       Debug.Log(string.Format("Called 'test.multi' with value: {0} and {1} from Developer Console!", i, j));
+    }
 }
 ```
 
 ## Features
 
 - Call static, non-static and Unity Coroutines methods (both public and private)
-- No parameter, single parameter and partial multi parameter support. Optional parameter(s) are also supported.
-    - Single parameter support:
-        - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
-    - Multi parameter support:
-        - Allowed types: int, float, string, bool, double, char
-
+- No parameter support
+- Single parameter support:
+    - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
+- Multi parameter support:
+    - Allowed types: int, float, string, bool, double, char
 - Easy drag & drop setup
 - Mono and IL2CPP support
 - WebGL support
