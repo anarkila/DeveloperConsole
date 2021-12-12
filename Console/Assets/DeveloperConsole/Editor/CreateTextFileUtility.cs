@@ -46,11 +46,11 @@ namespace Anarkila.DeveloperConsole {
                 writer.WriteLine("Command name: " + commands[i].commandName);
 
                 string paramInfo;
-                if (commands[i].parameterType == null) {
+                if (commands[i].parameters == null) {
                     paramInfo = "none";
                 }
                 else {
-                    paramInfo = commands[i].parameterType.ToString();
+                    paramInfo = commands[i].parameters.ToString();
                 }
                 writer.WriteLine("Parameter: " + paramInfo);
 

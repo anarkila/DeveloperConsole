@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -17,44 +17,64 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         /// <returns></returns>
         public static bool IsSupportedType(ParameterInfo[] parameters, string methodName, string commandName, Type className) {
-            
+
             // Early return if method doesn't take in any parameters.
             if (parameters == null || parameters.Length == 0) return true;
 
-            if (parameters.Length > 1) {
+            for (int i = 0; i < parameters.Length; i++) {
+                if (!ConsoleConstants.SupportedTypes.Contains(parameters[i].ParameterType)) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' in class '{1}' with method name {2} takes in two or more parameters. " +
-                    "Multiple parameters are not supported!", commandName, className, methodName));
+                    Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Parameter typeof {0} is not supported! \n" +
+                   "Command '{1}' in '{2}' '{3}' will be ignored!", parameters[i].ParameterType, commandName, className, methodName));
 #endif
-                return false;
+                    return false;
+                }
             }
 
-            var paramType = parameters[0].ParameterType;
-            if (ConsoleConstants.SupportedTypes.Contains(paramType)) {
-                return true;
-            }
-            else {
-#if UNITY_EDITOR
-                // See SupportedTypes array for all supported types
-                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Parameter typeof {0} is not supported! \n" +
-                    "Command '{1}' in class '{2}' with method name '{3}' will be ignored!", paramType, commandName, className, methodName));
-#endif
-                return false;
-            }
+            return true;
         }
 
         /// <summary>
         /// Try to parse parameter from string
         /// </summary>
-        public static object ParseParameterFromString(string input, Type type) {
+        public static object[] ParseParametersFromString(string[] input, Type[] type, ConsoleCommandData data) {
             // UnityEngine types such as Vector2, Vector3 etc are not part of C# TypeCode
             // so they must be checked with other way
-            if (ConsoleConstants.UnityTypes.Contains(type)) {
-                return ParseUnityTypes(input, type);
+
+            if (input == null) {
+                return input;
             }
-            else {
-                return ParseBuiltInTypes(input, type);
+
+            object[] parameters = new object[type.Length];
+
+            for (int i = 0; i < type.Length; i++) {
+                if (ConsoleConstants.UnityTypes.Contains(type[i])) {
+                    if (InBounds(i, input.Length)) {
+                        parameters[i] = ParseUnityTypes(input[i], type[i]);
+                    }
+                    else if (data.optionalParameter[i]) {
+                        parameters[i] = null;
+                    }
+                }
+                else {
+                    if (InBounds(i, input.Length)) {
+                        parameters[i] = ParseBuiltInTypes(input[i], type[i]);
+                    }
+                    else if (data.optionalParameter[i]) {
+                        parameters[i] = null;
+                    }
+                }
             }
+
+            //for (int i = 0; i < parameters.Length; i++) {
+            //    Debug.Log(parameters[i]);
+            //}
+
+            return parameters;
+        }
+
+        private static bool InBounds(int index, int totalLength) {
+            return (index >= 0) && (index < totalLength);
         }
 
         private static object ParseUnityTypes(string input, Type type) {
@@ -75,7 +95,7 @@ namespace Anarkila.DeveloperConsole {
 
             // To avoid creating new list which in C# creates garbage
             // we reuse this list
-            unityTypeList.Clear();  
+            unityTypeList.Clear();
 
             for (int i = 0; i < paramArr.Length; i++) {
                 if (float.TryParse(paramArr[i], out f)) {

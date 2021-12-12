@@ -22,6 +22,21 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.int.opt' successfully with value: {0} from Console!", i));
         }
 
+        [ConsoleCommand("test.multi.int")]
+        private void TestMultiInt(int i, int j) {
+            Debug.Log(string.Format("Called command 'test.multi.int' successfully with value: {0} and {1} from Console!", i, j));
+        }
+
+        [ConsoleCommand("test.multi.opt", value: "1")]
+        private void TestIntIntOpt(int i = 1, int j = 1) {
+            Debug.Log(string.Format("Called command 'test.multi.opt' successfully with value: {0} and {1} from Console!", i, j));
+        }
+
+        [ConsoleCommand("test.nums")]
+        private void TestOMG(int i, float f, double d) {
+            Debug.Log(string.Format("Called command 'test.nums' successfully with value: {0}, {1} and {2} from Console!", i, f, d));
+        }
+
         [ConsoleCommand("test.float", "3.7")]
         private void TestFloat(float f) {
             Debug.Log(string.Format("Called command 'test.float' successfully with value: {0} from Console!", f));
@@ -47,12 +62,12 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
         }
 
-        [ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon -- . , : ;
+        /*[ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon -- . , : ;
         private void StringArray(string[] stringArray) {
             for (int i = 0; i < stringArray.Length; i++) {
                 Debug.Log(string.Format("Array index {0} with value: {1}", i, stringArray[i]));
             }
-        }
+        }*/
 
         [ConsoleCommand("test.char")]
         private void TestChar(char c) {

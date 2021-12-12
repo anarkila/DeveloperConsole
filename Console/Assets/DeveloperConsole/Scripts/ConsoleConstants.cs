@@ -40,7 +40,7 @@ public static class ConsoleConstants {
             typeof(int),      typeof(float),
             typeof(decimal),  typeof(double),
             typeof(bool),     typeof(string),
-            typeof(string[]), typeof(char),
+            typeof(char),     // lonely char
             typeof(Vector2),  typeof(Vector3),
             typeof(Vector4),  typeof(Quaternion)
     };

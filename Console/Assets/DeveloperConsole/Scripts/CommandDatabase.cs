@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -45,7 +45,7 @@ namespace Anarkila.DeveloperConsole {
         private struct CommandStruct {
             public bool found;
             public string command;
-            public string parameter;
+            public string[] parameters;
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static bool ExecuteCommand(string input, bool silent = false) {
-            string parameterAsString = null;
-            bool parameterParsed = false;
-            object[] parameter = null;
+            string[] parametersAsString = null;
+            bool parametersParsed = false;
+            object[] parameters = null;
             bool commandFound = false;
             bool success = false;
             string rawInput = input;
@@ -96,9 +96,14 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < consoleCommands.Count; i++) {
 
                 var command = ParseInput(consoleCommands[i], input, caseSensetive);
+
                 if (command.found) {
-                    parameterAsString = command.parameter;
                     input = command.command;
+                    parametersAsString = command.parameters;
+
+                    //Debug.Log(input);
+                    //Debug.Log(parametersAsString);
+
                 }
                 else {
                     // Didn't match --> continue
@@ -106,29 +111,56 @@ namespace Anarkila.DeveloperConsole {
                 }
 
                 // If command does not take parameter and user passed in parameter --> continue
-                if (consoleCommands[i].parameterType == null && parameterAsString != null) {
-                    if (!string.IsNullOrWhiteSpace(parameterAsString)) {
-                        continue;
-                    }
+                if (consoleCommands[i].parameters == null && parametersAsString != null) {
+                    //if (!string.IsNullOrWhiteSpace(parametersAsString)) {
+
+                    continue;
+                    //}
                 }
 
                 commandFound = true;
 
-                if (consoleCommands[i].parameterType != null) {
+                if (parametersAsString != null) {
 
                     // We only need parse this once
-                    if (!parameterParsed) {
-                        parameter = new object[1];
-                        parameter[0] = ParameterParser.ParseParameterFromString(parameterAsString, consoleCommands[i].parameterType);
-                        parameterParsed = true;
+                    if (!parametersParsed) {
+                        parameters = ParameterParser.ParseParametersFromString(parametersAsString, consoleCommands[i].parameters, consoleCommands[i]);
+                        parametersParsed = true;
                     }
-  
+
                     // if parsed parameter is null --> continue
-                    if (parameter[0] == null && !consoleCommands[i].optionalParameter) {
+                    //if (parameters == null && !consoleCommands[i].optionalParameter) {
+                    //continue;
+                    //}
+
+
+                    // Do final checks before trying to call command
+                    bool wrongParameter = false;
+
+                    if (parameters != null) {
+                        for (int j = 0; j < parameters.Length; j++) {
+                            if (parameters[j] == null && !consoleCommands[i].optionalParameter[j]) {
+                                wrongParameter = true;
+                                break;
+                            }
+                        }
+                        if (parameters.Length != consoleCommands[i].parameters.Length) {
+                            wrongParameter = true;
+                        }
+                    }
+
+                    if (parameters == null && consoleCommands[i].parameters != null) {
+                        wrongParameter = true;
+                    }
+
+                    if (wrongParameter) {
+                        Debug.Log("wrong param");
                         continue;
                     }
                 }
 
+
+                //Debug.Log("??");
                 try {
 
                     if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
@@ -140,9 +172,7 @@ namespace Anarkila.DeveloperConsole {
                     }
 
                     if (consoleCommands[i].isCoroutine) {
-                        var param = parameter == null ? null : parameter[0];
-                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, param);
-
+                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, parameters);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
                         }
@@ -152,7 +182,7 @@ namespace Anarkila.DeveloperConsole {
 
                     if (consoleCommands[i].methodInfo == null) continue;
 
-                    consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameter);
+                    consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameters);
                     if (!executedCommands.Contains(input)) {
                         executedCommands.Add(input);
                     }
@@ -202,15 +232,50 @@ namespace Anarkila.DeveloperConsole {
 
             string parsedCommand = input.Substring(0, lastPos + 1);
 
+            //Debug.Log(parsedCommand);
+
             // if parsed command is not command name --> return false
             if (parsedCommand != commandName) {
                 consoleCommand.found = false;
                 return consoleCommand;
             }
 
+
+            string left = input.Substring(lastPos + 1);
+            //Debug.Log(left);
+
+            if (string.IsNullOrEmpty(left) || string.IsNullOrWhiteSpace(left)) {
+                //Debug.Log(parsedCommand);
+                consoleCommand.parameters = null;
+            }
+
+            else {
+                //string[] parameters = null;
+
+
+                //var parameters = left.Split(ConsoleConstants.SEPARATORS);
+
+                //string[] parameters = new string[;
+                // Remove all whitespaces from start and end of the string
+                //for (int i = 0; i < parameters.Length; i++) {
+                //    parameters[i] = parameters[i].Trim();
+                //}
+
+                consoleCommand.parameters = left.Split(ConsoleConstants.SEPARATORS);
+                //Debug.Log("ju");
+
+                //for (int i = 0; i < consoleCommand.parameters.Length; i++) {
+                //    Debug.Log(consoleCommand.parameters[i]);
+                //}
+            }
+
             consoleCommand.found = true;
-            consoleCommand.parameter = input.Substring(lastPos + 1);
             consoleCommand.command = parsedCommand;
+            //Debug.Log(consoleCommand.command);
+
+            //Debug.Log(consoleCommand.command);
+            //Debug.Log(consoleCommand.parameters);
+            //Debug.Log(consoleCommand.found);
 
             return consoleCommand;
         }
@@ -287,19 +352,26 @@ namespace Anarkila.DeveloperConsole {
             bool isCoroutine = false;
             isCoroutine = methodInfo.ToString().Contains(ConsoleConstants.IENUMERATOR);
 
-            bool optionalParameter = false;
-            Type paraType = null;
+            //bool optionalParameter = false;
+            //Type paraType = null;
             var methodParams = methodInfo.GetParameters();
-            if (methodParams.Length != 0) {
+            Type[] paraType = new Type[methodParams.Length];
+            bool[] optionalParameters = new bool[methodParams.Length];
+            /*if (methodParams.Length != 0) {
                 paraType = methodParams[0].ParameterType;
                 optionalParameter = methodParams[0].IsOptional;
+            }*/
+
+            for (int i = 0; i < methodParams.Length; i++) {
+                paraType[i] = methodParams[i].ParameterType;
+                optionalParameters[i] = methodParams[i].IsOptional;
             }
 
             if (CheckForDuplicates(consoleCommands, paraType, command, methodInfo.DeclaringType.ToString(), methodName)) {
                 return;
             }
 
-            var data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameter, isHiddenCommand, hiddenCommandMinimalGUI);
+            var data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameters, isHiddenCommand, hiddenCommandMinimalGUI);
 
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
@@ -422,21 +494,25 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
-                if (commandName.Contains(ConsoleConstants.AND) /*|| commandName.Contains(ConsoleConstants.SPACE)*/) {
+                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.COMMA)) {
 #if UNITY_EDITOR
-                    // [ConsoleCommand()] cannot contain character & or empty space.
-                    // Character '&' is used to parse multiple commands
-                    // empty space is used to separate from [Command] [parameter]
-
-                    // TODO: add support for empty spaces.
-                    //Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&' or empty space. Please rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain character '&'. Please rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+                    // [ConsoleCommand()] cannot contain characters '&' or ',' (comma) because
+                    // character '&' is used to parse multiple commands
+                    // and character ',' is used to parse multiple parameters
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain characters ',' or '&'. Rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
 #endif
-                    //continue;
+                    continue;
                 }
 
                 // Get ConsoleCommand method parameters
                 ParameterInfo[] parameters = method.GetParameters();
+
+                Type[] paraType = new Type[parameters.Length];
+                bool[] optionalParameters = new bool[parameters.Length];
+                for (int i = 0; i < parameters.Length; i++) {
+                    paraType[i] = parameters[i].ParameterType;
+                    optionalParameters[i] = parameters[i].IsOptional;
+                }
 
                 if (!ParameterParser.IsSupportedType(parameters, methodName, commandName, className)) {
                     continue;
@@ -456,17 +532,17 @@ namespace Anarkila.DeveloperConsole {
                 bool isStatic = method.IsStatic;
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
 
-                bool optionalParameter = false;
-                if (type != null) {
-                    optionalParameter = parameters[0].IsOptional;
-                }
+                //bool optionalParameter = false;
+                //if (type != null) {
+                //    optionalParameter = parameters[0].IsOptional;
+                //}
 
                 string classNameString = className.ToString();
-                if (CheckForDuplicates(commandList, type, commandName, classNameString, methodName)) {
+                if (CheckForDuplicates(commandList, paraType, commandName, classNameString, methodName)) {
                     continue;
                 }
 
-                var newData = new ConsoleCommandData(null, methodName, commandName, defaultValue, info, type, isStatic, method, isCoroutine, optionalParameter, hiddenCommand, hiddenMinimalGUI, classNameString);
+                var newData = new ConsoleCommandData(null, methodName, commandName, defaultValue, info, paraType, isStatic, method, isCoroutine, optionalParameters, hiddenCommand, hiddenMinimalGUI, classNameString);
 
                 if (isStatic) {
                     staticCommands.Add(newData);
@@ -598,7 +674,7 @@ namespace Anarkila.DeveloperConsole {
 
                         if (script != null) {
                             var data = new ConsoleCommandData(script, commands[k].methodName, commands[k].commandName,
-                                commands[k].defaultValue, commands[k].info, commands[k].parameterType, false,
+                                commands[k].defaultValue, commands[k].info, commands[k].parameters, false,
                                 commands[k].methodInfo, commands[k].isCoroutine, commands[k].optionalParameter, commands[k].hiddenCommand);
                             consoleCommands.Add(data);
                         }
@@ -614,7 +690,7 @@ namespace Anarkila.DeveloperConsole {
             if (consoleCommandsRegisteredBeforeInit.Count != 0) {
                 for (int i = 0; i < consoleCommandsRegisteredBeforeInit.Count; i++) {
                     var command = consoleCommandsRegisteredBeforeInit[i];
-                    if (CheckForDuplicates(consoleCommands, command.parameterType, command.commandName, command.scriptNameString, command.methodName)) {
+                    if (CheckForDuplicates(consoleCommands, command.parameters, command.commandName, command.scriptNameString, command.methodName)) {
                         consoleCommandsRegisteredBeforeInit.Remove(command);
                     }
                     else {
@@ -703,7 +779,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Check that list doesn't already contain command that we are trying to register.
         /// </summary>
-        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type parameter, string commandName, string className, string methodName) {
+        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type[] parameters, string commandName, string className, string methodName) {
             if (commandList.Count == 0) return false;
 
             bool found = false;
@@ -713,7 +789,7 @@ namespace Anarkila.DeveloperConsole {
 
                     if (className != commandList[i].scriptNameString
                         || methodName != commandList[i].methodName
-                        || parameter != commandList[i].parameterType) {
+                        || parameters != commandList[i].parameters) {
 #if UNITY_EDITOR
                         Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
                               "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
