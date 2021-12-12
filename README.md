@@ -37,9 +37,12 @@ public class ExampleScript : MonoBehaviour {
 ## Features
 
 - Call static, non-static and Unity Coroutines methods (both public and private)
-- Single parameter support:
-    - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
-    - Optional parameter support
+- No parameter, single parameter and partial multi parameter support. Optional parameter(s) are also supported.
+    - Single parameter support:
+        - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
+    - Multi parameter support:
+        - Allowed types: int, float, string, bool, double, char
+
 - Easy drag & drop setup
 - Mono and IL2CPP support
 - WebGL support
@@ -76,7 +79,7 @@ Developer Console comes with few commands by default.
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
-``Console.Log()`` to output directly into Developer Console window.
+``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red);`` with color.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also output to Developer Console.
 
@@ -89,7 +92,5 @@ By default Developer Console pools 150 messages and once 150 messages has been r
 - Uses TextMeshPro
 
 ## TODO
-- Explore way to have multiple parameters
 - Ability to generate grid or list of buttons that can fire commands
-- Support for no Domain/Scene reload
 - Input prediction improvements
