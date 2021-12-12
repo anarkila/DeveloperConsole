@@ -680,9 +680,14 @@ namespace Anarkila.DeveloperConsole {
             commandStringsWithDefaultValues.Clear();
 
             var style = ConsoleManager.GetGUIStyle();
+            char space = ' ';
 
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (consoleCommands[i].hiddenCommand) continue;
+
+                if (consoleCommands[i].hiddenCommandMinimalGUI && style == ConsoleGUIStyle.Minimal) {
+                    continue;
+                }
 
                 if (!consoleCommandList.Contains(consoleCommands[i].commandName)) {
                     consoleCommandList.Add(consoleCommands[i].commandName);
@@ -700,12 +705,9 @@ namespace Anarkila.DeveloperConsole {
                     }
                 }
 
-                if (consoleCommands[i].hiddenCommandMinimalGUI && style == ConsoleGUIStyle.Minimal) continue;
-
                 // Ensure first character in a string is space
                 var defaultValue = consoleCommands[i].defaultValue;
                 char first = defaultValue.FirstOrDefault();
-                char space = ' ';
                 if (first != space) {
                     defaultValue = space + defaultValue;
                 }
