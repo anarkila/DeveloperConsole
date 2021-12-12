@@ -94,16 +94,10 @@ namespace Anarkila.DeveloperConsole {
 
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
-
                 var command = ParseInput(consoleCommands[i], input, caseSensetive);
-
                 if (command.found) {
                     input = command.command;
                     parametersAsString = command.parameters;
-
-                    //Debug.Log(input);
-                    //Debug.Log(parametersAsString);
-
                 }
                 else {
                     // Didn't match --> continue
@@ -112,15 +106,12 @@ namespace Anarkila.DeveloperConsole {
 
                 // If command does not take parameter and user passed in parameter --> continue
                 if (consoleCommands[i].parameters == null && parametersAsString != null) {
-                    //if (!string.IsNullOrWhiteSpace(parametersAsString)) {
-
                     continue;
-                    //}
                 }
 
                 commandFound = true;
 
-                if (parametersAsString != null) {
+                if (parametersAsString != null || consoleCommands[i].parameters.Length != 0) {
 
                     // We only need parse this once
                     if (!parametersParsed) {
@@ -128,15 +119,8 @@ namespace Anarkila.DeveloperConsole {
                         parametersParsed = true;
                     }
 
-                    // if parsed parameter is null --> continue
-                    //if (parameters == null && !consoleCommands[i].optionalParameter) {
-                    //continue;
-                    //}
-
-
                     // Do final checks before trying to call command
                     bool wrongParameter = false;
-
                     if (parameters != null) {
                         for (int j = 0; j < parameters.Length; j++) {
                             if (parameters[j] == null && !consoleCommands[i].optionalParameter[j]) {
@@ -154,13 +138,11 @@ namespace Anarkila.DeveloperConsole {
                     }
 
                     if (wrongParameter) {
-                        Debug.Log("wrong param");
+                        //Debug.Log("wrong wrong parameter");
                         continue;
                     }
                 }
 
-
-                //Debug.Log("??");
                 try {
 
                     if (consoleCommands[i].monoScript == null && !consoleCommands[i].isStaticMethod) {
@@ -231,7 +213,6 @@ namespace Anarkila.DeveloperConsole {
             }
 
             string parsedCommand = input.Substring(0, lastPos + 1);
-
             //Debug.Log(parsedCommand);
 
             // if parsed command is not command name --> return false
@@ -240,42 +221,24 @@ namespace Anarkila.DeveloperConsole {
                 return consoleCommand;
             }
 
+            string remaining = input.Substring(lastPos + 1);
+            //Debug.Log(remaining);
 
-            string left = input.Substring(lastPos + 1);
-            //Debug.Log(left);
-
-            if (string.IsNullOrEmpty(left) || string.IsNullOrWhiteSpace(left)) {
-                //Debug.Log(parsedCommand);
+            if (string.IsNullOrEmpty(remaining) || string.IsNullOrWhiteSpace(remaining)) {
                 consoleCommand.parameters = null;
             }
-
             else {
-                //string[] parameters = null;
-
-
-                //var parameters = left.Split(ConsoleConstants.SEPARATORS);
-
-                //string[] parameters = new string[;
-                // Remove all whitespaces from start and end of the string
-                //for (int i = 0; i < parameters.Length; i++) {
-                //    parameters[i] = parameters[i].Trim();
-                //}
-
-                consoleCommand.parameters = left.Split(ConsoleConstants.SEPARATORS);
-                //Debug.Log("ju");
-
-                //for (int i = 0; i < consoleCommand.parameters.Length; i++) {
-                //    Debug.Log(consoleCommand.parameters[i]);
-                //}
+                if (command.parameters.Length >= 2) {
+                    consoleCommand.parameters = remaining.Split(ConsoleConstants.CHARCOMMA);
+                }
+                else {
+                    consoleCommand.parameters = new string[1];
+                    consoleCommand.parameters[0] = remaining;
+                }
             }
 
             consoleCommand.found = true;
             consoleCommand.command = parsedCommand;
-            //Debug.Log(consoleCommand.command);
-
-            //Debug.Log(consoleCommand.command);
-            //Debug.Log(consoleCommand.parameters);
-            //Debug.Log(consoleCommand.found);
 
             return consoleCommand;
         }
@@ -298,7 +261,7 @@ namespace Anarkila.DeveloperConsole {
 
                 char[] arr = commandArray[i].ToCharArray();
                 for (int j = 0; j < arr.Length; j++) {
-                    if (arr[j] != ' ') {
+                    if (arr[j] != ConsoleConstants.EMPTYCHAR) {
                         break;
                     }
                     else {
@@ -357,10 +320,6 @@ namespace Anarkila.DeveloperConsole {
             var methodParams = methodInfo.GetParameters();
             Type[] paraType = new Type[methodParams.Length];
             bool[] optionalParameters = new bool[methodParams.Length];
-            /*if (methodParams.Length != 0) {
-                paraType = methodParams[0].ParameterType;
-                optionalParameter = methodParams[0].IsOptional;
-            }*/
 
             for (int i = 0; i < methodParams.Length; i++) {
                 paraType[i] = methodParams[i].ParameterType;

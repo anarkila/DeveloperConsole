@@ -21,7 +21,31 @@ namespace Anarkila.DeveloperConsole {
             // Early return if method doesn't take in any parameters.
             if (parameters == null || parameters.Length == 0) return true;
 
+
+            // limit max number of parameters to 10, this is artifical limit.
+            if (parameters.Length >= 10) {
+#if UNITY_EDITOR
+                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "10 or more parameters is a bit extreme for single method, don't you think? " +
+                     "Command '{0}' in '{1}' '{2}' will be ignored.", commandName, className, methodName));
+#endif
+                return false;
+            }
+
             for (int i = 0; i < parameters.Length; i++) {
+                if (parameters.Length >= 2) {
+                    if (ConsoleConstants.UnityTypes.Contains(parameters[i].ParameterType) || parameters[i].ParameterType == typeof(string[])) {
+#if UNITY_EDITOR
+                        // Multiple parameters with parameters: Vector2/3/4 or string[] is currently not supported
+                        // because parameters are parsed by character ',' (comma)
+                        // method that takes in single Vector2/3/4 or string[] is supported.
+                        Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Method contains multiple parameters with {0}, this is not supported! " +
+                       "Command '{1}' in '{2}' '{3}' will be ignored!", parameters[i].ParameterType, commandName, className, methodName));
+                        return false;
+                    }
+#endif
+                }
+
+
                 if (!ConsoleConstants.SupportedTypes.Contains(parameters[i].ParameterType)) {
 #if UNITY_EDITOR
                     Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Parameter typeof {0} is not supported! \n" +
@@ -42,33 +66,26 @@ namespace Anarkila.DeveloperConsole {
             // so they must be checked with other way
 
             if (input == null) {
-                return input;
+                if (type.Length != 0) {
+                    input = new string[type.Length];
+                }
+                else {
+                    return input;
+                }
             }
 
             object[] parameters = new object[type.Length];
 
             for (int i = 0; i < type.Length; i++) {
-                if (ConsoleConstants.UnityTypes.Contains(type[i])) {
-                    if (InBounds(i, input.Length)) {
-                        parameters[i] = ParseUnityTypes(input[i], type[i]);
-                    }
-                    else if (data.optionalParameter[i]) {
-                        parameters[i] = null;
-                    }
+                bool containsUnityType = ConsoleConstants.UnityTypes.Contains(type[i]);
+
+                if (InBounds(i, input.Length)) {
+                    parameters[i] = containsUnityType ? ParseUnityTypes(input[i], type[i]) : ParseBuiltInTypes(input[i], type[i]);
                 }
-                else {
-                    if (InBounds(i, input.Length)) {
-                        parameters[i] = ParseBuiltInTypes(input[i], type[i]);
-                    }
-                    else if (data.optionalParameter[i]) {
-                        parameters[i] = null;
-                    }
+                else if (data.optionalParameter[i]) {
+                    parameters[i] = null;
                 }
             }
-
-            //for (int i = 0; i < parameters.Length; i++) {
-            //    Debug.Log(parameters[i]);
-            //}
 
             return parameters;
         }
@@ -160,7 +177,7 @@ namespace Anarkila.DeveloperConsole {
         private static object ParseStringArray(string input) {
             if (input == null) return input;
 
-            string[] words = input.Split(ConsoleConstants.SEPARATORS);
+            string[] words = input.Split(ConsoleConstants.CHARCOMMA);
 
             // Remove all whitespaces from start and end of the string
             for (int i = 0; i < words.Length; i++) {

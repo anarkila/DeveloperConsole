@@ -31,7 +31,7 @@ public static class ConsoleConstants {
     public const string F = "f";
 
     // Char array of all allowed supported array separators
-    public static char[] SEPARATORS = { ',', '.', ':', ';' };
+    //public static char[] SEPARATORS = { ',', '.', ':', ';' };
 
     // Array of all supported parameter types
     // If you want to add types to this list,
@@ -40,7 +40,7 @@ public static class ConsoleConstants {
             typeof(int),      typeof(float),
             typeof(decimal),  typeof(double),
             typeof(bool),     typeof(string),
-            typeof(char),     // lonely char
+            typeof(char),     typeof(string[]),
             typeof(Vector2),  typeof(Vector3),
             typeof(Vector4),  typeof(Quaternion)
     };
