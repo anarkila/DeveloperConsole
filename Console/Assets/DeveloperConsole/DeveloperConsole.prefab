@@ -5143,10 +5143,11 @@ MonoBehaviour:
     includeConsoleInFinalBuild: 0
     registerStaticCommandAttributesOnly: 0
     scanAllAssemblies: 0
+    commandsAreCaseSensetive: 0
+    allowGUIChangeRuntime: 1
     UnityLogOption: 5
     unityThreadedLogOption: 2
     maxMessageCount: 150
-    commandsAreCaseSensetive: 0
     allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1

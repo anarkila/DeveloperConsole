@@ -74,6 +74,16 @@ namespace Anarkila.DeveloperConsole {
             if (settings != null) {
                 maxMessageCount = settings.maxMessageCount;
                 currentGUIStyle = settings.interfaceStyle;
+
+                // No need to pool messages if only Minimal GUI is used.
+                if (settings.interfaceStyle == ConsoleGUIStyle.Minimal
+                    && settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs
+                    && settings.unityThreadedLogOption == ConsoleLogOptions.DontPrintLogs
+                    || settings.interfaceStyle == ConsoleGUIStyle.Minimal && !settings.allowGUIChangeRuntime) {
+
+                    enabled = false;
+                    return;
+                }
             }
             PoolMessages();
             HandleGhostMessages();
@@ -99,7 +109,7 @@ namespace Anarkila.DeveloperConsole {
 
         private void LogMessage(string text, Color? textColor) {
             if (!Application.isPlaying) return;
-           
+
             var success = SpawnMessageFromPool(text, textColor);
             if (!success) return;
 

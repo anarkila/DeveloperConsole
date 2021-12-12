@@ -76,6 +76,12 @@ namespace Anarkila.DeveloperConsole {
           "You shouldn't have to enable this.")]
         public bool scanAllAssemblies = false;
 
+        [Tooltip("Whether calling commands must be case sensetive'")]
+        public bool commandsAreCaseSensetive = false;
+
+        [Tooltip("Whether to allow GUI change during runtime.")]
+        public bool allowGUIChangeRuntime = true;
+
         // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
         public ConsoleLogOptions UnityLogOption = ConsoleLogOptions.LogExpectionsWithStackTrace;
@@ -86,9 +92,6 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 500)]
         public int maxMessageCount = 150;
-
-        [Tooltip("Whether calling commands must be case sensetive'")]
-        public bool commandsAreCaseSensetive = false;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;

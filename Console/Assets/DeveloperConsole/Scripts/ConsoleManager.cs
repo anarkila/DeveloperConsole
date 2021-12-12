@@ -189,6 +189,8 @@ namespace Anarkila.DeveloperConsole {
         /// Toggle GUI style between Large and minimal
         /// </summary>
         public static void ToggleInterfaceStyle(bool reOpen = true) {
+            if (!settings.allowGUIChangeRuntime) return;
+
             if (reOpen) ConsoleEvents.CloseConsole();
 
             if (settings.interfaceStyle == ConsoleGUIStyle.Large) {
