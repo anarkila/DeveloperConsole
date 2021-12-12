@@ -7,33 +7,60 @@ namespace Anarkila.DeveloperConsole {
 
     public class ConsoleExamples : MonoBehaviour {
 
+        // this command doesn't take in any parameters
+        // this can only be called:
+        // 'test.method'
         [ConsoleCommand("test.method")]
         private void MyMethod() {
             Debug.Log("Called command 'test.method' successfully without parameters from Console!");
         }
 
-        [ConsoleCommand("test.int")]
+        // this command takes in one int parameter
+        // you must provide int to this command to work:
+        // 'test.int {int}'
+        [ConsoleCommand("test.int")]                                        // With just command
+        //[ConsoleCommand("test.int", value:"7")]                           // With default value as string (default empty)
+        //[ConsoleCommand("test.int", info:"calculates the...")]            // With command info (default empty)
+        //[ConsoleCommand("test.int", debugOnlyCommand:true)]               // Debug only command, works only in Editor and Development Builds (default false)
+        //[ConsoleCommand("test.int", hiddenCommandMinimalGUI:true)]        // Hidden command only in Minimal GUI but visible in Large GUI (default false)
+        //[ConsoleCommand("test.int", hiddenCommand:true)]                  // Hidden command (default false)
         private void TestInt(int i) {
             Debug.Log(string.Format("Called command 'test.int' successfully with value: {0} from Console!", i));
         }
 
-        [ConsoleCommand("test.int.opt")]                // this command takes in optional int parameter. 
-        private void TestIntOpt(int i = 0) {            // 'test.int.opt' is valid, as well as 'test.int.opt 42'
+
+        // this command takes in optional int parameter
+        // this command can be called two ways:
+        // 'test.int.opt'
+        // 'test.int.opt {int}'
+        [ConsoleCommand("test.int.opt")]
+        private void TestIntOpt(int i = 0) {
             Debug.Log(string.Format("Called command 'test.int.opt' successfully with value: {0} from Console!", i));
         }
 
-        [ConsoleCommand("test.multi.int")]
+
+        // this command takes two ints separated by comma
+        // you must provide both ints to this command to work:
+        // 'test.multi.int {int}, {int}'
+        [ConsoleCommand("test.multi.int", value:"1, 2")]    
         private void TestMultiInt(int i, int j) {
             Debug.Log(string.Format("Called command 'test.multi.int' successfully with value: {0} and {1} from Console!", i, j));
         }
 
-        [ConsoleCommand("test.multi.opt", value: "1")]
-        private void TestIntIntOpt(int i = 1, int j = 1) {
+        // this command takes two optional ints separated by comma
+        // this command can be called three ways:
+        // 'test.multi.opt'
+        // 'test.multi.opt {int}'
+        // 'test.multi.opt {int}, {int}'
+        [ConsoleCommand("test.multi.opt")] 
+        private void TestIntIntOpt(int i = 0, int j = 1) {                                           
             Debug.Log(string.Format("Called command 'test.multi.opt' successfully with value: {0} and {1} from Console!", i, j));
         }
 
+        // this command takes in int, float and double where each is separated by comma
+        // 'test.nums {int}, {float}, {double}
         [ConsoleCommand("test.nums")]
-        private void TestOMG(int i, float f, double d) {
+        private void TestNums(int i, float f, double d) {
             Debug.Log(string.Format("Called command 'test.nums' successfully with value: {0}, {1} and {2} from Console!", i, f, d));
         }
 
@@ -62,12 +89,12 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
         }
 
-        /*[ConsoleCommand("test.array", "hello, world")]  // Allowed array separators: comma, dot, colon and semicolon -- . , : ;
+        [ConsoleCommand("test.array", "hello, world")]  // Allowed separator: ',' (comma)
         private void StringArray(string[] stringArray) {
             for (int i = 0; i < stringArray.Length; i++) {
                 Debug.Log(string.Format("Array index {0} with value: {1}", i, stringArray[i]));
             }
-        }*/
+        }
 
         [ConsoleCommand("test.char")]
         private void TestChar(char c) {
