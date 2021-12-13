@@ -121,6 +121,7 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test.quaternion' successfully with value: {0} from Developer Console!", q));
         }
 
+        // Coroutines are called just like other commands
         [ConsoleCommand("test.coroutine")]
         private IEnumerator TestCoroutine() {
             Debug.Log("Coroutine start");
@@ -128,14 +129,12 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Coroutine end");
         }
 
-
-        // Coroutines are limited to  one argument
+        // Coroutines are limited to one argument
         [ConsoleCommand("test.coroutine.int")]
         private IEnumerator TestCoroutineInt(int i) {
             yield return new WaitForSeconds(1.25f);
             Debug.Log("Testing Coroutine with parameter: " + i);
         }
-
 
         [ConsoleCommand("test.error")]
         private void PrintIntentialError() {
