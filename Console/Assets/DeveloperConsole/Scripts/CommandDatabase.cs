@@ -154,7 +154,8 @@ namespace Anarkila.DeveloperConsole {
                     }
 
                     if (consoleCommands[i].isCoroutine) {
-                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, parameters);
+                        var param = consoleCommands[i].parameters.Length == 0 ? null : parameters[0];
+                        consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, param);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
                         }
@@ -473,10 +474,6 @@ namespace Anarkila.DeveloperConsole {
                     optionalParameters[i] = parameters[i].IsOptional;
                 }
 
-                if (!ParameterParser.IsSupportedType(parameters, methodName, commandName, className)) {
-                    continue;
-                }
-
                 // if method doesn't take parameter and it was given some default value, don't show it.
                 if (parameters.Length == 0 && !string.IsNullOrWhiteSpace(defaultValue) || defaultValue == null) {
                     defaultValue = "";
@@ -487,6 +484,10 @@ namespace Anarkila.DeveloperConsole {
 
                 methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
                 methodName = methodName.Substring(0, methodName.IndexOf(ConsoleConstants.OPENPARENTHESIS));
+
+                if (!ParameterParser.IsSupportedType(parameters, isCoroutine, methodName, commandName, className)) {
+                    continue;
+                }
 
                 bool isStatic = method.IsStatic;
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;

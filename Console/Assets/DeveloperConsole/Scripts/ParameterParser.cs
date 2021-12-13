@@ -16,7 +16,7 @@ namespace Anarkila.DeveloperConsole {
         ///  Check if parameter type is supported
         /// </summary>
         /// <returns></returns>
-        public static bool IsSupportedType(ParameterInfo[] parameters, string methodName, string commandName, Type className) {
+        public static bool IsSupportedType(ParameterInfo[] parameters, bool isCoroutine, string methodName, string commandName, Type className) {
 
             // Early return if method doesn't take in any parameters.
             if (parameters == null || parameters.Length == 0) return true;
@@ -26,6 +26,14 @@ namespace Anarkila.DeveloperConsole {
             if (parameters.Length >= 10) {
 #if UNITY_EDITOR
                 Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "10 or more parameters is a bit extreme for single method, don't you think? " +
+                     "Command '{0}' in '{1}' '{2}' will be ignored.", commandName, className, methodName));
+#endif
+                return false;
+            }
+
+            if (isCoroutine && parameters.Length >= 2) {
+#if UNITY_EDITOR
+                Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Unity coroutines are limited to max one argument. " +
                      "Command '{0}' in '{1}' '{2}' will be ignored.", commandName, className, methodName));
 #endif
                 return false;

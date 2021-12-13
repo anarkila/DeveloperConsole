@@ -128,6 +128,7 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Coroutine end");
         }
 
+        // Coroutines are limited to  one argument
         [ConsoleCommand("test.coroutine.int")]
         private IEnumerator TestCoroutineInt(int i) {
             Debug.Log("Testing Coroutine with parameter: " + i);
