@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 using UnityEngine;
+using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -41,12 +41,6 @@ namespace Anarkila.DeveloperConsole {
             failedCommandCount = 0;
         }
 #endif
-
-        private struct CommandStruct {
-            public bool found;
-            public string command;
-            public string[] parameters;
-        }
 
         /// <summary>
         /// Try to execute command
@@ -92,17 +86,23 @@ namespace Anarkila.DeveloperConsole {
                 input = input.ToLower();
             }
 
+            // Parse input
+            if (input.Contains(ConsoleConstants.SPACE)) {
+                int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
+                index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
+                string remaining = input.Substring(index + 1);
+                parametersAsString = remaining.Split(ConsoleConstants.CHARCOMMA);
+                input = input.Substring(0, index);
+                if (!caseSensetive) {
+                    input = input.ToLower();
+                }
+            }
+
             // Loop through all console commands and try to find matching command
             for (int i = 0; i < consoleCommands.Count; i++) {
-                var command = ParseInput(consoleCommands[i], input, caseSensetive);
-                if (command.found) {
-                    input = command.command;
-                    parametersAsString = command.parameters;
-                }
-                else {
-                    // Didn't match --> continue
-                    continue;
-                }
+
+                string command = caseSensetive ? consoleCommands[i].commandName : consoleCommands[i].commandNameLower;
+                if (command != input) continue;
 
                 // If command does not take parameter and user passed in parameter --> continue
                 if (consoleCommands[i].parameters == null && parametersAsString != null) {
@@ -190,61 +190,6 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Parse user input and see if it matches command
-        /// </summary>
-        private static CommandStruct ParseInput(ConsoleCommandData command, string input, bool lower) {
-
-            char[] chararray = lower ? command.commandNameLowerCharArray : command.commandNameCharArray;
-            string commandName = lower ? command.commandNameLower : command.commandName;
-
-            int lastPos = -1;
-
-            var consoleCommand = new CommandStruct();
-
-            for (int i = 0; i < chararray.Length; i++) {
-                lastPos++;
-                while (lastPos < input.Length && input[lastPos] != chararray[i]) {
-                    lastPos++;
-                }
-
-                if (lastPos == input.Length) {
-                    consoleCommand.found = false;
-                    return consoleCommand;
-                }
-            }
-
-            string parsedCommand = input.Substring(0, lastPos + 1);
-            //Debug.Log(parsedCommand);
-
-            // if parsed command is not command name --> return false
-            if (parsedCommand != commandName) {
-                consoleCommand.found = false;
-                return consoleCommand;
-            }
-
-            string remaining = input.Substring(lastPos + 1);
-            //Debug.Log(remaining);
-
-            if (string.IsNullOrEmpty(remaining) || string.IsNullOrWhiteSpace(remaining)) {
-                consoleCommand.parameters = null;
-            }
-            else {
-                if (command.parameters.Length >= 2) {
-                    consoleCommand.parameters = remaining.Split(ConsoleConstants.CHARCOMMA);
-                }
-                else {
-                    consoleCommand.parameters = new string[1];
-                    consoleCommand.parameters[0] = remaining;
-                }
-            }
-
-            consoleCommand.found = true;
-            consoleCommand.command = parsedCommand;
-
-            return consoleCommand;
-        }
-
-        /// <summary>
         /// Parse multiple commands separated by "&" or "&&"
         /// </summary>
         private static List<string> ParseMultipleCommands(string input) {
@@ -316,8 +261,6 @@ namespace Anarkila.DeveloperConsole {
             bool isCoroutine = false;
             isCoroutine = methodInfo.ToString().Contains(ConsoleConstants.IENUMERATOR);
 
-            //bool optionalParameter = false;
-            //Type paraType = null;
             var methodParams = methodInfo.GetParameters();
             Type[] paraType = new Type[methodParams.Length];
             bool[] optionalParameters = new bool[methodParams.Length];
@@ -454,12 +397,12 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
-                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.COMMA)) {
+                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.COMMA) || commandName.Contains(ConsoleConstants.SPACE)) {
 #if UNITY_EDITOR
                     // [ConsoleCommand()] cannot contain characters '&' or ',' (comma) because
                     // character '&' is used to parse multiple commands
                     // and character ',' is used to parse multiple parameters
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain characters ',' or '&'. Rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
+                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain whitespace, '&' or comma. Rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
 #endif
                     continue;
                 }
@@ -491,11 +434,6 @@ namespace Anarkila.DeveloperConsole {
 
                 bool isStatic = method.IsStatic;
                 Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
-
-                //bool optionalParameter = false;
-                //if (type != null) {
-                //    optionalParameter = parameters[0].IsOptional;
-                //}
 
                 string classNameString = className.ToString();
                 if (CheckForDuplicates(commandList, paraType, commandName, classNameString, methodName)) {
