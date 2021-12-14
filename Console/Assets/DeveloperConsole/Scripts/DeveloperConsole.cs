@@ -67,7 +67,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         // for no domain/scene reload purposes
-        private void OnDestroy() {
+        private void OnApplicationQuit() {
             Instance = null;
         }
     }
