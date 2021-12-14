@@ -24,17 +24,20 @@ public class ExampleScript : MonoBehaviour {
 
     [ConsoleCommand("test")]
     private void Test() {
+        // with no parameters
         Debug.Log("Called 'Test' from Developer Console!");
     }
     
-    [ConsoleCommand("test.int")]
+    [ConsoleCommand("test_int")]
     private void TestInt(int i) {
-       Debug.Log(string.Format("Called 'TestInt' with value: {0} from Developer Console!", i));
+       // single parameter support: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion 
+       Debug.Log(string.Format("Called 'Test_int' with value: {0} from Developer Console!", i));
     }
 
-     [ConsoleCommand("test.multi")]
+     [ConsoleCommand("test_multi")]
     private void TestInt(int i, int j) {
-       Debug.Log(string.Format("Called 'test.multi' with value: {0} and {1} from Developer Console!", i, j));
+       // multi parameter support: int, float, string, bool, double, char
+       Debug.Log(string.Format("Called 'test_multi' with value: {0} and {1} from Developer Console!", i, j));
     }
 }
 ```

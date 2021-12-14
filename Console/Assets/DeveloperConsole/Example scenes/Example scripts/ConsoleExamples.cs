@@ -9,120 +9,120 @@ namespace Anarkila.DeveloperConsole {
 
         // this command doesn't take in any parameters
         // this can only be called:
-        // 'test.method'
-        [ConsoleCommand("test.method")]
+        // 'test_method'
+        [ConsoleCommand("test_method")]
         private void MyMethod() {
-            Debug.Log("Called command 'test.method' successfully without parameters from Console!");
+            Debug.Log("Called command 'test_method' successfully without parameters from Console!");
         }
 
         // this command takes in one int parameter
         // you must provide int to this command to work:
-        // 'test.int {int}'
-        [ConsoleCommand("test.int")]                                        // With just command
-        //[ConsoleCommand("test.int", value:"7")]                           // With default value as string (default empty)
-        //[ConsoleCommand("test.int", info:"calculates the...")]            // With command info (default empty)
-        //[ConsoleCommand("test.int", debugOnlyCommand:true)]               // Debug only command, works only in Editor and Development Builds (default false)
-        //[ConsoleCommand("test.int", hiddenCommandMinimalGUI:true)]        // Hidden command only in Minimal GUI but visible in Large GUI (default false)
-        //[ConsoleCommand("test.int", hiddenCommand:true)]                  // Hidden command (default false)
+        // 'test_int {int}'
+        [ConsoleCommand("test_int")]                                        // With just command
+        //[ConsoleCommand("test_int", value:"7")]                           // With default value as string (default empty)
+        //[ConsoleCommand("test_int", info:"calculates the...")]            // With command info (default empty)
+        //[ConsoleCommand("test_int", debugOnlyCommand:true)]               // Debug only command, works only in Editor and Development Builds (default false)
+        //[ConsoleCommand("test_int", hiddenCommandMinimalGUI:true)]        // Hidden command only in Minimal GUI but visible in Large GUI (default false)
+        //[ConsoleCommand("test_int", hiddenCommand:true)]                  // Hidden command (default false)
         private void TestInt(int i) {
-            Debug.Log(string.Format("Called command 'test.int' successfully with value: {0} from Console!", i));
+            Debug.Log(string.Format("Called command 'test_int' successfully with value: {0} from Console!", i));
         }
 
 
         // this command takes in optional int parameter
         // this command can be called two ways:
-        // 'test.int.opt'
-        // 'test.int.opt {int}'
-        [ConsoleCommand("test.int.opt")]
+        // 'test_int_opt'
+        // 'test_int_opt {int}'
+        [ConsoleCommand("test_int_opt")]
         private void TestIntOpt(int i = 0) {
-            Debug.Log(string.Format("Called command 'test.int.opt' successfully with value: {0} from Console!", i));
+            Debug.Log(string.Format("Called command 'test_int_opt' successfully with value: {0} from Console!", i));
         }
 
 
         // this command takes two ints separated by comma
         // you must provide both ints to this command to work:
-        // 'test.multi.int {int}, {int}'
-        [ConsoleCommand("test.multi.int", value:"1, 2")]    
+        // 'test_multi_int {int}, {int}'
+        [ConsoleCommand("test_multi_int", value:"1, 2")]    
         private void TestMultiInt(int i, int j) {
-            Debug.Log(string.Format("Called command 'test.multi.int' successfully with value: {0} and {1} from Console!", i, j));
+            Debug.Log(string.Format("Called command 'test_multi_int' successfully with value: {0} and {1} from Console!", i, j));
         }
 
         // this command takes two optional ints separated by comma
         // this command can be called three ways:
-        // 'test.multi.opt'
-        // 'test.multi.opt {int}'
-        // 'test.multi.opt {int}, {int}'
-        [ConsoleCommand("test.multi.opt")] 
+        // 'test_multi.opt'
+        // 'test_multi.opt {int}'
+        // 'test_multi.opt {int}, {int}'
+        [ConsoleCommand("test_multi_opt")] 
         private void TestIntIntOpt(int i = 0, int j = 1) {                                           
-            Debug.Log(string.Format("Called command 'test.multi.opt' successfully with value: {0} and {1} from Console!", i, j));
+            Debug.Log(string.Format("Called command 'test_multi_opt' successfully with value: {0} and {1} from Console!", i, j));
         }
 
         // this command takes in int, float and double where each is separated by comma
-        // 'test.nums {int}, {float}, {double}
-        [ConsoleCommand("test.nums")]
+        // 'test_nums {int}, {float}, {double}
+        [ConsoleCommand("test_nums")]
         private void TestNums(int i, float f, double d) {
-            Debug.Log(string.Format("Called command 'test.nums' successfully with value: {0}, {1} and {2} from Console!", i, f, d));
+            Debug.Log(string.Format("Called command 'test_nums' successfully with value: {0}, {1} and {2} from Console!", i, f, d));
         }
 
-        [ConsoleCommand("test.float", "3.7")]
+        [ConsoleCommand("test_float", "3.7")]
         private void TestFloat(float f) {
             Debug.Log(string.Format("Called command 'test.float' successfully with value: {0} from Console!", f));
         }
 
-        [ConsoleCommand("test.double", "50.3")]
+        [ConsoleCommand("test_double", "50.3")]
         private void TestDouble(double d) {
             Debug.Log(string.Format("Called command 'test.double' successfully with value: {0} from Console!", d));
         }
 
-        [ConsoleCommand("test.decimal", "12.3")]
+        [ConsoleCommand("test_decimal", "12.3")]
         private void TestDecimal(decimal de) {
             Debug.Log(string.Format("Called command 'test.decimal' successfully with value: {0} from Console!", de));
         }
 
-        [ConsoleCommand("test.bool", "true")]           // Accepted boolean values: true, false, True, False, TRUE, FALSE
+        [ConsoleCommand("test_bool", "true")]           // Accepted boolean values: true, false, True, False, TRUE, FALSE
         private void TestBool(bool b) {
             Debug.Log(string.Format("Called command 'test.bool' successfully with value: {0} from Developer Console!", b));
         }
 
-        [ConsoleCommand("test.string", "hello world")]
+        [ConsoleCommand("test_string", "hello world")]
         private void TestString(string s) {
             Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
         }
 
-        [ConsoleCommand("test.array", "hello, world")]  // Allowed separator: ',' (comma)
+        [ConsoleCommand("test_array", "hello, world")]  // Allowed separator: ',' (comma)
         private void StringArray(string[] stringArray) {
             for (int i = 0; i < stringArray.Length; i++) {
                 Debug.Log(string.Format("Array index {0} with value: {1}", i, stringArray[i]));
             }
         }
 
-        [ConsoleCommand("test.char")]
+        [ConsoleCommand("test_char")]
         private void TestChar(char c) {
             Debug.Log(string.Format("Called command 'test.char' successfully with value: {0} from Developer Console!", c));
         }
 
-        [ConsoleCommand("test.vector2", "1.0, 2.0")]
+        [ConsoleCommand("test_vector2", "1.0, 2.0")]
         private void TestVector2(Vector2 v) {
             Debug.Log(string.Format("Called command 'test.vector2' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.vector3", "1.0, 2.0, 3.0")]
+        [ConsoleCommand("test_vector3", "1.0, 2.0, 3.0")]
         private void TestVector3(Vector3 v) {
             Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.vector4", "1.0, 2.0, 3.0, 4.0")]
+        [ConsoleCommand("test_vector4", "1.0, 2.0, 3.0, 4.0")]
         private void TestVector4(Vector4 v) {
             Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
         }
 
-        [ConsoleCommand("test.quaternion", "1.0, 2.0, 3.0, 4.0")]
+        [ConsoleCommand("test_quaternion", "1.0, 2.0, 3.0, 4.0")]
         private void TestQuaternion(Quaternion q) {
             Debug.Log(string.Format("Called command 'test.quaternion' successfully with value: {0} from Developer Console!", q));
         }
 
         // Coroutines are called just like other commands
-        [ConsoleCommand("test.coroutine")]
+        [ConsoleCommand("test_coroutine")]
         private IEnumerator TestCoroutine() {
             Debug.Log("Coroutine start");
             yield return new WaitForSeconds(1.25f);
@@ -130,19 +130,19 @@ namespace Anarkila.DeveloperConsole {
         }
 
         // Coroutines are limited to one argument
-        [ConsoleCommand("test.coroutine.int")]
-        private IEnumerator TestCoroutineInt(int i) {
-            yield return new WaitForSeconds(1.25f);
-            Debug.Log("Testing Coroutine with parameter: " + i);
+        [ConsoleCommand("test_coroutine_float")]
+        private IEnumerator TestCoroutineInt(float time) {
+            yield return new WaitForSeconds(time);
+            Debug.Log("Testing Coroutine with parameter: " + time);
         }
 
-        [ConsoleCommand("test.error")]
+        [ConsoleCommand("test_error")]
         private void PrintIntentialError() {
-            Debug.Log("Showing intentional error:");
+            Debug.Log("Showing intentional error.");
             throw new System.Exception();
         }
 
-        [ConsoleCommand("test.numbers")]
+        [ConsoleCommand("test_numbers")]
         private IEnumerator PrintNumbers() {
             var delay = new WaitForSeconds(0.02f);
             for (int i = 0; i < 101; i++) {
@@ -151,7 +151,7 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        [ConsoleCommand("test.long")]
+        [ConsoleCommand("test_long")]
         private void PrintLongMessage() {
             var text = string.Empty;
             for (int i = 0; i < 151; i++) {
@@ -162,7 +162,7 @@ namespace Anarkila.DeveloperConsole {
 
 #if UNITY_EDITOR
 #if !UNITY_WEBGL
-        [ConsoleCommand("test.threadedlog")]
+        [ConsoleCommand("test_threadedlog")]
         private void PrintLogFromAnotherThread() {
             Task.Run(() =>{
                 // Note. Console.Log cannot be called from another thread.
@@ -172,19 +172,19 @@ namespace Anarkila.DeveloperConsole {
 # endif
 #endif
 
-        [ConsoleCommand("test.richtext")]
+        [ConsoleCommand("test_richtext")]
         private void PrintColors() {
             Debug.Log("<color=red>R</color><color=green>G</color><color=blue>B</color>");
         }
 
-        [ConsoleCommand("test.colorlog")]
+        [ConsoleCommand("test_colorlog")]
         private void PrintColoredLog() {
             Console.Log("This message is red!", Color.red);
         }
 
         // This command won't show up in predictions because it's set as hidden,
         // but it's still callable.
-        [ConsoleCommand("test.hidden", null, null, false, true, true)]
+        [ConsoleCommand("test_hidden", null, null, false, true, true)]
         private void HiddenCommand() {
             Debug.Log("Called hidden command 'hidden.command' successfully from Console!");
         }
@@ -194,17 +194,19 @@ namespace Anarkila.DeveloperConsole {
         // as [ConsoleCommand] attributes are only registered when scene is loaded.
         // Objects that are instantiated runtime with [ConsoleCommand] attribute are not registered.
         private void OnEnable() {
-            Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test.manual", "", "", false, false, false);
-            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test.manual.int", "42", "", false, false, false);
-            Console.RegisterCommand(this, "ManualCoroutine", "test.manual.coroutine", "", "", false, false, false);
+            Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test_manual");
+            //Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test_manual", "", "", false, false, false); // with all optional parameters
+
+            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test_manual.int", "42");
+            Console.RegisterCommand(this, "ManualCoroutine", "test_manual_coroutine");
         }
 
         private void ManuallyRegisteredCommand() {
-            Debug.Log("Called manually registered command 'test.manual' successfully from Console!");
+            Debug.Log("Called manually registered command 'test_manual' successfully from Console!");
         }
 
         private void ManuallyRegisteredCommandInt(int i) {
-            Debug.Log(string.Format("Called manually registered command 'test.manual.int' successfully with value: {0} from Console!", i));
+            Debug.Log(string.Format("Called manually registered command 'test_manual_int' successfully with value: {0} from Console!", i));
         }
 
         private IEnumerator ManualCoroutine() {
@@ -215,9 +217,9 @@ namespace Anarkila.DeveloperConsole {
 
         // Example how to RemoveCommand with Console.cs
         private void OnDisable() {
-            Console.RemoveCommand("test.manual");
-            Console.RemoveCommand("test.manual.int");
-            Console.RemoveCommand("test.manual.coroutine", true); // optional boolean parameter to log whether removing command was successfull
+            Console.RemoveCommand("test_manual");
+            Console.RemoveCommand("test_manual_int");
+            Console.RemoveCommand("test_manual_coroutine", true); // optional boolean parameter to log whether removing command was successfull
         }
     }
 }
