@@ -62,3 +62,4 @@ crashlytics-build.properties
 Console/Library/
 Console/Assets/TextMesh Pro
 Console/Assets/dev/*
+Console/Assets/test/*
