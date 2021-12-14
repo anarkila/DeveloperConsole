@@ -66,27 +66,27 @@ namespace Anarkila.DeveloperConsole {
 
         [ConsoleCommand("test_float", "3.7")]
         private void TestFloat(float f) {
-            Debug.Log(string.Format("Called command 'test.float' successfully with value: {0} from Console!", f));
+            Debug.Log(string.Format("Called command 'test_float' successfully with value: {0} from Console!", f));
         }
 
         [ConsoleCommand("test_double", "50.3")]
         private void TestDouble(double d) {
-            Debug.Log(string.Format("Called command 'test.double' successfully with value: {0} from Console!", d));
+            Debug.Log(string.Format("Called command 'test_double' successfully with value: {0} from Console!", d));
         }
 
         [ConsoleCommand("test_decimal", "12.3")]
         private void TestDecimal(decimal de) {
-            Debug.Log(string.Format("Called command 'test.decimal' successfully with value: {0} from Console!", de));
+            Debug.Log(string.Format("Called command 'test_decimal' successfully with value: {0} from Console!", de));
         }
 
         [ConsoleCommand("test_bool", "true")]           // Accepted boolean values: true, false, True, False, TRUE, FALSE
         private void TestBool(bool b) {
-            Debug.Log(string.Format("Called command 'test.bool' successfully with value: {0} from Developer Console!", b));
+            Debug.Log(string.Format("Called command 'test_bool' successfully with value: {0} from Developer Console!", b));
         }
 
         [ConsoleCommand("test_string", "hello world")]
         private void TestString(string s) {
-            Debug.Log(string.Format("Called command 'test.string' successfully with value: '{0}' from Developer Console!", s));
+            Debug.Log(string.Format("Called command 'test_string' successfully with value: '{0}' from Developer Console!", s));
         }
 
         [ConsoleCommand("test_array", "hello, world")]  // Allowed separator: ',' (comma)
@@ -98,27 +98,27 @@ namespace Anarkila.DeveloperConsole {
 
         [ConsoleCommand("test_char")]
         private void TestChar(char c) {
-            Debug.Log(string.Format("Called command 'test.char' successfully with value: {0} from Developer Console!", c));
+            Debug.Log(string.Format("Called command 'test_char' successfully with value: {0} from Developer Console!", c));
         }
 
         [ConsoleCommand("test_vector2", "1.0, 2.0")]
         private void TestVector2(Vector2 v) {
-            Debug.Log(string.Format("Called command 'test.vector2' successfully with value: {0} from Developer Console!", v));
+            Debug.Log(string.Format("Called command 'test_vector2' successfully with value: {0} from Developer Console!", v));
         }
 
         [ConsoleCommand("test_vector3", "1.0, 2.0, 3.0")]
         private void TestVector3(Vector3 v) {
-            Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
+            Debug.Log(string.Format("Called command 'test_vector3' successfully with value: {0} from Developer Console!", v));
         }
 
         [ConsoleCommand("test_vector4", "1.0, 2.0, 3.0, 4.0")]
         private void TestVector4(Vector4 v) {
-            Debug.Log(string.Format("Called command 'test.vector3' successfully with value: {0} from Developer Console!", v));
+            Debug.Log(string.Format("Called command 'test_vector3' successfully with value: {0} from Developer Console!", v));
         }
 
         [ConsoleCommand("test_quaternion", "1.0, 2.0, 3.0, 4.0")]
         private void TestQuaternion(Quaternion q) {
-            Debug.Log(string.Format("Called command 'test.quaternion' successfully with value: {0} from Developer Console!", q));
+            Debug.Log(string.Format("Called command 'test_quaternion' successfully with value: {0} from Developer Console!", q));
         }
 
         // Coroutines are called just like other commands
@@ -197,7 +197,7 @@ namespace Anarkila.DeveloperConsole {
             Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test_manual");
             //Console.RegisterCommand(this, "ManuallyRegisteredCommand", "test_manual", "", "", false, false, false); // with all optional parameters
 
-            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test_manual.int", "42");
+            Console.RegisterCommand(this, "ManuallyRegisteredCommandInt", "test_manual_int", "42");
             Console.RegisterCommand(this, "ManualCoroutine", "test_manual_coroutine");
         }
 
@@ -219,7 +219,7 @@ namespace Anarkila.DeveloperConsole {
         private void OnDisable() {
             Console.RemoveCommand("test_manual");
             Console.RemoveCommand("test_manual_int");
-            Console.RemoveCommand("test_manual_coroutine", true); // optional boolean parameter to log whether removing command was successfull
+            Console.RemoveCommand("test_manual_coroutine"/*, true*/); // optional boolean parameter to log whether removing command was successfull
         }
     }
 }
