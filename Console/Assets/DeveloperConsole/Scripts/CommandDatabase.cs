@@ -287,7 +287,6 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-
         /// <summary>
         /// Remove command
         /// </summary>
@@ -343,7 +342,8 @@ namespace Anarkila.DeveloperConsole {
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
         public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
-            ClearConsoleCommands();
+            consoleCommands.Clear();
+
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
             if (staticCommandsCached) {
@@ -669,6 +669,7 @@ namespace Anarkila.DeveloperConsole {
                     commands = commands.OrderBy(x => x).ToList();
                 }
 
+                Console.LogEmpty();
                 ConsoleEvents.Log(ConsoleConstants.COMMANDMESSAGE);
                 for (int i = 0; i < commands.Count; i++) {
                     ConsoleEvents.Log(commands[i]);
@@ -679,17 +680,14 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Check that list doesn't already contain command that we are trying to register.
         /// </summary>
-        private static bool CheckForDuplicates(List<ConsoleCommandData> commandList, Type[] parameters, string commandName, string className, string methodName) {
-            if (commandList.Count == 0) return false;
+        private static bool CheckForDuplicates(List<ConsoleCommandData> commands, Type[] parameters, string commandName, string className, string methodName) {
+            if (commands.Count == 0) return false;
 
             bool found = false;
 
-            for (int i = 0; i < commandList.Count; i++) {
-                if (commandName == commandList[i].commandName) {
-
-                    if (className != commandList[i].scriptNameString
-                        || methodName != commandList[i].methodName
-                        || parameters != commandList[i].parameters) {
+            for (int i = 0; i < commands.Count; i++) {
+                if (commandName == commands[i].commandName) {
+                    if (className != commands[i].scriptNameString || methodName != commands[i].methodName || parameters != commands[i].parameters) {
 #if UNITY_EDITOR
                         Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Command '{0}' has already been registered. " +
                               "Command '{0}' in class '{1}' with method name '{2}' will be ignored. " +
@@ -733,10 +731,6 @@ namespace Anarkila.DeveloperConsole {
 
         public static List<string> GetPreviouslyExecutedCommands() {
             return executedCommands;
-        }
-
-        private static void ClearConsoleCommands() {
-            consoleCommands.Clear();
         }
     }
 }

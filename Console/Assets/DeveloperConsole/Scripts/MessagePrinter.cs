@@ -43,7 +43,6 @@ namespace Anarkila.DeveloperConsole {
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
             GetSettings();
 
-
             if (messagesBeforeInitDone.Count != 0) {
                 // Add slight delay before logging messages
                 ConsoleUtils.DelayedCall(() => {

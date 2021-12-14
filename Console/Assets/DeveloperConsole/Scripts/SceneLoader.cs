@@ -34,8 +34,6 @@ namespace Anarkila.DeveloperConsole {
                 asyncOperation.allowSceneActivation = true;
                 enabled = false;
                 loading = false;
-
-                Debug.Log(string.Format("Loaded new scene [{0}]", loadedSceneName));
             }
         }
 
@@ -82,7 +80,7 @@ namespace Anarkila.DeveloperConsole {
             }
             else {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Scene [{0}] doesn't exist!", sceneName));
+                Console.Log(string.Format("Scene [{0}] doesn't exist!", sceneName));
 #endif
                 return;
             }
@@ -99,14 +97,14 @@ namespace Anarkila.DeveloperConsole {
         private void UnLoadSceneByIndexAsync(int index) {
             if (SceneManager.sceneCount == 1) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", index));
+                Console.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", index));
 #endif
                 return;
             }
 
             if (index > SceneManager.sceneCountInBuildSettings || index < 0) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
+                Console.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
 #endif
                 return;
             }
@@ -120,7 +118,7 @@ namespace Anarkila.DeveloperConsole {
         private void UnLoadSceneByNameAsync(string sceneName) {
             if (SceneManager.sceneCount == 1) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", sceneName));
+                Console.Log(string.Format("Can't unload scene [{0}] because it's the only scene active!", sceneName));
 #endif
                 return;
             }
