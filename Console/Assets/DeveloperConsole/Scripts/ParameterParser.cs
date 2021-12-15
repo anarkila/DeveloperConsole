@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 using UnityEngine;
+using System;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -48,9 +48,10 @@ namespace Anarkila.DeveloperConsole {
                         // method that takes in single Vector2/3/4 or string[] is supported.
                         Debug.Log(string.Format(ConsoleConstants.EDITORWARNING + "Method contains multiple parameters with {0}, this is not supported! " +
                        "Command '{1}' in '{2}' '{3}' will be ignored!", parameters[i].ParameterType, commandName, className, methodName));
+#endif
                         return false;
                     }
-#endif
+
                 }
 
 
