@@ -30,13 +30,15 @@ public class ExampleScript : MonoBehaviour {
     
     [ConsoleCommand("test_int")]
     private void TestInt(int i) {
-       // single parameter support: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion 
+       // single parameter support: 
+       // int, float, string, bool, double, char, string[], Vector2, Vector3, Vector4, Quaternion
        Debug.Log(string.Format("Called 'Test_int' with value: {0} from Developer Console!", i));
     }
 
      [ConsoleCommand("test_multi")]
     private void TestInt(int i, int j) {
-       // multi parameter support: int, float, string, bool, double, char
+       // multi parameter support: 
+       // int, float, string, bool, double, char
        Debug.Log(string.Format("Called 'test_multi' with value: {0} and {1} from Developer Console!", i, j));
     }
 }
@@ -45,27 +47,22 @@ public class ExampleScript : MonoBehaviour {
 ## Features
 
 - Call static, non-static and Unity Coroutines methods (both public and private)
-- No parameter support
-- Single parameter support:
-    - Allowed types: int, float, string, string[], bool, double, char, Vector2, Vector3, Vector4, Quaternion
-- Multi parameter support:
-    - Allowed types: int, float, string, bool, double, char
+- No parameter and optional parameter(s) support
+- Single parameter support with following types:
+    - int, float, string, bool, double, char, string[], Vector2, Vector3, Vector4, Quaternion
+- Multi parameter support with following types:
+    - int, float, string, bool, double, char
 - Easy drag & drop setup
 - Mono and IL2CPP support
-- WebGL support
+- Desktop and WebGL support
 - No domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
-- Log directly into Developer Console window
-- Log Unity ``Debug.Log`` and ``Debug.LogError`` messages into Console window
+- Log messages into Console Window (Direct, ``Debug.Log`` and ``Debug.LogError``)
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
 - GUI themes (Dark, Red or Custom)
 - Documentation and example scenes
-- Generate command list into text file
-- Editor debug information:
-    - Print rendering info
-    - Print Play button click to playable Scene time
 
 ## Default Commands
 Developer Console comes with few commands by default.
@@ -82,7 +79,7 @@ Developer Console comes with few commands by default.
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
 * ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
-- ``empty`` – Log empty line to console. This command is Editor only.
+- ``empty`` - Log empty line to console. This command is Editor only by default.
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
