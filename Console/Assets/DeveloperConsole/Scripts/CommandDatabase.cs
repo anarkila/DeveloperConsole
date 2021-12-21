@@ -498,35 +498,31 @@ namespace Anarkila.DeveloperConsole {
         private static List<MethodInfo> GetAllAttributesFromAssemblyFast(BindingFlags flags, bool scanAllAssemblies = false) {
             List<MethodInfo> attributeMethodInfos = new List<MethodInfo>(64);
 
-            // If setting 'scanAllAssemblies' is set to false (default) then only scan assemblies that contain "Assembly-CSharp"
-            // this is Unity runtime script assebmly
-            // https://docs.unity3d.com/Manual/ScriptCompileOrderFolders.html
-            string assemblyToSearch = "Assembly-CSharp";
-
-            // skip all assemblies with Editor in its name such as "Assembly-CSharp-Editor"
-            string ignoreEditor = "Editor";
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            for (int i = 0; i < assemblies.Length; i++) {
-
-                // Ignore all other assemblies
-                if (!scanAllAssemblies) {
-                    if (!assemblies[i].FullName.Contains(assemblyToSearch) || assemblies[i].FullName.Contains(ignoreEditor)) {
-                        continue;
+            if (scanAllAssemblies) {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                for (int i = 0; i < assemblies.Length; i++) {
+                    var type = assemblies[i].GetTypes();
+                    for (int j = 0; j < type.Length; j++) {
+                        if (!type[j].IsClass) continue;
+                        var methodInfos = type[j].GetMethods(flags);
+                        if (methodInfos.Length == 0) continue;
+                        for (int k = 0; k < methodInfos.Length; k++) {
+                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
+                                attributeMethodInfos.Add(methodInfos[k]);
+                            }
+                        }
                     }
                 }
-
-                var type = assemblies[i].GetTypes();
+            }
+            else {
+                var unityAssembly = Assembly.GetExecutingAssembly();
+                var type = unityAssembly.GetTypes();
                 for (int j = 0; j < type.Length; j++) {
-
                     if (!type[j].IsClass) continue;
-
                     var methodInfos = type[j].GetMethods(flags);
-
                     if (methodInfos.Length == 0) continue;
-
                     for (int k = 0; k < methodInfos.Length; k++) {
-                        if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) { //.FirstOrDefault() != null
+                        if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
                             attributeMethodInfos.Add(methodInfos[k]);
                         }
                     }
