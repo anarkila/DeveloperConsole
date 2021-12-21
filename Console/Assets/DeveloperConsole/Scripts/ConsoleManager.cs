@@ -287,7 +287,7 @@ namespace Anarkila.DeveloperConsole {
 
 #if UNITY_EDITOR
             if (scanAllAssemblies) {
-                Debug.Log(ConsoleConstants.EDITORWARNING + "setting ScanAllAssemblies is set to true. This increases Initialization time a lot.");
+                Debug.Log(ConsoleConstants.EDITORWARNING + "option ScanAllAssemblies is set to true. This increases initialization time.");
             }
 #endif
 
