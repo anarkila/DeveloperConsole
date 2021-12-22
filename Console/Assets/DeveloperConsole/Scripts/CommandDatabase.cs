@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -355,19 +356,10 @@ namespace Anarkila.DeveloperConsole {
                 flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             }
 
-
-            // Linq way
-            /*IEnumerable<MethodInfo> methods = null;
-#if UNITY_WEBGL || ENABLE_IL2CPP
-            methods = GetAllAttributesFromAssembly(flags, false);
-#else
-            methods = GetAllAttributesFromAssembly(flags, true);
-#endif*/
-
             var commandList = new List<ConsoleCommandData>(64);
 
             // Non-Linq way. This is a bit faster.
-            var methods = GetAllAttributesFromAssemblyFast(flags, scanAllAssemblies);
+            var methods = GetAllAttributesFromAssembly(flags, scanAllAssemblies);
 
             foreach (var method in methods) {
 
@@ -461,111 +453,78 @@ namespace Anarkila.DeveloperConsole {
             return commandList;
         }
 
-
         /// <summary>
-        /// Get all ConsoleCommand attributes from assembly Linq way.
+        /// Get all ConsoleCommand attributes from assembly
         /// </summary>
-        //private static IEnumerable<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool parallel) {
-        //    IEnumerable<MethodInfo> methods = null;
-        //    string assemblyToSearch = "Assembly-CSharp";
-        //    if (parallel) {
-        //        // For Mono backend
-        //        methods = AppDomain.CurrentDomain.GetAssemblies()
-        //                                           .AsParallel()
-        //                                           .Where(x => x.FullName.Contains(assemblyToSearch))
-        //                                           .SelectMany(x => x.GetTypes())
-        //                                           .Where(x => x.IsClass)
-        //                                           .SelectMany(x => x.GetMethods(flags))
-        //                                           .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
+        private static List<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool scanAllAssemblies = false) {
 
-        //    }
-        //    else {
-        //        // WebGL and IL2CPP
-        //        // Get all methods with the execute attribute
-        //        methods = AppDomain.CurrentDomain.GetAssemblies()
-        //                               .Where(x => x.FullName.Contains(assemblyToSearch))
-        //                               .SelectMany(x => x.GetTypes())
-        //                               .Where(x => x.IsClass)
-        //                               .SelectMany(x => x.GetMethods(flags))
-        //                               .Where(x => x.GetCustomAttributes(typeof(ConsoleCommand), false).FirstOrDefault() != null);
-        //    }
-
-        //    return methods;
-        //}
-
-        /// <summary>
-        /// Get all ConsoleCommand attributes from assembly non-Linq way.
-        /// This is a bit faster than GetAllAttributesFromAssembly which uses Linq.
-        /// </summary>
-        private static List<MethodInfo> GetAllAttributesFromAssemblyFast(BindingFlags flags, bool scanAllAssemblies = false) {
             List<MethodInfo> attributeMethodInfos = new List<MethodInfo>(64);
-
-            if (scanAllAssemblies) {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                for (int i = 0; i < assemblies.Length; i++) {
-                    var type = assemblies[i].GetTypes();
-                    for (int j = 0; j < type.Length; j++) {
-                        if (!type[j].IsClass) continue;
-                        var methodInfos = type[j].GetMethods(flags);
-                        if (methodInfos.Length == 0) continue;
-                        for (int k = 0; k < methodInfos.Length; k++) {
-                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
-                                attributeMethodInfos.Add(methodInfos[k]);
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                var unityAssembly = Assembly.GetExecutingAssembly();
-                var type = unityAssembly.GetTypes();
-
-                bool parallel = true;
-
-                // For very small projects, it's faster to use single threaded loop
-                if (type.Length <= 100) {
-                    parallel = false;
-                }
+            ConcurrentBag<MethodInfo> cb = new ConcurrentBag<MethodInfo>();
+            bool parallel = true;
 
 #if UNITY_WEBGL
                 // WebGL doesn't support Parallel.For
                 parallel = false;
 #endif
+            // "Scanning" all assemblies is slow
+            if (scanAllAssemblies) {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
                 if (parallel) {
-                    ConcurrentBag<MethodInfo> cb = new ConcurrentBag<MethodInfo>();
-
-                    Parallel.For(0, type.Length, j => {
-                        if (!type[j].IsClass) return;
-
-                        var methodInfos = type[j].GetMethods(flags);
-                        if (methodInfos.Length == 0) return;
-
-                        for (int k = 0; k < methodInfos.Length; k++) {
-                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
-                                cb.Add(methodInfos[k]);
-                            }
+                    Parallel.For(0, assemblies.Length, i => {
+                        var type = assemblies[i].GetTypes();
+                        for (int j = 0; j < type.Length; j++) {
+                            FindAttributeAndAdd(flags, j, type, cb);
                         }
                     });
-                    attributeMethodInfos = cb.ToList();
                 }
                 else {
-                    for (int j = 0; j < type.Length; j++) {
-
-                        if (!type[j].IsClass) continue;
-
-                        var methodInfos = type[j].GetMethods(flags);
-                        if (methodInfos.Length == 0) continue;
-
-                        for (int k = 0; k < methodInfos.Length; k++) {
-                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
-                                attributeMethodInfos.Add(methodInfos[k]);
-                            }
+                    for (int i = 0; i < assemblies.Length; i++) {
+                        var type = assemblies[i].GetTypes();
+                        for (int j = 0; j < type.Length; j++) {
+                            FindAttributeAndAdd(flags, j, type, cb);
                         }
                     }
                 }
             }
 
+            // else just "scan" current assembly which should be Unity assembly
+            else {
+                var unityAssembly = Assembly.GetExecutingAssembly();
+                var types = unityAssembly.GetTypes();
+
+                // For small projects, it's faster to just use single threaded loop
+                if (types.Length <= 100) parallel = false;
+
+                if (parallel) {
+                    Parallel.For(0, types.Length, i => {
+                        FindAttributeAndAdd(flags, i, types, cb);
+                    });
+                }
+                else {
+                    for (int i = 0; i < types.Length; i++) {
+                        FindAttributeAndAdd(flags, i, types, cb);
+                    }
+                }
+            }
+
+            attributeMethodInfos = cb.ToList();
+
             return attributeMethodInfos;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void FindAttributeAndAdd(BindingFlags flags, int j, Type[] type, ConcurrentBag<MethodInfo> cb) {
+            if (!type[j].IsClass) return;
+
+            var methodInfos = type[j].GetMethods(flags);
+            if (methodInfos.Length == 0) return;
+
+            for (int i = 0; i < methodInfos.Length; i++) {
+                if (methodInfos[i].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
+                    cb.Add(methodInfos[i]);
+                }
+            }
         }
 
         /// <summary>
