@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using UnityEngine;
@@ -517,13 +519,47 @@ namespace Anarkila.DeveloperConsole {
             else {
                 var unityAssembly = Assembly.GetExecutingAssembly();
                 var type = unityAssembly.GetTypes();
-                for (int j = 0; j < type.Length; j++) {
-                    if (!type[j].IsClass) continue;
-                    var methodInfos = type[j].GetMethods(flags);
-                    if (methodInfos.Length == 0) continue;
-                    for (int k = 0; k < methodInfos.Length; k++) {
-                        if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
-                            attributeMethodInfos.Add(methodInfos[k]);
+
+                bool parallel = true;
+
+                // For very small projects, it's faster to use single threaded loop
+                if (type.Length <= 100) {
+                    parallel = false;
+                }
+
+#if UNITY_WEBGL
+                // WebGL doesn't support Parallel.For
+                parallel = false;
+#endif
+                if (parallel) {
+                    ConcurrentBag<MethodInfo> cb = new ConcurrentBag<MethodInfo>();
+
+                    Parallel.For(0, type.Length, j => {
+                        if (!type[j].IsClass) return;
+
+                        var methodInfos = type[j].GetMethods(flags);
+                        if (methodInfos.Length == 0) return;
+
+                        for (int k = 0; k < methodInfos.Length; k++) {
+                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
+                                cb.Add(methodInfos[k]);
+                            }
+                        }
+                    });
+                    attributeMethodInfos = cb.ToList();
+                }
+                else {
+                    for (int j = 0; j < type.Length; j++) {
+
+                        if (!type[j].IsClass) continue;
+
+                        var methodInfos = type[j].GetMethods(flags);
+                        if (methodInfos.Length == 0) continue;
+
+                        for (int k = 0; k < methodInfos.Length; k++) {
+                            if (methodInfos[k].GetCustomAttributes(typeof(ConsoleCommand), false).Length > 0) {
+                                attributeMethodInfos.Add(methodInfos[k]);
+                            }
                         }
                     }
                 }
@@ -541,6 +577,9 @@ namespace Anarkila.DeveloperConsole {
             // Find all different script names
             var scriptnames = new List<string>();
             for (int i = 0; i < commands.Count; i++) {
+
+                if (commands[i].isStaticMethod) continue;
+
                 if (!scriptnames.Contains(commands[i].scriptNameString)) {
                     scriptnames.Add(commands[i].scriptNameString);
                 }
@@ -550,6 +589,7 @@ namespace Anarkila.DeveloperConsole {
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
             // loop though those scripts and all commands to find MonoBehaviour references.
             // these loops look scary but this is reasonable fast (approx. ~1.2 ms for example scenes)
+
             for (int i = 0; i < scriptnames.Count; i++) {
                 Type type = Type.GetType(scriptnames[i]);
                 MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
