@@ -70,7 +70,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Try to parse parameter from string
         /// </summary>
-        public static object[] ParseParametersFromString(string[] input, Type[] type, ConsoleCommandData data) {
+        public static object[] ParseParametersFromString(string[] input, string raw, Type[] type, ConsoleCommandData data) {
             // UnityEngine types such as Vector2, Vector3 etc are not part of C# TypeCode
             // so they must be checked with other way
 
@@ -84,12 +84,11 @@ namespace Anarkila.DeveloperConsole {
             }
 
             object[] parameters = new object[type.Length];
-
             for (int i = 0; i < type.Length; i++) {
                 bool containsUnityType = ConsoleConstants.UnityTypes.Contains(type[i]);
 
                 if (InBounds(i, input.Length)) {
-                    parameters[i] = containsUnityType ? ParseUnityTypes(input[i], type[i]) : ParseBuiltInTypes(input[i], type[i]);
+                    parameters[i] = containsUnityType ? ParseUnityTypes(input[i], type[i]) : ParseBuiltInTypes(input[i], type[i], raw);
                 }
                 else if (data.optionalParameter[i]) {
                     parameters[i] = null;
@@ -146,10 +145,10 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private static object ParseBuiltInTypes(string input, Type type) {
+        private static object ParseBuiltInTypes(string input, Type type, string raw) {
 
             if (type == typeof(string[])) {
-                return ParseStringArray(input);
+                return ParseStringArray(raw);
             }
 
             switch (Type.GetTypeCode(type)) {

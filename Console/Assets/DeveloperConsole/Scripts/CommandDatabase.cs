@@ -78,24 +78,24 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static bool ExecuteCommand(string input, bool silent = false) {
-            string[] parametersAsString = null;
-            bool parametersParsed = false;
-            object[] parameters = null;
-            bool commandFound = false;
-            bool success = false;
-            string rawInput = input;
 
             bool caseSensetive = ConsoleManager.IsCaseSensetive();
+            string[] parametersAsString = null;
+            string remaining = string.Empty;
+            bool parametersParsed = false;
+            object[] parameters = null;
+            string rawInput = input;
+            bool success = false;
 
             if (!caseSensetive) {
                 input = input.ToLower();
             }
 
-            // Parse input
+            // Parse command and parameter(s) from input
             if (input.Contains(ConsoleConstants.SPACE)) {
                 int index = input.IndexOf(ConsoleConstants.EMPTYCHAR);
                 index = input.IndexOf(ConsoleConstants.EMPTYCHAR, index);
-                string remaining = input.Substring(index + 1);
+                remaining = input.Substring(index + 1);
                 parametersAsString = remaining.Split(ConsoleConstants.CHARCOMMA);
                 input = input.Substring(0, index);
                 if (!caseSensetive) {
@@ -114,13 +114,11 @@ namespace Anarkila.DeveloperConsole {
                     continue;
                 }
 
-                commandFound = true;
-
                 if (parametersAsString != null || consoleCommands[i].parameters.Length != 0) {
 
                     // We only need parse this once
                     if (!parametersParsed) {
-                        parameters = ParameterParser.ParseParametersFromString(parametersAsString, consoleCommands[i].parameters, consoleCommands[i]);
+                        parameters = ParameterParser.ParseParametersFromString(parametersAsString, remaining, consoleCommands[i].parameters, consoleCommands[i]);
                         parametersParsed = true;
                     }
 
@@ -186,7 +184,7 @@ namespace Anarkila.DeveloperConsole {
 
             // TODO:
             // perhaps there should be log if command was right but parameter was wrong?
-            if (!success /*&& !commandFound*/ && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
+            if (!success && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
                 Console.Log(string.Format("Command '{0}' was not recognized.", rawInput));
                 ++failedCommandCount;
             }
