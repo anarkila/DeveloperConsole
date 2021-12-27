@@ -1,11 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Runtime.CompilerServices;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using UnityEngine;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -22,6 +22,7 @@ namespace Anarkila.DeveloperConsole {
         private static List<string> consoleCommandList = new List<string>(32);
         private static List<string> executedCommands = new List<string>(32);
         private static List<string> parseList = new List<string>();
+        private static bool allowMultipleCommands = true;
         private static bool staticCommandsCached = false;
         private static int executedCommandCount;
         private static int failedCommandCount;
@@ -40,6 +41,7 @@ namespace Anarkila.DeveloperConsole {
             executedCommands.Clear();
             parseList.Clear();
             staticCommandsCached = false;
+            allowMultipleCommands = true;
             executedCommandCount = 0;
             failedCommandCount = 0;
         }
@@ -52,21 +54,21 @@ namespace Anarkila.DeveloperConsole {
 
             bool success = false;
 
-            // Does input constain "&"
+            // Does input contains character "&"
             var constainsAnd = input.Contains(ConsoleConstants.AND);
 
-            // Test single command first
-            success = ExecuteCommand(input, constainsAnd);
+            // Execute single command
+            if (!constainsAnd || !allowMultipleCommands) {
+                success = ExecuteCommand(input, constainsAnd);
+            }
 
-            // If single command failed then test multi but only if input contains "&"
-            if (!success && constainsAnd && ConsoleManager.AllowMultipleCommands()) {
+            // If single command failed then test multi but only if input contains character "&"
+            if (!success && constainsAnd && allowMultipleCommands) {
                 var commandList = ParseMultipleCommands(input);
-
                 if (commandList == null || commandList.Count == 0) return success;
 
                 for (int i = 0; i < commandList.Count; i++) {
                     success = ExecuteCommand(commandList[i]);
-
                     // uncomment this to return after command have failed.
                     //if (!success) return success;
                 }
@@ -547,8 +549,7 @@ namespace Anarkila.DeveloperConsole {
             // Loop through all different script names
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
             // loop though those scripts and all commands to find MonoBehaviour references.
-            // these loops look scary but this is reasonable fast (approx. ~1.2 ms for example scenes)
-
+            // these loops look scary but this is reasonable fast
             for (int i = 0; i < scriptnames.Count; i++) {
                 Type type = Type.GetType(scriptnames[i]);
                 MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
@@ -608,6 +609,7 @@ namespace Anarkila.DeveloperConsole {
         /// Generate needed console lists
         /// </summary>
         public static void UpdateLists() {
+            allowMultipleCommands = ConsoleManager.AllowMultipleCommands();
 
             commandStringsWithInfos.Clear();
             consoleCommandList.Clear();
