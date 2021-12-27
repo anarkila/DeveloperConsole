@@ -5141,7 +5141,7 @@ MonoBehaviour:
     minimalGUIBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
     minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     includeConsoleInFinalBuild: 0
-    registerStaticCommandAttributesOnly: 0
+    registerStaticCommandsOnly: 0
     scanAllAssemblies: 0
     commandsAreCaseSensetive: 0
     allowGUIChangeRuntime: 1
