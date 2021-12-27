@@ -252,7 +252,7 @@ namespace Anarkila.DeveloperConsole {
                 return;
             }
 
-            if (script != null && ConsoleManager.GetSettings().registerStaticCommandAttributesOnly) return;
+            if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
             if (debugCommandOnly && !Debug.isDebugBuild) return;
 
             if (defaultValue == null) defaultValue = "";

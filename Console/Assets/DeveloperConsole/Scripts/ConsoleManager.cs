@@ -275,7 +275,7 @@ namespace Anarkila.DeveloperConsole {
             timer.Start();
 
             List<ConsoleCommandData> commands = null;
-            bool registerStaticOnly = settings.registerStaticCommandAttributesOnly;
+            bool registerStaticOnly = settings.registerStaticCommandsOnly;
 
             if (registerStaticOnly && CommandDatabase.StaticCommandsRegistered()) {
                 timer.Stop();
@@ -305,12 +305,12 @@ namespace Anarkila.DeveloperConsole {
             }
 
             var time = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
-            string staticOnly = string.Empty;
+            string suffix = ".";
 
             if (settings.printInitializationTime) {
 #if UNITY_EDITOR
-                if (settings.registerStaticCommandAttributesOnly) {
-                    staticOnly = ConsoleConstants.REGISTEREDSTATIC;
+                if (settings.registerStaticCommandsOnly) {
+                    suffix = ConsoleConstants.REGISTEREDSTATIC;
                 }
 #endif
                 string message = ConsoleConstants.CONSOLEINIT;
@@ -318,7 +318,7 @@ namespace Anarkila.DeveloperConsole {
                 message += string.Format("Initialization took: {0} ms {1}", partTwo, staticOnly);
                 ConsoleEvents.Log(message);
 #else
-                message += string.Format("Initialization took {0} ms {1}", time, staticOnly);
+                message += string.Format("Initialization took {0} ms{1}", time, suffix);
                 ConsoleEvents.Log(message);
 #endif
             }
