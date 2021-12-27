@@ -36,7 +36,7 @@ namespace Anarkila.DeveloperConsole {
         // In the example scenes, all 3 cubes get disabled/enabled when this is called.
         // if you were to use this same command elsewhere (different class or method),
         // Developer Console would log an warning (Editor only)
-        [ConsoleCommand("cube.enabled", "false")]
+        [ConsoleCommand("cube_enabled", "false")]
         private void EnableCubeRotation(bool enabled) {
             this.enabled = enabled;
         }
