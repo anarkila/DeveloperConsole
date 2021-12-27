@@ -165,7 +165,6 @@ namespace Anarkila.DeveloperConsole {
                 temp.message = text;
                 temp.messageColor = textColor;
                 messagesBeforeInitDone.Add(temp);
-                //Debug.Log(text);
                 return;
             }
 

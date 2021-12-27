@@ -304,7 +304,7 @@ namespace Anarkila.DeveloperConsole {
                 CommandDatabase.UpdateLists();
             }
 
-            var partTwo = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
+            var time = Math.Round(timer.Elapsed.TotalMilliseconds, 1);
             string staticOnly = string.Empty;
 
             if (settings.printInitializationTime) {
@@ -318,8 +318,7 @@ namespace Anarkila.DeveloperConsole {
                 message += string.Format("Initialization took: {0} ms {1}", partTwo, staticOnly);
                 ConsoleEvents.Log(message);
 #else
-                message += string.Format("Initialization took {0} ms {1}", partTwo, staticOnly);
-                //message += string.Format("Initialization took {0} ms.", partTwo);
+                message += string.Format("Initialization took {0} ms {1}", time, staticOnly);
                 ConsoleEvents.Log(message);
 #endif
             }
