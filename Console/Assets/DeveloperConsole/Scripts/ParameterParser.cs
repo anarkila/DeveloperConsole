@@ -88,7 +88,7 @@ namespace Anarkila.DeveloperConsole {
                 bool containsUnityType = ConsoleConstants.UnityTypes.Contains(type[i]);
 
                 if (InBounds(i, input.Length)) {
-                    parameters[i] = containsUnityType ? ParseUnityTypes(input[i], type[i]) : ParseBuiltInTypes(input[i], type[i], raw);
+                    parameters[i] = containsUnityType ? ParseUnityTypes(raw, type[i]) : ParseBuiltInTypes(input[i], type[i], raw);
                 }
                 else if (data.optionalParameter[i]) {
                     parameters[i] = null;
