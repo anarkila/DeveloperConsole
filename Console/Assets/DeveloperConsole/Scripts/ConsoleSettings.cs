@@ -132,11 +132,11 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print commands info text with 'help' command")]
         public bool printCommandInfoTexts = true;
 
-        [Tooltip("Print Developer Console debug info like startup time etc.")]
-        public bool printInitializationTime = true;
-
         [Tooltip("Whether to print loaded scene name and LoadSceneMode")]
         public bool printLoadedSceneName = true;
+
+        [Tooltip("Print Developer Console debug info like startup time etc.")]
+        public bool printInitializationTime = false;
 
 
         [Header("KeyBindings")]

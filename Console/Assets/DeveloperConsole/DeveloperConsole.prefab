@@ -5161,8 +5161,8 @@ MonoBehaviour:
     printUnrecognizedCommandInfo: 1
     printCommandsAlphabeticalOrder: 1
     printCommandInfoTexts: 1
-    printInitializationTime: 1
     printLoadedSceneName: 1
+    printInitializationTime: 0
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273

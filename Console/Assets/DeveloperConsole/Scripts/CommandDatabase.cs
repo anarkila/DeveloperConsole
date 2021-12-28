@@ -253,31 +253,12 @@ namespace Anarkila.DeveloperConsole {
             if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
             if (debugCommandOnly && !Debug.isDebugBuild) return;
 
-            if (defaultValue == null) defaultValue = "";
-
             MethodInfo methodInfo = null;
             methodInfo = script.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             if (methodInfo == null) return;
 
-            bool isStatic = methodInfo.IsStatic;
-
-            bool isCoroutine = false;
-            isCoroutine = methodInfo.ToString().Contains(ConsoleConstants.IENUMERATOR);
-
-            var methodParams = methodInfo.GetParameters();
-            Type[] paraType = new Type[methodParams.Length];
-            bool[] optionalParameters = new bool[methodParams.Length];
-
-            for (int i = 0; i < methodParams.Length; i++) {
-                paraType[i] = methodParams[i].ParameterType;
-                optionalParameters[i] = methodParams[i].IsOptional;
-            }
-
-            if (CheckForDuplicates(consoleCommands, paraType, command, methodInfo.DeclaringType.ToString(), methodName)) {
-                return;
-            }
-
-            var data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameters, isHiddenCommand, hiddenCommandMinimalGUI);
+            var data = CreateCommandData(methodInfo, script, methodName, command, defaultValue, info, isHiddenCommand, hiddenCommandMinimalGUI);
+            if (data == null) return;
 
             if (ConsoleManager.IsConsoleInitialized()) {
                 consoleCommands.Add(data);
@@ -312,18 +293,18 @@ namespace Anarkila.DeveloperConsole {
             }
 
             bool foundAny = false;
-            var toBeRemoved = new List<ConsoleCommandData>();
+            var toRemove = new List<ConsoleCommandData>();
             for (int i = 0; i < consoleCommands.Count; i++) {
                 if (command == consoleCommands[i].commandName) {
-                    toBeRemoved.Add(consoleCommands[i]);
+                    toRemove.Add(consoleCommands[i]);
                     foundAny = true;
                 }
             }
 
-            for (int i = 0; i < toBeRemoved.Count; i++) {
-                consoleCommands.Remove(toBeRemoved[i]);
-                if (toBeRemoved[i].isStaticMethod) {
-                    staticCommands.Remove(toBeRemoved[i]);
+            for (int i = 0; i < toRemove.Count; i++) {
+                consoleCommands.Remove(toRemove[i]);
+                if (toRemove[i].isStaticMethod) {
+                    staticCommands.Remove(toRemove[i]);
                 }
             }
 
@@ -357,10 +338,9 @@ namespace Anarkila.DeveloperConsole {
             }
 
             var commandList = new List<ConsoleCommandData>(64);
-
-            // Non-Linq way. This is a bit faster.
             var methods = GetAllAttributesFromAssembly(flags, scanAllAssemblies);
 
+            // Loop through all methods with [ConsoleCommand()] attributes
             foreach (var method in methods) {
 
                 if (method.IsStatic && staticCommandsCached) continue;
@@ -368,79 +348,20 @@ namespace Anarkila.DeveloperConsole {
                 //ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
                 ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false)[0];
 
-                if (attribute == null) continue; // this should never happen, but just in case.
+                if (attribute == null || attribute.IsDebugOnlyCommand() && !isDebugBuild) continue;
 
-                if (attribute.IsDebugOnlyCommand() && !isDebugBuild) continue;
+                var data = CreateCommandData(method, null, method.Name,
+                    attribute.GetCommandName(), attribute.GetValue(),
+                    attribute.GetInfo(), attribute.IsHiddenCommand(),
+                    attribute.IsHiddenMinimalGUI());
 
-                var commandName = attribute.GetCommandName();
-                var defaultValue = attribute.GetValue();
-                var hiddenCommand = attribute.IsHiddenCommand();
-                var hiddenMinimalGUI = attribute.IsHiddenMinimalGUI();
-                var info = attribute.GetInfo();
+                if (data == null) continue;
 
-                var className = method.DeclaringType;
-                var methodName = method.ToString();
-
-                if (string.IsNullOrEmpty(commandName)) {
-#if UNITY_EDITOR
-                    // this warning means you have method with [ConsoleCommand(null)] or [ConsoleCommand("")] somewhere.
-                    // Below message should print the script and method where this is located.
-                    // This message won't show up in Console window because this Debug.Log is called from another thread (expect in WebGL)
-                    Debug.Log(string.Format("{0}.{1} [ConsoleCommand] name is empty or null! Please assign different command name.", className, methodName));
-#endif
-                    continue;
-                }
-
-                if (commandName.Contains(ConsoleConstants.AND) || commandName.Contains(ConsoleConstants.COMMA) || commandName.Contains(ConsoleConstants.SPACE)) {
-#if UNITY_EDITOR
-                    // [ConsoleCommand()] cannot contain characters '&' or ',' (comma) because
-                    // character '&' is used to parse multiple commands
-                    // and character ',' is used to parse multiple parameters
-                    Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain whitespace, '&' or comma. Rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, commandName, className, methodName));
-#endif
-                    continue;
-                }
-
-                // Get ConsoleCommand method parameters
-                ParameterInfo[] parameters = method.GetParameters();
-
-                Type[] paraType = new Type[parameters.Length];
-                bool[] optionalParameters = new bool[parameters.Length];
-                for (int i = 0; i < parameters.Length; i++) {
-                    paraType[i] = parameters[i].ParameterType;
-                    optionalParameters[i] = parameters[i].IsOptional;
-                }
-
-                // if method doesn't take parameter and it was given some default value, don't show it.
-                if (parameters.Length == 0 && !string.IsNullOrWhiteSpace(defaultValue) || defaultValue == null) {
-                    defaultValue = "";
-                }
-
-                bool isCoroutine = false;
-                isCoroutine = methodName.Contains(ConsoleConstants.IENUMERATOR);
-
-                methodName = methodName.Substring(methodName.IndexOf(ConsoleConstants.SPACE) + 1);
-                methodName = methodName.Substring(0, methodName.IndexOf(ConsoleConstants.OPENPARENTHESIS));
-
-                if (!ParameterParser.IsSupportedType(parameters, isCoroutine, methodName, commandName, className)) {
-                    continue;
-                }
-
-                bool isStatic = method.IsStatic;
-                Type type = parameters.Length == 0 ? null : parameters[0].ParameterType;
-
-                string classNameString = className.ToString();
-                if (CheckForDuplicates(commandList, paraType, commandName, classNameString, methodName)) {
-                    continue;
-                }
-
-                var newData = new ConsoleCommandData(null, methodName, commandName, defaultValue, info, paraType, isStatic, method, isCoroutine, optionalParameters, hiddenCommand, hiddenMinimalGUI, classNameString);
-
-                if (isStatic) {
-                    staticCommands.Add(newData);
+                if (method.IsStatic) {
+                    staticCommands.Add(data);
                 }
                 else {
-                    commandList.Add(newData);
+                    commandList.Add(data);
                 }
             }
 
@@ -451,6 +372,60 @@ namespace Anarkila.DeveloperConsole {
             staticCommandsCached = true;
 
             return commandList;
+        }
+
+        /// <summary>
+        /// Create ConsoleCommandData data.
+        /// </summary>
+        private static ConsoleCommandData CreateCommandData(MethodInfo methodInfo, MonoBehaviour script, string methodName, string command, string defaultValue, string info, bool isHiddenCommand, bool hiddenCommandMinimalGUI) {
+            if (methodInfo == null) return null;
+
+            Type className = methodInfo.DeclaringType;
+            string classNameString = className.ToString();
+
+            if (string.IsNullOrEmpty(command)) {
+#if UNITY_EDITOR
+                // this warning means you have method with [ConsoleCommand(null)] or [ConsoleCommand("")] somewhere.
+                // Below message should print the script and method where this is located.
+                Debug.Log(string.Format("{0}{1}.{2} [ConsoleCommand] name is empty or null! Please assign different command name.", ConsoleConstants.EDITORWARNING, classNameString, methodName));
+#endif
+                return null;
+            }
+
+            if (command.Contains(ConsoleConstants.AND) || command.Contains(ConsoleConstants.COMMA) || command.Contains(ConsoleConstants.SPACE)) {
+#if UNITY_EDITOR
+                // [ConsoleCommand()] cannot contain characters '&' or ',' (comma) because
+                // character '&' is used to parse multiple commands
+                // and character ',' (comma) is used to parse multiple parameters
+                Debug.Log(string.Format("{0}[ConsoleCommand] cannot contain whitespace, '&' or comma. Rename command [{1}] in {2}{3}", ConsoleConstants.EDITORWARNING, command, classNameString, methodName));
+#endif
+                return null;
+            }
+
+            bool isStatic = methodInfo.IsStatic;
+            bool isCoroutine = methodInfo.ToString().Contains(ConsoleConstants.IENUMERATOR);
+            ParameterInfo[] methodParams = methodInfo.GetParameters();
+            Type[] paraType = new Type[methodParams.Length];
+            bool[] optionalParameters = new bool[methodParams.Length];
+
+            for (int i = 0; i < methodParams.Length; i++) {
+                paraType[i] = methodParams[i].ParameterType;
+                optionalParameters[i] = methodParams[i].IsOptional;
+            }
+
+            if (!ParameterParser.IsSupportedType(methodParams, isCoroutine, methodName, command, className)) {
+                return null;
+            }
+
+            if (CheckForDuplicates(consoleCommands, paraType, command, classNameString, methodName)) {
+                return null;
+            }
+
+            if (defaultValue == null) defaultValue = "";
+
+            ConsoleCommandData data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameters, isHiddenCommand, hiddenCommandMinimalGUI, classNameString);
+
+            return data;
         }
 
         /// <summary>
@@ -466,7 +441,7 @@ namespace Anarkila.DeveloperConsole {
                 // WebGL doesn't support Parallel.For
                 parallel = false;
 #endif
-            // "Scanning" all assemblies is slow
+            // Looping through all assemblies is slow
             if (scanAllAssemblies) {
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -530,7 +505,6 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Register MonoBehaviour commands
         /// </summary>
-        /// <param name="commands"></param>
         public static void RegisterMonoBehaviourCommands(List<ConsoleCommandData> commands) {
 
             // Find all different script names
