@@ -11,7 +11,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Print all available console commands
         /// </summary>
-        [ConsoleCommand("help", hiddenCommandMinimalGUI:true)]
+        [ConsoleCommand("help", info: "Print all available commands", hiddenCommandMinimalGUI:true)]
         private static void Help() {
             CommandDatabase.PrintAllCommands();
         }
@@ -109,7 +109,7 @@ namespace Anarkila.DeveloperConsole {
         /// You can call this programmatically from anywhere with the same below method: 
         /// Console.LogEmpty();
         /// </summary>
-        [ConsoleCommand("empty", debugOnlyCommand: true)]
+        [ConsoleCommand("empty", info: "Print empty line", debugOnlyCommand: true)]
         private static void LogEmpty() {
             Console.LogEmpty();
         }
