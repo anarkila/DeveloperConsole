@@ -34,11 +34,11 @@ public class ExampleScript : MonoBehaviour {
        Debug.Log(string.Format("Called 'test_int' with value: {0} from Console!", i));
     }
 
-     [ConsoleCommand("test_multi_int")]
-    private void TestMultiInt(int i, int j) {
+     [ConsoleCommand("test_multi")]
+    private void TestMulti(int i, float f) {
        // multi parameter allowed types:
        // int, float, string, bool, double, char
-       Debug.Log(string.Format("Called 'test_multi_int' with value: {0} and {1} from Console!", i, j));
+       Debug.Log(string.Format("Called 'test_multi' with value: {0} and {1} from Console!", i, f));
     }
 }
 ```
@@ -78,15 +78,13 @@ Developer Console comes with few commands by default.
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
 * ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
-- ``empty`` - Log empty line to console. This command is Editor only by default.
+- ``empty`` - Log empty line to console. This command is Editor only.
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
 ``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red);`` with color.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also output to Developer Console.
-
-By default Developer Console pools 150 messages and once 150 messages has been reached, messages will start to recycle from the beginning.
 
 ## Notes
 - Requires Unity 2019 or later
