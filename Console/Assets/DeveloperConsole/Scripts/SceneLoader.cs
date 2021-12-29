@@ -47,7 +47,7 @@ namespace Anarkila.DeveloperConsole {
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             if (index > sceneCount || index < 0) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
+                Console.Log(string.Format("Scene index: [{0}] doesn't exist!", index));
 #endif
                 return;
             }
