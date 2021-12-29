@@ -12,7 +12,7 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG)
 
 ## Getting Started
-1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.3/DeveloperConsole_0.8.3.unitypackage) into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.4/DeveloperConsole_0.8.4.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
 3. Add ``[ConsoleCommand()]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
@@ -57,7 +57,7 @@ public class ExampleScript : MonoBehaviour {
 - No domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
-- Log messages into Console Window (Direct, ``Debug.Log`` and ``Debug.LogError``)
+- Log messages into Console Window (directly, ``Debug.Log`` and ``Debug.LogError``)
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
 - GUI themes (Dark, Red or Custom)
@@ -78,7 +78,7 @@ Developer Console comes with few commands by default.
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
 * ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
-- ``empty`` - Log empty line to console. This command is Editor only.
+* ``empty`` - Log empty line to console. This command is Editor only.
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
@@ -95,3 +95,4 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 ## TODO
 - Ability to generate grid or list of buttons that can fire commands
 - Input prediction improvements
+- Mobile support
