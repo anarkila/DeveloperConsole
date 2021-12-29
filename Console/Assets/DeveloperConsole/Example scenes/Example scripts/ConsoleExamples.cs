@@ -125,8 +125,8 @@ namespace Anarkila.DeveloperConsole {
         // Coroutines are limited to one argument
         [ConsoleCommand("test_coroutine_float")]
         private IEnumerator TestCoroutineInt(float time) {
-            yield return new WaitForSeconds(time);
-            Debug.Log("Testing Coroutine with parameter: " + time);
+            yield return new WaitForSeconds(0.1f);
+            Debug.Log("Called Coroutine with parameter: " + time);
         }
 
         [ConsoleCommand("test_error")]
