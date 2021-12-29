@@ -44,13 +44,10 @@ namespace Anarkila.DeveloperConsole {
             GetSettings();
 
             if (messagesBeforeInitDone.Count != 0) {
-                // Add slight delay before logging messages
-                ConsoleUtils.DelayedCall(() => {
                     for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
                         ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp: true);
                     }
                     messagesBeforeInitDone.Clear();
-                }, 0.1f);
             }
         }
 

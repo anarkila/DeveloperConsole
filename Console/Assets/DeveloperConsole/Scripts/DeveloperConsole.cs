@@ -2,7 +2,7 @@
 
 namespace Anarkila.DeveloperConsole {
 
-    [DefaultExecutionOrder(-10000)]
+    [DefaultExecutionOrder(-9999)]
     public class DeveloperConsole : MonoBehaviour {
 
         public ConsoleSettings settings;

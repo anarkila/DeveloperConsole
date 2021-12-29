@@ -11,7 +11,7 @@ namespace Anarkila.DeveloperConsole {
     /// it will start to recycle messages from the beginning.
     /// Increase maxMessageCount setting in inspector if you want to increase this value
     /// </summary>
-    [DefaultExecutionOrder(-9999)]
+    [DefaultExecutionOrder(-9998)]
     public class ConsoleMessageHandler : MonoBehaviour {
 
         public enum PoolTag {

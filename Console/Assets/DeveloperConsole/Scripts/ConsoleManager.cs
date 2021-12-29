@@ -10,12 +10,14 @@ namespace Anarkila.DeveloperConsole {
     public static class ConsoleManager {
 
         private static ConsoleSettings settings = new ConsoleSettings();
+        private static bool registeredSceneCallback = false;
         private static bool showInputPredictions = true;
         private static bool consoleInitialized = false;
         private static int sceneChangeCount = 0;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
         private static bool consoleIsOpen;
+       
 
         /// <summary>
         /// Initilize Developer Console
@@ -37,13 +39,6 @@ namespace Anarkila.DeveloperConsole {
             MessagePrinter.Init();
             SetSettings(settings);
             RegisterCommands(logMessage: false);
-
-            // Register to sceneloaded callback from UnityEngine after small delay
-            // otherwise RegisterCommand might get called twice.
-            ConsoleUtils.DelayedCall(() =>
-            {
-                SceneManager.sceneLoaded += SceneLoadCallback;
-            }, 0.2f);
 
             initDone = true;
         }
@@ -74,6 +69,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             // for domain reload purposes
+            registeredSceneCallback = false;
             showInputPredictions = true;
             consoleInitialized = false;
             consoleIsOpen = false;
@@ -329,8 +325,26 @@ namespace Anarkila.DeveloperConsole {
 
             consoleInitialized = true;
 
+            var delayUtil = DelayHelper.GetInstance();
+            if (delayUtil != null) {
+                // Add 10 frame artificial delay before calling console is initialized
+                delayUtil.DelayedCallFrames(NotifyConsoleIsReady, 10);
+            }
+            else {
+                // just in case DelayHelper Instance is null for whatever reason, let's call this without delay
+                // this might not print some messages that were called on Awake/Start but otherwise console should work fine.
+                NotifyConsoleIsReady();
+            }
+        }
+
+        private static void NotifyConsoleIsReady() {
             ConsoleEvents.ConsoleInitialized();
             ConsoleEvents.ListsChanged();
+
+            if (!registeredSceneCallback) {
+                SceneManager.sceneLoaded += SceneLoadCallback;
+                registeredSceneCallback = true;
+            }
         }
     }
 }

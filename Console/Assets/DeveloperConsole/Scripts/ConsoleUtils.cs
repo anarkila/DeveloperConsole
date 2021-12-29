@@ -86,14 +86,5 @@ namespace Anarkila.DeveloperConsole {
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         }
-
-
-        public static async void DelayedCall(Action callback, float timeInSeconds) {
-            if (callback == null) return;
-
-            int timeInMilliSeconds = (int)(timeInSeconds * 1000);
-            await Task.Delay(timeInMilliSeconds);
-            callback.Invoke();
-        }
     }
 }
