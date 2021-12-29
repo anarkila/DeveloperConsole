@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "Console",
+"productVersion": "0.1",
+"dataUrl": "0.8.4.data.unityweb",
+"wasmCodeUrl": "0.8.4.wasm.code.unityweb",
+"wasmFrameworkUrl": "0.8.4.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.16f1"
+}
