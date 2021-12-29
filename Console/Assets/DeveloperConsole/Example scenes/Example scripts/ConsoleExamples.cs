@@ -57,13 +57,6 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test_multi_opt' successfully with value: {0} and {1} from Console!", i, j));
         }
 
-        // this command takes in int, float and double where each is separated by comma
-        // 'test_nums {int}, {float}, {double}
-        [ConsoleCommand("test_nums")]
-        private void TestNums(int i, float f, double d) {
-            Debug.Log(string.Format("Called command 'test_nums' successfully with value: {0}, {1} and {2} from Console!", i, f, d));
-        }
-
         [ConsoleCommand("test_float", "3.7")]
         private void TestFloat(float f) {
             Debug.Log(string.Format("Called command 'test_float' successfully with value: {0} from Console!", f));
