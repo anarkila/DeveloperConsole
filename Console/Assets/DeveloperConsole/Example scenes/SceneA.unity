@@ -1201,7 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df44416869a79b459982da5958d037a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1710430002
+--- !u!1001 &1596003959
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1213,11 +1213,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeveloperConsole
       objectReference: {fileID: 0}
-    - target: {fileID: 5145576890018042409, guid: b5fbf8417053cf343a54a8bfb1069a55,
-        type: 3}
-      propertyPath: settings.printInitializationTime
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_RootOrder
@@ -1226,7 +1221,7 @@ PrefabInstance:
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.9101562
+      value: -2.910233
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
@@ -1246,17 +1241,17 @@ PrefabInstance:
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5145576890018042410, guid: b5fbf8417053cf343a54a8bfb1069a55,
         type: 3}
@@ -1277,11 +1272,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577536551770996436, guid: b5fbf8417053cf343a54a8bfb1069a55,
-        type: 3}
-      propertyPath: playButtonTime
-      value: 637764009781690210
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5fbf8417053cf343a54a8bfb1069a55, type: 3}
