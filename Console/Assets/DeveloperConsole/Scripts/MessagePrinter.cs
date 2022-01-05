@@ -17,7 +17,7 @@ namespace Anarkila.DeveloperConsole {
         private static bool printMessageTimestamps = true;
         private static bool consoleInitialized = false;
         private static bool initDone = false;
-        private static int messageCount;
+        private static long messageCount;
 
         /// <summary>
         /// Init Message Printer
@@ -44,10 +44,10 @@ namespace Anarkila.DeveloperConsole {
             GetSettings();
 
             if (messagesBeforeInitDone.Count != 0) {
-                    for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
-                        ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp: true);
-                    }
-                    messagesBeforeInitDone.Clear();
+                for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
+                    ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp: true);
+                }
+                messagesBeforeInitDone.Clear();
             }
         }
 
@@ -121,10 +121,14 @@ namespace Anarkila.DeveloperConsole {
                 case ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly:
 #if UNITY_EDITOR
                     return string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, message, stackTrace, ConsoleConstants.COLOR_END);
+#else
+                    return message;
 #endif
                 case ConsoleLogOptions.LogWithExpectionsEditorOnly:
 #if UNITY_EDITOR
                     return string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, message, ConsoleConstants.COLOR_END);
+#else
+                    return message;
 #endif
                 default:
                     return message;

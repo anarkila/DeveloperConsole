@@ -35,8 +35,8 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
-            ConsoleEvents.RegisterListsChangedEvent += GetLists;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
+            ConsoleEvents.RegisterListsChangedEvent += GetLists;
         }
 
         private void Start() {
@@ -50,8 +50,8 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
-            ConsoleEvents.RegisterListsChangedEvent -= GetLists;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
+            ConsoleEvents.RegisterListsChangedEvent -= GetLists;
         }
 
         private void SetInputfieldText(string input) {

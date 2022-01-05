@@ -11,7 +11,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Print all available console commands
         /// </summary>
-        [ConsoleCommand("help", info: "Print all available commands", hiddenCommandMinimalGUI:true)]
+        [ConsoleCommand("help", info: "Print all available commands", hiddenCommandMinimalGUI: true)]
         private static void Help() {
             CommandDatabase.PrintAllCommands();
         }
@@ -19,7 +19,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Quit Application
         /// </summary>
-        [ConsoleCommand("quit", info:"Quit application")]
+        [ConsoleCommand("quit", info: "Quit application")]
         private static void QuitApplication() {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -55,10 +55,14 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Set application target frame rate
         /// </summary>
-        [ConsoleCommand("max_fps", info:"Set application target frame rate")]
+        [ConsoleCommand("max_fps", info: "Set application target frame rate")]
         private static void SetTargetFrameRate(int fps) {
             Application.targetFrameRate = fps;
         }
+
+
+
+        // --- All below commands are Debug only commands which work in Editor and Development build ---
 
         /// <summary>
         /// Load scene by build index
@@ -101,18 +105,14 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.UnloadSceneByIndex(index);
         }
 
-
-#if UNITY_EDITOR
         /// <summary>
-        /// Log empty line to console (Editor only command)
-        /// This is for visibility help.
-        /// You can call this programmatically from anywhere with the same below method: 
+        /// Log empty line to console (visibility help)
+        /// You can call this programmatically from anywhere with:
         /// Console.LogEmpty();
         /// </summary>
         [ConsoleCommand("empty", info: "Print empty line", debugOnlyCommand: true)]
         private static void LogEmpty() {
             Console.LogEmpty();
         }
-#endif
     }
 }

@@ -13,12 +13,10 @@ namespace Anarkila.DeveloperConsole {
         private static bool registeredSceneCallback = false;
         private static bool showInputPredictions = true;
         private static bool consoleInitialized = false;
-        private static int sceneChangeCount = 0;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
         private static bool consoleIsOpen;
        
-
         /// <summary>
         /// Initilize Developer Console
         /// </summary>
@@ -35,7 +33,6 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
 #endif
-
             MessagePrinter.Init();
             SetSettings(settings);
             RegisterCommands(logMessage: false);
@@ -73,12 +70,11 @@ namespace Anarkila.DeveloperConsole {
             showInputPredictions = true;
             consoleInitialized = false;
             consoleIsOpen = false;
-            sceneChangeCount = 0;
             initDone = false;
 #endif
         }
 
-        private static void ConsoleDestroyed(float obj) {
+        private static void ConsoleDestroyed(float time) {
             OnDestroy();
         }
 
@@ -265,8 +261,6 @@ namespace Anarkila.DeveloperConsole {
                 Console.Log(string.Format("Loaded Scene: [{0}]", sceneName));
             }
 
-            ++sceneChangeCount;
-
             var timer = new System.Diagnostics.Stopwatch();
             timer.Start();
 
@@ -332,7 +326,10 @@ namespace Anarkila.DeveloperConsole {
             }
             else {
                 // just in case DelayHelper Instance is null for whatever reason, let's call this without delay
-                // this might not print some messages that were called on Awake/Start but otherwise console should work fine.
+                // this might cause to not print some messages that were called on Awake/Start but otherwise console should work fine.
+#if UNITY_EDITOR
+                Debug.Log("DelayHelper Instance is null. Initializing without delay. You might miss some messages that were called in Awake/Start methods.");
+#endif
                 NotifyConsoleIsReady();
             }
         }

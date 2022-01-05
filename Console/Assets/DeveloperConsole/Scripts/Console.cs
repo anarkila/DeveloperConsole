@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// Class to interact with Developer Console from anywhere
+/// static class to interact with Developer Console from anywhere
 /// </summary>
 public static class Console {
 
@@ -171,6 +171,7 @@ public static class Console {
 
         ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChanged;
         ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleInitialized;
+
         Application.quitting += () => ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChanged;
         Application.quitting += () => ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleInitialized;
     }

@@ -46,12 +46,12 @@ namespace Anarkila.DeveloperConsole {
             // Don't print logs if ConsoleLogOptions.DontPrintLogs enum is selected
             if (logOption == ConsoleLogOptions.DontPrintLogs) {
                 this.enabled = false;
-                UnRegister();
+                Application.logMessageReceivedThreaded -= UnityLogEventThreaded;
             }
         }
 
         private void OnDestroy() {
-            UnRegister();
+            Application.logMessageReceivedThreaded -= UnityLogEventThreaded;
             Instance = null;
 
 #if UNITY_EDITOR
@@ -61,10 +61,6 @@ namespace Anarkila.DeveloperConsole {
             messages.Clear();
             messagesQueued = false;
 #endif
-        }
-
-        private void UnRegister() {
-            Application.logMessageReceivedThreaded -= UnityLogEventThreaded;
         }
 
         private void UnityLogEventThreaded(string message, string stackTrace, LogType type) {

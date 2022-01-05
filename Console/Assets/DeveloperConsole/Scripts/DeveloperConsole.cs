@@ -66,9 +66,12 @@ namespace Anarkila.DeveloperConsole {
             Destroy(this.gameObject, time);
         }
 
-        // for no domain/scene reload purposes
-        private void OnApplicationQuit() {
+#if UNITY_EDITOR
+    // for no domain/scene reload purposes
+    private void OnApplicationQuit() {
             Instance = null;
         }
     }
+#endif
+
 }

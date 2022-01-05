@@ -153,6 +153,22 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
+
+        // If you need to start coroutine with multiple parameters
+        // make a normal method that starts the coroutine
+        // this is because CommandDatabase.cs starts coroutine
+        // by it's method name and that only takes in maximum of one parameter
+
+        /*[ConsoleCommand("test_coroutine_multi_int")]
+        private void StartCoroutine(int i, int j) {
+            StartCoroutine(CoroutineMultiInt(i, j));
+        }
+
+        private IEnumerator CoroutineMultiInt(int i, int j) {
+            yield return new WaitForSeconds(0.02f);
+            Debug.Log(string.Format("Called command 'test_coroutine_multi_int' successfully with value: {0} and {1} from Console!", i, j));
+        }*/
+
 #if UNITY_EDITOR
 #if !UNITY_WEBGL
         [ConsoleCommand("test_threadedlog")]

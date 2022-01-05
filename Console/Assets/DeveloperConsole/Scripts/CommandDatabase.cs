@@ -158,6 +158,11 @@ namespace Anarkila.DeveloperConsole {
 
                     if (consoleCommands[i].isCoroutine) {
                         var param = consoleCommands[i].parameters.Length == 0 ? null : parameters[0];
+
+                        // Starting coroutine by string limits argument count to one.
+                        // https://docs.unity3d.com/ScriptReference/MonoBehaviour.StartCoroutine.html
+                        // If you need to start coroutine with multiple parameters
+                        // make a normal method that starts the coroutine instead.
                         consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, param);
                         if (!executedCommands.Contains(input)) {
                             executedCommands.Add(input);
@@ -168,6 +173,8 @@ namespace Anarkila.DeveloperConsole {
 
                     if (consoleCommands[i].methodInfo == null) continue;
 
+                    // MethodInfo.Invoke is quite slow but it should be okay for this use case.
+                    // Commands are not called, or at least should not be called that often it to matter.
                     consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameters);
                     if (!executedCommands.Contains(input)) {
                         executedCommands.Add(input);
@@ -175,7 +182,7 @@ namespace Anarkila.DeveloperConsole {
                     success = true;
                 }
                 catch (ArgumentException e) {
-                    // Allow expection to be thrown so it can be printed to console (depending on the print setting).
+                    // Allow expection to be thrown so it can be printed to console (depending on the print setting)
                 }
                 finally {
                     ++executedCommandCount;

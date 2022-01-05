@@ -17,6 +17,9 @@ namespace Anarkila.DeveloperConsole {
             if (Instance == null) {
                 Instance = this;
             }
+            else {
+                Destroy(this);
+            }
         }
 
         /// <summary>
@@ -39,9 +42,11 @@ namespace Anarkila.DeveloperConsole {
             callback.Invoke();
         }
 
+#if UNITY_EDITOR
         // for no domain/scene reload purposes
         private void OnApplicationQuit() {
             Instance = null;
         }
     }
+#endif
 }

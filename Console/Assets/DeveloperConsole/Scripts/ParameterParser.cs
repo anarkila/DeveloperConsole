@@ -21,7 +21,6 @@ namespace Anarkila.DeveloperConsole {
             // Early return if method doesn't take in any parameters.
             if (parameters == null || parameters.Length == 0) return true;
 
-
             // limit max number of parameters to 10, this is artifical limit.
             if (parameters.Length >= 10) {
 #if UNITY_EDITOR
@@ -51,9 +50,7 @@ namespace Anarkila.DeveloperConsole {
 #endif
                         return false;
                     }
-
                 }
-
 
                 if (!ConsoleConstants.SupportedTypes.Contains(parameters[i].ParameterType)) {
 #if UNITY_EDITOR
@@ -171,25 +168,12 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private static object ParseBoolean(string input) {
-            input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
-            bool value;
-            if (bool.TryParse(input, out value)) {
-                return value;
-            }
-            else {
-                return null;
-            }
-        }
-
         private static object ParseStringArray(string input) {
             if (input == null) return input;
 
             string[] words = input.Split(ConsoleConstants.CHARCOMMA);
-
-            // Remove all whitespaces from start and end of the string
             for (int i = 0; i < words.Length; i++) {
-                words[i] = words[i].Trim();
+                words[i] = words[i].Trim();     // Remove all whitespaces from start and end of the string
             }
             return words as object;
         }
@@ -208,8 +192,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static object ParseFloat(string input) {
-            input = ConsoleUtils.DeleteCharacterF(input);
-            input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
+            input = ConsoleUtils.DeleteWhiteSpacesFromString(ConsoleUtils.DeleteCharacterF(input));
 
             float number;
             bool success = float.TryParse(input, out number);
@@ -221,8 +204,21 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
+        private static object ParseBoolean(string input) {
+            input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
+
+            bool success = bool.TryParse(input, out success);
+            if (success) {
+                return success;
+            }
+            else {
+                return null;
+            }
+        }
+
         private static object ParseDouble(string input) {
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
+
             double number;
             bool success = double.TryParse(input, out number);
             if (success) {
@@ -235,6 +231,7 @@ namespace Anarkila.DeveloperConsole {
 
         private static object ParseDecimal(string input) {
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
+
             decimal number;
             bool success = decimal.TryParse(input, out number);
             if (success) {
@@ -247,9 +244,10 @@ namespace Anarkila.DeveloperConsole {
 
         private static object ParseChar(string input) {
             input = ConsoleUtils.DeleteWhiteSpacesFromString(input);
+
             Char value;
-            bool result = Char.TryParse(input, out value);
-            if (result) {
+            bool success = Char.TryParse(input, out value);
+            if (success) {
                 return value;
             }
             else {

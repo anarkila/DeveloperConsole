@@ -6,8 +6,7 @@ namespace Anarkila.DeveloperConsole {
     public class SceneLoader : MonoBehaviour {
 
         private AsyncOperation asyncOperation;
-        private string loadedSceneName;
-        private bool loading = false;
+        private bool isLoading = false;
 
         private void Awake() {
             enabled = false; // disable this script on start
@@ -26,14 +25,14 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void Update() {
-            if (!loading || asyncOperation == null) return;
+            if (!isLoading || asyncOperation == null) return;
 
             var progress = asyncOperation.progress;
 
             if (progress >= 0.9f) {
                 asyncOperation.allowSceneActivation = true;
                 enabled = false;
-                loading = false;
+                isLoading = false;
             }
         }
 
@@ -42,7 +41,7 @@ namespace Anarkila.DeveloperConsole {
         /// scene must be included in Build settings!
         /// </summary>
         private void LoadSceneByIndexAsync(int index, LoadSceneMode mode) {
-            if (loading) return;
+            if (isLoading) return;
 
             int sceneCount = SceneManager.sceneCountInBuildSettings;
             if (index > sceneCount || index < 0) {
@@ -55,9 +54,8 @@ namespace Anarkila.DeveloperConsole {
             if (mode == LoadSceneMode.Single) {
                 ConsoleEvents.CloseConsole();
                 asyncOperation = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
-                loadedSceneName = SceneManager.GetSceneByBuildIndex(index).name;
                 asyncOperation.allowSceneActivation = false;
-                loading = true;
+                isLoading = true;
                 enabled = true;
             }
             else {
@@ -70,13 +68,12 @@ namespace Anarkila.DeveloperConsole {
         /// scene must be included in Build settings!
         /// </summary>
         private void LoadSceneByNameAsync(string sceneName) {
-            if (loading) return;
+            if (isLoading) return;
 
             sceneName = ConsoleUtils.DeleteWhiteSpace(sceneName);
             if (Application.CanStreamedLevelBeLoaded(sceneName)) {
                 ConsoleEvents.CloseConsole();
                 asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
-                loadedSceneName = sceneName;
             }
             else {
 #if UNITY_EDITOR
@@ -85,7 +82,7 @@ namespace Anarkila.DeveloperConsole {
                 return;
             }
             asyncOperation.allowSceneActivation = false;
-            loading = true;
+            isLoading = true;
             enabled = true;
         }
 

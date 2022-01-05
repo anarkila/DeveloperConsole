@@ -40,9 +40,9 @@ namespace Anarkila.DeveloperConsole {
         private void Start() {
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
+                resetWindowPositionOnEnable = settings.resetWindowPositionOnEnable;
                 forceInsideScreenBounds = settings.forceConsoleInsideScreenBounds;
                 allowWindowDragging = settings.allowConsoleWindowDrag;
-                resetWindowPositionOnEnable = settings.resetWindowPositionOnEnable;
             }
 
             defaultPosition = rectTransform.position;
