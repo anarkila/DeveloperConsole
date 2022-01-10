@@ -54,7 +54,7 @@ public class ExampleScript : MonoBehaviour {
 - Easy drag & drop setup
 - Mono and IL2CPP support
 - Desktop and WebGL support
-- No domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
+- domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log messages into Console Window (directly, ``Debug.Log`` and ``Debug.LogError``)
@@ -73,12 +73,15 @@ Developer Console comes with few commands by default.
 * ``reset`` - Reset Console window to default size and position (Large GUI only)
 * ``max_fps (int)`` - Set [Application.TargetFrameRate](https://docs.unity3d.com/ScriptReference/Application-targetFrameRate.html)
 * ``console_style`` - Toggle GUI style between Large and Minimal
+
+Editor and Development build only:
+
 * ``scene_loadindex (int)`` - Load scene asynchronously by build index
 * ``scene_addloadindex (int)`` - Load scene asynchronously additively by build index
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
 * ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
 * ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
-* ``empty`` - Log empty line to console. This command is Editor only.
+* ``empty`` - Log empty line to console
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
@@ -94,5 +97,4 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 
 ## TODO
 - Ability to generate grid or list of buttons that can fire commands
-- Input prediction improvements
 - Mobile support
