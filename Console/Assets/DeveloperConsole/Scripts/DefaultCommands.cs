@@ -52,6 +52,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.ResetConsole();
         }
 
+#if !UNITY_WEBGL
         /// <summary>
         /// Set application target frame rate
         /// </summary>
@@ -59,10 +60,11 @@ namespace Anarkila.DeveloperConsole {
         private static void SetTargetFrameRate(int fps) {
             Application.targetFrameRate = fps;
         }
-
+#endif
 
 
         // --- All below commands are Debug only commands which work in Editor and Development build ---
+        // to allow below commands in final build, remove debugOnlyCommand overloads
 
         /// <summary>
         /// Load scene by build index
