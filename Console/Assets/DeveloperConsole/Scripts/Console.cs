@@ -1,4 +1,5 @@
 ﻿using Anarkila.DeveloperConsole; // Developer Console namespace
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -159,6 +160,23 @@ public static class Console {
     /// </summary>
     public static void SetGUIStyle(ConsoleGUIStyle style) {
         ConsoleManager.SetGUIStyle(style);
+    }
+
+    /// <summary>
+    /// Get list of all current Console Commands
+    /// </summary>
+    /// <returns>returns list of all current console commands</returns>
+    public static List<string> GetAllConsoleCommands() {
+        return CommandDatabase.GetConsoleCommandList();
+    }
+
+
+    /// <summary>
+    /// Get list of all current Console Commands with info texts
+    /// </summary>
+    /// <returns>returns list of all current console commands with infos</returns>
+    public static List<string> GetAllConsoleCommandsWithInfos() {
+        return CommandDatabase.GetConsoleCommandsWithInfos();
     }
 
     /// <summary>
