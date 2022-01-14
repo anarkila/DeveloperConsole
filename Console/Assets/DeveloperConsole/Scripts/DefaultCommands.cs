@@ -37,6 +37,16 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
+        /// Open Console. This is hidden command.
+        /// This only exists so you can call: Console.ExecuteCommand("open");
+        /// Though it's faster to just call: Console.OpenConsole();
+        /// </summary>
+        [ConsoleCommand("open", hiddenCommand:true)]
+        private static void OpenConsole() {
+            ConsoleEvents.OpenConsole();
+        }
+
+        /// <summary>
         /// Clear all console messages
         /// </summary>
         [ConsoleCommand("clear", info: "Clear all messages")]

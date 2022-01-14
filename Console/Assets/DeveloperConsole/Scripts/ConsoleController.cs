@@ -5,13 +5,14 @@ namespace Anarkila.DeveloperConsole {
     /// <summary>
     /// This class handles enabling/disabling Developer Console
     /// </summary>
+    [DefaultExecutionOrder(-9997)]
     public class ConsoleController : MonoBehaviour {
 
         private ConsoleSettings settings;
         private GameObject minimalConsole;
         private GameObject largeConsole;
 
-        private void Start() {
+        private void Awake() {
             settings = ConsoleManager.GetSettings();
 
             minimalConsole = transform.GetChild(0).gameObject;

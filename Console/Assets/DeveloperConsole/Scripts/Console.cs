@@ -56,6 +56,14 @@ public static class Console {
     }
 
     /// <summary>
+    /// Execute console command
+    /// </summary>
+    /// <param name="command">Command and its parameter(s)</param>
+    public static void ExecuteCommand(string command) {
+        CommandDatabase.TryExecuteCommand(command);
+    }
+
+    /// <summary>
     /// Get Console state
     /// </summary>
     /// <returns>boolean</returns>
