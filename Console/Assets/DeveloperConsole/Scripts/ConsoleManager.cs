@@ -180,19 +180,18 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Toggle GUI style between Large and minimal
         /// </summary>
-        public static void ToggleInterfaceStyle(bool reOpen = true) {
+        public static void ToggleInterfaceStyle(bool openConsole = true) {
             if (!settings.allowGUIChangeRuntime) return;
 
-            if (reOpen) ConsoleEvents.CloseConsole();
-
-            if (settings.interfaceStyle == ConsoleGUIStyle.Large) {
-                ConsoleEvents.ChangeGUIStyle(ConsoleGUIStyle.Minimal);
+            var style = settings.interfaceStyle == ConsoleGUIStyle.Large ? ConsoleGUIStyle.Minimal : ConsoleGUIStyle.Large;
+            if (openConsole) {
+                ConsoleEvents.CloseConsole();
+                ConsoleEvents.ChangeGUIStyle(style);
+                ConsoleEvents.OpenConsole();
             }
             else {
-                ConsoleEvents.ChangeGUIStyle(ConsoleGUIStyle.Large);
+                ConsoleEvents.ChangeGUIStyle(style);
             }
-
-            if (reOpen) ConsoleEvents.OpenConsole();
         }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace Anarkila.DeveloperConsole {
             if (TryGetComponent(out TMP_InputField inputfield)) {
                 inputField = inputfield;
             }
+
 #if UNITY_EDITOR
             else {
                 Debug.Log(string.Format("Gameobject {0} doesn't have TMP_InputField component!", gameObject.name));
@@ -36,13 +37,15 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
-            ConsoleEvents.RegisterListsChangedEvent += GetLists;
+            ConsoleEvents.RegisterListsChangedEvent += UpdateLists;
         }
 
         private void Start() {
             if (inputField == null) return;
 
-            GetLists();
+            UpdateLists();
+
+            // Add onvaluechanged listener to Console inputfield
             inputField.onValueChanged.AddListener(PredictInput);
         }
 
@@ -51,7 +54,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
-            ConsoleEvents.RegisterListsChangedEvent -= GetLists;
+            ConsoleEvents.RegisterListsChangedEvent -= UpdateLists;
         }
 
         private void SetInputfieldText(string input) {
@@ -64,7 +67,7 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private void GetLists() {
+        private void UpdateLists() {
             commandsWithValues = CommandDatabase.GeCommandStringsWithDefaultValues();
             allConsoleCommands = CommandDatabase.GetConsoleCommandList();
             allowPredictions = ConsoleManager.ShowConsolePredictions();
@@ -184,16 +187,17 @@ namespace Anarkila.DeveloperConsole {
         private void PredictInput(string input) {
             if (inputField == null || !allowPredictions) return;
 
+            // if input is null, empty or contains '&', then don't show any predictions.
             if (string.IsNullOrEmpty(input) || input.Length == 0 || input.Contains(ConsoleConstants.AND)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
                 return;
             }
 
+            // if allowPredictionCheck is false (command filled with Tab delay)
+            // check if user deleted one char (default key: backspace)
+            // and allow prediction checking again
             if (!allowPredictionCheck) {
-                // if allowPredictionCheck is false (command filled with Tab)
-                // check if user deleted one char (backspace)
-                // and allow prediction checking again
                 int len = previousText.Length - input.Length;
                 if (len != 1) {
                     return;
@@ -201,12 +205,10 @@ namespace Anarkila.DeveloperConsole {
                 allowPredictionCheck = true;
             }
 
-
-            previousText = input;
-
             int smallestDistance = 10000;
             bool closeMatch = false;
             closestMatches.Clear();
+            previousText = input;
             predictions.Clear();
             bool valid = false;
             int index = 10000;
@@ -258,7 +260,9 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
+            // Send prediction event
             ConsoleEvents.Predictions(predictions);
+
             if (closeMatch || smallestDistance < commandsWithValues.Count && valid) {
                 currentSuggestion = commandsWithValues[index];
             }

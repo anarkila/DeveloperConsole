@@ -16,6 +16,7 @@ namespace Anarkila.DeveloperConsole {
         private KeyCode searchPreviousCommand = KeyCode.UpArrow;
         private KeyCode fillCommand = KeyCode.DownArrow;
         private KeyCode fillCommandAlt = KeyCode.Tab;
+
         private bool listenActivateKey = true;
         private bool consoleIsOpen = false;
        

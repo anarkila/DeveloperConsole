@@ -7,7 +7,7 @@ namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script collects rendering information in Unity Editor
-    /// if collectRenderInfoEditor setting is set to true.
+    /// if 'collectRenderInfoEditor' option is set to true.
     /// To print rendering information to console call 'debug.renderinfo'
     /// </summary>
     public class DebugRenderInfo : MonoBehaviour {

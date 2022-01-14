@@ -17,8 +17,8 @@ namespace Anarkila.DeveloperConsole {
         private static ListenThreadedLogs Instance;
 
         private static ConsoleLogOptions logOption = ConsoleLogOptions.DontPrintLogs;
-        private static List<string> messageBacklog = new List<string>(8);
-        private static List<string> messages = new List<string>(8);
+        private static List<string> messageBacklog = new List<string>();
+        private static List<string> messages = new List<string>();
         private static volatile bool messagesQueued = false;
 
         private void Awake() {
@@ -26,7 +26,6 @@ namespace Anarkila.DeveloperConsole {
             enabled = false;
             return;
 #endif
-
             if (Instance == null) {
                 Instance = this;
             }
