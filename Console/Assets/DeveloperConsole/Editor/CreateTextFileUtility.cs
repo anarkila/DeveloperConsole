@@ -45,15 +45,15 @@ namespace Anarkila.DeveloperConsole {
 
                 writer.WriteLine("Command name: " + commands[i].commandName);
 
-                string paramInfo;
-                if (commands[i].parameters == null) {
-                    paramInfo = "none";
+                if (commands[i].parameters == null || commands[i].parameters.Length == 0) {
+                    writer.WriteLine("Parameter: None");
                 }
                 else {
-                    paramInfo = commands[i].parameters.ToString();
+                    for (int k = 0; k < commands[i].parameters.Length; k++) {
+                        var x = string.Format("Parameter {0}: {1}", k + 1, commands[i].parameters[k].FullName);
+                        writer.WriteLine(x);
+                    }
                 }
-                writer.WriteLine("Parameter: " + paramInfo);
-
                 string defaultValue = commands[i].defaultValue;
                 if (!string.IsNullOrEmpty(defaultValue)) {
                     writer.WriteLine("Default value: " + defaultValue);
