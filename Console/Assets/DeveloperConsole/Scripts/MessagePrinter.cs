@@ -6,7 +6,7 @@ using System;
 
 namespace Anarkila.DeveloperConsole {
 
-#pragma warning disable 1998
+    #pragma warning disable 1998
     public static class MessagePrinter {
 
         private static Dictionary<LogType, string> LogTypes = new Dictionary<LogType, string>();

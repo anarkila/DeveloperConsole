@@ -649,7 +649,7 @@ namespace Anarkila.DeveloperConsole {
             var settings = ConsoleManager.GetSettings();
 
             if (settings != null) {
-                var commands = settings.printCommandInfoTexts ? GetCommandsWithInfos() : GetConsoleCommandList();
+                var commands = settings.printCommandInfoTexts ? GetConsoleCommandsWithInfos() : GetConsoleCommandList();
 
                 if (settings.printCommandsAlphabeticalOrder) {
                     commands = commands.OrderBy(x => x).ToList();
@@ -707,7 +707,7 @@ namespace Anarkila.DeveloperConsole {
             return consoleCommandList;
         }
 
-        public static List<string> GetCommandsWithInfos() {
+        public static List<string> GetConsoleCommandsWithInfos() {
             return commandStringsWithInfos;
         }
 

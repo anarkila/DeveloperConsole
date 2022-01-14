@@ -3,7 +3,7 @@
 namespace Anarkila.DeveloperConsole {
 
     /// <summary>
-    /// This script handles listening key inputs:
+    /// This script handles listening key inputs (old Unity input system)
     /// - enable/disable Developer Console  (default: § or ½ key below ESC)
     /// - submit current inputfield text    (default: enter)
     /// - fill from prediction              (default: tab and down arrow)
