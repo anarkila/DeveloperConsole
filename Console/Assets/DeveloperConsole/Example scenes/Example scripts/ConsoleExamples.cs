@@ -230,5 +230,21 @@ namespace Anarkila.DeveloperConsole {
             Console.RemoveCommand("test_manual_int");
             Console.RemoveCommand("test_manual_coroutine"/*, true*/); // optional boolean parameter to log whether removing command was successfull
         }
+
+
+        // More Console.cs examples
+        //private void Start() {
+
+            //// execute Console Command
+            //Console.ExecuteCommand("test_int 42");
+
+            //// Open Developer Console
+            //Console.OpenConsole();
+            //Console.ExecuteCommand("open");
+
+            //// Close Developer Console
+            //Console.CloseConsole();
+            //Console.ExecuteCommand("close");
+        //}
     }
 }

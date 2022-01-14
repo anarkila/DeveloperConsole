@@ -16,7 +16,7 @@ namespace Anarkila.DeveloperConsole {
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
         private static bool consoleIsOpen;
-       
+
         /// <summary>
         /// Initilize Developer Console
         /// </summary>
@@ -320,12 +320,12 @@ namespace Anarkila.DeveloperConsole {
 
             var delayUtil = DelayHelper.GetInstance();
             if (delayUtil != null) {
-                // Add 10 frame artificial delay before calling console is initialized
+                // Add 10 frame artificial delay before calling console is initialized events
                 delayUtil.DelayedCallFrames(NotifyConsoleIsReady, 10);
             }
             else {
                 // just in case DelayHelper Instance is null for whatever reason, let's call this without delay
-                // this might cause to not print some messages that were called on Awake/Start but otherwise console should work fine.
+                // this might cause some messages not to be printed that were called on Awake/Start but otherwise console should work fine.
 #if UNITY_EDITOR
                 Debug.Log("DelayHelper Instance is null. Initializing without delay. You might miss some messages that were called in Awake/Start methods.");
 #endif
@@ -334,6 +334,10 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void NotifyConsoleIsReady() {
+
+            // Check if console was destroyed during those 10 frames
+            if (!consoleInitialized) return;
+  
             ConsoleEvents.ConsoleInitialized();
             ConsoleEvents.ListsChanged();
 
