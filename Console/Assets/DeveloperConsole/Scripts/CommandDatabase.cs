@@ -48,9 +48,19 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
         /// <summary>
-        /// Try to execute command
+        /// Try to execute console command
         /// </summary>
         public static bool TryExecuteCommand(string input) {
+
+            if (!ConsoleManager.IsConsoleInitialized()) {
+#if UNITY_EDITOR
+                // if you see this message, Developer Console either doesn't exist the scene (drag and drop DeveloperConsole.prefab to your scene)
+                // or it has already been destroyed with Console.DestroyConsole() method.
+                Debug.Log(ConsoleConstants.EDITORWARNING + "Unable to execute command. Developer Console does not exist in the scene or has been destroyed.");
+#endif
+
+                return false;
+            }
 
             bool success = false;
 
