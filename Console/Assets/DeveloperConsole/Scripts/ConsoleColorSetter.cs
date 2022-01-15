@@ -9,7 +9,9 @@ namespace Anarkila.DeveloperConsole {
             LargeGUIBorder,
             largeGUIBackground,
             minimalGUIBackground,
-            controlColor
+            controlColor,
+            LargeGUIScrollbarHandle,
+            LargeGUIScrollbarBackground
         }
 
         [SerializeField] private ColorTarget style = ColorTarget.largeGUIBackground;
@@ -47,6 +49,14 @@ namespace Anarkila.DeveloperConsole {
 
                 case ColorTarget.controlColor:
                     image.color = settings.largeGUIControlsColor;
+                    break;
+
+                case ColorTarget.LargeGUIScrollbarHandle:
+                    image.color = settings.largeGUIScrollbarHandleColor;
+                    break;
+
+                case ColorTarget.LargeGUIScrollbarBackground:
+                    image.color = settings.largeGUIScrollbarBackgroundColor;
                     break;
             }
         }

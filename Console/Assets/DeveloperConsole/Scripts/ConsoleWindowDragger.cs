@@ -9,19 +9,18 @@ namespace Anarkila.DeveloperConsole {
     [DefaultExecutionOrder(-9990)]
     public class ConsoleWindowDragger : MonoBehaviour, IDragHandler {
 
+        [Tooltip("Drag and drop main panel here")]
+        [SerializeField] private RectTransform rectTransform;
+
         private bool resetWindowPositionOnEnable = false;
         private bool forceInsideScreenBounds = true;
         private bool allowWindowDragging = true;
-        private RectTransform rectTransform;
         private Vector3 defaultPosition;
 
         private void Awake() {
-            if (TryGetComponent(out RectTransform rect)) {
-                rectTransform = rect;
-            }
-            else {
+            if (rectTransform == null) {
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Gameobject: {0} doesn't have RectTransform component!", gameObject.name));
+                Debug.Log("RectTransform is null!");
 #endif
                 enabled = false;
                 return;

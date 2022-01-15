@@ -15,6 +15,12 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("GUI Theme to use")]
         public GUITheme interfaceTheme = GUITheme.Dark;
 
+        [Header("Minimal GUI Settings")]
+        [Tooltip("Minimal GUI background color")]
+        public Color minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
+
+        [Tooltip("Minimal GUI all text color")]
+        public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("Large GUI Settings")]
         [Tooltip("Console window size multiplier on start (Large GUI only)")]
@@ -23,7 +29,7 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Large Developer Console scroll sensitivity")]
         [Range(2, 100)]
-        public float scrollSensitivity = 30;
+        public float scrollSensitivity = 32;
 
         [Tooltip("Whether to reset console window position back to center of the screen when console is opened (Large GUI only)")]
         public bool resetWindowPositionOnEnable = false;
@@ -41,7 +47,7 @@ namespace Anarkila.DeveloperConsole {
         public Color defaultMessageTextColor = Color.white;
 
         [Tooltip("Large GUI background color")]
-        public Color largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
+        public Color largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
 
         [Tooltip("Large GUI background color")]
         public Color largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
@@ -52,17 +58,14 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Large GUI inputfield, scrollrect, button color")]
         public Color largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
 
+        [Tooltip("Large GUI inputfield, scrollrect, button color")]
+        public Color largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+
+        [Tooltip("Large GUI inputfield, scrollrect, button color")]
+        public Color largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+
         [Tooltip("Large GUI all text color")]
         public Color largeGUITextColor = new Color(1f, 1f, 1f, 1f);
-
-
-        [Header("Minimal GUI Settings")]
-        [Tooltip("Minimal GUI background color")]
-        public Color minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-
-        [Tooltip("Minimal GUI all text color")]
-        public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
-
 
         [Header("General Settings")]
         [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
@@ -170,10 +173,25 @@ namespace Anarkila.DeveloperConsole {
             switch (interfaceTheme) {
 
                 case GUITheme.Dark: // default theme
-                    largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
+                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
                     largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
                     largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f);
+                    largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+                    largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+
+                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
+                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    break;
+
+                case GUITheme.Darker:
+                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 1f);
+                    largeGUIBorderColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f);
+                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
+                    largeGUIControlsColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.9f);
+                    largeGUIScrollbarBackgroundColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f);
+                    largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
                     largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
@@ -181,10 +199,12 @@ namespace Anarkila.DeveloperConsole {
                     break;
 
                 case GUITheme.Red:
-                    largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.55f);
+                    largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.97f);
                     largeGUIBorderColor = new Color(0.2392157f, 0f, 0f, 1f);
                     largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0f, 0f, 0f, 1f);
+                    largeGUIControlsColor = new Color(0f, 0f, 0f, 0.5f);
+                    largeGUIScrollbarBackgroundColor = new Color(0.2392157f, 0f, 0f, 1f);
+                    largeGUIScrollbarHandleColor = new Color(0f, 0f, 0f, 0.5f);
                     largeGUITextColor = new Color(1f, 0f, 0f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f);
@@ -192,10 +212,12 @@ namespace Anarkila.DeveloperConsole {
                     break;
 
                 default:
-                    largeGUIBackgroundColor = new Color(0.2588f, 0.2470f, 0.2431f, 0.55f);
+                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
                     largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
                     largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
                     largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
+                    largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+                    largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
                     largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
                     minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
@@ -212,6 +234,7 @@ namespace Anarkila.DeveloperConsole {
 
     public enum GUITheme {
         Dark,
+        Darker,
         Red,
         Custom
     }
