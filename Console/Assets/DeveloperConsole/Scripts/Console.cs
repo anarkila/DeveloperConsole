@@ -135,6 +135,13 @@ public static class Console {
     }
 
     /// <summary>
+    /// Reset Console window size and position
+    /// </summary>
+    public static void ResetConsole() {
+        ConsoleEvents.ResetConsole();
+    }
+
+    /// <summary>
     /// Set new Console settings
     /// </summary>
     public static void SetSettings(ConsoleSettings newSettings) {
