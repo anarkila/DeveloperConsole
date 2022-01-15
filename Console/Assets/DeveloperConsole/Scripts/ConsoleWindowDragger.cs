@@ -6,6 +6,7 @@ namespace Anarkila.DeveloperConsole {
     /// <summary>
     /// This class handles moving Developer Console Window on mouse drag (Large GUI only)
     /// </summary>
+    [DefaultExecutionOrder(-9990)]
     public class ConsoleWindowDragger : MonoBehaviour, IDragHandler {
 
         private bool resetWindowPositionOnEnable = false;
@@ -25,6 +26,16 @@ namespace Anarkila.DeveloperConsole {
                 enabled = false;
                 return;
             }
+
+            var settings = ConsoleManager.GetSettings();
+            if (settings != null) {
+                resetWindowPositionOnEnable = settings.resetWindowPositionOnEnable;
+                forceInsideScreenBounds = settings.forceConsoleInsideScreenBounds;
+                allowWindowDragging = settings.allowConsoleWindowDrag;
+            }
+
+            defaultPosition = rectTransform.position;
+            ConsoleEvents.RegisterConsoleResetEvent += ResetWindowPosition;
         }
 
         private void OnEnable() {
@@ -35,18 +46,6 @@ namespace Anarkila.DeveloperConsole {
             if (!ConsoleUtils.IsRectTransformInsideSreen(rectTransform, 2) || resetWindowPositionOnEnable) {
                 ResetWindowPosition();
             }
-        }
-
-        private void Start() {
-            var settings = ConsoleManager.GetSettings();
-            if (settings != null) {
-                resetWindowPositionOnEnable = settings.resetWindowPositionOnEnable;
-                forceInsideScreenBounds = settings.forceConsoleInsideScreenBounds;
-                allowWindowDragging = settings.allowConsoleWindowDrag;
-            }
-
-            defaultPosition = rectTransform.position;
-            ConsoleEvents.RegisterConsoleResetEvent += ResetWindowPosition;
         }
 
         private void OnDestroy() {

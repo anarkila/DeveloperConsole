@@ -32,9 +32,11 @@ namespace Anarkila.DeveloperConsole {
 
             Application.logMessageReceived += UnityLogEvent;
             Application.quitting += OnDestroy;
+
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
             ConsoleEvents.RegisterSettingsChangedEvent += GetSettings;
             ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleIsInitialized;
+            ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
             initDone = true;
         }
 
@@ -56,15 +58,21 @@ namespace Anarkila.DeveloperConsole {
             printMessageTimestamps = settings.printMessageTimestamps;
         }
 
+        private static void ConsoleDestroyed(float time) {
+            OnDestroy();
+        }
+
         /// <summary>
         /// OnDestroy callback from Unity Engine.
         /// </summary>
         private static void OnDestroy() {
             Application.logMessageReceived -= UnityLogEvent;
             Application.quitting -= OnDestroy;
+
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
             ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
+            ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
 
 #if UNITY_EDITOR
             if (settings != null && settings.printMessageCount) {

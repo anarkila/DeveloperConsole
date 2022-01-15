@@ -55,7 +55,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Resets Console window size and position
+        /// Reset Console window size and position
         /// </summary>
         [ConsoleCommand("reset", hiddenCommandMinimalGUI: true, info: "Reset Console window size and position")]
         private static void ResetDeveloperConsole() {

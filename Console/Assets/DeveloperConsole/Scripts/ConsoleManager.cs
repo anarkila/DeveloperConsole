@@ -18,7 +18,7 @@ namespace Anarkila.DeveloperConsole {
         private static bool consoleIsOpen;
 
         /// <summary>
-        /// Initilize Developer Console
+        /// Initialize Developer Console
         /// </summary>
         public static void InitializeDeveloperConsole(ConsoleSettings settings, Thread thread) {
             if (initDone) return;
@@ -31,7 +31,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
             ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
 #if UNITY_EDITOR
-            ConsoleEvents.RegisterConsoleClearEvent += ConsoleClearEvent;
+            ConsoleEvents.RegisterConsoleClearEvent += ClearUnityConsole;
 #endif
             MessagePrinter.Init();
             SetSettings(settings);
@@ -53,7 +53,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
 
 #if UNITY_EDITOR
-            ConsoleEvents.RegisterConsoleClearEvent -= ConsoleClearEvent;
+            ConsoleEvents.RegisterConsoleClearEvent -= ClearUnityConsole;
 #endif
 
 #if UNITY_EDITOR
@@ -79,7 +79,10 @@ namespace Anarkila.DeveloperConsole {
         }
 
 #if UNITY_EDITOR
-        private static void ConsoleClearEvent() {
+        /// <summary>
+        /// Clear Unity Editor console
+        /// </summary>
+        private static void ClearUnityConsole() {
             if (settings == null) return;
 
             if (settings.clearUnityConsoleOnConsoleClear) {
