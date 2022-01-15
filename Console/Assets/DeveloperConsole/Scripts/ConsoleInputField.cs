@@ -36,7 +36,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
-            ConsoleEvents.RegisterInputFieldSubmit += InputFieldEnter;
+            ConsoleEvents.RegisterInputFieldSubmit += InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent += UpdateLists;
         }
 
@@ -53,7 +53,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
-            ConsoleEvents.RegisterInputFieldSubmit -= InputFieldEnter;
+            ConsoleEvents.RegisterInputFieldSubmit -= InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent -= UpdateLists;
         }
 
@@ -120,7 +120,7 @@ namespace Anarkila.DeveloperConsole {
             StartCoroutine(AllowEnterClickDelay());
         }
 
-        private void InputFieldEnter() {
+        private void InputFieldSubmit() {
             if (inputField == null || !allowEnterClick) return;
 
             var text = inputField.text;
@@ -138,6 +138,8 @@ namespace Anarkila.DeveloperConsole {
             if (gameObject.activeInHierarchy) {
                 StartCoroutine(AllowEnterClickDelay());
             }
+
+            // Try to execute command
             CommandDatabase.TryExecuteCommand(text);
         }
 
@@ -236,10 +238,8 @@ namespace Anarkila.DeveloperConsole {
 
                     // Validate that all characters in a string exist in current command name string
                     char[] charArr = input.ToCharArray();
-                    bool validCharacters = true;
                     for (int j = 0; j < charArr.Length; j++) {
                         valid = allConsoleCommands[i].Contains(charArr[j].ToString());
-                        validCharacters = valid;
                         if (valid && input.Length < allConsoleCommands[i].Length + 1 && !closestMatches.Contains(commandsWithValues[i])) {
                             closestMatches.Add(commandsWithValues[i]);
                         }

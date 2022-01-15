@@ -30,9 +30,6 @@ public static class ConsoleConstants {
     public const string T = "\t";
     public const string F = "f";
 
-    // Char array of all allowed supported array separators
-    //public static char[] SEPARATORS = { ',', '.', ':', ';' };
-
     // Array of all supported parameter types
     // If you want to add types to this list,
     // you need to modify ParameterParser.ParseBuiltInTypes() function.

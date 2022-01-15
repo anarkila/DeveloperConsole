@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace Anarkila.DeveloperConsole {
 
     /// <summary>
-    /// Same as default Unity ScrollRect component but without click drag function
+    /// Unity ScrollRect component but without click drag function
     /// </summary>
     public class CustomScrollRect : ScrollRect {
         public override void OnBeginDrag(PointerEventData eventData) { }

@@ -5,8 +5,9 @@ namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This class handles resizing Developer Console Window on mouse drag
+    /// This is disabled for WebGL builds
     /// </summary>
-#pragma warning disable 0162
+    #pragma warning disable 0162
     public class WindowResizer : MonoBehaviour, IPointerDownHandler, IDragHandler {
 
         [SerializeField] private RectTransform rectTransform;

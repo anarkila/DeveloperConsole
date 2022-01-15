@@ -57,9 +57,7 @@ namespace Anarkila.DeveloperConsole {
                 target = currentTargetFPS.ToString();
             }
 
-
             Console.LogEmpty();
-
             Debug.Log(string.Format("Current resolution is: {0} x {1}", Screen.width, Screen.height));
             //Debug.Log(string.Format("Current fullScreenMode is: {0}", Screen.fullScreenMode));
             Debug.Log("Application target frame rate is set to: " + target);
@@ -68,7 +66,6 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Highest draw call count: " + HighestDrawCallsCount);
             Debug.Log("Highest vertices count: " + HighestVerticesCount);
             Debug.Log("Highest triangles count: " + HighestTrianglessCount);
-
             Console.LogEmpty();
         }
     }
