@@ -94,7 +94,3 @@ By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also outp
 - Uses old Unity input system
 - Uses Gameobject based UI
 - Uses TextMeshPro
-
-## TODO
-- Ability to generate grid or list of buttons that can fire commands
-- Mobile support
