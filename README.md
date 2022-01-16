@@ -60,7 +60,7 @@ public class ExampleScript : MonoBehaviour {
 - Log messages into Console Window (directly, ``Debug.Log`` and ``Debug.LogError``)
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
-- GUI themes (Dark, Red or Custom)
+- GUI themes (Dark, Darker, Red or Custom)
 - Documentation and example scenes
 
 ## Default Commands
