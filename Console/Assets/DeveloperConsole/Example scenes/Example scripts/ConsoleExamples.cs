@@ -233,17 +233,17 @@ namespace Anarkila.DeveloperConsole {
 
 
         // Examples how to change theme
-        [ConsoleCommand("theme_dark", debugOnlyCommand:true)]
+        [ConsoleCommand("theme_dark", info:"Change GUI theme to Dark", debugOnlyCommand: true)]
         private void SetDarkTheme() {
             Console.SetGUITheme(ConsoleGUITheme.Dark);
         }
 
-        [ConsoleCommand("theme_darker", debugOnlyCommand: true)]
+        [ConsoleCommand("theme_darker", info: "Change GUI theme to Darker", debugOnlyCommand: true)]
         private void SetDarkerTheme() {
             Console.SetGUITheme(ConsoleGUITheme.Darker);
         }
 
-        [ConsoleCommand("theme_red", debugOnlyCommand: true)]
+        [ConsoleCommand("theme_red", info: "Change GUI theme to Red", debugOnlyCommand:true)]
         private void SetRedTheme() {
             Console.SetGUITheme(ConsoleGUITheme.Red);
         }
