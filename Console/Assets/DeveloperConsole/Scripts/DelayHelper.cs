@@ -47,6 +47,6 @@ namespace Anarkila.DeveloperConsole {
         private void OnApplicationQuit() {
             Instance = null;
         }
-    }
 #endif
+    }
 }
