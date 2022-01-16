@@ -12,7 +12,7 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG)
 
 ## Getting Started
-1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.4/DeveloperConsole_0.8.4.unitypackage) into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.5/DeveloperConsole_0.8.5.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
 3. Add ``[ConsoleCommand()]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
@@ -85,7 +85,7 @@ Editor and Development build only:
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 
 ## Logging
-``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red);`` with color.
+``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red)`` with color.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also output to Developer Console.
 
