@@ -20,6 +20,7 @@ namespace Anarkila.DeveloperConsole {
 
         private DeveloperConsole myTarget;
         private bool renderCustomGUI = true;
+        private int theme = 0;
 
         private void OnEnable() {
             myTarget = (DeveloperConsole)target;
@@ -39,13 +40,13 @@ namespace Anarkila.DeveloperConsole {
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
 
-                if (0 <= i && i <= 17) {
+                if (0 <= i && i <= 8) {
                     AppendToList(guiSettings, name);
                 }
-                else if (18 <= i && i <= 40) {
+                else if (9 <= i && i <= 31) {
                     AppendToList(generalSettings, name);
                 }
-                else if (39 <= i && i <= 45) {
+                else if (32 <= i && i <= 36) {
                     AppendToList(keybindings, name);
                 }
                 else {
@@ -81,7 +82,7 @@ namespace Anarkila.DeveloperConsole {
                 sTarget.ApplyModifiedProperties();
             }
 
-            RenderBottomButtons(); 
+            RenderBottomButtons();
         }
 
         private void RenderTab() {
@@ -106,6 +107,16 @@ namespace Anarkila.DeveloperConsole {
             if (GUILayout.Button("Generate Command List", GUILayout.Height(30))) {
                 CreateTextFileUtility.GenerateCommandList();
             }
+
+            // Show 'Next GUI theme button' when playing in Editor
+            if (Application.isPlaying) {
+                GUILayout.Space(10);
+                if (GUILayout.Button("Next GUI Theme", GUILayout.Height(30))) {
+                    ++theme;
+                    if (theme == 3) theme = 0;
+                    Console.SetGUITheme((ConsoleGUITheme)theme);
+                }
+            }
         }
 
         private void RenderAll() {
@@ -116,13 +127,16 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void RenderGUISettings() {
-            bool customTheme = myTarget.settings.interfaceTheme == GUITheme.Custom;
+            //Render(guiSettings);
+
+            bool customTheme = myTarget.settings.interfaceTheme == ConsoleGUITheme.Custom;
             for (int i = 0; i < guiSettings.Count; i++) {
-                if (!customTheme && i >= 10) {
+                if (!customTheme && i == 8) {
                     continue;
                 }
                 EditorGUILayout.PropertyField(guiSettings[i]);
             }
+
         }
 
         private void RenderGeneralSettings() {

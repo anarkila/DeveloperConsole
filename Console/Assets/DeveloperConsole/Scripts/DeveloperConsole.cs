@@ -34,12 +34,12 @@ namespace Anarkila.DeveloperConsole {
                 settings = new ConsoleSettings();
             }
 
-            settings.SetColors();
+            settings.ApplyColors();
             ConsoleManager.InitializeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
 
 #if UNITY_EDITOR
-            if (settings.interfaceStyle == ConsoleGUIStyle.Minimal && settings.allowGUIChangeRuntime) {
+            if (settings.interfaceStyle == ConsoleGUIStyle.Minimal && settings.allowGUIStyleChangeRuntime) {
                 if (settings.UnityLogOption != ConsoleLogOptions.DontPrintLogs || settings.unityThreadedLogOption != ConsoleLogOptions.DontPrintLogs) {
                     // if you are only using Minimal GUI style, Consider changing settings UnityLogOption and unityThreadedLogOption to ConsoleLogOptions.DontPrintLogs
                     // to reduce garbage collection. By default messages are still printed to Large GUI even when Minimal GUI is selected!
@@ -49,8 +49,8 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 #endif
-            if (settings.allowGUIChangeRuntime) {
-                Console.RegisterCommand(this, "ChangeConsoleGUI", "console_style", info: "Change console style between Large and Minimal", hiddenCommandMinimalGUI:false);
+            if (settings.allowGUIStyleChangeRuntime) {
+                Console.RegisterCommand(this, "ChangeConsoleGUI", "console_style", info: "Change Console style between Large and Minimal", hiddenCommandMinimalGUI:false);
             }
         }
 
@@ -67,11 +67,10 @@ namespace Anarkila.DeveloperConsole {
         }
 
 #if UNITY_EDITOR
-    // for no domain/scene reload purposes
-    private void OnApplicationQuit() {
+        // for no domain/scene reload purposes
+        private void OnApplicationQuit() {
             Instance = null;
         }
     }
 #endif
-
 }

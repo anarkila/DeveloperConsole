@@ -32,7 +32,7 @@ public static class Console {
     /// Log empty message without timestamp
     /// </summary>
     public static void LogEmpty() {
-        ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp:true);
+        ConsoleEvents.Log(ConsoleConstants.SPACE, forceIgnoreTimeStamp: true);
     }
 
     /// <summary>
@@ -167,6 +167,28 @@ public static class Console {
     /// </summary>
     public static void SetGUIStyle(ConsoleGUIStyle style) {
         ConsoleManager.SetGUIStyle(style);
+    }
+
+    /// <summary>
+    /// Set Console GUI Theme
+    /// </summary>
+    public static void SetGUITheme(ConsoleGUITheme theme) {
+        if (theme == ConsoleGUITheme.Custom) {
+#if UNITY_EDITOR
+            Debug.Log(ConsoleConstants.EDITORWARNING + "Set Custom GUI theme by calling Console.SetCustomGUITheme()");
+#endif
+            return;
+        }
+
+        ConsoleManager.SetGUITheme(theme);
+    }
+
+    /// <summary>
+    /// Set custom GUI colors
+    /// </summary>
+    /// <param name="newColors">ConsoleColors class</param>
+    public static void SetCustomGUITheme(ConsoleColors newColors) {
+        ConsoleManager.SetCustomGUITheme(newColors);
     }
 
     /// <summary>

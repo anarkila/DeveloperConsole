@@ -232,19 +232,54 @@ namespace Anarkila.DeveloperConsole {
         }
 
 
-        // More Console.cs examples
+        // Examples how to change theme
+        [ConsoleCommand("theme_dark", debugOnlyCommand:true)]
+        private void SetDarkTheme() {
+            Console.SetGUITheme(ConsoleGUITheme.Dark);
+        }
+
+        [ConsoleCommand("theme_darker", debugOnlyCommand: true)]
+        private void SetDarkerTheme() {
+            Console.SetGUITheme(ConsoleGUITheme.Darker);
+        }
+
+        [ConsoleCommand("theme_red", debugOnlyCommand: true)]
+        private void SetRedTheme() {
+            Console.SetGUITheme(ConsoleGUITheme.Red);
+        }
+
+
+        //// More Console.cs examples
         //private void Start() {
 
-            //// execute Console Command
-            //Console.ExecuteCommand("test_int 42");
+        //    // execute Console Command
+        //    //Console.ExecuteCommand("test_int 42");
 
-            //// Open Developer Console
-            //Console.OpenConsole();
-            //Console.ExecuteCommand("open");
+        //    //// Open Developer Console
+        //    //Console.OpenConsole();
+        //    //Console.ExecuteCommand("open");
 
-            //// Close Developer Console
-            //Console.CloseConsole();
-            //Console.ExecuteCommand("close");
+        //    //// Close Developer Console
+        //    //Console.CloseConsole();
+        //    //Console.ExecuteCommand("close");
+
+        //    //// Set GUI theme
+        //    //Console.SetGUITheme(ConsoleGUITheme.Darker);
+
+        //    //// Set Custom GUI Theme
+        //    ConsoleColors consoleColors = new ConsoleColors {
+        //        minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f),
+        //        minimalGUITextColor = new Color(1f, 0f, 0f, 1f),
+
+        //        largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.97f),
+        //        largeGUIBorderColor = new Color(0.2392157f, 0f, 0f, 1f),
+        //        largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+        //        largeGUIControlsColor = new Color(0f, 0f, 0f, 0.5f),
+        //        largeGUIScrollbarBackgroundColor = new Color(0.2392157f, 0f, 0f, 1f),
+        //        largeGUIScrollbarHandleColor = new Color(0f, 0f, 0f, 0.5f),
+        //        largeGUITextColor = new Color(1f, 0f, 0f, 1f),
+        //    };
+        //    Console.SetCustomGUITheme(consoleColors);
         //}
     }
 }

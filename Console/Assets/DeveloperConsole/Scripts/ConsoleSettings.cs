@@ -13,14 +13,8 @@ namespace Anarkila.DeveloperConsole {
         public ConsoleGUIStyle interfaceStyle = ConsoleGUIStyle.Large;
 
         [Tooltip("GUI Theme to use")]
-        public GUITheme interfaceTheme = GUITheme.Dark;
+        public ConsoleGUITheme interfaceTheme = ConsoleGUITheme.Dark;
 
-        [Header("Minimal GUI Settings")]
-        [Tooltip("Minimal GUI background color")]
-        public Color minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-
-        [Tooltip("Minimal GUI all text color")]
-        public Color minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("Large GUI Settings")]
         [Tooltip("Console window size multiplier on start (Large GUI only)")]
@@ -43,29 +37,20 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("ScrollRect scrollbar visibility")]
         public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
-        [Tooltip("Default message text color")]
-        public Color defaultMessageTextColor = Color.white;
+        public ConsoleColors consoleColors = new ConsoleColors {
 
-        [Tooltip("Large GUI background color")]
-        public Color largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
+            minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f),
+            minimalGUITextColor = new Color(1f, 1f, 1f, 1f),
 
-        [Tooltip("Large GUI background color")]
-        public Color largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
+            largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f),
+            largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+            largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+            largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f),
+            largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+            largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+            largeGUITextColor = new Color(1f, 1f, 1f, 1f),
+        };
 
-        [Tooltip("Large GUI highlight color for mouse hover and click")]
-        public Color largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-
-        [Tooltip("Large GUI inputfield, scrollrect, button color")]
-        public Color largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
-
-        [Tooltip("Large GUI inputfield, scrollrect, button color")]
-        public Color largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-
-        [Tooltip("Large GUI inputfield, scrollrect, button color")]
-        public Color largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-
-        [Tooltip("Large GUI all text color")]
-        public Color largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("General Settings")]
         [Tooltip("Whether to include Developer Console in final release build. Be careful whether you can actually want to include in final release build!")]
@@ -82,8 +67,8 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether calling commands must be case sensetive'")]
         public bool commandsAreCaseSensetive = false;
 
-        [Tooltip("Whether to allow GUI change during runtime.")]
-        public bool allowGUIChangeRuntime = true;
+        [Tooltip("Whether to allow GUI style change during runtime.")]
+        public bool allowGUIStyleChangeRuntime = true;
 
         // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
@@ -166,105 +151,120 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("whether to print Unity log type. ")]
         public bool printLogType = false;
 
-        public void SetColors() {
-            if (interfaceTheme == GUITheme.Custom) return;
+        public void ApplyColors() {
+            if (interfaceTheme == ConsoleGUITheme.Custom) return;
 
-            // Perhaps not the cleanest solution but simple.
             switch (interfaceTheme) {
 
-                case GUITheme.Dark: // default theme
-                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
-                    largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f);
-                    largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-                    largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
-                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+                case ConsoleGUITheme.Dark: // default theme
 
-                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    consoleColors = new ConsoleColors {
+                        minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f),
+                        minimalGUITextColor = new Color(1f, 1f, 1f, 1f),
+
+                        largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f),
+                        largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+                        largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+                        largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f),
+                        largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 0.9f),
+                        largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f),
+                        largeGUITextColor = new Color(1f, 1f, 1f, 1f),
+                    };
+
                     break;
 
-                case GUITheme.Darker:
-                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 1f);
-                    largeGUIBorderColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f);
-                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.9f);
-                    largeGUIScrollbarBackgroundColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f);
-                    largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
+                case ConsoleGUITheme.Darker:
 
-                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    consoleColors = new ConsoleColors {
+                        minimalGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 1f),
+                        minimalGUITextColor = new Color(1f, 1f, 1f, 1f),
+
+                        largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 1f),
+                        largeGUIBorderColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f),
+                        largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+                        largeGUIControlsColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.9f),
+                        largeGUIScrollbarBackgroundColor = new Color(0.09803922f, 0.09803922f, 0.09803922f, 1f),
+                        largeGUIScrollbarHandleColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+                        largeGUITextColor = new Color(1f, 1f, 1f, 1f),
+                    };
                     break;
 
-                case GUITheme.Red:
-                    largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.97f);
-                    largeGUIBorderColor = new Color(0.2392157f, 0f, 0f, 1f);
-                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0f, 0f, 0f, 0.5f);
-                    largeGUIScrollbarBackgroundColor = new Color(0.2392157f, 0f, 0f, 1f);
-                    largeGUIScrollbarHandleColor = new Color(0f, 0f, 0f, 0.5f);
-                    largeGUITextColor = new Color(1f, 0f, 0f, 1f);
+                case ConsoleGUITheme.Red:
 
-                    minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f);
-                    minimalGUITextColor = new Color(1f, 0f, 0f, 1f);
+                    consoleColors = new ConsoleColors {
+                        minimalGUIBackgroundColor = new Color(0f, 0f, 0f, 1f),
+                        minimalGUITextColor = new Color(1f, 0f, 0f, 1f),
+
+                        largeGUIBackgroundColor = new Color(0f, 0f, 0f, 0.97f),
+                        largeGUIBorderColor = new Color(0.2392157f, 0f, 0f, 1f),
+                        largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+                        largeGUIControlsColor = new Color(0f, 0f, 0f, 0.5f),
+                        largeGUIScrollbarBackgroundColor = new Color(0.2392157f, 0f, 0f, 1f),
+                        largeGUIScrollbarHandleColor = new Color(0f, 0f, 0f, 0.5f),
+                        largeGUITextColor = new Color(1f, 0f, 0f, 1f),
+                    };
+                    break;
+
+                case ConsoleGUITheme.Custom:
                     break;
 
                 default:
-                    largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f);
-                    largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-                    largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f);
-                    largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
-                    largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f);
-                    largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 1f);
-                    largeGUITextColor = new Color(1f, 1f, 1f, 1f);
 
-                    minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f);
-                    minimalGUITextColor = new Color(1f, 1f, 1f, 1f);
+                    consoleColors = new ConsoleColors {
+                        minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f),
+                        minimalGUITextColor = new Color(1f, 1f, 1f, 1f),
+
+                        largeGUIBackgroundColor = new Color(0.04705882f, 0.04705882f, 0.04705882f, 0.97f),
+                        largeGUIBorderColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 1f),
+                        largeGUIHighlightColor = new Color(0.41f, 0.41f, 0.41f, 1f),
+                        largeGUIControlsColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f),
+                        largeGUIScrollbarBackgroundColor = new Color(0.1686275f, 0.1686275f, 0.1686275f, 0.9f),
+                        largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f),
+                        largeGUITextColor = new Color(1f, 1f, 1f, 1f),
+                    };
                     break;
             }
         }
     }
+}
 
-    public enum ConsoleGUIStyle {
-        Large,
-        Minimal
-    }
+public enum ConsoleGUIStyle {
+    Large,
+    Minimal
+}
 
-    public enum GUITheme {
-        Dark,
-        Darker,
-        Red,
-        Custom
-    }
+public enum ConsoleGUITheme {
+    Dark,
+    Darker,
+    Red,
+    Custom
+}
 
-    public enum ConsoleLogOptions {
-        // Don't print any Debug.Log/LogError to Console
-        DontPrintLogs,
+public enum ConsoleLogOptions {
+    // Don't print any Debug.Log/LogError to Console
+    DontPrintLogs,
 
-        // Print expections to Console such as
-        // "UnityException: Transform child out of bounds"
-        // In Unity Editor only!
-        LogWithExpectionsEditorOnly,
+    // Print expections to Console such as
+    // "UnityException: Transform child out of bounds"
+    // In Unity Editor only!
+    LogWithExpectionsEditorOnly,
 
-        // Print expections expections with stack trace to Console such as
-        // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
-        // in Unity Editor only!
-        LogExpectionsWithStackTraceEditorOnly,
+    // Print expections expections with stack trace to Console such as
+    // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
+    // in Unity Editor only!
+    LogExpectionsWithStackTraceEditorOnly,
 
-        // Print Debug logs without expections or stack traces to Console
-        // In Editor and Build!
-        LogWithoutExpections,
+    // Print Debug logs without expections or stack traces to Console
+    // In Editor and Build!
+    LogWithoutExpections,
 
-        // Print expections to Console such
-        // as "UnityException: Transform child out of bounds"
-        // In Editor and Build!
-        LogWithExpections,
+    // Print expections to Console such
+    // as "UnityException: Transform child out of bounds"
+    // In Editor and Build!
+    LogWithExpections,
 
-        // Print expections with stack trace to Console such as
-        // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
-        // In Editor and Build!
-        LogExpectionsWithStackTrace
-    }
+    // Print expections with stack trace to Console such as
+    // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
+    // In Editor and Build!
+    LogExpectionsWithStackTrace
 }

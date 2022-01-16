@@ -79,7 +79,7 @@ namespace Anarkila.DeveloperConsole {
                 if (settings.interfaceStyle == ConsoleGUIStyle.Minimal
                     && settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs
                     && settings.unityThreadedLogOption == ConsoleLogOptions.DontPrintLogs
-                    || settings.interfaceStyle == ConsoleGUIStyle.Minimal && !settings.allowGUIChangeRuntime) {
+                    || settings.interfaceStyle == ConsoleGUIStyle.Minimal && !settings.allowGUIStyleChangeRuntime) {
 
                     enabled = false;
                     return;

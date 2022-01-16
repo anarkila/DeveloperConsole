@@ -4937,27 +4937,28 @@ MonoBehaviour:
   settings:
     interfaceStyle: 0
     interfaceTheme: 0
-    minimalGUIBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
-    minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     consoleWindowDefaultSize: 0.9
     scrollSensitivity: 32
     resetWindowPositionOnEnable: 0
     resetWindowSizeOnEnable: 0
     forceConsoleInsideScreenBounds: 0
     ScrollRectVisibility: 0
-    defaultMessageTextColor: {r: 1, g: 1, b: 1, a: 1}
-    largeGUIBackgroundColor: {r: 0.04705882, g: 0.04705882, b: 0.04705882, a: 0.97}
-    largeGUIBorderColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
-    largeGUIHighlightColor: {r: 0.41, g: 0.41, b: 0.41, a: 1}
-    largeGUIControlsColor: {r: 0.2588235, g: 0.2470588, b: 0.2431373, a: 1}
-    largeGUIScrollbarBackgroundColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
-    largeGUIScrollbarHandleColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
-    largeGUITextColor: {r: 1, g: 1, b: 1, a: 1}
+    consoleColors:
+      minimalGUIBackgroundColor: {r: 0.16, g: 0.16, b: 0.16, a: 1}
+      minimalGUITextColor: {r: 1, g: 1, b: 1, a: 1}
+      largeGUIBackgroundColor: {r: 0.04705882, g: 0.04705882, b: 0.04705882, a: 0.97}
+      largeGUIBorderColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
+      largeGUIHighlightColor: {r: 0.41, g: 0.41, b: 0.41, a: 1}
+      largeGUIControlsColor: {r: 0.2588235, g: 0.2470588, b: 0.2431373, a: 1}
+      largeGUIScrollbarBackgroundColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275,
+        a: 1}
+      largeGUIScrollbarHandleColor: {r: 0.1686275, g: 0.1686275, b: 0.1686275, a: 1}
+      largeGUITextColor: {r: 1, g: 1, b: 1, a: 1}
     includeConsoleInFinalBuild: 0
     registerStaticCommandsOnly: 0
     scanAllAssemblies: 0
     commandsAreCaseSensetive: 0
-    allowGUIChangeRuntime: 1
+    allowGUIStyleChangeRuntime: 1
     UnityLogOption: 5
     unityThreadedLogOption: 2
     maxMessageCount: 150

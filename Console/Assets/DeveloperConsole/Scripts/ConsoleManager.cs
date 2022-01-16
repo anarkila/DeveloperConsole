@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System;
+using System.Reflection;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -181,10 +182,32 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
+        /// Set GUI theme to use and apply colors
+        /// </summary>
+        public static void SetGUITheme(ConsoleGUITheme theme) {
+            if (settings == null || theme == ConsoleGUITheme.Custom) return;
+
+            settings.interfaceTheme = theme;
+            settings.ApplyColors();
+            ConsoleEvents.ConsoleColorsChanged();
+        }
+
+        /// <summary>
+        /// Set custom GUI colors
+        /// </summary>
+        public static void SetCustomGUITheme(ConsoleColors newColors) {
+            if (settings == null) return;
+
+            settings.interfaceTheme = ConsoleGUITheme.Custom;
+            settings.consoleColors = newColors;
+            ConsoleEvents.ConsoleColorsChanged();
+        }
+
+        /// <summary>
         /// Toggle GUI style between Large and minimal
         /// </summary>
         public static void ToggleInterfaceStyle(bool openConsole = true) {
-            if (!settings.allowGUIChangeRuntime) return;
+            if (!settings.allowGUIStyleChangeRuntime) return;
 
             var style = settings.interfaceStyle == ConsoleGUIStyle.Large ? ConsoleGUIStyle.Minimal : ConsoleGUIStyle.Large;
             if (openConsole) {

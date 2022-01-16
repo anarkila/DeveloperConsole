@@ -74,5 +74,8 @@ namespace Anarkila.DeveloperConsole {
         public static event Action<string> RegisterInputfieldTextEvent;
         public static void SetInputfieldText(string text) => RegisterInputfieldTextEvent?.Invoke(text);
 
+        public static event Action RegisterConsoleColorsChangedEvent;
+        public static void ConsoleColorsChanged() => RegisterConsoleColorsChangedEvent?.Invoke();
+
     }
 }

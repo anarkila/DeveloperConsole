@@ -16,6 +16,7 @@ namespace Anarkila.DeveloperConsole {
         private static StringBuilder sb = new StringBuilder();
         private static bool printMessageTimestamps = true;
         private static bool consoleInitialized = false;
+        private static Color textColor = Color.white;
         private static bool initDone = false;
         private static long messageCount;
 
@@ -37,9 +38,13 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterSettingsChangedEvent += GetSettings;
             ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleIsInitialized;
             ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
+            ConsoleEvents.RegisterConsoleColorsChangedEvent += ColorsChanged;
             initDone = true;
         }
 
+        private static void ColorsChanged() {
+            textColor = settings.interfaceStyle == ConsoleGUIStyle.Large ? settings.consoleColors.largeGUITextColor : settings.consoleColors.minimalGUITextColor;
+        }
 
         private static void ConsoleIsInitialized() {
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
@@ -51,6 +56,8 @@ namespace Anarkila.DeveloperConsole {
                 }
                 messagesBeforeInitDone.Clear();
             }
+
+            textColor = settings.interfaceStyle == ConsoleGUIStyle.Large ? settings.consoleColors.largeGUITextColor : settings.consoleColors.minimalGUITextColor;
         }
 
         private static void GetSettings() {
@@ -73,6 +80,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
             ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
+            ConsoleEvents.RegisterConsoleColorsChangedEvent -= ColorsChanged;
 
 #if UNITY_EDITOR
             if (settings != null && settings.printMessageCount) {
@@ -96,7 +104,7 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void UnityLogEvent(string input, string stackTrace, LogType type) {
-            ConsoleEvents.UnityLog(input, stackTrace, type, settings.defaultMessageTextColor);
+            ConsoleEvents.UnityLog(input, stackTrace, type, textColor);
         }
 
         /// <summary>

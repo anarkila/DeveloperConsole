@@ -10,7 +10,7 @@ namespace Anarkila.DeveloperConsole {
     public class ConsoleMessage : MonoBehaviour {
 
         private Vector3 cachedVector = Vector3.one;
-        private Color defaultColor = Color.white;
+        private Color textColor = Color.white;
         private Transform cachedTransform;
         private TMP_Text textComponent;
 
@@ -27,7 +27,7 @@ namespace Anarkila.DeveloperConsole {
 
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
-                defaultColor = settings.defaultMessageTextColor;
+                textColor = settings.interfaceStyle == ConsoleGUIStyle.Large ? settings.consoleColors.largeGUITextColor : settings.consoleColors.minimalGUITextColor;
             }
         }
 
@@ -40,7 +40,7 @@ namespace Anarkila.DeveloperConsole {
                 textComponent.faceColor = (Color)textColor;
             }
             else {
-                textComponent.faceColor = defaultColor;
+                textComponent.faceColor = this.textColor;
             }
             cachedTransform.SetAsLastSibling();
             cachedTransform.localScale = cachedVector;
