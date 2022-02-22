@@ -73,7 +73,8 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
 
-        // --- All below commands are Debug only commands which work in Editor and Development build ---
+
+        // --- All commands below are marked as Debug only which only work in Unity Editor and Development build(s) ---
         // to allow below commands in final build, remove debugOnlyCommand overloads
 
         /// <summary>
@@ -115,6 +116,21 @@ namespace Anarkila.DeveloperConsole {
         [ConsoleCommand("scene_unloadindex", debugOnlyCommand: true, info: "Unload scene by index")]
         private static void UnLoadSceneByIndex(int index) {
             ConsoleEvents.UnloadSceneByIndex(index);
+        }
+
+        /// <summary>
+        /// Print scene information
+        /// </summary>
+        [ConsoleCommand("scene_information", info: "Print Scene information", debugOnlyCommand: true)]
+        private static void PrintSceneInformation() {
+            Console.LogEmpty();
+            Console.Log("Total Scene Count: " + UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings);
+            int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+            for (int i = 0; i < sceneCount; i++) {
+                string sceneName = System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
+                string s = "Scene " + i + " Name: ";
+                Console.Log(s + sceneName);
+            }
         }
 
         /// <summary>
