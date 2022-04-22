@@ -59,7 +59,6 @@ namespace Anarkila.DeveloperConsole {
 
             Console.LogEmpty();
             Debug.Log(string.Format("Current resolution is: {0} x {1}", Screen.width, Screen.height));
-            //Debug.Log(string.Format("Current fullScreenMode is: {0}", Screen.fullScreenMode));
             Debug.Log("Application target frame rate is set to: " + target);
             Debug.Log(string.Format("Highest FPS: {0} --- Avg FPS: {1}", highestFPS, (int)(1f / avgFPS)));
             Debug.Log("Highest batches count: " + HighestBatchesCount);

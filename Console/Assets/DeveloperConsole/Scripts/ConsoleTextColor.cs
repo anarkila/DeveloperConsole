@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 namespace Anarkila.DeveloperConsole {
@@ -7,7 +6,6 @@ namespace Anarkila.DeveloperConsole {
     public class ConsoleTextColor : MonoBehaviour {
 
         [SerializeField] private ConsoleGUIStyle style = ConsoleGUIStyle.Large;
-
 
         private void Awake() {
             ConsoleEvents.RegisterConsoleColorsChangedEvent += SetColors;

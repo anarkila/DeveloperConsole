@@ -10,7 +10,6 @@ namespace Anarkila.DeveloperConsole {
         private static DeveloperConsole Instance;
 
         private void Awake() {
-
             transform.SetParent(null);
 
             // Allow only one instance of Developer Console.
@@ -63,6 +62,9 @@ namespace Anarkila.DeveloperConsole {
 
         private void DestroyConsole(float time) {
             ConsoleEvents.RegisterDestroyEvent -= DestroyConsole;
+#if UNITY_EDITOR
+            Debug.Log("Destroying DeveloperConsole..");
+#endif
             Destroy(this.gameObject, time);
         }
 

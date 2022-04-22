@@ -455,8 +455,8 @@ namespace Anarkila.DeveloperConsole {
             bool parallel = true;
 
 #if UNITY_WEBGL
-                // WebGL doesn't support Parallel.For
-                parallel = false;
+            // WebGL doesn't support Parallel.For
+            parallel = false;
 #endif
             // Looping through all assemblies is slow
             if (scanAllAssemblies) {
@@ -525,13 +525,12 @@ namespace Anarkila.DeveloperConsole {
         public static void RegisterMonoBehaviourCommands(List<ConsoleCommandData> commands) {
 
             // Find all different script names
-            var scriptnames = new List<string>();
+            var scriptNames = new List<string>();
             for (int i = 0; i < commands.Count; i++) {
-
                 if (commands[i].isStaticMethod) continue;
 
-                if (!scriptnames.Contains(commands[i].scriptNameString)) {
-                    scriptnames.Add(commands[i].scriptNameString);
+                if (!scriptNames.Contains(commands[i].scriptNameString)) {
+                    scriptNames.Add(commands[i].scriptNameString);
                 }
             }
 
@@ -539,20 +538,19 @@ namespace Anarkila.DeveloperConsole {
             // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
             // loop though those scripts and all commands to find MonoBehaviour references.
             // these loops look scary but this is reasonable fast
-            for (int i = 0; i < scriptnames.Count; i++) {
-                Type type = Type.GetType(scriptnames[i]);
-                MonoBehaviour[] objects = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
+            for (int i = 0; i < scriptNames.Count; i++) {
+                Type type = Type.GetType(scriptNames[i]);
+                MonoBehaviour[] monoScripts = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
 
-                for (int j = 0; j < objects.Length; j++) {
-                    string scriptName = objects[j].GetType().ToString();
-                    MonoBehaviour monoScript = objects[j];
+                for (int j = 0; j < monoScripts.Length; j++) {
+                    string scriptName = monoScripts[j].GetType().ToString();
 
                     for (int k = 0; k < commands.Count; k++) {
                         if (commands[k].isStaticMethod) continue;
 
                         MonoBehaviour script = null;
                         if (scriptName == commands[k].scriptNameString) {
-                            script = monoScript;
+                            script = monoScripts[j];
                         }
 
                         if (script != null) {
@@ -600,9 +598,9 @@ namespace Anarkila.DeveloperConsole {
         public static void UpdateLists() {
             allowMultipleCommands = ConsoleManager.AllowMultipleCommands();
 
+            commandStringsWithDefaultValues.Clear();
             commandStringsWithInfos.Clear();
             consoleCommandList.Clear();
-            commandStringsWithDefaultValues.Clear();
 
             var style = ConsoleManager.GetGUIStyle();
             char space = ' ';

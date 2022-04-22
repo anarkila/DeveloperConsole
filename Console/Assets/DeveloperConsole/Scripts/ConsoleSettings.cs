@@ -8,7 +8,6 @@ namespace Anarkila.DeveloperConsole {
     public class ConsoleSettings {
 
         [Header("GUI Settings")]
-
         [Tooltip("GUI style to use")]
         public ConsoleGUIStyle interfaceStyle = ConsoleGUIStyle.Large;
 
@@ -170,7 +169,6 @@ namespace Anarkila.DeveloperConsole {
                         largeGUIScrollbarHandleColor = new Color(0.2588235f, 0.2470588f, 0.2431373f, 0.9f),
                         largeGUITextColor = new Color(1f, 1f, 1f, 1f),
                     };
-
                     break;
 
                 case ConsoleGUITheme.Darker:
@@ -203,9 +201,6 @@ namespace Anarkila.DeveloperConsole {
                         largeGUIScrollbarHandleColor = new Color(0f, 0f, 0f, 0.5f),
                         largeGUITextColor = new Color(1f, 0f, 0f, 1f),
                     };
-                    break;
-
-                case ConsoleGUITheme.Custom:
                     break;
 
                 default:

@@ -32,10 +32,9 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Invoke callback after given frames
+        /// Invoke callback after n frames
         /// </summary>
         private IEnumerator DelayedCallFramesCoroutine(Action callback, int frames) {
-            yield return new WaitForEndOfFrame();
             for (int i = 0; i < frames; i++) {
                 yield return null;
             }

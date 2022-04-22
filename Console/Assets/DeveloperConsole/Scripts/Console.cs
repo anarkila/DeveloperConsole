@@ -9,7 +9,7 @@ using System;
 public static class Console {
 
     /// <summary>
-    ///  Log message directly into Developer Console window
+    /// Log message directly into Developer Console window
     /// </summary>
     /// <param name="message">Message to print</param>
     /// <param name="textColor">Text color</param>
@@ -19,7 +19,7 @@ public static class Console {
     }
 
     /// <summary>
-    ///  Log message directly into Developer Console window
+    /// Log message directly into Developer Console window
     /// </summary>
     /// <param name="message">Message to print</param>
     /// <param name="textColor">Text color</param>
