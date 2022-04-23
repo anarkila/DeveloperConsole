@@ -37,6 +37,7 @@ namespace Anarkila.DeveloperConsole {
         private ConsoleGUIStyle currentGUIStyle;
         private RectTransform rectTransform;
         private int maxMessageCount = 150;
+        private bool coroutineIsRunning;
         private bool setupDone = false;
         private int messageCount = 0;
         private bool allGhostsHidden;
@@ -116,14 +117,18 @@ namespace Anarkila.DeveloperConsole {
             ++messageCount;
             HandleGhostMessages();
 
-            if (consoleIsOpen && currentGUIStyle == ConsoleGUIStyle.Large) {
-                StartCoroutine(DelayScroll());  // Add frame delay before moving scroll bar to bottom
+            if (consoleIsOpen && currentGUIStyle == ConsoleGUIStyle.Large && !coroutineIsRunning) {
+                // Add frame delay before moving scroll bar to bottom
+                // Only allow one Coroutine to run at once.
+                StartCoroutine(DelayScroll());  
             }
         }
 
         private IEnumerator DelayScroll() {
+            coroutineIsRunning = true;
             yield return null;
             ConsoleEvents.ScrollToBottom();
+            coroutineIsRunning = false;
         }
 
         private void PoolMessages() {
