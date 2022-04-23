@@ -39,7 +39,6 @@ namespace Anarkila.DeveloperConsole {
             string setting = "settings.";
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
-
                 if (0 <= i && i <= 8) {
                     AppendToList(guiSettings, name);
                 }

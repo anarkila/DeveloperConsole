@@ -37,7 +37,6 @@ namespace Anarkila.DeveloperConsole {
         public ScrollRect.ScrollbarVisibility ScrollRectVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
         public ConsoleColors consoleColors = new ConsoleColors {
-
             minimalGUIBackgroundColor = new Color(0.16f, 0.16f, 0.16f, 1f),
             minimalGUITextColor = new Color(1f, 1f, 1f, 1f),
 

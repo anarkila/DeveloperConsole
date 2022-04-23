@@ -330,7 +330,7 @@ namespace Anarkila.DeveloperConsole {
 #endif
                 string message = ConsoleConstants.CONSOLEINIT;
 #if UNITY_WEBGL
-                message += string.Format("Initialization took: {0} ms{1}", time, suffix);
+                message += string.Format("Initialization took {0} ms{1}", time, suffix);
                 ConsoleEvents.Log(message);
 #else
                 message += string.Format("Initialization took {0} ms{1}", time, suffix);
