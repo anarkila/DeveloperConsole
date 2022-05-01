@@ -77,5 +77,11 @@ namespace Anarkila.DeveloperConsole {
         public static event Action RegisterConsoleColorsChangedEvent;
         public static void ConsoleColorsChanged() => RegisterConsoleColorsChangedEvent?.Invoke();
 
+        public static event Action<ConsoleLogOptions> RegisterConsoleLogOptionsChanged;
+        public static void ChangeConsoleLogOptions(ConsoleLogOptions logOption) => RegisterConsoleLogOptionsChanged?.Invoke(logOption);
+
+        public static event Action<ConsoleLogOptions> RegisterConsoleThreadedLogOptionsChanged;
+        public static void ChangeConsoleThreadedLogOptions(ConsoleLogOptions logOption) => RegisterConsoleThreadedLogOptionsChanged?.Invoke(logOption);
+
     }
 }

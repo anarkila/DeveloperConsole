@@ -34,11 +34,12 @@ namespace Anarkila.DeveloperConsole {
             Application.logMessageReceived += UnityLogEvent;
             Application.quitting += OnDestroy;
 
+            ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleIsInitialized;
+            ConsoleEvents.RegisterConsoleColorsChangedEvent += ColorsChanged;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
             ConsoleEvents.RegisterSettingsChangedEvent += GetSettings;
-            ConsoleEvents.RegisterConsoleInitializedEvent += ConsoleIsInitialized;
             ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
-            ConsoleEvents.RegisterConsoleColorsChangedEvent += ColorsChanged;
+            
             initDone = true;
         }
 
@@ -49,7 +50,6 @@ namespace Anarkila.DeveloperConsole {
         private static void ConsoleIsInitialized() {
             consoleInitialized = ConsoleManager.IsConsoleInitialized();
             GetSettings();
-
             if (messagesBeforeInitDone.Count != 0) {
                 for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
                     ConsoleEvents.Log(messagesBeforeInitDone[i].message, messagesBeforeInitDone[i].messageColor, forceIgnoreTimeStamp: true);
@@ -76,12 +76,12 @@ namespace Anarkila.DeveloperConsole {
             Application.logMessageReceived -= UnityLogEvent;
             Application.quitting -= OnDestroy;
 
+            ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
+            ConsoleEvents.RegisterConsoleColorsChangedEvent -= ColorsChanged;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
             ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
-            ConsoleEvents.RegisterConsoleInitializedEvent -= ConsoleIsInitialized;
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
-            ConsoleEvents.RegisterConsoleColorsChangedEvent -= ColorsChanged;
-
+          
 #if UNITY_EDITOR
             if (settings != null && settings.printMessageCount) {
                 if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
@@ -155,7 +155,7 @@ namespace Anarkila.DeveloperConsole {
         /// Print message to Developer Console
         /// </summary>
         public static void PrintLog(string text, Action<string, Color?> subscribers, Color? textColor = null,
-            bool appendStackTrace = false, LogType type = LogType.Error, string stackTrace = "",
+            bool appendStackTrace = false, LogType logType = LogType.Error, string stackTrace = "",
             bool forceIgnoreTimestamp = false) {
 
             if (!ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)
@@ -164,12 +164,12 @@ namespace Anarkila.DeveloperConsole {
                 || settings.UnityLogOption == ConsoleLogOptions.DontPrintLogs) return;
 
             if (appendStackTrace) {
-                if (type == LogType.Error || type == LogType.Exception) {
+                if (logType == LogType.Error || logType == LogType.Exception) {
                     text = AppendStrackTrace(text, stackTrace, settings.UnityLogOption);
                 }
 
                 if (settings.printLogType && Debug.isDebugBuild) {
-                    text = AddMessagePrefix(LogTypes[type], text);
+                    text = AddMessagePrefix(LogTypes[logType], text);
                 }
             }
 

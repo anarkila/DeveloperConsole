@@ -142,6 +142,43 @@ public static class Console {
     }
 
     /// <summary>
+    /// Disable logging all Unity Debug.Log/LogError messages to console.
+    /// </summary>
+    public static void DisableUnityMessageLogging() {
+        ConsoleEvents.ChangeConsoleLogOptions(ConsoleLogOptions.DontPrintLogs);
+        ConsoleEvents.ChangeConsoleThreadedLogOptions(ConsoleLogOptions.DontPrintLogs);
+    }
+
+    /// <summary>
+    /// Get current ConsoleLogOptions option for Debug.Log/LogError messages
+    /// </summary>
+    public static ConsoleLogOptions GetCurrentUnityLogOption(ConsoleLogOptions logOption) {
+        return GetSettings().UnityLogOption;
+    }
+
+    /// <summary>
+    /// Change Unity Debug.Log/LogError options.
+    /// </summary>
+    public static void ChangeUnityLogOptions(ConsoleLogOptions logOption) {
+        ConsoleEvents.ChangeConsoleLogOptions(logOption);
+    }
+
+    /// <summary>
+    /// Change Unity Debug.Log/LogError options 
+    /// that came from other than Unity main thread.
+    /// </summary>
+    public static void ChangeThreadedUnityLogOptions(ConsoleLogOptions logOption) {
+        ConsoleEvents.ChangeConsoleThreadedLogOptions(logOption);
+    }
+
+    /// <summary>
+    /// Get current ConsoleLogOptions option for threaded Debug.Log/LogError messages
+    /// </summary>
+    public static ConsoleLogOptions GetCurrentThreadedUnityLogOption(ConsoleLogOptions logOption) {
+        return GetSettings().unityThreadedLogOption;
+    }
+
+    /// <summary>
     /// Set new Console settings
     /// </summary>
     public static void SetSettings(ConsoleSettings newSettings) {

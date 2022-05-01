@@ -28,6 +28,7 @@ namespace Anarkila.DeveloperConsole {
 
             Application.quitting += OnDestroy;
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
+            ConsoleEvents.RegisterConsoleLogOptionsChanged += LogOptionsChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
             ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
@@ -49,6 +50,7 @@ namespace Anarkila.DeveloperConsole {
             Application.quitting -= OnDestroy;
 
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent -= RebindActivateKeyEvent;
+            ConsoleEvents.RegisterConsoleLogOptionsChanged -= LogOptionsChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
@@ -98,6 +100,13 @@ namespace Anarkila.DeveloperConsole {
         /// Get current console settings
         /// </summary>
         public static ConsoleSettings GetSettings() {
+            if (settings == null) {
+#if UNITY_EDITOR
+                Debug.LogError("ConsoleSettings is null! Creating new settings..");
+#endif
+                settings = new ConsoleSettings();
+            }
+
             return settings;
         }
 
@@ -160,11 +169,27 @@ namespace Anarkila.DeveloperConsole {
             return settings.commandsAreCaseSensetive;
         }
 
+        private static void LogOptionsChanged(ConsoleLogOptions logOption) {
+            if (!consoleInitialized) {
+#if UNITY_EDITOR
+                Debug.LogError("Console is not yet initialized.");
+#endif
+                return;
+            }
+            settings.UnityLogOption = logOption;
+            ConsoleEvents.NewSettingsSet();
+        }
+
         /// <summary>
         /// Set new ConsoleSettings
         /// </summary>
         public static void SetSettings(ConsoleSettings newsettings) {
-            if (newsettings == null) return;
+            if (newsettings == null) {
+#if UNITY_EDITOR
+                Debug.LogError("Trying to set new ConsoleSettings but it's null!");
+#endif
+                return;
+            }
 
             settings = newsettings;
             showInputPredictions = settings.showInputPredictions;

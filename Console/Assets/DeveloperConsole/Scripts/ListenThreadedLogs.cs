@@ -32,7 +32,28 @@ namespace Anarkila.DeveloperConsole {
             else {
                 Destroy(this);
             }
+            ConsoleEvents.RegisterConsoleThreadedLogOptionsChanged += LogOptionsChanged;
             Application.logMessageReceivedThreaded += UnityLogEventThreaded;
+        }
+
+        private void OnDestroy() {
+            ConsoleEvents.RegisterConsoleThreadedLogOptionsChanged -= LogOptionsChanged;
+            Application.logMessageReceivedThreaded -= UnityLogEventThreaded;
+            Instance = null;
+
+#if UNITY_EDITOR
+            // for domain reload purposes
+            logOption = ConsoleLogOptions.DontPrintLogs;
+            messageBacklog.Clear();
+            messages.Clear();
+            messagesQueued = false;
+#endif
+        }
+
+        private void LogOptionsChanged(ConsoleLogOptions newLogOption) {
+            logOption = newLogOption;
+            // enable/disable this script based on new ConsoleLogOptions
+            this.enabled = logOption == ConsoleLogOptions.DontPrintLogs ? false : true;
         }
 
         private void Start() {
@@ -49,24 +70,11 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private void OnDestroy() {
-            Application.logMessageReceivedThreaded -= UnityLogEventThreaded;
-            Instance = null;
-
-#if UNITY_EDITOR
-            // for domain reload purposes
-            logOption = ConsoleLogOptions.DontPrintLogs;
-            messageBacklog.Clear();
-            messages.Clear();
-            messagesQueued = false;
-#endif
-        }
-
-        private void UnityLogEventThreaded(string message, string stackTrace, LogType type) {
+        private void UnityLogEventThreaded(string message, string stackTrace, LogType logType) {
             if (ConsoleManager.IsRunningOnMainThread(Thread.CurrentThread)) return;
 
             lock (messageBacklog) {
-                if (type == LogType.Error || type == LogType.Exception) {
+                if (logType == LogType.Error || logType == LogType.Exception) {
                     message = MessagePrinter.AppendStrackTrace(message, stackTrace, logOption);
                 }
                 messageBacklog.Add(message);
