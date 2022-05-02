@@ -12,29 +12,39 @@ namespace Anarkila.DeveloperConsole {
         private static ConsoleSettings settings = new ConsoleSettings();
         private static bool registeredSceneCallback = false;
         private static bool consoleInitialized = false;
+        private static bool consoleIsEnabled = true;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
         private static bool consoleIsOpen;
 
         /// <summary>
-        /// Initialize Developer Console
+        /// Initialize these regardless whether DeveloperConsole.prefab exists in the scene or not.
         /// </summary>
-        public static void InitializeDeveloperConsole(ConsoleSettings settings, Thread thread) {
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void Init() {
             if (initDone) return;
 
-            UnityMainThreadID = thread;
-
+            UnityMainThreadID = System.Threading.Thread.CurrentThread;
             Application.quitting += OnDestroy;
-            ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
-            ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
-            ConsoleEvents.RegisterConsoleLogOptionsChanged += LogOptionsChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
+        }
+
+        /// <summary>
+        /// Initialize Developer Console
+        /// </summary>
+        public static void InitializeDeveloperConsole(ConsoleSettings settings) {
+            if (initDone) return;
+
+            ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
+            ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
+            ConsoleEvents.RegisterConsoleLogOptionsChanged += LogOptionsChanged;
+            ConsoleEvents.RegisterConsoleEnabledEvent += ConsoleEnabledChanged;
             ConsoleEvents.RegisterGUIStyleChangeEvent += GUIStyleChanged;
             ConsoleEvents.RegisterDestroyEvent += ConsoleDestroyed;
+
 #if UNITY_EDITOR
             ConsoleEvents.RegisterConsoleClearEvent += ClearUnityConsole;
 #endif
-            MessagePrinter.Init();
             SetSettings(settings);
             RegisterCommands(logMessage: false);
 
@@ -48,9 +58,10 @@ namespace Anarkila.DeveloperConsole {
             SceneManager.sceneLoaded -= SceneLoadCallback;
             Application.quitting -= OnDestroy;
 
-            ConsoleEvents.RegisterInputPredctionChanged -= InputPredictionSettingChanged;
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent -= RebindActivateKeyEvent;
+            ConsoleEvents.RegisterInputPredctionChanged -= InputPredictionSettingChanged;
             ConsoleEvents.RegisterConsoleLogOptionsChanged -= LogOptionsChanged;
+            ConsoleEvents.RegisterConsoleEnabledEvent -= ConsoleEnabledChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleState;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
@@ -74,6 +85,10 @@ namespace Anarkila.DeveloperConsole {
             consoleIsOpen = false;
             initDone = false;
 #endif
+        }
+
+        private static void ConsoleEnabledChanged(bool enabled) {
+            consoleIsEnabled = enabled;
         }
 
         private static void ConsoleDestroyed(float time) {
@@ -111,6 +126,13 @@ namespace Anarkila.DeveloperConsole {
 
         private static void InputPredictionSettingChanged(bool showPredictions) {
             settings.showInputPredictions = showPredictions;
+        }
+
+        /// <summary>
+        /// Is Console enabled and can be opened
+        /// </summary>
+        public static bool IsConsoleEnabled() {
+            return consoleIsEnabled;
         }
 
         /// <summary>
@@ -274,6 +296,13 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void ConsoleState(bool enabled) {
+            if (!consoleInitialized) {
+#if UNITY_EDITOR
+                Debug.Log(ConsoleConstants.EDITORWARNING + "Console is not yet initialized. Make sure DeveloperConsole.prefab exists in the scene.");
+#endif
+                return;
+            }
+
             consoleIsOpen = enabled;
 
             if (consoleIsOpen) {

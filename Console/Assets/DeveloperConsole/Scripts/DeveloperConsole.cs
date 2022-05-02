@@ -34,7 +34,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             settings.ApplyColors();
-            ConsoleManager.InitializeDeveloperConsole(settings, System.Threading.Thread.CurrentThread);
+            ConsoleManager.InitializeDeveloperConsole(settings);
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
 
 #if UNITY_EDITOR
