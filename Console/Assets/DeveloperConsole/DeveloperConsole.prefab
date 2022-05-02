@@ -4961,7 +4961,7 @@ MonoBehaviour:
     allowGUIStyleChangeRuntime: 1
     UnityLogOption: 5
     unityThreadedLogOption: 2
-    maxMessageCount: 150
+    maxMessageCount: 128
     allowMultipleCommands: 1
     showInputPredictions: 1
     allowConsoleResize: 1

@@ -76,8 +76,8 @@ namespace Anarkila.DeveloperConsole {
         public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
-        [Range(2, 500)]
-        public int maxMessageCount = 150;
+        [Range(2, 1024)]
+        public int maxMessageCount = 128;
 
         [Tooltip("Allow multiple commands to be executed in one go like: 'test.int 1 & test.int 2'")] // test.int 1 && test.int 2 also works
         public bool allowMultipleCommands = true;
