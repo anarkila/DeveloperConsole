@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System;
-using System.Reflection;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -12,7 +11,6 @@ namespace Anarkila.DeveloperConsole {
 
         private static ConsoleSettings settings = new ConsoleSettings();
         private static bool registeredSceneCallback = false;
-        private static bool showInputPredictions = true;
         private static bool consoleInitialized = false;
         private static Thread UnityMainThreadID;
         private static bool initDone = false;
@@ -27,6 +25,7 @@ namespace Anarkila.DeveloperConsole {
             UnityMainThreadID = thread;
 
             Application.quitting += OnDestroy;
+            ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleLogOptionsChanged += LogOptionsChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleState;
@@ -49,6 +48,7 @@ namespace Anarkila.DeveloperConsole {
             SceneManager.sceneLoaded -= SceneLoadCallback;
             Application.quitting -= OnDestroy;
 
+            ConsoleEvents.RegisterInputPredctionChanged -= InputPredictionSettingChanged;
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent -= RebindActivateKeyEvent;
             ConsoleEvents.RegisterConsoleLogOptionsChanged -= LogOptionsChanged;
             ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleState;
@@ -70,7 +70,6 @@ namespace Anarkila.DeveloperConsole {
 
             // for domain reload purposes
             registeredSceneCallback = false;
-            showInputPredictions = true;
             consoleInitialized = false;
             consoleIsOpen = false;
             initDone = false;
@@ -110,11 +109,15 @@ namespace Anarkila.DeveloperConsole {
             return settings;
         }
 
+        private static void InputPredictionSettingChanged(bool showPredictions) {
+            settings.showInputPredictions = showPredictions;
+        }
+
         /// <summary>
         /// Show Console Predictions
         /// </summary>
         public static bool ShowConsolePredictions() {
-            return showInputPredictions;
+            return settings.showInputPredictions;
         }
 
         /// <summary>
@@ -192,7 +195,6 @@ namespace Anarkila.DeveloperConsole {
             }
 
             settings = newsettings;
-            showInputPredictions = settings.showInputPredictions;
             GUIStyleChanged(settings.interfaceStyle);
             ConsoleEvents.NewSettingsSet();
         }

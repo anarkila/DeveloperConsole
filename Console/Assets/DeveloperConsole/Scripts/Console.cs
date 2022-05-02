@@ -142,6 +142,13 @@ public static class Console {
     }
 
     /// <summary>
+    /// Should show input predictions
+    /// </summary>
+    public static void ShowInputPredictions(bool showPredictions) {
+        ConsoleEvents.ShowInputPredictions(showPredictions);
+    }
+
+    /// <summary>
     /// Disable logging all Unity Debug.Log/LogError messages to console.
     /// </summary>
     public static void DisableUnityMessageLogging() {

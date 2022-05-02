@@ -33,6 +33,7 @@ namespace Anarkila.DeveloperConsole {
                 return;
             }
 #endif
+            ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
@@ -50,11 +51,16 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void OnDestroy() {
+            ConsoleEvents.RegisterInputPredctionChanged -= InputPredictionSettingChanged;
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent -= UpdateLists;
+        }
+
+        private void InputPredictionSettingChanged(bool showPredictions) {
+            allowPredictions = showPredictions;
         }
 
         private void SetInputfieldText(string input) {
@@ -255,7 +261,6 @@ namespace Anarkila.DeveloperConsole {
                     if (string.IsNullOrEmpty(closestMatches[i])) continue;
   
                     predictions.Add(closestMatches[i]);
-
                     if (i == 4) break;
                 }
             }

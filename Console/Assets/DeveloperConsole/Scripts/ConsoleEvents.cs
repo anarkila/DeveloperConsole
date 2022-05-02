@@ -83,5 +83,8 @@ namespace Anarkila.DeveloperConsole {
         public static event Action<ConsoleLogOptions> RegisterConsoleThreadedLogOptionsChanged;
         public static void ChangeConsoleThreadedLogOptions(ConsoleLogOptions logOption) => RegisterConsoleThreadedLogOptionsChanged?.Invoke(logOption);
 
+        public static event Action<bool> RegisterInputPredctionChanged;
+        public static void ShowInputPredictions(bool showPredictions) => RegisterInputPredctionChanged?.Invoke(showPredictions);
+
     }
 }
