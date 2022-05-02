@@ -143,7 +143,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("whether to collect render information in editor. This can be printed to console with command: 'debug.print.renderinfo' ")]
         public bool collectRenderInfoEditor = true;
 
-        [Tooltip("Whether to clear Unity Console messages when 'clear' command called'")]
+        [Tooltip("Whether to clear Unity Console messages when 'clear' command called")]
         public bool clearUnityConsoleOnConsoleClear = false;
 
         [Tooltip("whether to print Unity log type. ")]
