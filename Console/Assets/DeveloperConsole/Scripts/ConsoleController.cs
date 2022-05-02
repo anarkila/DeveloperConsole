@@ -11,6 +11,7 @@ namespace Anarkila.DeveloperConsole {
         private ConsoleSettings settings;
         private GameObject minimalConsole;
         private GameObject largeConsole;
+        private bool canOpenConsole = true;
 
         private void Awake() {
             settings = ConsoleManager.GetSettings();
@@ -26,14 +27,23 @@ namespace Anarkila.DeveloperConsole {
 #endif
             minimalConsole.SetActive(false);
             largeConsole.SetActive(false);
+            
             ConsoleEvents.RegisterConsoleStateChangeEvent += SetDeveloperConsoleState;
+            ConsoleEvents.RegisterConsoleEnabledEvent += ConsoleEnabledChanged;
         }
 
         private void OnDestroy() {
             ConsoleEvents.RegisterConsoleStateChangeEvent -= SetDeveloperConsoleState;
+            ConsoleEvents.RegisterConsoleEnabledEvent -= ConsoleEnabledChanged;
+        }
+
+        private void ConsoleEnabledChanged(bool canOpen) {
+            canOpenConsole = canOpen;
         }
 
         private void SetDeveloperConsoleState(bool enable) {
+            if (!canOpenConsole) return;
+
             switch (settings.interfaceStyle) {
                 case ConsoleGUIStyle.Minimal:
                     minimalConsole.SetActive(enable);

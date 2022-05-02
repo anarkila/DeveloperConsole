@@ -103,6 +103,37 @@ public static class Console {
     }
 
     /// <summary>
+    /// Returns whether Developer Console is enabled and can be opened
+    /// </summary>
+    public static bool IsConsoleEnabled() {
+        return ConsoleManager.IsConsoleEnabled();
+    }
+
+    /// <summary>
+    /// Enable Developer Console
+    /// </summary>
+    public static void EnableConsole() {
+        ConsoleEvents.EnableConsole();
+    }
+
+    /// <summary>
+    /// Disable Developer Console.
+    /// If console is open, it will be closed.
+    /// To Enable Console again, call Console.EnableConsole() or Console.SetConsoleEnabledState(true).
+    /// </summary>
+    public static void DisableConsole() {
+        ConsoleEvents.CloseConsole();
+        ConsoleEvents.DisableConsole();
+    }
+
+    /// <summary>
+    /// Set Developer Console enabled state
+    /// </summary>
+    public static void SetConsoleEnabledState(bool enabled) {
+        ConsoleEvents.SetConsoleEnabledState(enabled);
+    }
+
+    /// <summary>
     /// enable/disable listening default Console activator key input.
     /// If disabled Developer Console doesn't handle opening or closing Console.
     /// Only use this if you plan to handle opening/closing console yourself.

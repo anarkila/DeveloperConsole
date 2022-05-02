@@ -11,6 +11,11 @@ namespace Anarkila.DeveloperConsole {
         public static void CloseConsole() => RegisterConsoleStateChangeEvent?.Invoke(false);
         public static void SetConsoleState(bool enabled) => RegisterConsoleStateChangeEvent?.Invoke(enabled);
 
+        public static event Action<bool> RegisterConsoleEnabledEvent;
+        public static void EnableConsole() => RegisterConsoleEnabledEvent?.Invoke(true);
+        public static void DisableConsole() => RegisterConsoleEnabledEvent?.Invoke(false);
+        public static void SetConsoleEnabledState(bool enabled) => RegisterConsoleEnabledEvent?.Invoke(enabled);
+
         public static event Action RegisterInputFieldSubmit;
         public static void InputFieldSubmit() => RegisterInputFieldSubmit?.Invoke();
 
