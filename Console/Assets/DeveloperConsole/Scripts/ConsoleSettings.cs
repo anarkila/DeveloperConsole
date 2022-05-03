@@ -16,7 +16,7 @@ namespace Anarkila.DeveloperConsole {
 
 
         [Header("Large GUI Settings")]
-        [Tooltip("Console window size multiplier on start (Large GUI only)")]
+        [Tooltip("Console window size multiplier (Large GUI only)")]
         [Range(0.50f, 1.2f)]
         public float consoleWindowDefaultSize = 0.9f;
 
@@ -61,7 +61,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to scan all C# assemblies. Enabling this increases the Initialization time from ~20 ms to ~1500 ms.")]
         public bool scanAllAssemblies = false;
 
-        [Tooltip("Whether calling commands must be case sensetive'")]
+        [Tooltip("Whether commands are case sensetive'")] 
         public bool commandsAreCaseSensetive = false;
 
         [Tooltip("Whether to allow GUI style change during runtime.")]
