@@ -69,10 +69,10 @@ namespace Anarkila.DeveloperConsole {
 
         // If you only use Minimal GUI, consider changing these to ConsoleLogOptions.DontPrintLogs
         [Tooltip("Whether to print Debug.Log and Debug.LogError messages into Developer Console (Large GUI only)")]
-        public ConsoleLogOptions UnityLogOption = ConsoleLogOptions.LogExpectionsWithStackTrace;
+        public ConsoleLogOptions UnityLogOption = ConsoleLogOptions.LogExceptionWithStackTrace;
 
         [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads (Large GUI only)")]
-        public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly;
+        public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExceptionsWithStackTraceEditorOnly;
 
         [Tooltip("Max message count before starting to recycle from beginning")]
         [Range(2, 1024)]
@@ -240,24 +240,24 @@ public enum ConsoleLogOptions {
     // Print expections to Console such as
     // "UnityException: Transform child out of bounds"
     // In Unity Editor only!
-    LogWithExpectionsEditorOnly,
+    LogWithExceptionsEditorOnly,
 
     // Print expections expections with stack trace to Console such as
     // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
     // in Unity Editor only!
-    LogExpectionsWithStackTraceEditorOnly,
+    LogExceptionsWithStackTraceEditorOnly,
 
     // Print Debug logs without expections or stack traces to Console
     // In Editor and Build!
-    LogWithoutExpections,
+    LogWithoutExceptions,
 
     // Print expections to Console such
     // as "UnityException: Transform child out of bounds"
     // In Editor and Build!
-    LogWithExpections,
+    LogWithExceptions,
 
     // Print expections with stack trace to Console such as
     // "UnityException: Transform child out of bounds YourScript.Start () (at Assets/Example/ExampleScene/YourScript.cs:42)"
     // In Editor and Build!
-    LogExpectionsWithStackTrace
+    LogExceptionWithStackTrace
 }

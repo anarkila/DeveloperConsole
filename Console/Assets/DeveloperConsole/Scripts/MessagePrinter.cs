@@ -125,26 +125,26 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         public static string AppendStrackTrace(string message, string stackTrace, ConsoleLogOptions printOption) {
             switch (printOption) {
-                case ConsoleLogOptions.LogWithoutExpections:
+                case ConsoleLogOptions.LogWithoutExceptions:
                     return message;
 
-                case ConsoleLogOptions.LogExpectionsWithStackTrace:
+                case ConsoleLogOptions.LogExceptionWithStackTrace:
                     return string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, message, stackTrace, ConsoleConstants.COLOR_END);
 
-                case ConsoleLogOptions.LogWithExpections:
+                case ConsoleLogOptions.LogWithExceptions:
                     return string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, message, ConsoleConstants.COLOR_END);
 
-                case ConsoleLogOptions.LogExpectionsWithStackTraceEditorOnly:
+                case ConsoleLogOptions.LogExceptionsWithStackTraceEditorOnly:
 #if UNITY_EDITOR
                     return string.Format("{0}{1} {2} {3}", ConsoleConstants.COLOR_RED_START, message, stackTrace, ConsoleConstants.COLOR_END);
 #else
-                    return message;
+                    return null;
 #endif
-                case ConsoleLogOptions.LogWithExpectionsEditorOnly:
+                case ConsoleLogOptions.LogWithExceptionsEditorOnly:
 #if UNITY_EDITOR
                     return string.Format("{0}{1} {2}", ConsoleConstants.COLOR_RED_START, message, ConsoleConstants.COLOR_END);
 #else
-                    return message;
+                    return null;
 #endif
                 default:
                     return message;
@@ -171,6 +171,10 @@ namespace Anarkila.DeveloperConsole {
                 if (settings.printLogType && Debug.isDebugBuild) {
                     text = AddMessagePrefix(LogTypes[logType], text);
                 }
+            }
+
+             if (string.IsNullOrEmpty(text)){
+                return;
             }
 
             if (!forceIgnoreTimestamp && printMessageTimestamps) {
