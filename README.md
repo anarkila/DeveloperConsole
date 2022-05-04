@@ -12,7 +12,7 @@ Developer Console for Unity with easy integration to existing projects.
 ![thumbnail](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG)
 
 ## Getting Started
-1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v0.8.5/DeveloperConsole_0.8.5.unitypackage) into your project
+1. Download and import [DeveloperConsole package](https://github.com/anarkila/DeveloperConsole/releases/download/v1.0.0/DeveloperConsole_1.0.0.unitypackage) into your project
 2. Drag & drop DeveloperConsole prefab into your scene
 3. Add ``[ConsoleCommand()]`` attribute to your methods like below. See [ConsoleExamples.cs](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Example%20scenes/Example%20scripts/ConsoleExamples.cs) for all examples. 
 4. Play your scene and press ``§`` to toggle Developer Console
@@ -55,9 +55,10 @@ public class ExampleScript : MonoBehaviour {
 - Mono and IL2CPP support
 - Desktop and WebGL support
 - domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
+- Simple [runtime API](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/Console.cs)
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
-- Log messages into Console Window (directly, ``Debug.Log`` and ``Debug.LogError``)
+- Log messages into Console Window (``Console.Log``, ``Debug.Log`` and ``Debug.LogError``)
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
 - GUI themes (Dark, Darker, Red or Custom)
