@@ -74,7 +74,7 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to print Debug.Log and Debug.LogError message into Developer Console from another threads (Large GUI only)")]
         public ConsoleLogOptions unityThreadedLogOption = ConsoleLogOptions.LogExceptionsWithStackTraceEditorOnly;
 
-        [Tooltip("Max message count before starting to recycle from beginning")]
+        [Tooltip("Max message count before starting to recycle from beginning. This cannot be changed runtime.")]
         [Range(2, 1024)]
         public int maxMessageCount = 128;
 
@@ -122,6 +122,10 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Print Developer Console debug info like startup time etc.")]
         public bool printInitializationTime = false;
+
+        [Tooltip("Whether to keep track of logged messages " +
+            "These messages can then be retrieved with Console.GetConsoleMessages()")]
+        public bool keepTrackOfMessages = true;
 
 
         [Header("KeyBindings")]

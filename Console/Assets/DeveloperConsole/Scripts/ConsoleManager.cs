@@ -35,6 +35,9 @@ namespace Anarkila.DeveloperConsole {
         public static void InitializeDeveloperConsole(ConsoleSettings settings) {
             if (initDone) return;
 
+            MessageTracker.Init();
+            MessagePrinter.Init();
+
             ConsoleEvents.RegisterConsoleActivateKeyChangeEvent += RebindActivateKeyEvent;
             ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
             ConsoleEvents.RegisterConsoleLogOptionsChanged += LogOptionsChanged;
@@ -47,7 +50,7 @@ namespace Anarkila.DeveloperConsole {
 #endif
             SetSettings(settings);
             RegisterCommands(logMessage: false);
-
+           
             initDone = true;
         }
 

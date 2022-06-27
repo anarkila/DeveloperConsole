@@ -23,7 +23,6 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Init Message Printer
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Init() {
             if (initDone) return;
 

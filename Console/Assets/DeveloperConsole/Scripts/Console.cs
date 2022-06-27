@@ -284,6 +284,27 @@ public static class Console {
     }
 
     /// <summary>
+    /// Get all current Console messages as string array.
+    /// </summary>
+    public static string[] GetConsoleMessagesArray() {
+        return MessageTracker.GetConsoleMessagesArray();
+    }
+
+    /// <summary>
+    /// Get all current Console messages as list of strings.
+    /// </summary>
+    public static List<string> GetConsoleMessagesList() {
+        return MessageTracker.GetConsoleMessagesList();
+    }
+
+    /// <summary>
+    /// Write all current Console messages to .txt file
+    /// </summary>
+    public static void WriteMessagesToFile() {
+        TextFileWriter.WriteToFile(GetConsoleMessagesArray());
+    }
+
+    /// <summary>
     /// Register to receive Developer Console state change event
     /// </summary>
     public static event Action<bool> RegisterConsoleStateChangeEvent;
