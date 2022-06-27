@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.UI;
 using UnityEngine;
 
 namespace Anarkila.DeveloperConsole {
@@ -27,7 +26,6 @@ namespace Anarkila.DeveloperConsole {
         [SerializeField] private Transform content;
         [SerializeField] private Transform messageParent;
         [SerializeField] private Pool pool;
-        [SerializeField] private Image[] ScrollBarImages;
         [SerializeField] private GameObject[] Ghosts;
 
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
@@ -117,10 +115,10 @@ namespace Anarkila.DeveloperConsole {
             ++messageCount;
             HandleGhostMessages();
 
-            if (consoleIsOpen && currentGUIStyle == ConsoleGUIStyle.Large && !coroutineIsRunning) {
+            if (consoleIsOpen && !coroutineIsRunning && currentGUIStyle == ConsoleGUIStyle.Large) {
                 // Add frame delay before moving scroll bar to bottom
                 // Only allow one Coroutine to run at once.
-                StartCoroutine(DelayScroll());  
+                StartCoroutine(DelayScroll());
             }
         }
 
@@ -134,8 +132,8 @@ namespace Anarkila.DeveloperConsole {
         private void PoolMessages() {
             if (setupDone || pool.prefab == null || messageParent == null) return;
 
-            poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(256);
-            Queue<GameObject> objectPool = new Queue<GameObject>(256);
+            poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(maxMessageCount);
+            Queue<GameObject> objectPool = new Queue<GameObject>(maxMessageCount);
 
             for (int i = 0; i < maxMessageCount; ++i) {
                 GameObject obj = Instantiate(pool.prefab);
@@ -171,7 +169,6 @@ namespace Anarkila.DeveloperConsole {
             GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
 
             if (objectToSpawn != null) {
-                objectToSpawn.SetActive(false);
                 objectToSpawn.SetActive(true);
 
                 var msg = messages[objectToSpawn];
@@ -183,6 +180,7 @@ namespace Anarkila.DeveloperConsole {
 
             poolDictionary[PoolTag.Message].Enqueue(objectToSpawn);
             currentMessages.Add(objectToSpawn);
+
             return success;
         }
 

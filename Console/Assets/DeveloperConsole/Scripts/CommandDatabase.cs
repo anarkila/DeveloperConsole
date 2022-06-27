@@ -54,18 +54,15 @@ namespace Anarkila.DeveloperConsole {
 
             if (!ConsoleManager.IsConsoleInitialized()) {
 #if UNITY_EDITOR
-                // if you see this message, Developer Console either doesn't exist the scene (drag and drop DeveloperConsole.prefab to your scene)
-                // or it has already been destroyed with Console.DestroyConsole() method.
                 Debug.Log(ConsoleConstants.EDITORWARNING + "Unable to execute command. Developer Console does not exist in the scene or has been destroyed.");
 #endif
-
                 return false;
             }
 
             bool success = false;
 
             // Does input contains character "&"
-            var constainsAnd = input.Contains(ConsoleConstants.AND);
+            bool constainsAnd = input.Contains(ConsoleConstants.AND);
 
             // Execute single command
             if (!constainsAnd || !allowMultipleCommands) {
@@ -151,7 +148,6 @@ namespace Anarkila.DeveloperConsole {
                     }
 
                     if (wrongParameter) {
-                        //Debug.Log("wrong wrong parameter");
                         continue;
                     }
                 }
@@ -216,7 +212,6 @@ namespace Anarkila.DeveloperConsole {
             if (input == null || input.Length == 0) return null;
 
             parseList.Clear();
-
             string[] commandArray = input.Split(ConsoleConstants.ANDCHAR);
 
             for (int i = 0; i < commandArray.Length; i++) {
@@ -255,19 +250,25 @@ namespace Anarkila.DeveloperConsole {
 
             if (command == null || command.Length == 0 || methodName == null || methodName.Length == 0) {
 #if UNITY_EDITOR
-                Debug.Log("command or methodname is null or empty!");
+                Debug.Log(ConsoleConstants.EDITORWARNING + "command or methodname is null or empty!");
 # endif
                 return;
             }
 
             if (script == null) {
 #if UNITY_EDITOR
-                Debug.Log("MonoBehaviour reference is null! If you are registering non-Monobehaviour commands, Use [ConsoleCommand()] attribute instead.");
+                Debug.Log(ConsoleConstants.EDITORWARNING + "MonoBehaviour reference is null! If you are registering non-Monobehaviour commands, Use [ConsoleCommand()] attribute instead.");
 #endif
                 return;
             }
 
-            if (script != null && ConsoleManager.GetSettings().registerStaticCommandsOnly) return;
+            if (ConsoleManager.GetSettings().registerStaticCommandsOnly) {
+#if UNITY_EDITOR
+                Debug.Log(ConsoleConstants.EDITORWARNING + "Trying to register new MonoBehaviour command while option RegisterStaticCommandsOnly is enabled.");
+#endif
+                return;
+            }
+
             if (debugCommandOnly && !Debug.isDebugBuild) return;
 
             MethodInfo methodInfo = null;
@@ -359,10 +360,8 @@ namespace Anarkila.DeveloperConsole {
 
             // Loop through all methods with [ConsoleCommand()] attributes
             foreach (var method in methods) {
-
                 if (method.IsStatic && staticCommandsCached) continue;
 
-                //ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false).First();
                 ConsoleCommand attribute = (ConsoleCommand)method.GetCustomAttributes(typeof(ConsoleCommand), false)[0];
 
                 if (attribute == null || attribute.IsDebugOnlyCommand() && !isDebugBuild) continue;
@@ -463,7 +462,8 @@ namespace Anarkila.DeveloperConsole {
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
                 if (parallel) {
-                    Parallel.For(0, assemblies.Length, i => {
+                    Parallel.For(0, assemblies.Length, i =>
+                    {
                         var type = assemblies[i].GetTypes();
                         for (int j = 0; j < type.Length; j++) {
                             FindAttributeAndAdd(flags, j, type, cb);
@@ -480,7 +480,7 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
-            // else just "scan" current assembly which should be Unity assembly
+            // else loop through current assembly which should be Unity assembly
             else {
                 var unityAssembly = Assembly.GetExecutingAssembly();
                 var types = unityAssembly.GetTypes();
@@ -489,7 +489,8 @@ namespace Anarkila.DeveloperConsole {
                 if (types.Length <= 100) parallel = false;
 
                 if (parallel) {
-                    Parallel.For(0, types.Length, i => {
+                    Parallel.For(0, types.Length, i =>
+                    {
                         FindAttributeAndAdd(flags, i, types, cb);
                     });
                 }
@@ -524,7 +525,7 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         public static void RegisterMonoBehaviourCommands(List<ConsoleCommandData> commands) {
 
-            // Find all different script names
+            // Find all MonoBehaviour class names
             var scriptNames = new List<string>();
             for (int i = 0; i < commands.Count; i++) {
                 if (commands[i].isStaticMethod) continue;
@@ -534,9 +535,9 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
-            // Loop through all different script names
-            // Use GameObject.FindObjectsOfType to find all those scripts in the current scene
-            // loop though those scripts and all commands to find MonoBehaviour references.
+            // Loop through all MonoBehaviour classes added above.
+            // This Uses GameObject.FindObjectsOfType to find all those scripts in the current scene and
+            // loops through them to find MonoBehaviour references.
             // these loops look scary but this is reasonable fast
             for (int i = 0; i < scriptNames.Count; i++) {
                 Type type = Type.GetType(scriptNames[i]);
@@ -588,7 +589,6 @@ namespace Anarkila.DeveloperConsole {
                     RemoveCommand(dict.Key, dict.Value, true);
                 }
             }
-
             UpdateLists();
         }
 

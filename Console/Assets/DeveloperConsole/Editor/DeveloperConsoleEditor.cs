@@ -18,24 +18,24 @@ namespace Anarkila.DeveloperConsole {
         private List<SerializedProperty> keybindings = new List<SerializedProperty>();
         private List<SerializedProperty> debugSettings = new List<SerializedProperty>();
 
-        private DeveloperConsole myTarget;
+        private DeveloperConsole console;
         private bool renderCustomGUI = true;
         private int theme = 0;
 
         private void OnEnable() {
-            myTarget = (DeveloperConsole)target;
+            console = (DeveloperConsole)target;
             sTarget = new SerializedObject(target);
 
             RegisterSerializedProperties();
         }
 
         private void RegisterSerializedProperties() {
-            guiSettings.Clear();
             generalSettings.Clear();
-            keybindings.Clear();
             debugSettings.Clear();
+            guiSettings.Clear();
+            keybindings.Clear();
 
-            var fieldValues = myTarget.settings.GetType().GetFields().Select(f => f.Name).ToList();
+            var fieldValues = console.settings.GetType().GetFields().Select(f => f.Name).ToList();
             string setting = "settings.";
             for (int i = 0; i < fieldValues.Count; i++) {
                 var name = setting + fieldValues[i];
@@ -97,8 +97,8 @@ namespace Anarkila.DeveloperConsole {
         private void RenderBottomButtons() {
             GUILayout.Space(20);
             if (GUILayout.Button("Reset Settings", GUILayout.Height(30))) {
-                myTarget.settings = new ConsoleSettings();
-                EditorUtility.SetDirty(myTarget.gameObject);
+                console.settings = new ConsoleSettings();
+                EditorUtility.SetDirty(console.gameObject);
                 Debug.Log("Settings reset to default.");
             }
 
@@ -109,11 +109,18 @@ namespace Anarkila.DeveloperConsole {
 
             // Show 'Next GUI theme button' when playing in Editor
             if (Application.isPlaying) {
+
                 GUILayout.Space(10);
                 if (GUILayout.Button("Next GUI Theme", GUILayout.Height(30))) {
                     ++theme;
                     if (theme == 3) theme = 0;
                     Console.SetGUITheme((ConsoleGUITheme)theme);
+                }
+
+                GUILayout.Space(10);
+                if (GUILayout.Button("Write messages to file", GUILayout.Height(30))) {
+                    var msgs = Console.GetConsoleMessagesArray();
+                    TextFileWriter.WriteToFile(msgs);
                 }
             }
         }
@@ -126,16 +133,13 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void RenderGUISettings() {
-            //Render(guiSettings);
-
-            bool customTheme = myTarget.settings.interfaceTheme == ConsoleGUITheme.Custom;
+            bool customTheme = console.settings.interfaceTheme == ConsoleGUITheme.Custom;
             for (int i = 0; i < guiSettings.Count; i++) {
                 if (!customTheme && i == 8) {
                     continue;
                 }
                 EditorGUILayout.PropertyField(guiSettings[i]);
             }
-
         }
 
         private void RenderGeneralSettings() {
