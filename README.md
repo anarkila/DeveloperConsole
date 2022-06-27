@@ -34,7 +34,7 @@ public class ExampleScript : MonoBehaviour {
        Debug.Log(string.Format("Called 'test_int' with value: {0} from Console!", i));
     }
 
-     [ConsoleCommand("test_multi")]
+    [ConsoleCommand("test_multi")]
     private void TestMulti(int i, float f) {
        // multi parameter allowed types:
        // int, float, string, bool, double, char
