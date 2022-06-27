@@ -57,6 +57,7 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test_multi_opt' successfully with value: {0} and {1} from Console!", i, j));
         }
 
+        // This command takes in one float parameter.
         [ConsoleCommand("test_float", "3.7")]
         private void TestFloat(float f) {
             Debug.Log(string.Format("Called command 'test_float' successfully with value: {0} from Console!", f));
@@ -94,6 +95,10 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test_char' successfully with value: {0} from Developer Console!", c));
         }
 
+        // Unity Vector2/3/4 and Quaternions can be called like:
+        // '{command_name} {x}, {y}'
+        // '{command_name} {x}, {y}, {z}'
+        // '{command_name} {x}, {y}, {z}, {w}'
         [ConsoleCommand("test_vector2", "1.0, 2.0")]
         private void TestVector2(Vector2 v) {
             Debug.Log(string.Format("Called command 'test_vector2' successfully with value: {0} from Developer Console!", v));
@@ -114,7 +119,7 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log(string.Format("Called command 'test_quaternion' successfully with value: {0} from Developer Console!", q));
         }
 
-        // Coroutines are called just like other commands
+        // Coroutines can be called just like other commands
         [ConsoleCommand("test_coroutine")]
         private IEnumerator TestCoroutine() {
             Debug.Log("Coroutine start");
@@ -157,8 +162,7 @@ namespace Anarkila.DeveloperConsole {
         // If you need to start coroutine with multiple parameters
         // make a normal method that starts the coroutine
         // this is because CommandDatabase.cs starts coroutine
-        // by it's method name and that only takes in maximum of one parameter
-
+        // by it's method name and that only takes in maximum of one parameter!
         /*[ConsoleCommand("test_coroutine_multi_int")]
         private void StartCoroutine(int i, int j) {
             StartCoroutine(CoroutineMultiInt(i, j));
