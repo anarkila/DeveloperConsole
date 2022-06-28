@@ -274,6 +274,19 @@ public static class Console {
         return CommandDatabase.GetConsoleCommandList();
     }
 
+    /// <summary>
+    /// Get Console command count
+    /// </summary>
+    public static int GetConsoleCommandsCount() {
+        return CommandDatabase.GetConsoleCommandsCount();
+    }
+
+    /// <summary>
+    /// Get static Console command count
+    /// </summary>
+    public static int GetStaticConsoleCommandsCount() {
+        return CommandDatabase.GetStaticConsoleCommandsCount();
+    }
 
     /// <summary>
     /// Get list of all current Console Commands with info texts

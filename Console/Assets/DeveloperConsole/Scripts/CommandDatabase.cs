@@ -697,6 +697,14 @@ namespace Anarkila.DeveloperConsole {
             return consoleCommands;
         }
 
+        public static int GetConsoleCommandsCount() {
+            return consoleCommands.Count;
+        }
+
+        public static int GetStaticConsoleCommandsCount() {
+            return staticCommands.Count;
+        }
+
         public static List<string> GeCommandStringsWithDefaultValues() {
             return commandStringsWithDefaultValues;
         }
