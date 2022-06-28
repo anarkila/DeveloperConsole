@@ -9,10 +9,6 @@ using UnityEditor;
 public static class TextFileWriter {
 
     public static void WriteToFile(string[] messages) {
-        if (!Application.isPlaying) {
-            return;
-        }
-
         if (messages == null || messages.Length == 0) {
 #if UNITY_EDITOR
             Console.Log("No messages to write.");
