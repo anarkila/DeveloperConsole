@@ -55,7 +55,7 @@ public class ExampleScript : MonoBehaviour {
 - Mono and IL2CPP support
 - Desktop and WebGL support
 - domain/Scene reload support ([Enter Play Mode](https://docs.unity3d.com/Manual/ConfigurableEnterPlayMode.html))
-- Simple [runtime API](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/Console.cs)
+- Simple static [runtime API](https://github.com/anarkila/DeveloperConsole/blob/main/Console/Assets/DeveloperConsole/Scripts/Console.cs)
 - 2 GUI styles: [Large](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG) and [Minimal](https://github.com/anarkila/DeveloperConsole/blob/main/Images/minimal.png)
 - Draggable & resizable window (Large GUI only)
 - Log messages into Console Window (``Console.Log``, ``Debug.Log`` and ``Debug.LogError``)
@@ -85,6 +85,7 @@ Editor and Development build only:
 * ``scene_information`` - Print Scene count and names
 * ``empty`` - Log empty line to console
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
+* ``log_to_file`` - Log all current messages to .txt file. This command is Editor only.
 
 ## Logging
 ``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red)`` with color.

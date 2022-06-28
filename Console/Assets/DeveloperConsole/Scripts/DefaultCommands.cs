@@ -142,5 +142,10 @@ namespace Anarkila.DeveloperConsole {
         private static void LogEmpty() {
             Console.LogEmpty();
         }
+
+        [ConsoleCommand("log_to_file", info: "Log all current messages to file", debugOnlyCommand: true)]
+        private static void LogMessagesToFile() {
+            Console.WriteMessagesToFile();
+        }
     }
 }
