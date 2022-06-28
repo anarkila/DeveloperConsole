@@ -8,7 +8,7 @@ namespace Anarkila.DeveloperConsole {
 
     public static class ParameterParser {
 
-        // To avoid creating new list which in C# creates garbage
+        // To avoid creating new list, which in C# creates garbage
         // we reuse this list
         private static List<float> unityTypeList = new List<float>();
 
@@ -115,7 +115,7 @@ namespace Anarkila.DeveloperConsole {
 
             float f;
 
-            // To avoid creating new list which in C# creates garbage
+            // To avoid creating new list, which in C# creates garbage
             // we reuse this list
             unityTypeList.Clear();
 

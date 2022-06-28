@@ -80,13 +80,14 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterGUIStyleChangeEvent -= GUIStyleChanged;
             ConsoleEvents.RegisterSettingsChangedEvent -= GetSettings;
             ConsoleEvents.RegisterDestroyEvent -= ConsoleDestroyed;
-          
+
 #if UNITY_EDITOR
+            // for domain reload purposes
+
             if (settings != null && settings.printMessageCount) {
                 if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
             }
 
-            // for domain reload purposes
             LogTypes.Clear();
             messagesBeforeInitDone.Clear();
             currentGUIStyle = ConsoleGUIStyle.Large;

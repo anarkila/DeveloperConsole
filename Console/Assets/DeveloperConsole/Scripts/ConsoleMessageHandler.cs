@@ -6,7 +6,7 @@ namespace Anarkila.DeveloperConsole {
 
     /// <summary>
     /// This script handles Developer Console messages
-    /// by default Developer Console pools 150 messages and once 150 messages has been reached, 
+    /// by default Developer Console pools 128 messages and once 128 messages has been reached, 
     /// it will start to recycle messages from the beginning.
     /// Increase maxMessageCount setting in inspector if you want to increase this value
     /// </summary>
@@ -116,8 +116,7 @@ namespace Anarkila.DeveloperConsole {
             HandleGhostMessages();
 
             if (consoleIsOpen && !coroutineIsRunning && currentGUIStyle == ConsoleGUIStyle.Large) {
-                // Add frame delay before moving scroll bar to bottom
-                // Only allow one Coroutine to run at once.
+                // Add frame delay before moving scroll bar to bottom, only one coroutine should be running at once.
                 StartCoroutine(DelayScroll());
             }
         }

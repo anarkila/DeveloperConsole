@@ -8,8 +8,8 @@ using System;
 namespace Anarkila.DeveloperConsole {
 
     /// <summary>
-    /// This class measures Editor play button click to playable scene time
-    /// if consoleSettings printEditorDebugInfo is true.
+    /// This class measures Unity Editor play button click to playable scene time,
+    /// if consoleSettings printEditorDebugInfo is set to true.
     /// </summary>
     [ExecuteInEditMode]
     public class DebugEditorPlayTime : MonoBehaviour {
@@ -43,7 +43,6 @@ namespace Anarkila.DeveloperConsole {
                     var difference = (startTime - playButtonTime) / TimeSpan.TicksPerMillisecond;
                     var sceneName = SceneManager.GetActiveScene().name;
 
-                    //Debug.Log(string.Format("Loading scene [{0}] took {1} ms.", sceneName, difference));
                     Console.Log(string.Format("Loading scene [{0}] took {1} ms.", sceneName, difference));
 
                     called = true;
