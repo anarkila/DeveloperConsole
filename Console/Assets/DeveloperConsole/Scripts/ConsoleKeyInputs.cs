@@ -38,6 +38,8 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void ListenPlayerInputs() {
+            // If you wish to move into the new Unity Input system, modify this.
+
             if (Input.GetKeyDown(consoleToggleKey) && listenActivateKey) {
                 ConsoleEvents.SetConsoleState(!consoleIsOpen);
             }
