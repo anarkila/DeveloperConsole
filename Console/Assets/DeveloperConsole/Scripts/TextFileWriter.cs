@@ -24,6 +24,9 @@ public static class TextFileWriter {
 
 #if UNITY_EDITOR
     private static void WriteToFileEditorWindows(string[] messages) {
+        if (Application.platform != RuntimePlatform.WindowsEditor) {
+            return;
+        }
 
         string assetsFolderPath = Application.dataPath;
 
