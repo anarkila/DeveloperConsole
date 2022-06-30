@@ -4977,6 +4977,7 @@ MonoBehaviour:
     printCommandInfoTexts: 1
     printLoadedSceneName: 1
     printInitializationTime: 0
+    keepTrackOfMessages: 1
     consoleToggleKey: 92
     consoleSubmitKey: 13
     consoleSearchCommandKey: 273
@@ -5920,15 +5921,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25df24e3128b6a14292495a8e6d7b512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messagePrefab: {fileID: 4063239664772878050, guid: f312518dfc6d4c54b934c0ecc1757071,
+    type: 3}
   content: {fileID: 8922907337137599280}
   messageParent: {fileID: 5858582518990058739}
-  pool:
-    tag: 0
-    prefab: {fileID: 4063239664772878050, guid: f312518dfc6d4c54b934c0ecc1757071,
-      type: 3}
-  ScrollBarImages:
-  - {fileID: 6180391167201028984}
-  - {fileID: 6670154013325670111}
   Ghosts:
   - {fileID: 8075063327781707278}
   - {fileID: 1285921089581524910}

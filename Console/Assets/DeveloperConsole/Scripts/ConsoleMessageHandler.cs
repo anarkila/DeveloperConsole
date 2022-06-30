@@ -13,26 +13,16 @@ namespace Anarkila.DeveloperConsole {
     [DefaultExecutionOrder(-9998)]
     public class ConsoleMessageHandler : MonoBehaviour {
 
-        public enum PoolTag {
-            Message
-        }
-
-        [System.Serializable]
-        public class Pool {
-            public PoolTag tag;
-            public GameObject prefab;
-        }
-
+        [SerializeField] private GameObject messagePrefab;
         [SerializeField] private Transform content;
         [SerializeField] private Transform messageParent;
-        [SerializeField] private Pool pool;
         [SerializeField] private GameObject[] Ghosts;
 
         private Dictionary<GameObject, ConsoleMessage> messages = new Dictionary<GameObject, ConsoleMessage>(256);
         private List<TempMessage> messagesBeforeInitDone = new List<TempMessage>(32);
         private List<GameObject> currentMessages = new List<GameObject>(64);
-        private Dictionary<PoolTag, Queue<GameObject>> poolDictionary;
         private ConsoleGUIStyle currentGUIStyle;
+        private Queue<GameObject> messageQueue;
         private RectTransform rectTransform;
         private int maxMessageCount = 150;
         private bool coroutineIsRunning;
@@ -129,13 +119,12 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void PoolMessages() {
-            if (setupDone || pool.prefab == null || messageParent == null) return;
+            if (setupDone || messagePrefab == null || messageParent == null) return;
 
-            poolDictionary = new Dictionary<PoolTag, Queue<GameObject>>(maxMessageCount);
-            Queue<GameObject> objectPool = new Queue<GameObject>(maxMessageCount);
+            messageQueue = new Queue<GameObject>();
 
             for (int i = 0; i < maxMessageCount; ++i) {
-                GameObject obj = Instantiate(pool.prefab);
+                GameObject obj = Instantiate(messagePrefab);
 
                 if (obj.TryGetComponent(out ConsoleMessage msg)) {
                     messages.Add(obj, msg);
@@ -143,9 +132,8 @@ namespace Anarkila.DeveloperConsole {
 
                 obj.SetActive(false);
                 obj.transform.SetParent(messageParent);
-                objectPool.Enqueue(obj);
+                messageQueue.Enqueue(obj);
             }
-            poolDictionary.Add(pool.tag, objectPool);
             setupDone = true;
 
             for (int i = 0; i < messagesBeforeInitDone.Count; i++) {
@@ -165,7 +153,7 @@ namespace Anarkila.DeveloperConsole {
                 return success;
             }
 
-            GameObject objectToSpawn = poolDictionary[PoolTag.Message].Dequeue();
+            GameObject objectToSpawn = messageQueue.Dequeue();
 
             if (objectToSpawn != null) {
                 objectToSpawn.SetActive(true);
@@ -177,7 +165,7 @@ namespace Anarkila.DeveloperConsole {
                 }
             }
 
-            poolDictionary[PoolTag.Message].Enqueue(objectToSpawn);
+            messageQueue.Enqueue(objectToSpawn);
             currentMessages.Add(objectToSpawn);
 
             return success;
