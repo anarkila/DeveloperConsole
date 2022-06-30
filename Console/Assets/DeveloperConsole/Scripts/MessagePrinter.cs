@@ -84,8 +84,8 @@ namespace Anarkila.DeveloperConsole {
 #if UNITY_EDITOR
             // for domain reload purposes
 
-            if (settings != null && settings.printMessageCount) {
-                if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError was called {0} times.", messageCount));
+            if (settings != null && settings.printMessageCountOnPlayStop) {
+                if (messageCount != 0) Debug.Log(string.Format("Debug.Log and Debug.LogError were called {0} times.", messageCount));
             }
 
             LogTypes.Clear();

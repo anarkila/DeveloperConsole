@@ -74,12 +74,12 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
 #if UNITY_EDITOR
-            if (settings != null && settings.printMessageCount) {
+            if (settings != null && settings.printMessageCountOnPlayStop) {
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
                 var failedCommandCount = CommandDatabase.GetFailedCommandCount();
 
-                if (executedCommandCount != 0) Debug.Log(string.Format("Console Commands was called {0} times.", executedCommandCount));
-                if (failedCommandCount != 0) Debug.Log(string.Format("Failed or not recognized commands was called {0} times.", failedCommandCount));
+                if (executedCommandCount != 0) Debug.Log(string.Format("Successfully called Console Commands {0} times.", executedCommandCount));
+                if (failedCommandCount != 0) Debug.Log(string.Format("Failed to execute {0} Console Commands.", failedCommandCount));
             }
 
             // for domain reload purposes

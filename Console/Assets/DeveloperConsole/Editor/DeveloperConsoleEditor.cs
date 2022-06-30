@@ -42,10 +42,10 @@ namespace Anarkila.DeveloperConsole {
                 if (0 <= i && i <= 8) {
                     AppendToList(guiSettings, name);
                 }
-                else if (9 <= i && i <= 32) {
+                else if (9 <= i && i <= 33) {
                     AppendToList(generalSettings, name);
                 }
-                else if (33 <= i && i <= 36) {
+                else if (34 <= i && i <= 36) {
                     AppendToList(keybindings, name);
                 }
                 else {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -90,6 +91,12 @@ namespace Anarkila.DeveloperConsole {
 
         public static event Action<bool> RegisterInputPredctionChanged;
         public static void ShowInputPredictions(bool showPredictions) => RegisterInputPredctionChanged?.Invoke(showPredictions);
+
+        public static event Action<GameObject, PointerEventData, string> RegisterOnContextMenuShow;
+        public static void ShowContextMenu(GameObject go, PointerEventData data, string msg) => RegisterOnContextMenuShow?.Invoke(go, data, msg);
+
+        public static event Action RegisterOnMessageDelete;
+        public static void MessageDeleted() => RegisterOnMessageDelete?.Invoke();
 
     }
 }

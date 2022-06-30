@@ -51,14 +51,14 @@ namespace Anarkila.DeveloperConsole {
 
 
         [Header("General Settings")]
-        [Tooltip("Whether to include Developer Console in final release build.")]
+        [Tooltip("Whether to include Developer Console in final release build. Default is false.")]
         public bool includeConsoleInFinalBuild = false;
 
         [Tooltip("Whether to register static commands only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandsOnly = false;
 
-        [Tooltip("Whether to scan all C# assemblies. Enabling this increases the Initialization time from ~20 ms to ~1500 ms.")]
+        [Tooltip("Whether to look for all C# assemblies for Console Commands. Enabling this increases the Initialization a lot, from ~20 ms to ~1500 ms.")]
         public bool scanAllAssemblies = false;
 
         [Tooltip("Whether commands are case sensetive'")] 
@@ -83,6 +83,9 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Show input predictions")]
         public bool showInputPredictions = true;
+
+        [Tooltip("Show input predictions")]
+        public bool showContextMenuOnMessageRightClick = false;
 
         [Tooltip("Allow Console Resizing (Large GUI only)")]
         public bool allowConsoleResize = true;
@@ -137,8 +140,8 @@ namespace Anarkila.DeveloperConsole {
 
 
         [Header("Debug Settings")]
-        [Tooltip("Print message count after stopping play mode")]
-        public bool printMessageCount = true;
+        [Tooltip("Whether to print message counts after stopping play mode")]
+        public bool printMessageCountOnPlayStop = false;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEngine.EventSystems;
+using UnityEngine;
 using TMPro;
 
 namespace Anarkila.DeveloperConsole {
@@ -7,7 +8,7 @@ namespace Anarkila.DeveloperConsole {
     /// This script is attached to every Console message
     /// </summary>
     [DefaultExecutionOrder(-9990)]
-    public class ConsoleMessage : MonoBehaviour {
+    public class ConsoleMessage : MonoBehaviour, IPointerClickHandler {
 
         private Vector3 cachedVector = Vector3.one;
         private Color textColor = Color.white;
@@ -45,5 +46,14 @@ namespace Anarkila.DeveloperConsole {
             cachedTransform.SetAsLastSibling();
             cachedTransform.localScale = cachedVector;
         }
+
+        public void OnPointerClick(PointerEventData eventData) {
+            if (textComponent == null) return;
+
+            if (eventData.button == PointerEventData.InputButton.Right) {
+                ConsoleEvents.ShowContextMenu(gameObject, eventData, textComponent.text);
+            }
+        }
+
     }
 }

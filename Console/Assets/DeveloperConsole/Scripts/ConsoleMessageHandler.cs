@@ -24,10 +24,9 @@ namespace Anarkila.DeveloperConsole {
         private ConsoleGUIStyle currentGUIStyle;
         private Queue<GameObject> messageQueue;
         private RectTransform rectTransform;
-        private int maxMessageCount = 150;
         private bool coroutineIsRunning;
         private bool setupDone = false;
-        private int messageCount = 0;
+        public int messageCount = 0;
         private bool allGhostsHidden;
         private Vector2 defaultSize;
         private bool consoleIsOpen;
@@ -37,7 +36,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleClearEvent += ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent += ConsoleGUIChanged;
             ConsoleEvents.RegisterDeveloperConsoleLogEvent += LogMessage;
-
+            ConsoleEvents.RegisterOnMessageDelete += MsgDeleted;
             if (content != null) {
                 if (content.TryGetComponent(out RectTransform rect)) {
                     rectTransform = rect;
@@ -56,9 +55,12 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterConsoleClearEvent -= ClearConsoleMessages;
             ConsoleEvents.RegisterGUIStyleChangeEvent -= ConsoleGUIChanged;
             ConsoleEvents.RegisterDeveloperConsoleLogEvent -= LogMessage;
+            ConsoleEvents.RegisterOnMessageDelete -= MsgDeleted;
         }
 
         private void Start() {
+            int maxMessageCount = 150;
+
             var settings = ConsoleManager.GetSettings();
             if (settings != null) {
                 maxMessageCount = settings.maxMessageCount;
@@ -74,7 +76,7 @@ namespace Anarkila.DeveloperConsole {
                     return;
                 }
             }
-            PoolMessages();
+            PoolMessages(maxMessageCount);
             HandleGhostMessages();
         }
 
@@ -118,7 +120,7 @@ namespace Anarkila.DeveloperConsole {
             coroutineIsRunning = false;
         }
 
-        private void PoolMessages() {
+        private void PoolMessages(int maxMessageCount) {
             if (setupDone || messagePrefab == null || messageParent == null) return;
 
             messageQueue = new Queue<GameObject>();
@@ -169,6 +171,13 @@ namespace Anarkila.DeveloperConsole {
             currentMessages.Add(objectToSpawn);
 
             return success;
+        }
+
+        private void MsgDeleted() {
+            --messageCount;
+            if (messageCount < 0) messageCount = 0;
+
+            HandleGhostMessages();
         }
 
         // HACK: In order to have console messages from bottom to top
