@@ -8,7 +8,7 @@ namespace Anarkila.DeveloperConsole {
     [CustomEditor(typeof(DeveloperConsole))]
     public class DeveloperConsoleEditor : Editor {
 
-        private const string VERSION = "Developer Console 1.0.0";
+        private const string VERSION = "Developer Console 1.0.1";
         private string[] tabs = new string[] { "All Settings", "GUI Settings", "General Settings", "Keybindings", "Debug Settings" };
         private SerializedObject sTarget;
         private int toolbarTab;
@@ -42,10 +42,10 @@ namespace Anarkila.DeveloperConsole {
                 if (0 <= i && i <= 8) {
                     AppendToList(guiSettings, name);
                 }
-                else if (9 <= i && i <= 31) {
+                else if (9 <= i && i <= 32) {
                     AppendToList(generalSettings, name);
                 }
-                else if (32 <= i && i <= 36) {
+                else if (33 <= i && i <= 36) {
                     AppendToList(keybindings, name);
                 }
                 else {
