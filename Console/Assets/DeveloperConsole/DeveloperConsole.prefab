@@ -5459,7 +5459,7 @@ MonoBehaviour:
     commandsAreCaseSensetive: 0
     allowGUIStyleChangeRuntime: 1
     UnityLogOption: 5
-    unityThreadedLogOption: 2
+    unityThreadedLogOption: 5
     maxMessageCount: 128
     allowMultipleCommands: 1
     showInputPredictions: 1
@@ -5483,7 +5483,7 @@ MonoBehaviour:
     consoleSearchCommandKey: 273
     consoleFillCommandKey: 274
     ConsoleFillCommandKeyAlt: 9
-    printMessageCountOnPlayStop: 0
+    printMessageCountOnStopPlay: 0
     printPlayButtonToSceneTime: 1
     collectRenderInfoEditor: 1
     clearUnityConsoleOnConsoleClear: 0
@@ -6620,7 +6620,6 @@ MonoBehaviour:
   - {fileID: 1238475018295719653}
   - {fileID: 8441731723357408319}
   - {fileID: 8456590160420711522}
-  messageCount: 0
 --- !u!114 &8681050125355759076
 MonoBehaviour:
   m_ObjectHideFlags: 0
