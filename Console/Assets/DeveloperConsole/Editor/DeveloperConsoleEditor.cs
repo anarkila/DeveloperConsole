@@ -45,7 +45,7 @@ namespace Anarkila.DeveloperConsole {
                 else if (9 <= i && i <= 33) {
                     AppendToList(generalSettings, name);
                 }
-                else if (34 <= i && i <= 36) {
+                else if (34 <= i && i <= 38) {
                     AppendToList(keybindings, name);
                 }
                 else {
