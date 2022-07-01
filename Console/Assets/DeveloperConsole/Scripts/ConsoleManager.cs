@@ -74,7 +74,7 @@ namespace Anarkila.DeveloperConsole {
 #endif
 
 #if UNITY_EDITOR
-            if (settings != null && settings.printMessageCountOnPlayStop) {
+            if (settings != null && settings.printMessageCountOnStopPlay) {
                 var executedCommandCount = CommandDatabase.GetExcecutedCommandCount();
                 var failedCommandCount = CommandDatabase.GetFailedCommandCount();
 

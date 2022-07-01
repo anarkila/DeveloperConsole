@@ -26,7 +26,7 @@ namespace Anarkila.DeveloperConsole {
         private RectTransform rectTransform;
         private bool coroutineIsRunning;
         private bool setupDone = false;
-        public int messageCount = 0;
+        private int messageCount = 0;
         private bool allGhostsHidden;
         private Vector2 defaultSize;
         private bool consoleIsOpen;

@@ -141,7 +141,7 @@ namespace Anarkila.DeveloperConsole {
 
         [Header("Debug Settings")]
         [Tooltip("Whether to print message counts after stopping play mode")]
-        public bool printMessageCountOnPlayStop = false;
+        public bool printMessageCountOnStopPlay = false;
 
         [Tooltip("Print Play button click to playable scene time")]
         public bool printPlayButtonToSceneTime = true;
