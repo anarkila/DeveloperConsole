@@ -41,14 +41,22 @@ namespace Anarkila.DeveloperConsole {
             copyButton.onClick.AddListener(CopyButtonClicked);
             deleteButton.onClick.AddListener(DeleteButtonClicked);
             clearButton.onClick.AddListener(ClearButtonClicked);
+            ConsoleEvents.RegisterConsoleStateChangeEvent += ConsoleStateChanged;
             ConsoleEvents.RegisterOnContextMenuShow += OnContextMenuRequest;
         }
 
         private void OnDestroy() {
+            ConsoleEvents.RegisterConsoleStateChangeEvent -= ConsoleStateChanged;
             ConsoleEvents.RegisterOnContextMenuShow -= OnContextMenuRequest;
             if (copyButton != null) copyButton.onClick.RemoveAllListeners();
             if (deleteButton != null) deleteButton.onClick.RemoveAllListeners();
             if (clearButton != null) clearButton.onClick.RemoveAllListeners();
+        }
+
+        private void ConsoleStateChanged(bool consoleIsOpen) {
+            if (!consoleIsOpen) {
+                SetContextMenuEnabled(false);
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData) {
