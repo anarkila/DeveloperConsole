@@ -61,7 +61,7 @@ public class ExampleScript : MonoBehaviour {
 - Log messages into Console Window (``Console.Log``, ``Debug.Log`` and ``Debug.LogError``)
 - Input predictions
 - [Settings](https://github.com/anarkila/DeveloperConsole/blob/main/Images/settings.PNG) to tweak
-- GUI themes (Dark, Darker, Red or Custom)
+- GUI themes ([Dark](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_dark.PNG), [Darker](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_darker.png), [Red](https://github.com/anarkila/DeveloperConsole/blob/main/Images/large_red.PNG) or Custom)
 - Documentation and example scenes
 
 ## Default Commands
@@ -80,15 +80,19 @@ Editor and Development build only:
 * ``scene_loadindex (int)`` - Load scene asynchronously by build index
 * ``scene_addloadindex (int)`` - Load scene asynchronously additively by build index
 * ``scene_loadname (string)`` - Load scene asynchronously by scene name
-* ``scene_unloadindex (int)`` - UnLoad scene asynchronously by build index
-* ``scene_unloadname (string)`` - UnLoad scene asynchronously by scene name
+* ``scene_unloadindex (int)`` - Unload scene asynchronously by build index
+* ``scene_unloadname (string)`` - Unload scene asynchronously by scene name
 * ``scene_information`` - Print Scene count and names
 * ``empty`` - Log empty line to console
 * ``debug_renderinfo`` - Print rendering information: High and Avg FPS, highest draw call, batches, triangle and vertices count. This command is editor only.
 * ``log_to_file`` - Log all current messages to .txt file. This command is Editor only.
 
 ## Logging
-``Console.Log("hello")`` to output directly into Developer Console window. ``Console.Log("hello", Color.red)`` with color.
+``Console.Log("hello")`` to output directly into Developer Console window. 
+
+``Console.Log("hello", Color.red)`` with color.
+
+``Console.Log("<color=red>hello</color>")`` with Rich Text color.
 
 By default Unity ``Debug.Log()`` or ``Debug.LogError()`` messages will also output to Developer Console.
 
