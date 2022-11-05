@@ -371,7 +371,7 @@ namespace Anarkila.DeveloperConsole {
             commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
 #endif
             if (!registerStaticOnly) {
-                CommandDatabase.RegisterMonoBehaviourCommands(commands); // Rest of the work must be in done in Unity main thread
+                CommandDatabase.RegisterMonoBehaviourCommands(commands);
                 timer.Stop();
             }
             else {
@@ -419,7 +419,6 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void NotifyConsoleIsReady() {
-
             // Check if console was destroyed during those 10 frames
             if (!consoleInitialized) return;
   

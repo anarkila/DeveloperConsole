@@ -536,14 +536,18 @@ namespace Anarkila.DeveloperConsole {
             }
 
             // Loop through all MonoBehaviour classes added above.
-            // This Uses GameObject.FindObjectsOfType to find all those scripts in the current scene and
+            // This uses GameObject.FindObjectsOfType to find all those scripts in the current scene and
             // loops through them to find MonoBehaviour references.
             // these loops look scary but this is reasonable fast
             for (int i = 0; i < scriptNames.Count; i++) {
                 Type type = Type.GetType(scriptNames[i]);
+                if (type == null) continue;
+
                 MonoBehaviour[] monoScripts = GameObject.FindObjectsOfType(type) as MonoBehaviour[];
 
                 for (int j = 0; j < monoScripts.Length; j++) {
+                    if (monoScripts[j] == null) continue;
+
                     string scriptName = monoScripts[j].GetType().ToString();
 
                     for (int k = 0; k < commands.Count; k++) {
