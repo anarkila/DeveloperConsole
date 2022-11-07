@@ -162,6 +162,11 @@ namespace Anarkila.DeveloperConsole {
                         continue;
                     }
 
+                    // if Command doesn't take in any parameters, use parsed input instead
+                    if (consoleCommands[i].parameters.Length == 0) {
+                        rawInput = input;
+                    }
+
                     if (consoleCommands[i].isCoroutine) {
                         var param = consoleCommands[i].parameters.Length == 0 ? null : parameters[0];
 
@@ -170,8 +175,8 @@ namespace Anarkila.DeveloperConsole {
                         // If you need to start coroutine with multiple parameters
                         // make a normal method that starts the coroutine instead.
                         consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, param);
-                        if (!executedCommands.Contains(input)) {
-                            executedCommands.Add(input);
+                        if (!executedCommands.Contains(rawInput)) {
+                            executedCommands.Add(rawInput);
                         }
                         success = true;
                         continue;
@@ -182,8 +187,8 @@ namespace Anarkila.DeveloperConsole {
                     // MethodInfo.Invoke is quite slow but it should be okay for this use case.
                     // Commands are not called, or at least should not be called that often it to matter.
                     consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameters);
-                    if (!executedCommands.Contains(input)) {
-                        executedCommands.Add(input);
+                    if (!executedCommands.Contains(rawInput)) {
+                        executedCommands.Add(rawInput);
                     }
                     success = true;
                 }
