@@ -130,6 +130,10 @@ namespace Anarkila.DeveloperConsole {
             "These messages can then be retrieved with Console.GetConsoleMessages()")]
         public bool keepTrackOfMessages = true;
 
+        [Tooltip("Whether to keep track of successfully executed commands that already " +
+        "exists in the executed commands list.")]
+        public bool keepTrackOfDuplicateCommands = false;
+
 
         [Header("KeyBindings")]
         public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console

@@ -191,6 +191,13 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
+        /// Get current setting allowMultipleCommands
+        /// </summary>
+        public static bool AllowDuplicateCommands() {
+            return settings.keepTrackOfDuplicateCommands;
+        }
+
+        /// <summary>
         /// Get current setting caseSensetive
         /// </summary>
         public static bool IsCaseSensetive() {

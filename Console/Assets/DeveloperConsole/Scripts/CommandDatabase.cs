@@ -24,6 +24,7 @@ namespace Anarkila.DeveloperConsole {
         private static List<string> parseList = new List<string>();
         private static bool allowMultipleCommands = true;
         private static bool staticCommandsCached = false;
+        private static bool allowDuplicates = false;
         private static int executedCommandCount;
         private static int failedCommandCount;
 
@@ -42,6 +43,7 @@ namespace Anarkila.DeveloperConsole {
             parseList.Clear();
             staticCommandsCached = false;
             allowMultipleCommands = true;
+            allowDuplicates = false;
             executedCommandCount = 0;
             failedCommandCount = 0;
         }
@@ -51,7 +53,6 @@ namespace Anarkila.DeveloperConsole {
         /// Try to execute console command
         /// </summary>
         public static bool TryExecuteCommand(string input) {
-
             if (!ConsoleManager.IsConsoleInitialized()) {
 #if UNITY_EDITOR
                 Debug.Log(ConsoleConstants.EDITORWARNING + "Unable to execute command. Developer Console does not exist in the scene or has been destroyed.");
@@ -85,7 +86,6 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static bool ExecuteCommand(string input, bool silent = false) {
-
             bool caseSensetive = ConsoleManager.IsCaseSensetive();
             string[] parametersAsString = null;
             string remaining = string.Empty;
@@ -175,7 +175,7 @@ namespace Anarkila.DeveloperConsole {
                         // If you need to start coroutine with multiple parameters
                         // make a normal method that starts the coroutine instead.
                         consoleCommands[i].monoScript.StartCoroutine(consoleCommands[i].methodName, param);
-                        if (!executedCommands.Contains(rawInput)) {
+                        if (!executedCommands.Contains(rawInput) || allowDuplicates) {
                             executedCommands.Add(rawInput);
                         }
                         success = true;
@@ -187,7 +187,7 @@ namespace Anarkila.DeveloperConsole {
                     // MethodInfo.Invoke is quite slow but it should be okay for this use case.
                     // Commands are not called, or at least should not be called that often it to matter.
                     consoleCommands[i].methodInfo.Invoke(consoleCommands[i].monoScript, parameters);
-                    if (!executedCommands.Contains(rawInput)) {
+                    if (!executedCommands.Contains(rawInput) || allowDuplicates) {
                         executedCommands.Add(rawInput);
                     }
                     success = true;
@@ -298,7 +298,6 @@ namespace Anarkila.DeveloperConsole {
         /// Remove command
         /// </summary>
         public static void RemoveCommand(string command, bool log = false, bool forceDelete = false) {
-
             if (!ConsoleManager.IsRunningOnMainThread(System.Threading.Thread.CurrentThread)) {
 #if UNITY_EDITOR
                 Debug.Log(ConsoleConstants.EDITORWARNING + "Console.RemoveCommand cannot be called from another thread.");
@@ -453,7 +452,6 @@ namespace Anarkila.DeveloperConsole {
         /// Get all ConsoleCommand attributes from assembly
         /// </summary>
         private static List<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool scanAllAssemblies = false) {
-
             List<MethodInfo> attributeMethodInfos = new List<MethodInfo>(64);
             ConcurrentBag<MethodInfo> cb = new ConcurrentBag<MethodInfo>();
             bool parallel = true;
@@ -606,6 +604,7 @@ namespace Anarkila.DeveloperConsole {
         /// </summary>
         public static void UpdateLists() {
             allowMultipleCommands = ConsoleManager.AllowMultipleCommands();
+            allowDuplicates = ConsoleManager.AllowDuplicateCommands();
 
             commandStringsWithDefaultValues.Clear();
             commandStringsWithInfos.Clear();
