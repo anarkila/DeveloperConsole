@@ -10,8 +10,9 @@ namespace Anarkila.DeveloperConsole {
         private WaitForSecondsRealtime cachedDelay = new WaitForSecondsRealtime(0.050f);
         private List<string> commandsWithValues = new List<string>();
         private List<string> allConsoleCommands = new List<string>();
+        private List<string> executedCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
-        private List<string> predictions = new List<string>(); 
+        private List<string> predictions = new List<string>();
         private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
         private bool allowPredictions = true;
@@ -37,6 +38,7 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
             ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
+            ConsoleEvents.RegisterOnCommandExecuted += NewCommandExecuted;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent += UpdateLists;
         }
@@ -55,8 +57,16 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterFillCommandEvent -= FillCommandFromSuggestion;
             ConsoleEvents.RegisterPreviousCommandEvent -= SearchPreviousCommand;
             ConsoleEvents.RegisterInputfieldTextEvent -= SetInputfieldText;
+            ConsoleEvents.RegisterOnCommandExecuted -= NewCommandExecuted;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent -= UpdateLists;
+           
+        }
+
+        private void NewCommandExecuted(bool success) {
+            executedCommands.Clear();
+            executedCommands.AddRange(CommandDatabase.GetPreviouslyExecutedCommands());
+            executedCommands.Reverse();
         }
 
         private void InputPredictionSettingChanged(bool showPredictions) {
@@ -94,17 +104,15 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private void SearchPreviousCommand() {
-            var prevExecutedCommands = CommandDatabase.GetPreviouslyExecutedCommands();
+            if (inputField == null || executedCommands.Count == 0) return;
 
-            if (inputField == null || prevExecutedCommands.Count == 0) return;
-
-            ++previousCommandIndex;
-            if (previousCommandIndex > prevExecutedCommands.Count || previousCommandIndex == prevExecutedCommands.Count) {
+            if (previousCommandIndex > executedCommands.Count || previousCommandIndex == executedCommands.Count) {
                 previousCommandIndex = 0;
             }
             inputField.text = string.Empty;
-            inputField.text = prevExecutedCommands[previousCommandIndex];
+            inputField.text = executedCommands[previousCommandIndex];
             inputField.caretPosition = inputField.text.Length;
+            ++previousCommandIndex;
         }
 
         private void FillCommandFromSuggestion() {

@@ -24,7 +24,8 @@ namespace Anarkila.DeveloperConsole {
         private static List<string> parseList = new List<string>();
         private static bool allowMultipleCommands = true;
         private static bool staticCommandsCached = false;
-        private static bool allowDuplicates = false;
+        private static bool trackDuplicates = false;
+        private static bool trackFailedCommands = true;
         private static int executedCommandCount;
         private static int failedCommandCount;
 
@@ -43,7 +44,7 @@ namespace Anarkila.DeveloperConsole {
             parseList.Clear();
             staticCommandsCached = false;
             allowMultipleCommands = true;
-            allowDuplicates = false;
+            trackDuplicates = false;
             executedCommandCount = 0;
             failedCommandCount = 0;
         }
@@ -191,18 +192,28 @@ namespace Anarkila.DeveloperConsole {
                 }
                 finally {
                     ++executedCommandCount;
-                    if (!executedCommands.Contains(rawInput) || allowDuplicates) {
+                    if (!executedCommands.Contains(rawInput) || trackDuplicates) {
                         executedCommands.Add(rawInput);
                     }
                 }
             }
 
-            // TODO:
-            // perhaps there should be log if command was right but parameter was wrong?
-            if (!success && !silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
-                Console.Log(string.Format("Command '{0}' was not recognized.", rawInput));
-                ++failedCommandCount;
+            if (!success) {
+
+                if (trackFailedCommands) {
+                    if (!executedCommands.Contains(rawInput) || trackDuplicates) {
+                        executedCommands.Add(rawInput);
+                    }
+                }
+
+                // TODO: perhaps there should be log if command was right but parameter was wrong?
+                if (!silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
+                    Console.Log(string.Format("Command '{0}' was not recognized.", rawInput));
+                    ++failedCommandCount;
+                }
             }
+
+            ConsoleEvents.CommandExecuted(success);
 
             return success;
         }
@@ -600,8 +611,9 @@ namespace Anarkila.DeveloperConsole {
         /// Generate needed console lists
         /// </summary>
         public static void UpdateLists() {
+            trackFailedCommands = ConsoleManager.TrackFailedCommands();
             allowMultipleCommands = ConsoleManager.AllowMultipleCommands();
-            allowDuplicates = ConsoleManager.AllowDuplicateCommands();
+            trackDuplicates = ConsoleManager.TrackDuplicates();
 
             commandStringsWithDefaultValues.Clear();
             commandStringsWithInfos.Clear();

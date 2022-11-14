@@ -98,5 +98,8 @@ namespace Anarkila.DeveloperConsole {
         public static event Action RegisterOnMessageDelete;
         public static void MessageDeleted() => RegisterOnMessageDelete?.Invoke();
 
+        public static event Action<bool> RegisterOnCommandExecuted;
+        public static void CommandExecuted(bool success) => RegisterOnCommandExecuted?.Invoke(success);
+
     }
 }

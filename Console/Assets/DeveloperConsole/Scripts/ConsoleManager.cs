@@ -191,10 +191,17 @@ namespace Anarkila.DeveloperConsole {
         }
 
         /// <summary>
-        /// Get current setting allowMultipleCommands
+        /// Should duplicate commands be tracked
         /// </summary>
-        public static bool AllowDuplicateCommands() {
-            return settings.keepTrackOfDuplicateCommands;
+        public static bool TrackDuplicates() {
+            return settings.trackDuplicateCommands;
+        }
+
+        /// <summary>
+        /// Should failed commands we tracked
+        /// </summary>
+        public static bool TrackFailedCommands() {
+            return settings.trackFailedCommands;
         }
 
         /// <summary>

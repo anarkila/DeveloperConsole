@@ -132,7 +132,10 @@ namespace Anarkila.DeveloperConsole {
 
         [Tooltip("Whether to keep track of successfully executed commands that already " +
         "exists in the executed commands list.")]
-        public bool keepTrackOfDuplicateCommands = false;
+        public bool trackDuplicateCommands = false;
+
+        [Tooltip("Whether to keep track of commands that failed or does not exists.")]
+        public bool trackFailedCommands = true;
 
 
         [Header("KeyBindings")]
