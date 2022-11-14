@@ -67,6 +67,7 @@ namespace Anarkila.DeveloperConsole {
             executedCommands.Clear();
             executedCommands.AddRange(CommandDatabase.GetPreviouslyExecutedCommands());
             executedCommands.Reverse();
+            previousCommandIndex = 0;
         }
 
         private void InputPredictionSettingChanged(bool showPredictions) {

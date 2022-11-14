@@ -192,20 +192,22 @@ namespace Anarkila.DeveloperConsole {
                 }
                 finally {
                     ++executedCommandCount;
-                    if (!executedCommands.Contains(rawInput) || trackDuplicates) {
-                        executedCommands.Add(rawInput);
-                    }
+                }
+            }
+
+            if (success || trackFailedCommands) {
+                bool contains = executedCommands.Contains(rawInput);
+                if (!contains || trackDuplicates) {
+                    executedCommands.Add(rawInput);
+                }
+                // Not pretty, but this keeps the list ordered correctly
+                else if (contains) {
+                    executedCommands.Remove(rawInput);
+                    executedCommands.Add(rawInput);
                 }
             }
 
             if (!success) {
-
-                if (trackFailedCommands) {
-                    if (!executedCommands.Contains(rawInput) || trackDuplicates) {
-                        executedCommands.Add(rawInput);
-                    }
-                }
-
                 // TODO: perhaps there should be log if command was right but parameter was wrong?
                 if (!silent && ConsoleManager.PrintUnrecognizedCommandInfo()) {
                     Console.Log(string.Format("Command '{0}' was not recognized.", rawInput));
