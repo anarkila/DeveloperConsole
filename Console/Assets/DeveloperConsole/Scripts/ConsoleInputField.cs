@@ -13,6 +13,7 @@ namespace Anarkila.DeveloperConsole {
         private List<string> executedCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
         private List<string> predictions = new List<string>();
+        private bool shouldShowPredictions = true;
         private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
         private bool allowPredictions = true;
@@ -35,8 +36,8 @@ namespace Anarkila.DeveloperConsole {
             }
 #endif
             ConsoleEvents.RegisterInputPredctionChanged += InputPredictionSettingChanged;
-            ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;
-            ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;
+            ConsoleEvents.RegisterPreviousCommandEvent += SearchPreviousCommand;    // TODO. rename this event?
+            ConsoleEvents.RegisterFillCommandEvent += FillCommandFromSuggestion;    // TODO. rename this event?
             ConsoleEvents.RegisterInputfieldTextEvent += SetInputfieldText;
             ConsoleEvents.RegisterOnCommandExecuted += NewCommandExecuted;
             ConsoleEvents.RegisterInputFieldSubmit += InputFieldSubmit;
@@ -60,7 +61,6 @@ namespace Anarkila.DeveloperConsole {
             ConsoleEvents.RegisterOnCommandExecuted -= NewCommandExecuted;
             ConsoleEvents.RegisterInputFieldSubmit -= InputFieldSubmit;
             ConsoleEvents.RegisterListsChangedEvent -= UpdateLists;
-           
         }
 
         private void NewCommandExecuted(bool success) {
@@ -68,6 +68,9 @@ namespace Anarkila.DeveloperConsole {
             executedCommands.AddRange(CommandDatabase.GetPreviouslyExecutedCommands());
             executedCommands.Reverse();
             previousCommandIndex = 0;
+
+            // reset shouldShowPredictions
+            shouldShowPredictions = true;
         }
 
         private void InputPredictionSettingChanged(bool showPredictions) {
@@ -107,10 +110,13 @@ namespace Anarkila.DeveloperConsole {
         private void SearchPreviousCommand() {
             if (inputField == null || executedCommands.Count == 0) return;
 
-            if (previousCommandIndex > executedCommands.Count || previousCommandIndex == executedCommands.Count) {
+            if (previousCommandIndex < 0) {
+                previousCommandIndex = executedCommands.Count - 1;
+            }
+            else if (previousCommandIndex > executedCommands.Count || previousCommandIndex == executedCommands.Count) {
                 previousCommandIndex = 0;
             }
-            inputField.text = string.Empty;
+            shouldShowPredictions = false;
             inputField.text = executedCommands[previousCommandIndex];
             inputField.caretPosition = inputField.text.Length;
             ++previousCommandIndex;
@@ -119,12 +125,19 @@ namespace Anarkila.DeveloperConsole {
         private void FillCommandFromSuggestion() {
             if (inputField == null || currentSuggestion == null) return;
 
+            if (!shouldShowPredictions) {
+                previousCommandIndex -= 2; // not really ideal solution here.
+                SearchPreviousCommand();
+                return;
+            }
+
             if (suggestionIndex > closestMatches.Count || suggestionIndex == closestMatches.Count) {
                 suggestionIndex = 0;
             }
 
             if (closestMatches == null || closestMatches.Count == 0) return;
 
+            shouldShowPredictions = false;
             allowPredictionCheck = false;
             inputField.text = closestMatches[suggestionIndex];
             previousText = inputField.text;
@@ -204,7 +217,14 @@ namespace Anarkila.DeveloperConsole {
         private void PredictInput(string input) {
             if (inputField == null || !allowPredictions) return;
 
-            // if input is null, empty or contains '&', then don't show any predictions.
+            if (inputField.text.Length == 0) {
+                // reset shouldShowPredictions
+                shouldShowPredictions = true;
+            }
+
+            if (!shouldShowPredictions) return;
+
+            // if input is null, empty or contains character '&', then don't show any predictions.
             if (string.IsNullOrEmpty(input) || input.Length == 0 || input.Contains(ConsoleConstants.AND)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
