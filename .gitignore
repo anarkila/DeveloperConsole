@@ -42,7 +42,6 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-*.meta
 *.cache
 
 # Unity3D generated meta files
@@ -63,3 +62,5 @@ Console/Library/
 Console/Assets/TextMesh Pro
 Console/Assets/dev/*
 Console/Assets/test/*
+Console/Assets/Dev.meta
+Console/Assets/TextMesh Pro.meta
