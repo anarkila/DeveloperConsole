@@ -13,6 +13,7 @@ namespace Anarkila.DeveloperConsole {
         private List<string> executedCommands = new List<string>();
         private List<string> closestMatches = new List<string>();
         private List<string> predictions = new List<string>();
+        private bool predictionPanelVisible = false;
         private bool shouldShowPredictions = true;
         private bool allowPredictionCheck = true;
         private int previousCommandIndex = 0;
@@ -125,7 +126,7 @@ namespace Anarkila.DeveloperConsole {
         private void FillCommandFromSuggestion() {
             if (inputField == null || currentSuggestion == null) return;
 
-            if (!shouldShowPredictions) {
+            if (!shouldShowPredictions && !predictionPanelVisible) {
                 previousCommandIndex -= 2; // not really ideal solution here.
                 SearchPreviousCommand();
                 return;
@@ -202,6 +203,7 @@ namespace Anarkila.DeveloperConsole {
             closestMatches.Clear();
             predictions.Clear();
             ConsoleEvents.Predictions(closestMatches);
+            predictionPanelVisible = false;
         }
 
         private void ResetParameters() {
@@ -228,6 +230,7 @@ namespace Anarkila.DeveloperConsole {
             if (string.IsNullOrEmpty(input) || input.Length == 0 || input.Contains(ConsoleConstants.AND)) {
                 closestMatches.Clear();
                 ConsoleEvents.Predictions(null);
+                predictionPanelVisible = false;
                 return;
             }
 
@@ -296,6 +299,8 @@ namespace Anarkila.DeveloperConsole {
 
             // Send prediction event
             ConsoleEvents.Predictions(predictions);
+
+            predictionPanelVisible = predictions.Count != 0;
 
             if (closeMatch || smallestDistance < commandsWithValues.Count && valid) {
                 currentSuggestion = commandsWithValues[index];
