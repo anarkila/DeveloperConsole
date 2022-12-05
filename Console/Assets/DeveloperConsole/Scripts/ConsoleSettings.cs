@@ -139,12 +139,23 @@ namespace Anarkila.DeveloperConsole {
 
 
         [Header("KeyBindings")]
-        public KeyCode consoleToggleKey = KeyCode.Backslash;        // Key to open/close console
-        public KeyCode consoleSubmitKey = KeyCode.Return;           // Key to submit command
-        public KeyCode consoleSearchCommandKey = KeyCode.UpArrow;   // key to search previous command
-        public KeyCode consoleFillCommandKey = KeyCode.DownArrow;   // Key to fill suggestion
-        public KeyCode ConsoleFillCommandKeyAlt = KeyCode.Tab;      // key to fill suggestion alternative key
 
+        // Key to open/close console
+        public KeyCode consoleToggleKey = KeyCode.Backslash; 
+
+        // Key to submit command
+        public KeyCode consoleSubmitKey = KeyCode.Return;      
+
+        // key to search previously executed command
+        public KeyCode consoleSearchCommandKey = KeyCode.UpArrow;
+
+        // Key to fill next command from suggestion
+        // however if consoleSearchCommandKey clicked then this key goes reverse direction of that key
+        // just like Terminal/CMD does
+        public KeyCode NextSuggestedCommandKey = KeyCode.DownArrow;
+
+        // key to fill next command from suggestion alternative key
+        public KeyCode NextSuggestedCommandKeyAlt = KeyCode.Tab;
 
         [Header("Debug Settings")]
         [Tooltip("Whether to print message counts after stopping play mode")]

@@ -14,8 +14,8 @@ namespace Anarkila.DeveloperConsole {
         private KeyCode consoleToggleKey = KeyCode.Backslash;
         private KeyCode submitKey = KeyCode.Return;
         private KeyCode searchPreviousCommand = KeyCode.UpArrow;
-        private KeyCode fillCommand = KeyCode.DownArrow;
-        private KeyCode fillCommandAlt = KeyCode.Tab;
+        private KeyCode nextSuggestedCommandKey = KeyCode.DownArrow;
+        private KeyCode nextSuggestedCommandKeyAlt = KeyCode.Tab;
 
         private bool listenActivateKey = true;
         private bool consoleIsOpen = false;
@@ -59,7 +59,7 @@ namespace Anarkila.DeveloperConsole {
                 ConsoleEvents.SearchPreviousCommand();
             }
 
-            if (Input.GetKeyDown(fillCommand) || Input.GetKeyDown(fillCommandAlt)) {
+            if (Input.GetKeyDown(nextSuggestedCommandKey) || Input.GetKeyDown(nextSuggestedCommandKeyAlt)) {
                 ConsoleEvents.FillCommand();
             }
         }
@@ -77,8 +77,8 @@ namespace Anarkila.DeveloperConsole {
 
             if (settings != null) {
                 searchPreviousCommand = settings.consoleSearchCommandKey;
-                fillCommandAlt = settings.ConsoleFillCommandKeyAlt;
-                fillCommand = settings.consoleFillCommandKey;
+                nextSuggestedCommandKeyAlt = settings.NextSuggestedCommandKeyAlt;
+                nextSuggestedCommandKey = settings.NextSuggestedCommandKey;
                 consoleToggleKey = settings.consoleToggleKey;
                 submitKey = settings.consoleSubmitKey;
             }
