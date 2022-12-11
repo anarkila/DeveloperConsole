@@ -119,7 +119,10 @@ namespace Anarkila.DeveloperConsole {
             }
             shouldShowPredictions = false;
             inputField.text = executedCommands[previousCommandIndex];
-            inputField.caretPosition = inputField.text.Length;
+
+            //inputField.caretPosition = inputField.text.Length;
+            inputField.MoveTextEnd(false);
+
             ++previousCommandIndex;
         }
 
@@ -142,7 +145,9 @@ namespace Anarkila.DeveloperConsole {
             allowPredictionCheck = false;
             inputField.text = closestMatches[suggestionIndex];
             previousText = inputField.text;
-            inputField.caretPosition = inputField.text.Length;
+
+            //inputField.caretPosition = inputField.text.Length;
+            inputField.MoveTextEnd(false);
 
             ++suggestionIndex;
 
