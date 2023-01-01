@@ -313,6 +313,10 @@ namespace Anarkila.DeveloperConsole {
         }
 
         private static void ConsoleState(bool enabled) {
+            if (settings.initializeConsoleOnFirstOpen && !consoleInitialized) {
+                InitializeDeveloperConsole(settings);
+            }
+
             if (!consoleInitialized) {
 #if UNITY_EDITOR
                 Debug.Log(ConsoleConstants.EDITORWARNING + "Console is not yet initialized. Make sure DeveloperConsole.prefab exists in the scene.");

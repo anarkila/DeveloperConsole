@@ -54,6 +54,9 @@ namespace Anarkila.DeveloperConsole {
         [Tooltip("Whether to include Developer Console in final release build. Default is false.")]
         public bool includeConsoleInFinalBuild = false;
 
+        [Tooltip("Initialize Console on first open instead of when game starts.")]
+        public bool initializeConsoleOnFirstOpen = false;
+
         [Tooltip("Whether to register static commands only (No Monobehaviour commands with [ConsoleCommand()] attributes). " +
            "To register MonoBehaviour commands use Console.RegisterCommand() method.")]
         public bool registerStaticCommandsOnly = false;

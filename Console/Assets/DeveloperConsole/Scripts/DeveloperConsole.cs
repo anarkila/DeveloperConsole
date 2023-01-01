@@ -35,7 +35,14 @@ namespace Anarkila.DeveloperConsole {
             }
 
             settings.ApplyColors();
-            ConsoleManager.InitializeDeveloperConsole(settings);
+
+            ConsoleManager.SetSettings(settings);
+
+            // Initalize developer console here or when the console is first opened
+            if (!settings.initializeConsoleOnFirstOpen) {
+                ConsoleManager.InitializeDeveloperConsole(settings);
+            }
+            
             ConsoleEvents.RegisterDestroyEvent += DestroyConsole;
 
 #if UNITY_EDITOR
@@ -43,7 +50,7 @@ namespace Anarkila.DeveloperConsole {
                 if (settings.UnityLogOption != ConsoleLogOptions.DontPrintLogs || settings.unityThreadedLogOption != ConsoleLogOptions.DontPrintLogs) {
                     // if you are only using Minimal GUI style, Consider changing settings UnityLogOption and unityThreadedLogOption to ConsoleLogOptions.DontPrintLogs
                     // to reduce garbage collection. By default messages are still printed to Large GUI even when Minimal GUI is selected!
-                    // Why? So you can toggle between them during runtime with command 'console.style'
+                    // Why? Incase you toggle to Large GUI during runtime (command: 'console.style'), you will see previous messages.
                     Debug.Log("If you are only using Minimal console style, consider changing options UnityLogOption and unityThreadedLogOption to DontPrintLogs " +
                         "or set option 'Allow GUI Change Runtime' to false.");
                 }
@@ -77,7 +84,7 @@ namespace Anarkila.DeveloperConsole {
 
         private void OnValidate() {
             // In the editor, check EventSystem component exists in the scene.
-            // Otherwise UI inputs are not received.
+            // Otherwise UI inputs cannot be received.
             var eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem == null) {
                 Debug.Log("Did not find EventSystem in the current scene. EventSystem has been added to current scene.");
