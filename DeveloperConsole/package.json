@@ -1,0 +1,22 @@
+{
+  "name": "com.developerconsole",
+  "displayName": "Developer Console",
+  "description": "This package added a console to use cheats.",
+  "version": "1.0.2",
+  "unity": "2017.4",
+  "author": {
+    "name": "Canoide"
+  },
+  "samples": [
+        {
+        "displayName": "Demo",
+        "description": "This is a demo how integrate and use the console",
+        "path": "Samples~/Demo"
+        },
+        {
+        "displayName": "Console",
+        "description": "This contains a console prefab",
+        "path": "Samples~/Console"
+        }
+    ]
+}
