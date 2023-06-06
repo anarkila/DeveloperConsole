@@ -87,14 +87,14 @@ namespace Anarkila.DeveloperConsole {
             // Otherwise UI inputs cannot be received.
             var eventSystem = FindObjectOfType<EventSystem>();
             if (eventSystem == null) {
-                Debug.Log("Did not find EventSystem in the current scene. EventSystem has been added to current scene.");
+                Debug.LogWarning("Did not find EventSystem in the current scene.");
 
                 // Create new GameObject and add EventSystem and StandaloneInputModule components to it.
-                var eventSystemGo = new GameObject("EventSystem");
+                /*var eventSystemGo = new GameObject("EventSystem");
                 eventSystemGo.transform.SetParent(null);
 
                 eventSystemGo.AddComponent<EventSystem>();
-                eventSystemGo.AddComponent<StandaloneInputModule>();
+                eventSystemGo.AddComponent<StandaloneInputModule>();*/
             }
         }
 #endif
