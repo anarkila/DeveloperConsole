@@ -14,8 +14,7 @@ namespace Anarkila.DeveloperConsole {
                 return false;
             }
 
-            var path = GetScriptRootPath("CreateTextFileUtility", true);
-            path += "ConsoleCommands.txt";
+            var path = Path.Combine(GetRootPath(), "ConsoleCommands.txt");
             DeleteFile(path);
             MakeTextFile(path);
 
@@ -95,24 +94,12 @@ namespace Anarkila.DeveloperConsole {
             Debug.Log("Command list generated to path: " + path);
         }
 
-        private static string GetScriptRootPath(string scriptname, bool parse = false) {
-
-            if (string.IsNullOrEmpty(scriptname)) {
-                return "";
-            }
-
-            var filter = string.Format("t:Script {0}", scriptname);
-            var asset = AssetDatabase.FindAssets(filter);
-            var path = AssetDatabase.GUIDToAssetPath(asset[0]);
-
-            if (parse) {
-                int index = path.LastIndexOf("/");
-                if (index >= 0) {
-                    path = path.Substring(0, index + 1);
-                }
-            }
-
-            return path;
+        private static string GetRootPath() {
+            string libraryPath = Application.dataPath + "/../Library";
+            string developerConsole = Path.Combine(libraryPath, "DeveloperConsole");
+            if (!Directory.Exists(developerConsole))
+                Directory.CreateDirectory(developerConsole);
+            return developerConsole;
         }
     }
 }
