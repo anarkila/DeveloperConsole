@@ -254,7 +254,7 @@ namespace Anarkila.DeveloperConsole {
         /// Register new Console command
         /// </summary>
         public static void RegisterCommand(MonoBehaviour script, string methodName, string command, string defaultValue = "", string info = "",
-            bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false) {
+            bool debugCommandOnly = false, bool isHiddenCommand = false, bool hiddenCommandMinimalGUI = false, bool autoClear = true) {
 
             if (!ConsoleManager.IsRunningOnMainThread(System.Threading.Thread.CurrentThread)) {
 #if UNITY_EDITOR
@@ -290,7 +290,7 @@ namespace Anarkila.DeveloperConsole {
             methodInfo = script.GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
             if (methodInfo == null) return;
 
-            var data = CreateCommandData(methodInfo, script, methodName, command, defaultValue, info, isHiddenCommand, hiddenCommandMinimalGUI);
+            var data = CreateCommandData(methodInfo, script, methodName, command, defaultValue, info, isHiddenCommand, hiddenCommandMinimalGUI, autoClear);
             if (data == null) return;
 
             if (ConsoleManager.IsConsoleInitialized()) {
@@ -358,7 +358,7 @@ namespace Anarkila.DeveloperConsole {
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
         public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
-            consoleCommands.Clear();
+            ClearCommands();
 
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
@@ -383,7 +383,7 @@ namespace Anarkila.DeveloperConsole {
                 var data = CreateCommandData(method, null, method.Name,
                     attribute.GetCommandName(), attribute.GetValue(),
                     attribute.GetInfo(), attribute.IsHiddenCommand(),
-                    attribute.IsHiddenMinimalGUI());
+                    attribute.IsHiddenMinimalGUI(), attribute.AutoClear());
 
                 if (data == null) continue;
 
@@ -404,10 +404,17 @@ namespace Anarkila.DeveloperConsole {
             return commandList;
         }
 
+        private static void ClearCommands()
+        {
+            var consoleCommandDataToRemove = consoleCommands.Where(x => x.autoClear).ToArray();
+            foreach (var consoleCommandData in consoleCommandDataToRemove)
+                consoleCommands.Remove(consoleCommandData);
+        }
+
         /// <summary>
         /// Create ConsoleCommandData data.
         /// </summary>
-        private static ConsoleCommandData CreateCommandData(MethodInfo methodInfo, MonoBehaviour script, string methodName, string command, string defaultValue, string info, bool isHiddenCommand, bool hiddenCommandMinimalGUI) {
+        private static ConsoleCommandData CreateCommandData(MethodInfo methodInfo, MonoBehaviour script, string methodName, string command, string defaultValue, string info, bool isHiddenCommand, bool hiddenCommandMinimalGUI, bool autoClear) {
             if (methodInfo == null) return null;
 
             Type className = methodInfo.DeclaringType;
@@ -453,7 +460,7 @@ namespace Anarkila.DeveloperConsole {
 
             if (defaultValue == null) defaultValue = "";
 
-            ConsoleCommandData data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameters, isHiddenCommand, hiddenCommandMinimalGUI, classNameString);
+            ConsoleCommandData data = new ConsoleCommandData(script, methodName, command, defaultValue, info, paraType, isStatic, methodInfo, isCoroutine, optionalParameters, isHiddenCommand, hiddenCommandMinimalGUI, classNameString, autoClear);
 
             return data;
         }
@@ -574,7 +581,8 @@ namespace Anarkila.DeveloperConsole {
                         if (script != null) {
                             var data = new ConsoleCommandData(script, commands[k].methodName, commands[k].commandName,
                                 commands[k].defaultValue, commands[k].info, commands[k].parameters, false,
-                                commands[k].methodInfo, commands[k].isCoroutine, commands[k].optionalParameter, commands[k].hiddenCommand);
+                                commands[k].methodInfo, commands[k].isCoroutine, commands[k].optionalParameter, commands[k].hiddenCommand,
+                                commands[k].autoClear);
                             consoleCommands.Add(data);
                         }
                     }

@@ -5,7 +5,6 @@ using System;
 namespace Anarkila.DeveloperConsole {
 
     public class ConsoleCommandData {
-
         public MonoBehaviour monoScript { get; private set; }
         public string methodName { get; private set; }
         public string commandName { get; private set; }
@@ -22,10 +21,11 @@ namespace Anarkila.DeveloperConsole {
         public string scriptNameString { get; private set; }
         public char[] commandNameCharArray { get; private set; }
         public char[] commandNameLowerCharArray { get; private set; }
+        public bool autoClear { get; private set; }
 
         public ConsoleCommandData(MonoBehaviour scriptName, string methodName, string commandName, string commandExplanation, string info, Type[] parameters,
             bool isStaticMethod, MethodInfo methodInfo, bool isCoroutine, bool[] optionalParameter, bool hiddenCommand = false,
-            bool hiddenCommandMinimalGUI = false,string scriptNameString = "") {
+            bool hiddenCommandMinimalGUI = false,string scriptNameString = "", bool autoClear = false) {
 
             this.monoScript = scriptName;
             this.methodName = methodName;
@@ -43,6 +43,7 @@ namespace Anarkila.DeveloperConsole {
             this.commandNameLower = commandName.ToLower();
             this.commandNameCharArray = commandName.ToCharArray();
             this.commandNameLowerCharArray = this.commandNameLower.ToCharArray();
+            this.autoClear = autoClear;
         }
     }
 }
