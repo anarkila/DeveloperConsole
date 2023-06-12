@@ -644,7 +644,7 @@ namespace Anarkila.DeveloperConsole {
                 }
 
                 if (!string.IsNullOrWhiteSpace(consoleCommands[i].info)) {
-                    var fullText = consoleCommands[i].commandName + ConsoleConstants.LINE + consoleCommands[i].info;
+                    var fullText = consoleCommands[i].commandName.PadRight(20) + ConsoleConstants.LINE + consoleCommands[i].info;
                     if (!commandStringsWithInfos.Contains(fullText)) {
                         commandStringsWithInfos.Add(fullText);
                     }
