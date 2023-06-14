@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -375,18 +376,12 @@ namespace Anarkila.DeveloperConsole {
             }
 
             bool isDebugBuild = Debug.isDebugBuild;
-            bool scanAllAssemblies = settings.scanAllAssemblies;
-
-#if UNITY_EDITOR
-            if (scanAllAssemblies) {
-                Debug.Log(ConsoleConstants.EDITORWARNING + "option ScanAllAssemblies is set to true. This increases initialization time.");
-            }
-#endif
+            var assembliesNames = settings.assembliesNameList.Split(";").ToArray();
 
 #if UNITY_WEBGL
-            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
+            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, assembliesNames);
 #else    
-            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, scanAllAssemblies);
+            commands = CommandDatabase.GetConsoleCommandAttributes(isDebugBuild, registerStaticOnly, assembliesNames);
 #endif
             if (!registerStaticOnly) {
                 CommandDatabase.RegisterMonoBehaviourCommands(commands);

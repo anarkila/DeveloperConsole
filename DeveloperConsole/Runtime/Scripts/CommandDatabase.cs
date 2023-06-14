@@ -357,7 +357,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get all [ConsoleCommand()] attributes
         /// </summary>
-        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, bool scanAllAssemblies = false) {
+        public static List<ConsoleCommandData> GetConsoleCommandAttributes(bool isDebugBuild, bool staticOnly, string[] assembliesNames) {
             ClearCommands();
 
             BindingFlags flags = (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
@@ -370,7 +370,7 @@ namespace Anarkila.DeveloperConsole {
             }
 
             var commandList = new List<ConsoleCommandData>(64);
-            var methods = GetAllAttributesFromAssembly(flags, scanAllAssemblies);
+            var methods = GetAllAttributesFromAssembly(flags, assembliesNames);
 
             // Loop through all methods with [ConsoleCommand()] attributes
             foreach (var method in methods) {
@@ -468,7 +468,7 @@ namespace Anarkila.DeveloperConsole {
         /// <summary>
         /// Get all ConsoleCommand attributes from assembly
         /// </summary>
-        private static List<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, bool scanAllAssemblies = false) {
+        private static List<MethodInfo> GetAllAttributesFromAssembly(BindingFlags flags, string[] assembliesNames) {
             List<MethodInfo> attributeMethodInfos = new List<MethodInfo>(64);
             ConcurrentBag<MethodInfo> cb = new ConcurrentBag<MethodInfo>();
             bool parallel = true;
@@ -477,47 +477,23 @@ namespace Anarkila.DeveloperConsole {
             // WebGL doesn't support Parallel.For
             parallel = false;
 #endif
-            // Looping through all assemblies is slow
-            if (scanAllAssemblies) {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => assembliesNames.Contains(x.GetName().Name)).SelectMany(x => x.GetTypes())
+                .ToArray();
 
-                if (parallel) {
-                    Parallel.For(0, assemblies.Length, i =>
-                    {
-                        var type = assemblies[i].GetTypes();
-                        for (int j = 0; j < type.Length; j++) {
-                            FindAttributeAndAdd(flags, j, type, cb);
-                        }
-                    });
-                }
-                else {
-                    for (int i = 0; i < assemblies.Length; i++) {
-                        var type = assemblies[i].GetTypes();
-                        for (int j = 0; j < type.Length; j++) {
-                            FindAttributeAndAdd(flags, j, type, cb);
-                        }
-                    }
-                }
+            // For small projects, it's faster to just use single threaded loop
+            if (types.Length <= 100) parallel = false;
+
+            if (parallel) {
+                Parallel.For(0, types.Length, i =>
+                {
+                    FindAttributeAndAdd(flags, i, types, cb);
+                });
             }
-
-            // else loop through current assembly which should be Unity assembly
             else {
-                var unityAssembly = Assembly.GetExecutingAssembly();
-                var types = unityAssembly.GetTypes();
-
-                // For small projects, it's faster to just use single threaded loop
-                if (types.Length <= 100) parallel = false;
-
-                if (parallel) {
-                    Parallel.For(0, types.Length, i =>
-                    {
-                        FindAttributeAndAdd(flags, i, types, cb);
-                    });
-                }
-                else {
-                    for (int i = 0; i < types.Length; i++) {
-                        FindAttributeAndAdd(flags, i, types, cb);
-                    }
+                for (int i = 0; i < types.Length; i++) {
+                    FindAttributeAndAdd(flags, i, types, cb);
                 }
             }
 

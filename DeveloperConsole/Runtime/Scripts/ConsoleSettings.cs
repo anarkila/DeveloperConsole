@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace Anarkila.DeveloperConsole {
 
@@ -62,8 +63,8 @@ namespace Anarkila.DeveloperConsole {
         public bool registerStaticCommandsOnly = false;
 
         [Tooltip("Whether to look for all C# assemblies for Console Commands. Enabling this increases the Initialization a lot, from ~20 ms to ~1500 ms.")]
-        public bool scanAllAssemblies = false;
-
+        [AssembliesName] public string assembliesNameList;
+        
         [Tooltip("Whether commands are case sensetive'")] 
         public bool commandsAreCaseSensetive = false;
 

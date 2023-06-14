@@ -2,7 +2,7 @@
   "name": "com.developerconsole",
   "displayName": "Developer Console",
   "description": "This package added a console to use cheats.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "unity": "2017.4",
   "author": {
     "name": "Canoide"

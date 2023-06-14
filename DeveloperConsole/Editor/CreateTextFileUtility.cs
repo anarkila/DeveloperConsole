@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 
+using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -28,9 +29,10 @@ namespace Anarkila.DeveloperConsole {
             }
         }
 
-        private static void MakeTextFile(string path) {
-
-            // Get all console commands
+        private static void MakeTextFile(string path)
+        {
+            throw new NotImplementedException();
+            /*// Get all console commands
             var commands = CommandDatabase.GetConsoleCommandAttributes(Debug.isDebugBuild, false);
 
             // make new txt file and write to it
@@ -91,7 +93,7 @@ namespace Anarkila.DeveloperConsole {
             UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
             Selection.activeObject = obj;
 
-            Debug.Log("Command list generated to path: " + path);
+            Debug.Log("Command list generated to path: " + path);*/
         }
 
         private static string GetRootPath() {
